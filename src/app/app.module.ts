@@ -19,6 +19,7 @@ import { ReturnComponent } from './admin/return/return.component';
 import { MaterialsComponent } from './admin/materials/materials.component';
 import { RecordsComponent } from './admin/records/records.component';
 import { ReportsComponent } from './admin/reports/reports.component';
+import { AdministratorComponent } from './client/administrator/administrator.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ReportsComponent } from './admin/reports/reports.component';
     ReturnComponent,
     MaterialsComponent,
     RecordsComponent,
-    ReportsComponent
+    ReportsComponent,
+    AdministratorComponent
   ],
   imports: [
     BrowserModule,
