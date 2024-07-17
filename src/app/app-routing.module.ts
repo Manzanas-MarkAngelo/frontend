@@ -7,9 +7,10 @@ import { TimeOutComponent } from './client/time-out/time-out.component';
 import { SearchBookComponent } from './client/search-book/search-book.component';
 import { ServicesComponent } from './client/services/services.component';
 import { ClientComponent } from './client/client.component';
+import { LandingComponent } from './client/landing/landing.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/client', pathMatch: 'full' },
+  { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
   { path: 'time-in', component: TimeInComponent },
   { path: 'time-out', component: TimeOutComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'services', component: ServicesComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'client', component: ClientComponent },
+  { path: 'landing', component: LandingComponent },
 ];
 
 @NgModule({
