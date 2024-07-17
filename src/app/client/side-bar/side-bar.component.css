@@ -23,3 +23,7 @@ h2 {
   font-weight: bold;
   text-decoration: underline;
 }
+
+.active-btn {
+  @apply bg-[#801e1d] text-white;
+}
