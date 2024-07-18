@@ -1,0 +1,403 @@
+<div class="flex items-end justify-center min-h-screen">
+ <div
+   class="bg-white p-8 rounded-3xl shadow-lg ml-20 w-3/4 h-full mb-40 slide-in-right">
+   <div class="flex items-end justify-between">
+     <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
+       Fill up fields to register*
+     </h1>
+     <div class="relative">
+       <select
+         id="role"
+         name="role"
+         [(ngModel)]="selectedRole"
+         class="appearance-none 
+                w-full 
+                bg-secondary 
+                text-gray-700 
+                font-medium 
+                py-3 
+                px-4 
+                pr-8 
+                rounded-full 
+                leading-tight 
+                focus:outline-none 
+                focus:bg-[#ffb700] 
+                cursor-pointer 
+                text-lg">
+         <option value="" disabled selected>Role</option>
+         <option value="Student">Student</option>
+         <option value="Faculty">Faculty</option>
+         <option value="Visitor">Visitor</option>
+       </select>
+       <div
+         class="pointer-events-none 
+                absolute 
+                inset-y-0 
+                top-0.5 
+                right-2 
+                flex 
+                items-center 
+                text-gray-700">
+         <svg
+           xmlns="http://www.w3.org/2000/svg"
+           fill="none"
+           viewBox="0 0 24 24"
+           stroke-width="1.5"
+           stroke="currentColor"
+           class="size-5">
+           <path
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             d="m19.5 8.25-7.5 7.5-7.5-7.5"
+           />
+         </svg>
+       </div>
+     </div>
+   </div>
+
+   <form>
+     <div class="mb-4 mt-4 flex items-center space-x-4">
+       <input
+         id="studentNumber"
+         name="studentNumber"
+         type="text"
+         class="flex-grow 
+                mt-1 
+                block 
+                rounded-full 
+                border 
+                border-gray-300 
+                px-6 
+                py-2 
+                focus:ring-opacity-50 
+                text-lg"
+         placeholder="Enter your PUP ID number here"/>
+       <div class="relative mr-44">
+         <select
+           id="sex"
+           name="sex"
+           class="block 
+                  appearance-none 
+                  w-full 
+                  bg-secondary 
+                  text-gray-700 
+                  font-medium 
+                  py-3 
+                  px-6 
+                  pr-8 
+                  rounded-full 
+                  leading-tight 
+                  focus:outline-none 
+                  focus:bg-[#ffb700] 
+                  cursor-pointer 
+                  text-lg">
+           <option disabled selected>Sex</option>
+           <option>Male</option>
+           <option>Female</option>
+         </select>
+         <div
+           class="pointer-events-none 
+                  absolute 
+                  inset-y-0 
+                  top-0.5 
+                  right-2 
+                  flex 
+                  items-center 
+                  text-gray-700">
+           <svg
+             xmlns="http://www.w3.org/2000/svg"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke-width="1.5"
+             stroke="currentColor"
+             class="size-5">
+             <path
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+           </svg>
+         </div>
+       </div>
+     </div>
+     <div class="mb-4 mt-1 flex items-center space-x-4">
+       <input
+         id="fname"
+         name="fname"
+         type="text"
+         class="w-2/5 
+                flex 
+                mt-1 
+                rounded-full 
+                border 
+                border-gray-300 
+                px-3 
+                pl-6 
+                py-2 
+                focus:ring-opacity-50 
+                text-lg"
+         placeholder="First name"/>
+       <input
+         id="lname"
+         name="lname"
+         type="text"
+         class="w-2/5 
+                flex 
+                mt-1 
+                rounded-full 
+                border 
+                border-gray-300 
+                px-3 
+                pl-6 
+                py-2 
+                focus:ring-opacity-50 
+                text-lg"
+         placeholder="Last name"/>
+       <div class="relative mr-44">
+         @if (selectedRole === 'Faculty') {
+         <input
+           id="dept"
+           name="dept"
+           type="text"
+           class="w-full 
+                  flex mt-1 
+                  rounded-full 
+                  border 
+                  border-gray-300 
+                  px-3 
+                  pl-6 
+                  py-2 
+                  focus:ring-opacity-50 
+                  text-lg"
+           placeholder="Department"/>
+         } @else if (selectedRole === 'Visitor') {
+         <input
+           id="school"
+           name="school"
+           type="text"
+           class="w-full 
+                  flex 
+                  mt-1 
+                  rounded-full 
+                  border 
+                  border-gray-300 
+                  px-3 
+                  pl-6 
+                  py-2 
+                  focus:ring-opacity-50 
+                  text-lg"
+           placeholder="School"/>
+         }@else {
+         <select
+           id="course"
+           name="course"
+           class="block 
+                  appearance-none 
+                  w-full 
+                  bg-secondary 
+                  text-gray-700 
+                  font-medium 
+                  py-3 
+                  px-6 
+                  pr-8 
+                  rounded-full 
+                  leading-tight 
+                  focus:outline-none 
+                  focus:bg-[#ffb700] 
+                  cursor-pointer 
+                  text-lg">
+           <option disabled selected>Course</option>
+           <option>BSECE</option>
+           <option>BSME</option>
+           <option>BSA</option>
+           <option>BSBA</option>
+           <option>BSAM</option>
+           <option>BSIT</option>
+           <option>BSENTREP</option>
+           <option>BSED</option>
+           <option>BSOA</option>
+           <option>DICT</option>
+           <option>DOMT</option>
+         </select>
+         <div
+           class="pointer-events-none 
+                  absolute 
+                  inset-y-0 
+                  top-0.5 
+                  right-2 
+                  flex 
+                  items-center 
+                  text-gray-700">
+           <svg
+             xmlns="http://www.w3.org/2000/svg"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke-width="1.5"
+             stroke="currentColor"
+             class="size-5">
+             <path
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+           </svg>
+         </div>
+         }
+       </div>
+     </div>
+     <div class="mb-4 flex items-center space-x-4">
+       <input
+         id="contact"
+         name="contact"
+         type="text"
+         class="flex-grow 
+                mt-1 block 
+                rounded-full 
+                border 
+                border-gray-300 
+                px-6 
+                py-2 
+                focus:ring-opacity-50 
+                text-lg"
+         placeholder="Contact number or email"/>
+       <button
+         type="submit"
+         class="w-40 
+                bg-primary 
+                text-white 
+                px-4 
+                py-3 
+                rounded-full 
+                font-medium 
+                hover:bg-[#ffb700] 
+                hover:text-black 
+                transition 
+                duration-300 
+                mt-0.5"
+          routerLink="/register-success">
+         Enter
+       </button>
+     </div>
+   </form>
+ </div>
+</div>
+  
+
+<!-- <div class="flex items-end justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-3xl shadow-lg ml-20 w-3/4 h-full mb-40 slide-in-right">
+      <div class="flex items-end justify-between">
+        <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
+          Fill up fields to register*
+        </h1>
+        <div class="relative">
+          <select
+            id="role"
+            name="role"
+            [(ngModel)]="selectedRole"
+            class="appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
+            <option value="" disabled selected>Role</option>
+            <option value="Student">Student</option>
+            <option value="Faculty">Faculty</option>
+            <option value="Visitor">Visitor</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+  
+      <form>
+        <div class="mb-4 mt-4 flex items-center space-x-4">
+          <input
+            id="studentNumber"
+            name="studentNumber"
+            type="text"
+            class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Enter your PUP ID number here"/>
+          <div class="relative mr-44">
+            <select
+              id="sex"
+              name="sex"
+              class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
+              <option disabled selected>Sex</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <input
+            id="fname"
+            name="fname"
+            type="text"
+            class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="First name"/>
+          <input
+            id="lname"
+            name="lname"
+            type="text"
+            class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Last name"/>
+          <div class="relative mr-44">
+            @if (selectedRole === 'Faculty') {
+                <input
+                id="dept"
+                name="dept"
+                type="text"
+                class="w-full flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+                placeholder="Department"/>
+            } @else if (selectedRole === 'Visitor') {
+                <input
+                id="school"
+                name="school"
+                type="text"
+                class="w-full flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+                placeholder="School"/>
+            }@else {
+                <select
+                id="course"
+                name="course"
+                class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
+                <option disabled selected>Course</option>
+                <option>BSECE</option>
+                <option>BSME</option>
+                <option>BSA</option>
+                <option>BSBA</option>
+                <option>BSAM</option>
+                <option>BSIT</option>
+                <option>BSENTREP</option>
+                <option>BSED</option>
+                <option>BSOA</option>
+                <option>DICT</option>
+                <option>DOMT</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                </svg>
+              </div>
+            }
+          </div>
+        </div>
+        <div class="mb-4 flex items-center space-x-4">
+          <input
+            id="contact"
+            name="contact"
+            type="text"
+            class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Contact number or email"/>
+          <button
+            type="submit"
+            class="w-40 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mt-0.5">
+            Enter
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+   -->

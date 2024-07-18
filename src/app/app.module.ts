@@ -20,6 +20,12 @@ import { MaterialsComponent } from './admin/materials/materials.component';
 import { RecordsComponent } from './admin/records/records.component';
 import { ReportsComponent } from './admin/reports/reports.component';
 import { AdministratorComponent } from './client/administrator/administrator.component';
+import { FormsModule } from '@angular/forms';
+import { RegSuccessComponent } from './client/reg-success/reg-success.component';
+import { TimeoutSuccessComponent } from './client/timeout-success/timeout-success.component';
+import { TimeinSuccessComponent } from './client/timein-success/timein-success.component';
+import { UnregisteredComponent } from './client/unregistered/unregistered.component';
+import { NoTimeinComponent } from './client/no-timein/no-timein.component';
 
 @NgModule({
   declarations: [
@@ -40,11 +46,17 @@ import { AdministratorComponent } from './client/administrator/administrator.com
     MaterialsComponent,
     RecordsComponent,
     ReportsComponent,
-    AdministratorComponent
+    AdministratorComponent,
+    RegSuccessComponent,
+    TimeoutSuccessComponent,
+    TimeinSuccessComponent,
+    UnregisteredComponent,
+    NoTimeinComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     provideClientHydration()
