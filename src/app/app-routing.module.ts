@@ -15,7 +15,7 @@ import { UnregisteredComponent } from './client/unregistered/unregistered.compon
 import { NoTimeinComponent } from './client/no-timein/no-timein.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/landing', pathMatch: 'full' },
+  // { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
   { path: 'time-in', component: TimeInComponent },
   { path: 'time-out', component: TimeOutComponent },
