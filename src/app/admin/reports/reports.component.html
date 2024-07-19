@@ -1,0 +1,147 @@
+   <div class="flex flex-col items-end justify-end min-h-screen w-full ml-44">
+    <div class="flex w-full bg-primary rounded-t-xl mb-0 gap-2">
+      <div class="flex flex-row w-full">
+        <div class="dropdown dropdown-right slide-in-right">
+            <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">{{ inventoryPlaceholder }}</div>
+            <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                <li><a (click)="InventoryPlaceholder('Inventory')">Inventory</a></li>
+                <li><a (click)="InventoryPlaceholder('Borrowers')">Borrowers</a></li>
+                <li><a (click)="InventoryPlaceholder('Time-log')">Time-log</a></li>
+                <li><a (click)="InventoryPlaceholder('Faculty')">Faculty</a></li>
+                <li><a (click)="InventoryPlaceholder('Visitors')">Visitors</a></li>
+            </ul>
+          </div>
+      </div>
+    </div>
+    <div class="divider mt-2 mb-4 text-white slide-in-right"></div>
+    <div class="p-4 bg-white text-black rounded-xl w-full mb-10 slide-in-left">
+        <div class="w-full h-[40rem]">
+            <div class="w-full flex flex-row justify-between">
+                <div class="w-1/2 flex flex-row">
+                    @if (inventoryPlaceholder !== 'Inventory') {
+                        <div class=" flex flex-row space-x-3">
+                            <div class="flex flex-col">
+                                <label class="text-gray-700 mb-1">From:</label>
+                                <input type="date" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <label class="text-gray-700 mb-1">To:</label>
+                                <input type="date" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer"/>
+                            </div>
+                        </div>
+                        
+                    } @else {
+                        <div>
+                            <div class="dropdown dropdown-right slide-in-right">
+                                <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">{{ categoryPlaceholder }}</div>
+                                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                                    <li><a (click)="CategoryPlaceholder('All')">All</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Filipiñana')">Filipiñana</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Circulation')">Circulation</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Fiction')">Fiction</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Reference')">Reference</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Thesis/Dissertations')">Thesis/Dissertations</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Feasibility')">Feasibility</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Donations')">Donations</a></li>
+                                    <li><a (click)="CategoryPlaceholder('E-Book')">E-Book</a></li>
+                                    <li><a (click)="CategoryPlaceholder('PDF')">PDF</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Business Plan')">Business Plan</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Case Study')">Case Study</a></li>
+                                    <li><a (click)="CategoryPlaceholder('Training Manual')">Training Manual</a></li>
+                                    <li><a (click)="CategoryPlaceholder('OJT/Internship')">OJT/Internship</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown dropdown-right slide-in-right">
+                                <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">{{ programPlaceholder }}</div>
+                                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                                    <li><a (click)="ProgramPlaceholder('Business Admin')">Business Admin</a></li>
+                                    <li><a (click)="ProgramPlaceholder('Engineering')">Engineering</a></li>
+                                    <li><a (click)="ProgramPlaceholder('IT')">IT</a></li>
+                                    <li><a (click)="ProgramPlaceholder('Education')">Education</a></li>
+                                    <li><a (click)="ProgramPlaceholder('Office Admin')">Office Admin</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="w-1/2 flex justify-end">
+                    <button type="submit" class="w-40 h-14 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300">Generate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="flex flex-col items-end justify-end min-h-screen w-full ml-44">
+    <div class="flex w-full bg-primary rounded-t-xl mb-0 gap-2">
+      <div class="flex flex-row w-full">
+        <div class="dropdown dropdown-right slide-in-right">
+            <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">{{ inventoryPlaceholder }}</div>
+            <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                <li><a (click)="InventoryPlaceholder('Inventory')">Inventory</a></li>
+                <li><a (click)="InventoryPlaceholder('Borrowers')">Borrowers</a></li>
+                <li><a (click)="InventoryPlaceholder('Time-log')">Time-log</a></li>
+                <li><a (click)="InventoryPlaceholder('Faculty')">Faculty</a></li>
+                <li><a (click)="InventoryPlaceholder('Visitors')">Visitors</a></li>
+            </ul>
+          </div>
+      </div>
+    </div>
+    <div class="divider mt-2 mb-4"></div>
+    <div class="p-4 bg-white text-black rounded-xl w-full mb-10 slide-in-right">
+        <div class="w-full h-[40rem]">
+            <div class="w-full flex flex-row justify-between">
+                <div class="w-1/2 flex flex-row">
+                    <div class="dropdown dropdown-right slide-in-right">
+                        <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">{{ categoryPlaceholder }}</div>
+                        <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                            <li><a (click)="CategoryPlaceholder('All')">All</a></li>
+                            <li><a (click)="CategoryPlaceholder('Filipiñana')">Filipiñana</a></li>
+                            <li><a (click)="CategoryPlaceholder('Circulation')">Circulation</a></li>
+                            <li><a (click)="CategoryPlaceholder('Fiction')">Fiction</a></li>
+                            <li><a (click)="CategoryPlaceholder('Reference')">Reference</a></li>
+                            <li><a (click)="CategoryPlaceholder('Thesis/Dissertations')">Thesis/Dissertations</a></li>
+                            <li><a (click)="CategoryPlaceholder('Feasibility')">Feasibility</a></li>
+                            <li><a (click)="CategoryPlaceholder('Donations')">Donations</a></li>
+                            <li><a (click)="CategoryPlaceholder('E-Book')">E-Book</a></li>
+                            <li><a (click)="CategoryPlaceholder('PDF')">PDF</a></li>
+                            <li><a (click)="CategoryPlaceholder('Business Plan')">Business Plan</a></li>
+                            <li><a (click)="CategoryPlaceholder('Case Study')">Case Study</a></li>
+                            <li><a (click)="CategoryPlaceholder('Training Manual')">Training Manual</a></li>
+                            <li><a (click)="CategoryPlaceholder('OJT/Internship')">OJT/Internship</a></li>
+                        </ul>
+                      </div>
+                      <div class="dropdown dropdown-right slide-in-right">
+                        <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">{{ programPlaceholder }}</div>
+                        <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                            <li><a (click)="ProgramPlaceholder('Business Admin')">Business Admin</a></li>
+                            <li><a (click)="ProgramPlaceholder('Engineering')">Engineering</a></li>
+                            <li><a (click)="ProgramPlaceholder('IT')">IT</a></li>
+                            <li><a (click)="ProgramPlaceholder('Education')">Education</a></li>
+                            <li><a (click)="ProgramPlaceholder('Office Admin')">Office Admin</a></li>
+                        </ul>
+                      </div>
+                </div>
+                <div class="w-1/2 flex justify-end">
+                    <button
+                    type="submit"
+                    class="w-40 
+                           bg-primary 
+                           text-white 
+                           px-4 
+                           py-3 
+                           rounded-full 
+                           font-medium 
+                           hover:bg-[#ffb700] 
+                           hover:text-black 
+                           transition 
+                           duration-300 
+                           mb-5">
+                    Generate
+                  </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   -->

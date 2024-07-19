@@ -1,0 +1,279 @@
+<div class="flex items-end justify-center min-h-screen">
+    <div class="flex flex-col w-full">
+        <div class="w-full">
+            <div class="bg-primary mb-3 ml-20 w-3/4 slide-in-right justify-between">
+                <span class="text-white text-3xl ml-3">Add a book:</span>
+            </div>
+        </div>
+        <div
+          class="bg-white p-8 rounded-3xl shadow-lg ml-20 w-full h-full mb-40 slide-in-right">
+          <div class="flex items-end justify-between">
+            <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
+              Book details
+            </h1>
+            <div class="dropdown dropdown-right slide-in-right">
+                <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">Category</div>
+                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                    <li><a>Filipiñana</a></li>
+                    <li><a>Circulation</a></li>
+                    <li><a>Fiction</a></li>
+                    <li><a>Reference</a></li>
+                    <li><a>Thesis/Dissertations</a></li>
+                    <li><a>Feasibility</a></li>
+                    <li><a>Donations</a></li>
+                    <li><a>E-Book</a></li>
+                    <li><a>PDF</a></li>
+                    <li><a>Business Plan</a></li>
+                    <li><a>Case Study</a></li>
+                    <li><a>Training Manual</a></li>
+                    <li><a>OJT/Internship</a></li>
+                </ul>
+              </div>
+          </div>
+          <form>
+            <div class="mb-4 mt-1 flex items-center space-x-4">
+            <!-- Book title -->
+              <input
+                id="title"
+                name="title"
+                type="text"
+                class="w-1/2 
+                       flex 
+                       mt-1 
+                       rounded-full 
+                       border 
+                       border-gray-300 
+                       px-3 
+                       pl-6 
+                       py-2 
+                       focus:ring-opacity-50 
+                       text-lg"
+                placeholder="Title"/>
+            <!-- Subject Heading -->
+              <input
+                id="heading"
+                name="heading"
+                type="text"
+                class="w-1/2 
+                       flex 
+                       mt-1 
+                       rounded-full 
+                       border 
+                       border-gray-300 
+                       px-3 
+                       pl-6 
+                       py-2 
+                       focus:ring-opacity-50 
+                       text-lg"
+                placeholder="Subject Heading"/>
+            </div>
+            <div class="mb-4 mt-1 flex items-center space-x-4">
+                <!-- Accession number -->
+                  <input
+                    id="accnum"
+                    name="accnum"
+                    type="text"
+                    class="w-1/2 
+                           flex 
+                           mt-1 
+                           rounded-full 
+                           border 
+                           border-gray-300 
+                           px-3 
+                           pl-6 
+                           py-2 
+                           focus:ring-opacity-50 
+                           text-lg"
+                    placeholder="Accession number"/>
+                <!-- Category -->
+                  <input
+                    id="category"
+                    name="category"
+                    type="text"
+                    class="w-1/2 
+                           flex 
+                           mt-1 
+                           rounded-full 
+                           border 
+                           border-gray-300 
+                           px-3 
+                           pl-6 
+                           py-2 
+                           focus:ring-opacity-50 
+                           text-lg"
+                    placeholder="Category"/>
+                </div>
+
+                <div class="mb-4 mt-1 flex items-center space-x-4">
+                    <!-- Author -->
+                      <input
+                        id="author"
+                        name="author"
+                        type="text"
+                        class="w-1/2 
+                               flex 
+                               mt-1 
+                               rounded-full 
+                               border 
+                               border-gray-300 
+                               px-3 
+                               pl-6 
+                               py-2 
+                               focus:ring-opacity-50 
+                               text-lg"
+                        placeholder="Author"/>
+                    <!-- Call number -->
+                      <input
+                        id="callnum"
+                        name="callnum"
+                        type="text"
+                        class="w-1/2 
+                               flex 
+                               mt-1 
+                               rounded-full 
+                               border 
+                               border-gray-300 
+                               px-3 
+                               pl-6 
+                               py-2 
+                               focus:ring-opacity-50 
+                               text-lg"
+                        placeholder="Call number"/>
+                    </div>
+            <div class="mb-4 mt-1 flex items-center space-x-4">
+            <!-- Copyright -->
+                <input
+                  id="copyright"
+                  name="copyright"
+                  type="text"
+                  class="w-1/2 
+                         flex 
+                         mt-1 
+                         rounded-full 
+                         border 
+                         border-gray-300 
+                         px-3 
+                         pl-6 
+                         py-2 
+                         focus:ring-opacity-50 
+                         text-lg"
+                  placeholder="Copyright"/>
+            <!-- Publisher -->
+                <input
+                  id="publisher"
+                  name="publisher"
+                  type="text"
+                  class="w-1/2 
+                         flex 
+                         mt-1 
+                         rounded-full 
+                         border 
+                         border-gray-300 
+                         px-3 
+                         pl-6 
+                         py-2 
+                         focus:ring-opacity-50 
+                         text-lg"
+                  placeholder="Publisher"/>
+              </div>
+            <div class="mb-4 mt-1 flex items-center space-x-4">
+            <!-- Edition -->
+                <input
+                  id="edition"
+                  name="edition"
+                  type="text"
+                  class="w-1/2 
+                         flex 
+                         mt-1 
+                         rounded-full 
+                         border 
+                         border-gray-300 
+                         px-3 
+                         pl-6 
+                         py-2 
+                         focus:ring-opacity-50 
+                         text-lg"
+                  placeholder="Edition"/>
+            <!-- ISBN -->
+                <input
+                  id="isbn"
+                  name="isbn"
+                  type="text"
+                  class="w-1/2 
+                         flex 
+                         mt-1 
+                         rounded-full 
+                         border 
+                         border-gray-300 
+                         px-3 
+                         pl-6 
+                         py-2 
+                         focus:ring-opacity-50 
+                         text-lg"
+                  placeholder="ISBN"/>
+              </div>
+              <div class="mb-4 mt-1 flex items-center space-x-2">
+                <!-- Status -->
+                    <input
+                      id="status"
+                      name="status"
+                      type="text"
+                      class="w-1/2 
+                             flex 
+                             mt-1 
+                             rounded-full 
+                             border 
+                             border-gray-300 
+                             px-3 
+                             pl-6 
+                             py-2 
+                             focus:ring-opacity-50 
+                             text-lg"
+                      placeholder="Status"/>
+                <!-- Back button -->
+                <button
+                    type="submit"
+                    class="w-1/5
+                           bg-primary 
+                           text-white 
+                           px-4 
+                           py-3 
+                           rounded-full 
+                           font-medium 
+                           hover:bg-[#ffb700] 
+                           hover:text-black 
+                           transition 
+                           duration-300 
+                           mt-0.5"
+                     routerLink="/materials">
+                    Back
+              </button>
+                      <!-- Continue-button -->
+                      <button
+                      type="submit"
+                      class="w-[30%] 
+                             bg-secondary 
+                             text-black 
+                             px-4 
+                             py-3 
+                             rounded-full 
+                             font-medium 
+                             hover:bg-[#801e1d] 
+                             hover:text-white 
+                             transition 
+                             duration-300 
+                             mt-0.5"
+                       routerLink="/add-warning">
+                      Continue
+                    </button>
+
+                  </div>
+          </form>
+        </div>
+    </div>
+
+   </div>
+     
+   
+
+   

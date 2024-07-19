@@ -1,0 +1,115 @@
+<div class="flex flex-col items-end justify-end min-h-screen w-full ml-44">
+    <div class="flex w-full p-4 bg-primary rounded-t-xl mb-0">
+        <input type="text" placeholder="Search a book" class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white" />
+        <button class="btn rounded-r-full bg-white slide-in-right">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>              
+        </button>
+    </div>
+    <!-- <div class="p-4 bg-white text-black rounded-xl w-full mb-10 slide-in-right">
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Name</th>
+                <th>Course/Year</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date borrowed</th>
+                <th>Remarks</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>Dela Cruz</td>
+                <td>BSIT 3-1</td>
+                <td>Research 1</td>
+                <td>Sample Author</td>
+                <td>01/19/2024</td>
+                <td>In progress</td>
+                <td>
+                  <button class="bg-secondary border-none shadow-none btn-sm rounded-full font-medium">Return</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Santos</td>
+                <td>BSIT 1-1</td>
+                <td>College Algebra</td>
+                <td>Sample Author</td>
+                <td>12/20/2023</td>
+                <td>Overdue</td>
+                <td>
+                  <button class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium">Penalty</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> -->
+
+      <div class="p-4 bg-white text-black rounded-xl w-full mb-10 slide-in-right">
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Name</th>
+                <th>Course/Year</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date borrowed</th>
+                <th>Remarks</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <!-- <tr *ngFor="let item of items">
+                <td>{{ item.name }}</td>
+                <td>{{ item.courseYear }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.author }}</td>
+                <td>{{ item.dateBorrowed | date: 'MM/dd/yyyy' }}</td>
+                <td>{{ item.remarks }}</td>
+                <td> -->
+                  <!-- Conditionally render buttons based on remarks -->
+                  <!-- <button *ngIf="item.remarks === 'In progress'" class="bg-secondary border-none shadow-none btn-sm rounded-full font-medium">
+                    Return
+                  </button>
+                  <button *ngIf="item.remarks === 'Overdue'" class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium">
+                    Penalty
+                  </button>
+                </td>
+              </tr> -->
+
+              @for (item of items; track $index) {
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.courseYear }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.author }}</td>
+                    <td>{{ item.dateBorrowed | date: 'MM/dd/yyyy' }}</td>
+                    <td>{{ item.remarks }}</td>
+                    <td>
+                        @if (item.remarks === 'In progress') {
+                            <button class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
+                                    routerLink="/return-warning">
+                                Return
+                            </button>
+                        } @else if (item.remarks === 'Overdue') {
+                            <button class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium">
+                                Penalty
+                            </button>
+                        } @else {
+                            unknown remark
+                        }
+                    </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+
+</div>
