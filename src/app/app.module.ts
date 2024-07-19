@@ -26,6 +26,22 @@ import { TimeoutSuccessComponent } from './client/timeout-success/timeout-succes
 import { TimeinSuccessComponent } from './client/timein-success/timein-success.component';
 import { UnregisteredComponent } from './client/unregistered/unregistered.component';
 import { NoTimeinComponent } from './client/no-timein/no-timein.component';
+import { LandingAdminComponent } from './admin/landing-admin/landing-admin.component';
+import { BorrowSuccessComponent } from './admin/borrow-success/borrow-success.component';
+import { BorrowInfoComponent } from './admin/borrow-info/borrow-info.component';
+import { ReturnSuccessComponent } from './admin/return-success/return-success.component';
+import { ReturnWarningComponent } from './admin/return-warning/return-warning.component';
+import { MaterialsEditComponent } from './admin/materials-edit/materials-edit.component';
+import { MaterialsWarningComponent } from './admin/materials-warning/materials-warning.component';
+import { MaterialsSuccessComponent } from './admin/materials-success/materials-success.component';
+import { MaterialsAddComponent } from './admin/materials-add/materials-add.component';
+import { AddWarningComponent } from './admin/add-warning/add-warning.component';
+import { AddSuccessComponent } from './admin/add-success/add-success.component';
+import { MaterialsTypeComponent } from './admin/materials-type/materials-type.component';
+import { AddTypeComponent } from './admin/add-type/add-type.component';
+import { AddTypeWarningComponent } from './admin/add-type-warning/add-type-warning.component';
+import { AddTypeSuccessComponent } from './admin/add-type-success/add-type-success.component';
+import { ProfileComponent } from './admin/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +67,23 @@ import { NoTimeinComponent } from './client/no-timein/no-timein.component';
     TimeoutSuccessComponent,
     TimeinSuccessComponent,
     UnregisteredComponent,
-    NoTimeinComponent
+    NoTimeinComponent,
+    LandingAdminComponent,
+    BorrowSuccessComponent,
+    BorrowInfoComponent,
+    ReturnSuccessComponent,
+    ReturnWarningComponent,
+    MaterialsEditComponent,
+    MaterialsWarningComponent,
+    MaterialsSuccessComponent,
+    MaterialsAddComponent,
+    AddWarningComponent,
+    AddSuccessComponent,
+    MaterialsTypeComponent,
+    AddTypeComponent,
+    AddTypeWarningComponent,
+    AddTypeSuccessComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
