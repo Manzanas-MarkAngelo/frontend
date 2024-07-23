@@ -45,6 +45,8 @@ import { AddTypeSuccessComponent } from './admin/add-type-success/add-type-succe
 import { ProfileComponent } from './admin/profile/profile.component';
 
 import { RegisterService } from '../services/register.service';
+import { SuperAdminComponent } from './super-admin/super-admin.component';
+import { NavbarComponent } from './super-admin/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +88,9 @@ import { RegisterService } from '../services/register.service';
     AddTypeComponent,
     AddTypeWarningComponent,
     AddTypeSuccessComponent,
-    ProfileComponent
+    ProfileComponent,
+    SuperAdminComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
