@@ -1,0 +1,29 @@
+.btn-primary {
+    background-color: #8B0000;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 25px;
+  }
+  
+  .btn-warning {
+    background-color: #FFB700;
+    color: black;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 25px;
+  }
+  
+  h1 {
+    color: #4B0082;
+  }
+  
+  h2 {
+    color: #8B0000;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  .active-btn {
+    @apply bg-[#801e1d] text-white;
+  }

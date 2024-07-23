@@ -1,0 +1,51 @@
+<div class="navbar bg-white shadow-md p-0 h-32 sticky top-0 z-50">
+    <div class="flex ml-2 sm:ml-0 md:mx-auto slide-in-left gap-5">
+      <img
+        src="../../../assets/pup.png"
+        alt="Logo"
+        class="m-1 md:m-0 md:ml-8 logo sm:size-20 size-10"/>
+      <a
+        class="text-xl sm:text-3xl font-medium text-black md:mb-1">
+        Library Information System
+      </a>
+    </div>
+    <div class="container flex justify-end items-center w-full mr-auto">
+      <div class="flex">
+        <div class="flex slide-in-right">
+          <div class="dropdown dropdown-end">
+            <div class="mr-2.5 md:mr-10 md:ml-4">
+              <div
+                tabindex="0"
+                role="button"
+                class="btn btn-ghost avatar btn-circle border-gray-50 m-0 size-20">
+                <img src="../../../assets/profile2.png" alt="profile">
+              </div>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content mt-3 z-20 p-2 shadow 
+              bg-white rounded-box w-36">
+              <li><a class="font-bold" routerLink="/profile">Profile</a></li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/wishlist">Wishlist</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/space/add">Add Property</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/space/owned">My Properties</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/reservations">Reservations</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/applications">Applications</a>
+              </li>
+              <li><a class="font-bold">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
