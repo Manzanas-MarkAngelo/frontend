@@ -1,13 +1,23 @@
-<div class="container flex flex-row min-h-screen">
+<!-- <div class="container flex flex-row min-h-screen">
   <app-side-bar class="w-2/6 slide-in-left"/>
-  <!--<app-sidebar-admin class="w-2/6 slide-in-left"/>-->
+  <app-sidebar-admin class="w-2/6 slide-in-left"/>
 
   <div class="main-content flex-1">
     <router-outlet></router-outlet>
   </div>
+</div> -->
+
+<!-- <app-super-admin/> -->
+
+<div class="w-full flex flex-row">
+  <div class="left w-1/4">
+    <app-side-bar/>
+  </div>
+  
+  <div class="right w-3/4">
+    <router-outlet/>
+  </div>
 </div>
-
-
 
 
 
