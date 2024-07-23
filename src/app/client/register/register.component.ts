@@ -8,7 +8,7 @@ import { RegisterService } from '../../../services/register.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  selectedRole: string = '';
+  selectedRole: string = 'student';
   studentNumber: string = '';
   empNumber: string = ''; // Added empNumber
   sex: string = '';
