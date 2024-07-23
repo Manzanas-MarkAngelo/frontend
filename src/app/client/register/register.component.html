@@ -1,5 +1,5 @@
 <div class="flex items-end justify-center min-h-screen">
-  <div class="bg-white p-8 rounded-3xl shadow-lg ml-20 w-3/4 h-full mb-40 slide-in-right">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 h-full mb-40 slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Fill up fields to register*
@@ -91,7 +91,24 @@
                    text-lg"
             placeholder="Enter your employee number here"/>
         </ng-container>
-        
+        <ng-container *ngIf="selectedRole === 'visitor'">
+          <input
+            id="school"
+            name="school"
+            type="text"
+            [(ngModel)]="school"
+            class="flex-grow 
+                   mt-1 
+                   block 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="School"/>
+        </ng-container>
         <div class="relative mr-44">
           <select
             id="sex"
@@ -141,7 +158,43 @@
         </div>
       </div>
       <div class="mb-4 mt-1 flex items-center space-x-4">
+
+        @if (selectedRole === 'visitor') {
+          <input
+          id="fname"
+          name="fname"
+          type="text"
+          [(ngModel)]="firstName"
+          class="w-full 
+                 flex 
+                 mt-1 
+                 rounded-full 
+                 border 
+                 border-gray-300 
+                 pl-6 
+                 py-2 
+                 focus:ring-opacity-50 
+                 text-lg"
+          placeholder="First name"/>
         <input
+          id="lname"
+          name="lname"
+          type="text"
+          [(ngModel)]="lastName"
+          class="w-full 
+                 flex 
+                 mt-1 
+                 rounded-full 
+                 border 
+                 border-gray-300 
+                 pl-6 
+                 py-2 
+                 focus:ring-opacity-50 
+                 text-lg"
+          placeholder="Last name"/>
+
+        } @else {
+          <input
           id="fname"
           name="fname"
           type="text"
@@ -175,6 +228,9 @@
                  focus:ring-opacity-50 
                  text-lg"
           placeholder="Last name"/>
+
+        }
+
         <div class="relative mr-44">
           <ng-container *ngIf="selectedRole === 'faculty'">
             <input
@@ -195,44 +251,8 @@
                      text-lg"
               placeholder="Department"/>
           </ng-container>
-          <ng-container *ngIf="selectedRole === 'visitor'">
-            <input
-              id="school"
-              name="school"
-              type="text"
-              [(ngModel)]="school"
-              class="w-full 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="School"/>
-          </ng-container>
-          <ng-container *ngIf="selectedRole === 'visitor'">
-  <input
-    id="middleName"
-    name="middleName"
-    type="text"
-    [(ngModel)]="middleName"
-    class="w-full 
-           flex 
-           mt-1 
-           rounded-full 
-           border 
-           border-gray-300 
-           px-3 
-           pl-6 
-           py-2 
-           focus:ring-opacity-50 
-           text-lg"
-    placeholder="Middle name"/>
-</ng-container>
+
+
           <ng-container *ngIf="selectedRole === 'student'">
             <select
               id="course"
