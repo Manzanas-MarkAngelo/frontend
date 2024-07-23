@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,6 +43,8 @@ import { AddTypeComponent } from './admin/add-type/add-type.component';
 import { AddTypeWarningComponent } from './admin/add-type-warning/add-type-warning.component';
 import { AddTypeSuccessComponent } from './admin/add-type-success/add-type-success.component';
 import { ProfileComponent } from './admin/profile/profile.component';
+
+import { RegisterService } from '../services/register.service';
 
 @NgModule({
   declarations: [
@@ -88,10 +91,12 @@ import { ProfileComponent } from './admin/profile/profile.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    RegisterService
   ],
   bootstrap: [AppComponent]
 })
