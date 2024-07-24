@@ -33,13 +33,14 @@ import { AddTypeSuccessComponent } from './admin/add-type-success/add-type-succe
 import { RecordsComponent } from './admin/records/records.component';
 import { ReportsComponent } from './admin/reports/reports.component';
 import { ProfileComponent } from './admin/profile/profile.component';
+import { SidebarAdminComponent } from './admin/sidebar-admin/sidebar-admin.component';
 import { profile } from 'console';
 
 const routes: Routes = [
   // { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
   { path: 'time-in', component: TimeInComponent },
-  { path: 'time-out', component: TimeOutComponent },
+  { path: 'time-out', component: TimeOutComponent },  
   { path: 'search', component: SearchBookComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'register', component: RegisterComponent },
@@ -70,7 +71,7 @@ const routes: Routes = [
   { path: 'records', component: RecordsComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'profile', component: ProfileComponent },
-
+  { path: 'sidebar-admin', component: SidebarAdminComponent },
 
 ];
 
