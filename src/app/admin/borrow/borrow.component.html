@@ -1,84 +1,126 @@
-<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-end">
-    <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
-      <div class="flex flex-row w-full">
-        <input 
-          type="text" 
-          placeholder="Search a book" 
-          class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white" 
-          [(ngModel)]="searchTerm" 
-          (input)="onSearch()"
-        />
-        <button class="btn rounded-r-full bg-white slide-in-right">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="w-40 bg-white text-primary px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2"
-          (click)="clearSearch()">
-          Clear
-        </button>
-      </div>
-      <div class="dropdown dropdown-end slide-in-right">
-        <div tabindex="0" role="button" class="btn w-48 mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">{{ categoryPlaceholder }}</div>
-        <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
-          <li><a (click)="CategoryPlaceholder('Filipiñana')">Filipiñana</a></li>
-          <li><a (click)="CategoryPlaceholder('Circulation')">Circulation</a></li>
-          <li><a (click)="CategoryPlaceholder('Fiction')">Fiction</a></li>
-          <li><a (click)="CategoryPlaceholder('Reference')">Reference</a></li>
-          <li><a (click)="CategoryPlaceholder('Thesis/Dissertations')">Thesis/Dissertations</a></li>
-          <li><a (click)="CategoryPlaceholder('Feasibility')">Feasibility</a></li>
-          <li><a (click)="CategoryPlaceholder('Donations')">Donations</a></li>
-          <li><a (click)="CategoryPlaceholder('E-Book')">E-Book</a></li>
-          <li><a (click)="CategoryPlaceholder('PDF')">PDF</a></li>
-          <li><a (click)="CategoryPlaceholder('Business Plan')">Business Plan</a></li>
-          <li><a (click)="CategoryPlaceholder('Case Study')">Case Study</a></li>
-          <li><a (click)="CategoryPlaceholder('Training Manual')">Training Manual</a></li>
-          <li><a (click)="CategoryPlaceholder('OJT/Internship')">OJT/Internship</a></li>
-        </ul>
-      </div>
+<div class="flex flex-col h-[90vh] w-11/12 mx-auto mt-14 justify-end">
+  <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
+    <div class="flex flex-row w-full">
+      <input
+        type="text"
+        placeholder="Search a book"
+        class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      />
+      <button class="btn rounded-r-full bg-white slide-in-right">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="black"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="w-40 bg-white text-primary px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2"
+        (click)="clearSearch()"
+      >
+        Clear
+      </button>
     </div>
-    <div class="p-4 bg-white text-black rounded-xl w-full mb-10 slide-in-right">
-      <div class="overflow-x-auto">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Accession No.</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Subject</th>
-              <th>Copyright</th>
-              <th>Call number</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let material of materials">
-              <td>{{ material.accnum }}</td>
-              <td>{{ material.title }}</td>
-              <td>{{ material.author }}</td>
-              <td>{{ material.subj }}</td>
-              <td>{{ material.copyright }}</td>
-              <td>{{ material.callno }}</td>
-              <td>{{ material.status }}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="dropdown dropdown-end slide-in-right">
+      <div
+        tabindex="0"
+        role="button"
+        class="btn w-48 mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]"
+      >
+        {{ categoryPlaceholder }}
       </div>
-      <div class="flex justify-between items-center mt-4">
-        <button class="btn bg-primary text-white hover:bg-primary-focus" 
-                [disabled]="currentPage === 1" 
-                (click)="onPageChange(currentPage - 1)">
-          Previous
-        </button>
-        <span class="text-lg font-medium">{{ currentPage }} / {{ totalPages }}</span>
-        <button class="btn bg-primary text-white hover:bg-primary-focus" 
-                [disabled]="currentPage === totalPages" 
-                (click)="onPageChange(currentPage + 1)">
-          Next
-        </button>
-      </div>
+      <ul
+        tabindex="0"
+        class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black"
+      >
+        <li><a (click)="CategoryPlaceholder('Filipiñana')">Filipiñana</a></li>
+        <li><a (click)="CategoryPlaceholder('Circulation')">Circulation</a></li>
+        <li><a (click)="CategoryPlaceholder('Fiction')">Fiction</a></li>
+        <li><a (click)="CategoryPlaceholder('Reference')">Reference</a></li>
+        <li>
+          <a (click)="CategoryPlaceholder('Thesis/Dissertations')"
+            >Thesis/Dissertations</a
+          >
+        </li>
+        <li><a (click)="CategoryPlaceholder('Feasibility')">Feasibility</a></li>
+        <li><a (click)="CategoryPlaceholder('Donations')">Donations</a></li>
+        <li><a (click)="CategoryPlaceholder('E-Book')">E-Book</a></li>
+        <li><a (click)="CategoryPlaceholder('PDF')">PDF</a></li>
+        <li>
+          <a (click)="CategoryPlaceholder('Business Plan')">Business Plan</a>
+        </li>
+        <li><a (click)="CategoryPlaceholder('Case Study')">Case Study</a></li>
+        <li>
+          <a (click)="CategoryPlaceholder('Training Manual')"
+            >Training Manual</a
+          >
+        </li>
+        <li>
+          <a (click)="CategoryPlaceholder('OJT/Internship')">OJT/Internship</a>
+        </li>
+      </ul>
     </div>
   </div>
-  
+  <div class="p-4 bg-white text-black rounded-xl w-full mb-10 slide-in-right">
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <thead>
+          <tr class="text-primary text-center">
+            <th>Accession No.</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Subject</th>
+            <th>Copyright</th>
+            <th>Call number</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody class="text-center text-xs">
+          <tr *ngFor="let material of materials">
+            <td>{{ material.accnum }}</td>
+            <td>{{ material.title }}</td>
+            <td>{{ material.author }}</td>
+            <td>{{ material.subj }}</td>
+            <td>{{ material.copyright }}</td>
+            <td>{{ material.callno }}</td>
+            <td>{{ material.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+      <span class="text-lg font-medium ml-3"
+        >Page {{ currentPage }} / {{ totalPages }}</span>
+
+      <div class="flex gap-2">
+        <button
+        class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        Previous
+      </button>
+
+      <button
+        class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        Next
+      </button>
+      </div>
+
+    </div>
+  </div>
+</div>
