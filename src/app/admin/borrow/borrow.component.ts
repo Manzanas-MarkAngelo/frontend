@@ -66,4 +66,9 @@ export class BorrowComponent implements OnInit {
   CategoryPlaceholder(value: string) {
     this.categoryPlaceholder = value;
   }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.onSearch();
+  }
 }
