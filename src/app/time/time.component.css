@@ -1,0 +1,14 @@
+.clock {
+    text-align: center;
+    font-size: 12rem;
+    margin-top: 1rem;
+    color: #ffffff;
+}  
+
+.date {
+    text-align: center;
+    font-size: 5rem;
+    font-weight: normal;
+    margin-top: -1.5rem;
+    color: #fec100;
+}
