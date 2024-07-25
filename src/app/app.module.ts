@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';  // Updated import
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -100,7 +100,8 @@ import { NavbarComponent } from './super-admin/navbar/navbar.component';
   ],
   providers: [
     provideClientHydration(),
-    RegisterService
+    RegisterService,
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })
