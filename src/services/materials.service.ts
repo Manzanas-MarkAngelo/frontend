@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './environments/local-environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class MaterialsService {
-  private apiUrl = 'http://localhost/controller_lis/fetch_materials.php';
+  private apiUrl = `${environment.apiUrl}/fetch_materials.php`; 
 
   constructor(private http: HttpClient) {}
 

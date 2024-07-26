@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-@Injectable({
-  providedIn: 'root'
-})
+import { environment } from './environments/local-environment'; // Import lang yung environment
+@Injectable()
 export class RegisterService {
 
-  private apiUrl = 'http://localhost/controller_lis/register.php';
+  private apiUrl = `${environment.apiUrl}/register.php`; // add lang before yung sepcific php file
 
   constructor(private http: HttpClient) { }
 

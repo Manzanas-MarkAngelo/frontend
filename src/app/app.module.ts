@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';  // Updated import
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 
+//Components
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientComponent } from './client/client.component';
@@ -43,10 +44,13 @@ import { AddTypeComponent } from './admin/add-type/add-type.component';
 import { AddTypeWarningComponent } from './admin/add-type-warning/add-type-warning.component';
 import { AddTypeSuccessComponent } from './admin/add-type-success/add-type-success.component';
 import { ProfileComponent } from './admin/profile/profile.component';
-
-import { RegisterService } from '../services/register.service';
 import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { NavbarComponent } from './super-admin/navbar/navbar.component';
+
+//Services
+import { RegisterService } from '../services/register.service';
+import { MaterialsService } from '../services/materials.service';
+
 
 @NgModule({
   declarations: [
@@ -100,8 +104,9 @@ import { NavbarComponent } from './super-admin/navbar/navbar.component';
   ],
   providers: [
     provideClientHydration(),
+    provideHttpClient(withFetch()),
     RegisterService,
-    provideHttpClient(withFetch())
+    MaterialsService,
   ],
   bootstrap: [AppComponent]
 })
