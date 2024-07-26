@@ -37,7 +37,7 @@ import { SidebarAdminComponent } from './admin/sidebar-admin/sidebar-admin.compo
 import { profile } from 'console';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/landing', pathMatch: 'full' },
+  { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
   { path: 'time-in', component: TimeInComponent },
   { path: 'time-out', component: TimeOutComponent },  
