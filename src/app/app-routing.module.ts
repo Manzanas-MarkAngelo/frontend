@@ -40,6 +40,7 @@ import { profile } from 'console';
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
+  { path: 'borrow-info/:accnum', component: BorrowInfoComponent },
   { path: 'time-in', component: TimeInComponent },
   { path: 'time-out', component: TimeOutComponent },  
   { path: 'search', component: SearchBookComponent },
