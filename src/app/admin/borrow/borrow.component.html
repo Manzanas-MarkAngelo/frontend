@@ -247,7 +247,7 @@
             <td>{{ material.accnum }}</td>
             <td>
               <a [routerLink]="['/borrow-info', material.accnum]" 
-                 class="text-primary font-semibold hover:text-secondary 
+                 class="text-primary font-semibold hover:text-[#ffb700] 
                         hover:underline">
                 {{ material.title | slice:0:48 }}{{ material.title.length > 48 ? '...' : '' }}
               </a>
