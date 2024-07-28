@@ -23,17 +23,17 @@ export class BorrowInfoComponent implements OnInit {
   }
 
   populateForm(): void {
-    // Populate form fields with material data, set default value to "null" if field is empty
-    this.material.title = this.material.title || 'null';
-    this.material.subj = this.material.subj || 'null';
-    this.material.accnum = this.material.accnum || 'null';
-    this.material.category = this.material.category || 'null';
-    this.material.author = this.material.author || 'null';
-    this.material.callno = this.material.callno || 'null';
-    this.material.copyright = this.material.copyright || 'null';
-    this.material.publisher = this.material.publisher || 'null';
-    this.material.edition = this.material.edition || 'null';
-    this.material.isbn = this.material.isbn || 'null';
-    this.material.status = this.material.status || 'null';
+    // Populate form fields with material data, set default value to "unknown/empty" if field is empty
+    this.material.title = this.material.title || 'unknown/empty';
+    this.material.subj = this.material.subj || 'unknown/empty';
+    this.material.accnum = this.material.accnum || 'unknown/empty';
+    this.material.category = this.material.category || 'unknown/empty';
+    this.material.author = this.material.author || 'unknown/empty';
+    this.material.callno = this.material.callno || 'unknown/empty';
+    this.material.copyright = this.material.copyright || 'unknown/empty';
+    this.material.publisher = this.material.publisher || 'unknown/empty';
+    this.material.edition = this.material.edition || 'unknown/empty';
+    this.material.isbn = this.material.isbn || 'unknown/empty';
+    this.material.status = this.material.status || 'unknown/empty';
   }
 }
