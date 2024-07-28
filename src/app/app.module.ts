@@ -50,6 +50,7 @@ import { NavbarComponent } from './super-admin/navbar/navbar.component';
 //Services
 import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
+import { TimeLogService } from '../services/time-log.service';
 
 
 @NgModule({
@@ -107,6 +108,7 @@ import { MaterialsService } from '../services/materials.service';
     provideHttpClient(withFetch()),
     RegisterService,
     MaterialsService,
+    TimeLogService
   ],
   bootstrap: [AppComponent]
 })
