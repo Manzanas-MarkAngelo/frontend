@@ -1,275 +1,168 @@
 <div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-end">
   <div class="flex flex-col w-full">
-      <div
-        class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
-        <div class="flex items-end justify-between">
-          <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
-            Material details
-          </h1>
-        </div>
-        <form>
-          <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Book title -->
-            <input
-              id="title"
-              name="title"
-              type="text"
-              class="w-1/2 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Title"/>
-          <!-- Subject Heading -->
-            <input
-              id="heading"
-              name="heading"
-              type="text"
-              class="w-1/2 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Subject Heading"/>
-          </div>
-          <div class="mb-4 mt-1 flex items-center space-x-4">
-              <!-- Accession number -->
-                <input
-                  id="accnum"
-                  name="accnum"
-                  type="text"
-                  class="w-1/2 
-                         flex 
-                         mt-1 
-                         rounded-full 
-                         border 
-                         border-gray-300 
-                         px-3 
-                         pl-6 
-                         py-2 
-                         focus:ring-opacity-50 
-                         text-lg"
-                  placeholder="Accession number"/>
-              <!-- Category -->
-                <input
-                  id="category"
-                  name="category"
-                  type="text"
-                  class="w-1/2 
-                         flex 
-                         mt-1 
-                         rounded-full 
-                         border 
-                         border-gray-300 
-                         px-3 
-                         pl-6 
-                         py-2 
-                         focus:ring-opacity-50 
-                         text-lg"
-                  placeholder="Category"/>
-              </div>
-
-              <div class="mb-4 mt-1 flex items-center space-x-4">
-                  <!-- Author -->
-                    <input
-                      id="author"
-                      name="author"
-                      type="text"
-                      class="w-1/2 
-                             flex 
-                             mt-1 
-                             rounded-full 
-                             border 
-                             border-gray-300 
-                             px-3 
-                             pl-6 
-                             py-2 
-                             focus:ring-opacity-50 
-                             text-lg"
-                      placeholder="Author"/>
-                  <!-- Call number -->
-                    <input
-                      id="callnum"
-                      name="callnum"
-                      type="text"
-                      class="w-1/2 
-                             flex 
-                             mt-1 
-                             rounded-full 
-                             border 
-                             border-gray-300 
-                             px-3 
-                             pl-6 
-                             py-2 
-                             focus:ring-opacity-50 
-                             text-lg"
-                      placeholder="Call number"/>
-                  </div>
-          <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Copyright -->
-              <input
-                id="copyright"
-                name="copyright"
-                type="text"
-                class="w-1/2 
-                       flex 
-                       mt-1 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-3 
-                       pl-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                placeholder="Copyright"/>
-          <!-- Publisher -->
-              <input
-                id="publisher"
-                name="publisher"
-                type="text"
-                class="w-1/2 
-                       flex 
-                       mt-1 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-3 
-                       pl-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                placeholder="Publisher"/>
-            </div>
-          <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Edition -->
-              <input
-                id="edition"
-                name="edition"
-                type="text"
-                class="w-1/2 
-                       flex 
-                       mt-1 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-3 
-                       pl-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                placeholder="Edition"/>
-          <!-- ISBN -->
-              <input
-                id="isbn"
-                name="isbn"
-                type="text"
-                class="w-1/2 
-                       flex 
-                       mt-1 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-3 
-                       pl-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                placeholder="ISBN"/>
-            </div>
-            <div class="mb-4 mt-1 flex items-center space-x-2">
-              <!-- Status -->
-                  <input
-                    id="status"
-                    name="status"
-                    type="text"
-                    class="w-1/2 
-                           flex 
-                           mt-1 
-                           rounded-full 
-                           border 
-                           border-gray-300 
-                           px-3 
-                           pl-6 
-                           py-2 
-                           focus:ring-opacity-50 
-                           text-lg"
-                    placeholder="Status"/>
-                  <!-- (Student/Faculty) ID number -->
-                  <input
-                  id="idnum"
-                  name="idnum"
-                  type="text"
-                  class="w-1/2 
-                         flex 
-                         mt-1 
-                         rounded-full 
-                         border 
-                         border-gray-300 
-                         px-3 
-                         pl-6 
-                         py-2 
-                         focus:ring-opacity-50 
-                         text-lg"
-                  placeholder="ID number (Borrower)"/>
-
-                </div>
-
-                <div class="mb-4 mt-1 flex items-center space-x-2 justify-end">
-                  <!-- Back button -->
-                  <button
-                      type="submit"
-                      class="w-1/5
-                             bg-primary 
-                             text-white 
-                             px-4 
-                             py-3 
-                             rounded-full 
-                             font-medium 
-                             hover:bg-[#ffb700] 
-                             hover:text-black 
-                             transition 
-                             duration-300 
-                             mt-0.5">
-                      Back
-                </button>
-                        <!-- Continue-button -->
-                        <button
-                        type="submit"
-                        class="w-[29%] 
-                               bg-secondary 
-                               text-black 
-                               px-4 
-                               py-3 
-                               rounded-full 
-                               font-medium 
-                               hover:bg-[#801e1d] 
-                               hover:text-white 
-                               transition 
-                               duration-300 
-                               mt-0.5">
-                        Continue
-                      </button>
-    
-                    </div>
-        </form>
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
+      <div class="flex items-end justify-between">
+        <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">Material details</h1>
       </div>
+      <form>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Book title -->
+          <input
+            id="title"
+            name="title"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Title"
+            [(ngModel)]="material.title"
+          />
+          <!-- Subject Heading -->
+          <input
+            id="heading"
+            name="heading"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Subject Heading"
+            [(ngModel)]="material.subj"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Accession number -->
+          <input
+            id="accnum"
+            name="accnum"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Accession number"
+            [(ngModel)]="material.accnum"
+          />
+          <!-- Category -->
+          <input
+            id="category"
+            name="category"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Category"
+            [(ngModel)]="material.category"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Author -->
+          <input
+            id="author"
+            name="author"
+            type="text"
+            class="w-1/2 flex 
+                   mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Author"
+            [(ngModel)]="material.author"
+          />
+          <!-- Call number -->
+          <input
+            id="callnum"
+            name="callnum"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Call number"
+            [(ngModel)]="material.callno"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Copyright -->
+          <input
+            id="copyright"
+            name="copyright"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Copyright"
+            [(ngModel)]="material.copyright"
+          />
+          <!-- Publisher -->
+          <input
+            id="publisher"
+            name="publisher"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Publisher"
+            [(ngModel)]="material.publisher"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Edition -->
+          <input
+            id="edition"
+            name="edition"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Edition"
+            [(ngModel)]="material.edition"
+          />
+          <!-- ISBN -->
+          <input
+            id="isbn"
+            name="isbn"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="ISBN"
+            [(ngModel)]="material.isbn"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-2">
+          <!-- Status -->
+          <input
+            id="status"
+            name="status"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Status"
+            [(ngModel)]="material.status"
+          />
+          <!-- (Student/Faculty) ID number -->
+          <input
+            id="idnum"
+            name="idnum"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="ID number (Borrower)"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-2 justify-end">
+          <!-- Back button -->
+          <button
+            type="button"
+            class="w-1/5 bg-primary text-white px-4 py-3 
+                   rounded-full font-medium 
+                   hover:bg-[#ffb700] hover:text-black 
+                   transition duration-300 mt-0.5"
+          >
+            Back
+          </button>
+          <!-- Continue button -->
+          <button
+            type="submit"
+            class="w-[29%] bg-secondary text-black px-4 py-3 
+                   rounded-full font-medium hover:bg-[#801e1d] 
+                   hover:text-white transition duration-300 mt-0.5"
+          >
+            Continue
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-
- </div>
-   
- 
-
- 
+</div>

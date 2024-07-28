@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MaterialsService } from '../../../services/materials.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-borrow',
@@ -19,8 +20,12 @@ export class BorrowComponent implements OnInit {
 
   categoryPlaceholder: string = 'Choose category';
 
-  constructor(private materialsService: MaterialsService) {}
+  constructor(private materialsService: MaterialsService, private router: Router) {}
 
+  navigateToDetails(accnum: string) {
+    this.router.navigate(['/borrow-info', accnum]);
+  }
+  
   ngOnInit() {
     this.loadMaterials();
     this.searchTerms.pipe(

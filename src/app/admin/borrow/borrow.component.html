@@ -245,19 +245,23 @@
         <tbody class="text-center text-xs">
           <tr *ngFor="let material of materials">
             <td>{{ material.accnum }}</td>
-            <td>{{ material.title | slice : 0 : 48 }}
-              {{ material.title.length > 48 ? "..." : "" }}</td>
-            <td>{{ material.author | slice : 0 : 70 }}
-              {{ material.author.length > 70 ? "..." : "" }}</td>
+            <td>
+              <a [routerLink]="['/borrow-info', material.accnum]" 
+                 class="text-primary font-semibold hover:text-secondary 
+                        hover:underline">
+                {{ material.title | slice:0:48 }}{{ material.title.length > 48 ? '...' : '' }}
+              </a>
+            </td>
+            <td>{{ material.author | slice:0:70 }}{{ material.author.length > 70 ? '...' : '' }}</td>
             <td>{{ material.subj }}</td>
             <td>{{ material.copyright }}</td>
-            <td>{{ material.callno | slice : 0 : 12 }}
-              {{ material.callno.length > 12 ? "..." : "" }}</td>
+            <td>{{ material.callno | slice:0:12 }}{{ material.callno.length > 12 ? '...' : '' }}</td>
             <td>{{ material.status }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+    
     <div class="flex justify-between items-center mt-4">
       <span class="text-lg font-medium ml-3"
         >Page {{ currentPage }} / {{ totalPages }}</span>
