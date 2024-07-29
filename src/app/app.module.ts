@@ -53,6 +53,7 @@ import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
 import { RecordsService } from '../services/records.service';
+import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
 
 
 
@@ -99,7 +100,8 @@ import { RecordsService } from '../services/records.service';
     ProfileComponent,
     SuperAdminComponent,
     NavbarComponent,
-    MaterialInfoComponent
+    MaterialInfoComponent,
+    TimeinAlreadyComponent
   ],
   imports: [
     BrowserModule,

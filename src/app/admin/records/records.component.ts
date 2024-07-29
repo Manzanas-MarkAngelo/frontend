@@ -7,6 +7,7 @@ import { RecordsService } from '../../../services/records.service';
   styleUrls: ['./records.component.css']
 })
 export class RecordsComponent implements OnInit {
+  selectedRole: string = 'Student';
   currentLogType: string = '';
   searchPlaceholder: string = 'Search student';
   logs: any[] = [];

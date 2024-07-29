@@ -21,7 +21,8 @@
   .floating-input:not(:placeholder-shown) ~ .floating-label {
     transform: translate(0.75rem, -0.40rem);
     font-size: 0.75rem;
-    color: #666;
+    color: #801E1D;
+    font-weight: 600;
   }
   
   .floating-input:focus {
