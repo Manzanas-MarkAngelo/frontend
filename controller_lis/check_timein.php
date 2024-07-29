@@ -26,9 +26,11 @@ if ($identifier === null) {
 
 $query = "SELECT user_id FROM students WHERE student_number = ? 
           UNION 
-          SELECT user_id FROM faculty WHERE emp_number = ?";
+          SELECT user_id FROM faculty WHERE emp_number = ?
+          UNION
+          SELECT user_id FROM visitor WHERE identifier = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("ss", $identifier, $identifier);
+$stmt->bind_param("sss", $identifier, $identifier, $identifier);
 $stmt->execute();
 $stmt->store_result();
 

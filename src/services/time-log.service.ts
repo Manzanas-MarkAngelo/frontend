@@ -7,36 +7,24 @@ import { environment } from './environments/local-environment';
 export class TimeLogService {
   private checkUserUrl = `${environment.apiUrl}/check_user.php`;
   private timeInUrl = `${environment.apiUrl}/time_in.php`;
-  private checkTimeInUrl = `${environment.apiUrl}/check_timein.php`;
   private timeOutUrl = `${environment.apiUrl}/time_out.php`;
+  private checkTimeInUrl = `${environment.apiUrl}/check_timein.php`;
 
   constructor(private http: HttpClient) { }
 
   checkUser(role: string, identifier: string): Observable<any> {
-    const payload = { role, identifier };
-    return this.http.post<any>(this.checkUserUrl, payload, {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return this.http.post<any>(this.checkUserUrl, { role, identifier });
   }
 
   logTimeIn(userId: number): Observable<any> {
-    const payload = { user_id: userId };
-    return this.http.post<any>(this.timeInUrl, payload, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
-  checkTimeIn(identifier: string): Observable<any> {
-    const payload = { identifier };
-    return this.http.post<any>(this.checkTimeInUrl, payload, {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return this.http.post<any>(this.timeInUrl, { user_id: userId });
   }
 
   logTimeOut(userId: number): Observable<any> {
-    const payload = { user_id: userId };
-    return this.http.post<any>(this.timeOutUrl, payload, {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return this.http.post<any>(this.timeOutUrl, { user_id: userId });
+  }
+
+  checkTimeIn(identifier: string): Observable<any> {
+    return this.http.post<any>(this.checkTimeInUrl, { identifier });
   }
 }

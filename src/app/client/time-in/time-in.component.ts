@@ -27,9 +27,13 @@ export class TimeInComponent {
   onSubmit() {
     this.timeLogService.checkUser(this.selectedRole, this.identifier).subscribe(response => {
       if (response.registered) {
-        this.timeLogService.logTimeIn(response.user_id).subscribe(() => {
-          this.router.navigate(['/timein-success']);
-        });
+        if (response.already_timed_in) {
+          this.router.navigate(['/timein-already']);
+        } else {
+          this.timeLogService.logTimeIn(response.user_id).subscribe(() => {
+            this.router.navigate(['/timein-success']);
+          });
+        }
       } else {
         this.router.navigate(['/unregistered']);
       }
