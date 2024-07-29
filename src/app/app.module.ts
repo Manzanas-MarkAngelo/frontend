@@ -51,6 +51,8 @@ import { MaterialInfoComponent } from './client/material-info/material-info.comp
 //Services
 import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
+import { TimeLogService } from '../services/time-log.service';
+import { RecordsService } from '../services/records.service';
 
 
 
@@ -110,6 +112,8 @@ import { MaterialsService } from '../services/materials.service';
     provideHttpClient(withFetch()),
     RegisterService,
     MaterialsService,
+    TimeLogService,
+    RecordsService
   ],
   bootstrap: [AppComponent]
 })
