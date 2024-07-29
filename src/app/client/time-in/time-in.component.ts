@@ -18,7 +18,7 @@ export class TimeInComponent {
     if (this.selectedRole === 'Faculty') {
       this.placeholderText = 'Enter your Faculty number here';
     } else if (this.selectedRole === 'Visitor') {
-      this.placeholderText = 'Enter your last name here';
+      this.placeholderText = 'Enter your identifier here';
     } else {
       this.placeholderText = 'Enter your Student number here';
     }
