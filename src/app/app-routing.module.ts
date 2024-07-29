@@ -35,6 +35,7 @@ import { ReportsComponent } from './admin/reports/reports.component';
 import { ProfileComponent } from './admin/profile/profile.component';
 import { SidebarAdminComponent } from './admin/sidebar-admin/sidebar-admin.component';
 import { MaterialInfoComponent } from './client/material-info/material-info.component';
+import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
 import { profile } from 'console';
 
 const routes: Routes = [
@@ -75,6 +76,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'sidebar-admin', component: SidebarAdminComponent },
   { path: 'material-info', component: MaterialInfoComponent },
+  { path: 'timein-already', component: TimeinAlreadyComponent },
 ];
 
 @NgModule({
