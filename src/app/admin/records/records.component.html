@@ -1,4 +1,4 @@
-<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-end">
+<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-start">
   <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
     <div class="flex flex-row w-full mt-0.5">
       <input
@@ -143,7 +143,8 @@
   </div>
   <div class="p-4 bg-white text-black rounded-xl w-full slide-in-right">
     <div class="overflow-x-auto">
-      <ng-container *ngIf="currentLogType === 'student'">
+      
+      <!-- <ng-container *ngIf="currentLogType === 'student'">
         <table class="table w-full">
           <thead>
             <tr class="text-primary text-center">
@@ -155,13 +156,15 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.student_number }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-              <td>{{ log.date }}</td>
-            </tr>
+              @for (log of logs; track $index) {
+                <tr>
+                  <td>{{ log.student_number }}</td>
+                  <td>{{ log.name }}</td>
+                  <td>{{ log.time_in }}</td>
+                  <td>{{ log.time_out || 'await' }}</td>
+                  <td>{{ log.date }}</td>
+                </tr>
+              }
           </tbody>
         </table>
       </ng-container>
@@ -177,17 +180,93 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.faculty_code }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-              <td>{{ log.date }}</td>
-            </tr>
+            @for (log of logs; track $index) {
+              <tr>
+                <td>{{ log.faculty_code }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+                <td>{{ log.date }}</td>
+              </tr>
+            }
           </tbody>
         </table>
       </ng-container>
       <ng-container *ngIf="currentLogType === 'visitor'">
+        <div class="text-center text-primary font-medium">
+          Visitor log functionality is not yet available.
+        </div>
+      </ng-container>
+      <ng-container *ngIf="currentLogType === 'default'">
+        <table class="table w-full">
+          <thead>
+            <tr class="text-primary text-center">
+              <th>Student number</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Course</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            @for (record of logs; track $index) {
+              <tr>
+                <td>{{ record.student_number }}</td>
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.course }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </ng-container> -->
+
+      @if (currentLogType === 'student') {
+        <table class="table w-full">
+          <thead>
+            <tr class="text-primary text-center">
+              <th>Student number</th>
+              <th>Name</th>
+              <th>Time in</th>
+              <th>Time out</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+              @for (log of logs; track $index) {
+                <tr>
+                  <td>{{ log.student_number }}</td>
+                  <td>{{ log.name }}</td>
+                  <td>{{ log.time_in }}</td>
+                  <td>{{ log.time_out || 'await' }}</td>
+                  <td>{{ log.date }}</td>
+                </tr>
+              }
+          </tbody>
+        </table>
+      } @else if (currentLogType === 'faculty') {
+        <table class="table w-full">
+          <thead>
+            <tr class="text-primary text-center">
+              <th>Faculty code</th>
+              <th>Name</th>
+              <th>Time in</th>
+              <th>Time out</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            @for (log of logs; track $index) {
+              <tr>
+                <td>{{ log.faculty_code }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+                <td>{{ log.date }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else if (currentLogType === 'visitor') {
         <div class="text-center text-primary font-medium">
           Visitor log functionality is not yet available.
         </div>
@@ -211,8 +290,7 @@
             </tr>
           </tbody>
         </table> -->
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'default'">
+      } @else {
         <table class="table w-full">
           <thead>
             <tr class="text-primary text-center">
@@ -223,15 +301,18 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr *ngFor="let record of logs">
-              <td>{{ record.student_number }}</td>
-              <td>{{ record.name }}</td>
-              <td>{{ record.gender }}</td>
-              <td>{{ record.course }}</td>
-            </tr>
+            @for (record of logs; track $index) {
+              <tr>
+                <td>{{ record.student_number }}</td>
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.course }}</td>
+              </tr>
+            }
           </tbody>
         </table>
-      </ng-container>
+      }
     </div>
   </div>
 </div>
+
