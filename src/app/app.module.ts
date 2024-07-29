@@ -47,13 +47,19 @@ import { ProfileComponent } from './admin/profile/profile.component';
 import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { NavbarComponent } from './super-admin/navbar/navbar.component';
 import { MaterialInfoComponent } from './client/material-info/material-info.component';
+import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
+import { StudentComponent } from './super-admin/student/student.component';
+import { VisitorComponent } from './super-admin/visitor/visitor.component';
+import { FacultyComponent } from './super-admin/faculty/faculty.component';
+import { BooksComponent } from './super-admin/books/books.component';
 
 //Services
 import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
 import { RecordsService } from '../services/records.service';
-import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
+import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
+
 
 
 
@@ -101,7 +107,12 @@ import { TimeinAlreadyComponent } from './client/timein-already/timein-already.c
     SuperAdminComponent,
     NavbarComponent,
     MaterialInfoComponent,
-    TimeinAlreadyComponent
+    TimeinAlreadyComponent,
+    StudentComponent,
+    VisitorComponent,
+    FacultyComponent,
+    BooksComponent,
+    SuperSidebarComponent
   ],
   imports: [
     BrowserModule,
