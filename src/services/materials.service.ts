@@ -17,6 +17,14 @@ export class MaterialsService {
     return this.http.get<any>(`${this.apiUrl}/fetch_materials.php?search=${term}&page=${page}&limit=${limit}`);
   }
 
+  filterMaterialsByCategory(category: string, page: number, limit: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php?category=${category}&page=${page}&limit=${limit}`);
+  }
+
+  searchMaterialsByCategory(term: string, category: string, page: number, limit: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php?search=${term}&category=${category}&page=${page}&limit=${limit}`);
+  }
+
   getMaterialDetails(accnum: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/fetch_material_details.php?accnum=${accnum}`);
   }
