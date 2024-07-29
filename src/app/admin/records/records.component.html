@@ -1,6 +1,6 @@
 <div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-end">
   <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
-    <div class="flex flex-row w-full">
+    <div class="flex flex-row w-full mt-0.5">
       <input
         type="text"
         [placeholder]="searchPlaceholder"
@@ -24,6 +24,37 @@
       </button>
     </div>
     <div class="flex flex-row gap-2 slide-in-right">
+      <div class="relative">
+        <select id="role" 
+                name="role" 
+                class="block 
+                appearance-none 
+                w-auto 
+                bg-secondary 
+                text-gray-700 
+                font-medium 
+                py-3.5 
+                px-4 
+                mt-0.5
+                rounded-full 
+                leading-tight 
+                focus:outline-none 
+                focus:bg-[#ffb700] 
+                cursor-pointer 
+                text-lg"
+                [(ngModel)]="selectedRole"
+                required>
+          <option value="" disabled selected>Select the Role</option>
+          <option value="Student">Student</option>
+          <option value="Faculty">Faculty</option>
+          <option value="Visitor">Visitor</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-gray-700">
+          <svg class="fill-current h-10 w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
+          </svg>
+        </div>
+      </div>
       <button
         type="button"
         (click)="setLogType('student')"
