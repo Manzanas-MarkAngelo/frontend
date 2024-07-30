@@ -30,7 +30,7 @@ if ($role === 'Student') {
 } elseif ($role === 'Faculty') {
     $query = "SELECT user_id FROM faculty WHERE emp_number = ?";
 } elseif ($role === 'Visitor') {
-    $query = "SELECT user_id FROM visitors WHERE surname = ?";
+    $query = "SELECT user_id FROM visitor WHERE identifier = ?";
 } else {
     echo json_encode(['registered' => false, 'error' => 'Invalid role']);
     exit();
@@ -49,7 +49,20 @@ $stmt->store_result();
 if ($stmt->num_rows > 0) {
     $stmt->bind_result($user_id);
     $stmt->fetch();
-    echo json_encode(['registered' => true, 'user_id' => $user_id]);
+
+    $log_query = "SELECT id FROM time_log WHERE user_id = ? AND time_out IS NULL";
+    $log_stmt = $conn->prepare($log_query);
+    $log_stmt->bind_param("i", $user_id);
+    $log_stmt->execute();
+    $log_stmt->store_result();
+
+    if ($log_stmt->num_rows > 0) {
+        echo json_encode(['registered' => true, 'user_id' => $user_id, 'already_timed_in' => true]);
+    } else {
+        echo json_encode(['registered' => true, 'user_id' => $user_id, 'already_timed_in' => false]);
+    }
+
+    $log_stmt->close();
 } else {
     echo json_encode(['registered' => false]);
 }
