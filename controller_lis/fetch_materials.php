@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php'; // Including the connection file
+include 'db_connection.php';
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -20,15 +20,26 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
+$category = isset($_GET['category']) ? $_GET['category'] : '';
 
 $sql = "SELECT accnum, title, author, subj, copyright, callno, status 
         FROM materials 
-        WHERE accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj 
-            LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ? 
-        LIMIT ? OFFSET ?";
+        WHERE (accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?)";
+
+if (!empty($category)) {
+    $sql .= " AND accnum LIKE ?";
+    $category = '%' . $category . '%';
+}
+
+$sql .= " LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssssssii", $search, $search, $search, $search, $search, 
-    $search, $search, $limit, $offset);
+
+if (!empty($category)) {
+    $stmt->bind_param("ssssssssii", $search, $search, $search, $search, $search, $search, $search, $category, $limit, $offset);
+} else {
+    $stmt->bind_param("sssssssii", $search, $search, $search, $search, $search, $search, $search, $limit, $offset);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -38,11 +49,20 @@ while ($row = $result->fetch_assoc()) {
 }
 
 $total_sql = "SELECT COUNT(*) as count FROM materials 
-              WHERE accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj 
-                  LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?";
+              WHERE (accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?)";
+
+if (!empty($category)) {
+    $total_sql .= " AND accnum LIKE ?";
+}
+
 $total_stmt = $conn->prepare($total_sql);
-$total_stmt->bind_param("sssssss", $search, $search, $search, 
-    $search, $search, $search, $search);
+
+if (!empty($category)) {
+    $total_stmt->bind_param("ssssssss", $search, $search, $search, $search, $search, $search, $search, $category);
+} else {
+    $total_stmt->bind_param("sssssss", $search, $search, $search, $search, $search, $search, $search);
+}
+
 $total_stmt->execute();
 $total_result = $total_stmt->get_result();
 $total_row = $total_result->fetch_assoc();
