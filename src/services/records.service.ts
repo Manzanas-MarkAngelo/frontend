@@ -17,7 +17,10 @@ export class RecordsService {
     });
   }
 
-  getRecords(): Observable<any> {
-    return this.http.get<any>(this.recordsUrl);
+  getRecords(recordType: string): Observable<any> {
+    const payload = { recordType };
+    return this.http.post<any>(this.recordsUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 }
