@@ -1,29 +1,25 @@
-<!-- <div class="container flex flex-row min-h-screen">
-  <app-side-bar class="w-2/6 slide-in-left"/>
-  <app-sidebar-admin class="w-2/6 slide-in-left"/>
-
-  <div class="main-content flex-1">
-    <router-outlet></router-outlet>
-  </div>
-</div> -->
-
-<!-- <app-super-admin/> -->
-
-<div class="w-full flex flex-row h-screen">
-  <div class="left w-1/4 slide-in-left">
-    <app-side-bar/>
-     <!-- <app-sidebar-admin/> -->
-  </div>
-  
-  <div class="right w-3/4 h-screen">
-    <router-outlet/>
+<div *ngIf="!userRole">
+  <div class="w-full flex flex-row h-screen">
+    <div class="left w-1/4 slide-in-left">
+      <app-side-bar></app-side-bar>
+    </div>
+    <div class="right w-3/4 h-screen">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
 
+<div *ngIf="userRole === 'librarian'">
+  <div class="w-full flex flex-row h-screen">
+    <div class="left w-1/4 slide-in-left">
+      <app-sidebar-admin></app-sidebar-admin>
+    </div>
+    <div class="right w-3/4 h-screen">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
 
-
-
-
-
-
-
+<div *ngIf="userRole === 'admin'">
+  <app-super-admin></app-super-admin>
+</div>

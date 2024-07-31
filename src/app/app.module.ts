@@ -54,8 +54,8 @@ import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
 import { RecordsService } from '../services/records.service';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
-
-
+import { AdminLoginService } from '../services/admin-login.service';
+import { AdminService } from '../services/admin.service';
 
 @NgModule({
   declarations: [
@@ -115,7 +115,9 @@ import { TimeinAlreadyComponent } from './client/timein-already/timein-already.c
     RegisterService,
     MaterialsService,
     TimeLogService,
-    RecordsService
+    RecordsService,
+    AdminLoginService,
+    AdminService
   ],
   bootstrap: [AppComponent]
 })
