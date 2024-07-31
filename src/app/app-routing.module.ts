@@ -36,10 +36,16 @@ import { ProfileComponent } from './admin/profile/profile.component';
 import { SidebarAdminComponent } from './admin/sidebar-admin/sidebar-admin.component';
 import { MaterialInfoComponent } from './client/material-info/material-info.component';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
+import { BooksComponent } from './super-admin/books/books.component';
+import { FacultyComponent } from './super-admin/faculty/faculty.component';
+import { StudentComponent } from './super-admin/student/student.component';
+import { VisitorComponent } from './super-admin/visitor/visitor.component';
+import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
 import { profile } from 'console';
 
+
 const routes: Routes = [
-  { path: '', redirectTo: '/landing', pathMatch: 'full' },
+  // { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
   { path: 'borrow-info/:accnum', component: BorrowInfoComponent },
   { path: 'material-info/:accnum', component: MaterialInfoComponent },
@@ -78,6 +84,11 @@ const routes: Routes = [
   { path: 'sidebar-admin', component: SidebarAdminComponent },
   { path: 'material-info', component: MaterialInfoComponent },
   { path: 'timein-already', component: TimeinAlreadyComponent },
+  { path: 'books', component: BooksComponent },
+  { path: 'student', component: StudentComponent },
+  { path: 'faculty', component: FacultyComponent },
+  { path: 'visitor', component: VisitorComponent },
+  { path: 'super-sidebar', component: SuperSidebarComponent },
 ];
 
 @NgModule({
