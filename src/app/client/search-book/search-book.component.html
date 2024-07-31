@@ -347,27 +347,15 @@
           <li><a (click)="CategoryPlaceholder('Circulation')">Circulation</a></li>
           <li><a (click)="CategoryPlaceholder('Fiction')">Fiction</a></li>
           <li><a (click)="CategoryPlaceholder('Reference')">Reference</a></li>
-          <li>
-            <a (click)="CategoryPlaceholder('Thesis/Dissertations')"
-              >Thesis/Dissertations</a
-            >
-          </li>
+          <li><a (click)="CategoryPlaceholder('Thesis/Dissertations')">Thesis/Dissertations</a></li>
           <li><a (click)="CategoryPlaceholder('Feasibility')">Feasibility</a></li>
           <li><a (click)="CategoryPlaceholder('Donations')">Donations</a></li>
           <li><a (click)="CategoryPlaceholder('E-Book')">E-Book</a></li>
           <li><a (click)="CategoryPlaceholder('PDF')">PDF</a></li>
-          <li>
-            <a (click)="CategoryPlaceholder('Business Plan')">Business Plan</a>
-          </li>
+          <li><a (click)="CategoryPlaceholder('Business Plan')">Business Plan</a></li>
           <li><a (click)="CategoryPlaceholder('Case Study')">Case Study</a></li>
-          <li>
-            <a (click)="CategoryPlaceholder('Training Manual')"
-              >Training Manual</a
-            >
-          </li>
-          <li>
-            <a (click)="CategoryPlaceholder('OJT/Internship')">OJT/Internship</a>
-          </li>
+          <li><a (click)="CategoryPlaceholder('Training Manual')">Training Manual</a></li>
+          <li><a (click)="CategoryPlaceholder('OJT/Internship')">OJT/Internship</a></li>
         </ul>
       </div>
     </div>
@@ -413,11 +401,16 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody class="text-center text-xs">
+          <tbody class="text-start text-sm">
             <tr *ngFor="let material of materials">
               <td>{{ material.accnum }}</td>
-              <td>{{ material.title | slice : 0 : 48 }}
-                {{ material.title.length > 48 ? "..." : "" }}</td>
+              <td>
+                <a [routerLink]="['/material-info', material.accnum]" 
+                   class="text-primary font-semibold hover:text-[#ffb700] 
+                          hover:underline">
+                  {{ material.title | slice:0:40 }}{{ material.title.length > 40 ? '...' : '' }}
+                </a>
+              </td>
               <td>{{ material.author | slice : 0 : 70 }}
                 {{ material.author.length > 70 ? "..." : "" }}</td>
               <td>{{ material.subj }}</td>
