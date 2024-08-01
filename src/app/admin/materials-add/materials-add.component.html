@@ -1,4 +1,4 @@
-<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-end">
+<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-start">
   <div class="flex flex-col w-full">
     <div class="w-full">
       <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
@@ -29,24 +29,41 @@
                    text-lg"
             placeholder="Title"
             [(ngModel)]="bookDetails.title" required />
-          <!-- Subject Heading -->
-          <input
-            id="heading"
-            name="heading"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Subject Heading"
-            [(ngModel)]="bookDetails.heading" required />
+          <!-- Category -->
+            <div class="w-1/2 flex mt-1">
+              <input
+                id="category"
+                name="category"
+                type="hidden"
+                [(ngModel)]="bookDetails.category" />
+              <div class="flex-1 relative">
+                <div class="dropdown dropdown-end w-full">
+                  <div tabindex="0" role="button" 
+                       class="btn w-full bg-secondary 
+                              border-none text-black text-lg hover:bg-[#ffb700] 
+                              rounded-full flex items-center justify-between" 
+                      (click)="toggleDropdown()">
+                    <span>{{ selectedCategory || 'Select Category' }}</span>
+                    <!-- Down Arrow Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="w-4 h-4 ml-2" 
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" 
+                            stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                  <ul tabindex="0" *ngIf="isDropdownOpen" 
+                      class="dropdown-content menu bg-secondary rounded-box z-[1] 
+                             w-full p-2 shadow text-lg font-medium text-black">
+                    <li *ngFor="let category of categories">
+                      <a (click)="selectCategory(category)" 
+                         class="block px-4 py-2 hover:bg-[#ffb700] 
+                                hover:text-black">{{ category }}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Accession number -->
@@ -67,41 +84,24 @@
                    text-lg"
             placeholder="Accession number"
             [(ngModel)]="bookDetails.accnum" required />
-          <!-- Category dropdown -->
-          <div class="w-1/2 flex mt-1">
-            <input
-              id="category"
-              name="category"
-              type="hidden"
-              [(ngModel)]="bookDetails.category" />
-            <div class="flex-1 relative">
-              <div class="dropdown dropdown-end w-full">
-                <div tabindex="0" role="button" 
-                     class="btn w-full bg-secondary 
-                            border-none text-black text-lg hover:bg-[#ffb700] 
-                            rounded-full flex items-center justify-between" 
-                    (click)="toggleDropdown()">
-                  <span>{{ selectedCategory || 'Select Category' }}</span>
-                  <!-- Down Arrow Icon -->
-                  <svg xmlns="http://www.w3.org/2000/svg" 
-                       class="w-4 h-4 ml-2" 
-                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" 
-                          stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-                <ul tabindex="0" *ngIf="isDropdownOpen" 
-                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
-                           w-full p-2 shadow text-lg font-medium text-black">
-                  <li *ngFor="let category of categories">
-                    <a (click)="selectCategory(category)" 
-                       class="block px-4 py-2 hover:bg-[#ffb700] 
-                              hover:text-black">{{ category }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          <!-- Subject Heading -->
+          <input
+            id="heading"
+            name="heading"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Subject Heading"
+            [(ngModel)]="bookDetails.heading" required />
           
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
