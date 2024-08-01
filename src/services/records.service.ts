@@ -10,15 +10,15 @@ export class RecordsService {
 
   constructor(private http: HttpClient) { }
 
-  getLogs(logType: string): Observable<any> {
-    const payload = { logType };
+  getLogs(logType: string, itemsPerPage: number, page: number): Observable<any> {
+    const payload = { logType, itemsPerPage, page };
     return this.http.post<any>(this.logsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  getRecords(recordType: string): Observable<any> {
-    const payload = { recordType };
+  getRecords(recordType: string, itemsPerPage: number, page: number): Observable<any> {
+    const payload = { recordType, itemsPerPage, page };
     return this.http.post<any>(this.recordsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     });

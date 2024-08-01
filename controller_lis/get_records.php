@@ -10,19 +10,42 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 $recordType = $data['recordType'] ?? '';
+$itemsPerPage = $data['itemsPerPage'] ?? 13;
+$page = $data['page'] ?? 1;
+$offset = ($page - 1) * $itemsPerPage;
 
 switch ($recordType) {
     case 'student':
-        $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, gender, course, phone_number FROM students";
+        $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, gender, course, phone_number 
+                  FROM students 
+                  ORDER BY created_at DESC
+                  LIMIT $itemsPerPage 
+                  OFFSET $offset";
+        $countQuery = "SELECT COUNT(*) as total FROM students";
         break;
     case 'faculty':
-        $query = "SELECT emp_number as emp_number, CONCAT(surname, ', ', first_name) as name, gender, department, phone_number FROM faculty";
+        $query = "SELECT emp_number as emp_number, CONCAT(surname, ', ', first_name) as name, gender, department, phone_number 
+                  FROM faculty 
+                  ORDER BY created_at DESC
+                  LIMIT $itemsPerPage 
+                  OFFSET $offset";
+        $countQuery = "SELECT COUNT(*) as total FROM faculty";
         break;
     case 'visitor':
-        $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school FROM visitor";
+        $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school 
+                  FROM visitor 
+                  ORDER BY created_at DESC
+                  LIMIT $itemsPerPage 
+                  OFFSET $offset";
+        $countQuery = "SELECT COUNT(*) as total FROM visitor";
         break;
     default:
-        $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, gender, course, phone_number FROM students";
+        $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, gender, course, phone_number 
+                  FROM students 
+                  ORDER BY created_at DESC
+                  LIMIT $itemsPerPage 
+                  OFFSET $offset";
+        $countQuery = "SELECT COUNT(*) as total FROM students";
 }
 
 $result = $conn->query($query);
@@ -34,6 +57,10 @@ if ($result->num_rows > 0) {
     }
 }
 
-echo json_encode($records);
+$totalResult = $conn->query($countQuery);
+$totalRecords = $totalResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRecords / $itemsPerPage);
+
+echo json_encode(['records' => $records, 'totalPages' => $totalPages]);
 $conn->close();
 ?>

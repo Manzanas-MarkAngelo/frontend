@@ -148,7 +148,7 @@
         <table class="table w-full">
           <thead>
             <tr class="text-primary text-center">
-              <th>Student number</th>
+              <th>Student Number</th>
               <th>Name</th>
               <th>Gender</th>
               <th>Course</th>
@@ -170,7 +170,7 @@
         <table class="table w-full">
           <thead>
             <tr class="text-primary text-center">
-              <th>Employee Number</th>
+              <th>Faculty Code</th>
               <th>Name</th>
               <th>Gender</th>
               <th>Department</th>
@@ -290,6 +290,29 @@
           </tbody>
         </table>
       </ng-container>
+
+      <div class="flex justify-between items-center mt-4">
+        <span class="text-lg font-medium ml-3"
+          >Page {{ currentPage }} / {{ totalPages }}
+        </span>
+        <div class="flex gap-2">
+          <button
+            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+            [disabled]="currentPage === 1"
+            (click)="onPageChange(currentPage - 1)"
+          >
+            Previous
+          </button>
+
+          <button
+            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+            [disabled]="currentPage === totalPages"
+            (click)="onPageChange(currentPage + 1)"
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

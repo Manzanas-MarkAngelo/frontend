@@ -11,6 +11,9 @@ export class RecordsComponent implements OnInit {
   currentLogType: string = 'default';
   searchPlaceholder: string = 'Search student';
   logs: any[] = [];
+  currentPage: number = 1;
+  totalPages: number = 0;
+  itemsPerPage: number = 13;
 
   constructor(private recordsService: RecordsService) { }
 
@@ -24,6 +27,7 @@ export class RecordsComponent implements OnInit {
     }
 
     this.currentLogType = logType;
+    this.currentPage = 1;
     switch (logType) {
       case 'student':
         this.searchPlaceholder = 'Search student';
@@ -56,18 +60,33 @@ export class RecordsComponent implements OnInit {
   }
 
   fetchLogs(logType: string) {
-    this.recordsService.getLogs(logType).subscribe(data => {
-      this.logs = data;
+    this.recordsService.getLogs(logType, this.itemsPerPage, this.currentPage).subscribe(data => {
+      this.logs = data.records;
+      this.totalPages = data.totalPages;
     }, error => {
       console.error('Error fetching logs:', error);
     });
   }
 
   fetchRecords(recordType: string) {
-    this.recordsService.getRecords(recordType).subscribe(data => {
-      this.logs = data;
+    this.recordsService.getRecords(recordType, this.itemsPerPage, this.currentPage).subscribe(data => {
+      this.logs = data.records;
+      this.totalPages = data.totalPages;
     }, error => {
       console.error('Error fetching records:', error);
     });
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.fetchCurrentTypeData();
+  }
+
+  fetchCurrentTypeData() {
+    if (this.currentLogType.includes('log')) {
+      this.fetchLogs(this.currentLogType.replace('_log', ''));
+    } else {
+      this.fetchRecords(this.currentLogType);
+    }
   }
 }
