@@ -37,6 +37,11 @@ import { SidebarAdminComponent } from './admin/sidebar-admin/sidebar-admin.compo
 import { MaterialInfoComponent } from './client/material-info/material-info.component';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
 import { LogoutWarningComponent } from './admin/logout-warning/logout-warning.component';
+import { StudentComponent } from './super-admin/student/student.component';
+import { FacultyComponent } from './super-admin/faculty/faculty.component';
+import { VisitorComponent } from './super-admin/visitor/visitor.component';
+import { BooksComponent } from './super-admin/books/books.component';
+import { UserRecordComponent } from './super-admin/user-record/user-record.component';
 import { profile } from 'console';
 
 const routes: Routes = [
@@ -80,6 +85,11 @@ const routes: Routes = [
   { path: 'material-info', component: MaterialInfoComponent },
   { path: 'timein-already', component: TimeinAlreadyComponent },
   { path: 'logout-warning', component: LogoutWarningComponent },
+  { path: 'books', component: BooksComponent },
+  { path: 'student', component: StudentComponent },
+  { path: 'faculty', component: FacultyComponent },
+  { path: 'visitor', component: VisitorComponent },
+  { path: 'user-record', component: UserRecordComponent },
 ];
 
 @NgModule({
