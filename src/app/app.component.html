@@ -21,5 +21,14 @@
 </div>
 
 <div *ngIf="userRole === 'admin'">
-  <app-super-admin></app-super-admin>
+  <!-- <app-super-admin></app-super-admin> -->
+  <div class="w-full flex flex-row h-screen">
+    <div class="left w-1/4">
+        <app-super-sidebar/>
+    </div>
+    
+    <div class="right w-3/4 h-screen">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
