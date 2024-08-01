@@ -56,6 +56,12 @@ import { RecordsService } from '../services/records.service';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
 import { AdminLoginService } from '../services/admin-login.service';
 import { AdminService } from '../services/admin.service';
+import { BooksComponent } from './super-admin/books/books.component';
+import { StudentComponent } from './super-admin/student/student.component';
+import { FacultyComponent } from './super-admin/faculty/faculty.component';
+import { VisitorComponent } from './super-admin/visitor/visitor.component';
+import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
+import { UserRecordComponent } from './super-admin/user-record/user-record.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +107,13 @@ import { AdminService } from '../services/admin.service';
     SuperAdminComponent,
     NavbarComponent,
     MaterialInfoComponent,
-    TimeinAlreadyComponent
+    TimeinAlreadyComponent,
+    BooksComponent,
+    StudentComponent,
+    FacultyComponent,
+    VisitorComponent,
+    SuperSidebarComponent,
+    UserRecordComponent
   ],
   imports: [
     BrowserModule,
