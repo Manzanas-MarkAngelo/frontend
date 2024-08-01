@@ -6,7 +6,7 @@ import { environment } from './environments/local-environment';
 @Injectable()
 export class AddMaterialService {
 
-  private apiUrl = `${environment.apiUrl}/add_book.php`;
+  private apiUrl = `${environment.apiUrl}/add_material.php`;
 
   constructor(private http: HttpClient) { }
 
