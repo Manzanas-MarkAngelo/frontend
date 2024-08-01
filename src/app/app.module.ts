@@ -58,10 +58,9 @@ import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
 import { RecordsService } from '../services/records.service';
-import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
-
-
-
+import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
+import { AdminLoginService } from '../services/admin-login.service';
+import { AdminService } from '../services/admin.service';
 
 @NgModule({
   declarations: [
@@ -126,7 +125,9 @@ import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar
     RegisterService,
     MaterialsService,
     TimeLogService,
-    RecordsService
+    RecordsService,
+    AdminLoginService,
+    AdminService
   ],
   bootstrap: [AppComponent]
 })
