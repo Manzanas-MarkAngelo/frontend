@@ -62,7 +62,7 @@ const routes: Routes = [
   { path: 'return-success', component: ReturnSuccessComponent },
   { path: 'return-warning', component: ReturnWarningComponent },
   { path: 'materials', component: MaterialsComponent },
-  { path: 'materials-edit', component: MaterialsEditComponent },
+  { path: 'materials-edit/:accnum', component: MaterialsEditComponent },
   { path: 'materials-warning', component: MaterialsWarningComponent },
   { path: 'materials-success', component: MaterialsSuccessComponent },
   { path: 'materials-add', component: MaterialsAddComponent },

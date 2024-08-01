@@ -122,6 +122,18 @@
                   <td>{{ material.copyright }}</td>
                   <td>{{ material.callno | slice:0:11 }}{{ material.callno.length > 11 ? '...' : '' }}</td>
                   <td>{{ material.status }}</td>
+                  <td>
+                    <button class="bg-primary 
+                                 text-white 
+                                 border-none 
+                                 shadow-none 
+                                 btn-sm 
+                                 rounded-full 
+                                 font-medium"
+                                 [routerLink]="['/materials-edit', material.accnum]">
+                        Edit details
+                    </button>
+                </td>
                 </tr>
               }
             </tbody>
