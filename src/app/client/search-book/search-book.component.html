@@ -408,15 +408,16 @@
                 <a [routerLink]="['/material-info', material.accnum]" 
                    class="text-primary font-semibold hover:text-[#ffb700] 
                           hover:underline">
-                  {{ material.title | slice:0:40 }}{{ material.title.length > 40 ? '...' : '' }}
+                  {{ material.title | slice:0:30 }}
+                  {{ material.title.length > 30 ? '...' : '' }}
                 </a>
               </td>
               <td>{{ material.author | slice : 0 : 70 }}
                 {{ material.author.length > 70 ? "..." : "" }}</td>
               <td>{{ material.subj }}</td>
               <td>{{ material.copyright }}</td>
-              <td>{{ material.callno | slice : 0 : 12 }}
-                {{ material.callno.length > 12 ? "..." : "" }}</td>
+              <td>{{ material.callno | slice : 0 : 8 }}
+                {{ material.callno.length > 8 ? "..." : "" }}</td>
               <td>{{ material.status }}</td>
             </tr>
           </tbody>
