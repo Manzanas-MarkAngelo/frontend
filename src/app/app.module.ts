@@ -63,6 +63,9 @@ import { VisitorComponent } from './super-admin/visitor/visitor.component';
 import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
 import { UserRecordComponent } from './super-admin/user-record/user-record.component';
 import { AddUserComponent } from './super-admin/add-user/add-user.component';
+import { AddMaterialService } from '../services/add-material.service';
+
+
 
 @NgModule({
   declarations: [
@@ -131,7 +134,8 @@ import { AddUserComponent } from './super-admin/add-user/add-user.component';
     TimeLogService,
     RecordsService,
     AdminLoginService,
-    AdminService
+    AdminService,
+    AddMaterialService,
   ],
   bootstrap: [AppComponent]
 })
