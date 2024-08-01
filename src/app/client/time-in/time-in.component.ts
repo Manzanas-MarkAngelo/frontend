@@ -16,7 +16,7 @@ export class TimeInComponent {
 
   updatePlaceholder() {
     if (this.selectedRole === 'Faculty') {
-      this.placeholderText = 'Enter your Faculty number here';
+      this.placeholderText = 'Enter your Faculty code here';
     } else if (this.selectedRole === 'Visitor') {
       this.placeholderText = 'Enter your identifier here';
     } else {
