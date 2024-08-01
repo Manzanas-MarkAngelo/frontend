@@ -62,6 +62,7 @@ import { FacultyComponent } from './super-admin/faculty/faculty.component';
 import { VisitorComponent } from './super-admin/visitor/visitor.component';
 import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
 import { UserRecordComponent } from './super-admin/user-record/user-record.component';
+import { AddUserComponent } from './super-admin/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { UserRecordComponent } from './super-admin/user-record/user-record.compo
     FacultyComponent,
     VisitorComponent,
     SuperSidebarComponent,
-    UserRecordComponent
+    UserRecordComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,
