@@ -114,13 +114,13 @@
                     <a [routerLink]="['/material-info', material.accnum]" 
                        class="text-primary font-semibold hover:text-[#ffb700] 
                               hover:underline">
-                      {{ material.title | slice:0:40 }}{{ material.title.length > 40 ? '...' : '' }}
+                      {{ material.title | slice:0:30 }}{{ material.title.length > 30 ? '...' : '' }}
                     </a>
                   </td>
                   <td>{{ material.author | slice:0:50 }}{{ material.author.length > 50 ? '...' : '' }}</td>
                   <td>{{ material.subj }}</td>
                   <td>{{ material.copyright }}</td>
-                  <td>{{ material.callno | slice:0:11 }}{{ material.callno.length > 11 ? '...' : '' }}</td>
+                  <td>{{ material.callno | slice:0:8 }}{{ material.callno.length > 8 ? '...' : '' }}</td>
                   <td>{{ material.status }}</td>
                   <td>
                     <button class="bg-primary 
@@ -131,7 +131,7 @@
                                  rounded-full 
                                  font-medium"
                                  [routerLink]="['/materials-edit', material.accnum]">
-                        Edit details
+                        Edit
                     </button>
                 </td>
                 </tr>
