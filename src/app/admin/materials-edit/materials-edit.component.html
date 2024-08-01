@@ -48,6 +48,7 @@
                        py-2 
                        focus:ring-opacity-50 
                        text-lg"
+                [(ngModel)]="material.title"
                 placeholder="Title"/>
             <!-- Subject Heading -->
               <input
@@ -65,6 +66,7 @@
                        py-2 
                        focus:ring-opacity-50 
                        text-lg"
+                [(ngModel)]="material.subj"
                 placeholder="Subject Heading"/>
             </div>
             <div class="mb-4 mt-1 flex items-center space-x-4">
@@ -84,6 +86,7 @@
                            py-2 
                            focus:ring-opacity-50 
                            text-lg"
+                    [(ngModel)]="material.accnum"
                     placeholder="Accession number"/>
                 <!-- Category -->
                   <input
@@ -101,6 +104,7 @@
                            py-2 
                            focus:ring-opacity-50 
                            text-lg"
+                    [(ngModel)]="material.category"
                     placeholder="Category"/>
                 </div>
 
@@ -121,6 +125,7 @@
                                py-2 
                                focus:ring-opacity-50 
                                text-lg"
+                        [(ngModel)]="material.author"
                         placeholder="Author"/>
                     <!-- Call number -->
                       <input
@@ -138,6 +143,7 @@
                                py-2 
                                focus:ring-opacity-50 
                                text-lg"
+                        [(ngModel)]="material.callno"
                         placeholder="Call number"/>
                     </div>
             <div class="mb-4 mt-1 flex items-center space-x-4">
@@ -157,6 +163,7 @@
                          py-2 
                          focus:ring-opacity-50 
                          text-lg"
+                  [(ngModel)]="material.copyright"
                   placeholder="Copyright"/>
             <!-- Publisher -->
                 <input
@@ -174,6 +181,7 @@
                          py-2 
                          focus:ring-opacity-50 
                          text-lg"
+                  [(ngModel)]="material.publisher"
                   placeholder="Publisher"/>
               </div>
             <div class="mb-4 mt-1 flex items-center space-x-4">
@@ -193,6 +201,7 @@
                          py-2 
                          focus:ring-opacity-50 
                          text-lg"
+                  [(ngModel)]="material.edition"
                   placeholder="Edition"/>
             <!-- ISBN -->
                 <input
@@ -210,6 +219,7 @@
                          py-2 
                          focus:ring-opacity-50 
                          text-lg"
+                  [(ngModel)]="material.isbn"
                   placeholder="ISBN"/>
               </div>
               <div class="mb-4 mt-1 flex items-center space-x-2">
@@ -229,6 +239,7 @@
                              py-2 
                              focus:ring-opacity-50 
                              text-lg"
+                      [(ngModel)]="material.status"
                       placeholder="Status"/>
                 <!-- Back button -->
                 <button
