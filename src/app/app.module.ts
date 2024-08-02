@@ -64,6 +64,16 @@ import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar
 import { UserRecordComponent } from './super-admin/user-record/user-record.component';
 import { AddUserComponent } from './super-admin/add-user/add-user.component';
 import { AddMaterialService } from '../services/add-material.service';
+import { AddStudentComponent } from './super-admin/add-student/add-student.component';
+import { AddFacultyComponent } from './super-admin/add-faculty/add-faculty.component';
+import { AddVisitorComponent } from './super-admin/add-visitor/add-visitor.component';
+import { EditStudentComponent } from './super-admin/edit-student/edit-student.component';
+import { EditFacultyComponent } from './super-admin/edit-faculty/edit-faculty.component';
+import { EditVisitorComponent } from './super-admin/edit-visitor/edit-visitor.component';
+import { DeleteWarningComponent } from './super-admin/delete-warning/delete-warning.component';
+import { DeleteSuccessComponent } from './super-admin/delete-success/delete-success.component';
+import { EditWarningComponent } from './super-admin/edit-warning/edit-warning.component';
+import { EditSuccessComponent } from './super-admin/edit-success/edit-success.component';
 
 
 
@@ -118,7 +128,17 @@ import { AddMaterialService } from '../services/add-material.service';
     VisitorComponent,
     SuperSidebarComponent,
     UserRecordComponent,
-    AddUserComponent
+    AddUserComponent,
+    AddStudentComponent,
+    AddFacultyComponent,
+    AddVisitorComponent,
+    EditStudentComponent,
+    EditFacultyComponent,
+    EditVisitorComponent,
+    DeleteWarningComponent,
+    DeleteSuccessComponent,
+    EditWarningComponent,
+    EditSuccessComponent
   ],
   imports: [
     BrowserModule,
