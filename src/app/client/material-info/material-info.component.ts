@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MaterialsService } from '../../../services/materials.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-material-info',
   templateUrl: './material-info.component.html',
@@ -9,7 +10,9 @@ import { MaterialsService } from '../../../services/materials.service';
 export class MaterialInfoComponent {
   material: any = {};
 
-  constructor(private route: ActivatedRoute, private materialsService: MaterialsService) {}
+  constructor(private route: ActivatedRoute, 
+              private materialsService: MaterialsService, 
+              private location: Location) {}
 
   ngOnInit(): void {
     const accnum = this.route.snapshot.paramMap.get('accnum');
@@ -19,6 +22,10 @@ export class MaterialInfoComponent {
         this.populateForm();
       });
     }
+  }
+
+  simulateBackButton(): void {
+    this.location.back();
   }
 
   populateForm(): void {
