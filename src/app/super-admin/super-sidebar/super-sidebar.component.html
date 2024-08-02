@@ -17,7 +17,8 @@
     <img
       src="assets/log.png"
       alt="Logout"
-      class="w-12 h-12 cursor-pointer"/> 
+      class="w-12 h-12 cursor-pointer"
+      (click)="onLogoutClick()"/> 
   </div>
   <!-- PUP-logo -->
   <img
@@ -41,7 +42,7 @@
   <div class="divider mt-0 mb-10 w-1/2 mx-auto"></div>
 
   <div class="flex flex-col space-y-6 slide-in-left">
-    <!-- Borrow-button -->
+    <!-- Materials-button -->
     <button
       routerLink="/books"
       routerLinkActive="active-btn"
@@ -57,7 +58,7 @@
              text-black">
       Materials
     </button>
-    <!-- Return-button -->
+    <!-- Student-button -->
     <button
       routerLink="/student"
       routerLinkActive="active-btn"
@@ -73,7 +74,7 @@
              text-black">
       Student
     </button>
-    <!-- Materials-button -->
+    <!-- Faculty-button -->
     <button
       routerLink="/faculty"
       routerLinkActive="active-btn"
@@ -89,7 +90,7 @@
              text-black">
       Faculty
     </button>
-    <!-- Records-button -->
+    <!-- Visitor-button -->
     <button
       routerLink="/visitor"
       routerLinkActive="active-btn"
@@ -105,7 +106,7 @@
              text-black">
       Visitor
     </button>
-    <!-- Reports-button -->
+    <!-- Records-button -->
     <button
       routerLink="/user-record"
       routerLinkActive="active-btn"
