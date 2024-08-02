@@ -1,4 +1,4 @@
-<div *ngIf="!userRole">
+<!-- <div *ngIf="!userRole">
   <div class="w-full flex flex-row h-screen">
     <div class="left w-1/4 slide-in-left">
       <app-side-bar></app-side-bar>
@@ -28,5 +28,20 @@
     <div class="right w-3/4 h-screen">
       <router-outlet></router-outlet>
     </div>
+  </div>
+</div> -->
+
+<div class="w-full flex flex-row h-screen">
+  <div class="left w-1/4 slide-in-left">
+    @if (!userRole) {
+      <app-side-bar/>
+    } @else if (userRole === 'librarian') {
+      <app-sidebar-admin/>
+    } @else if (userRole === 'admin') {
+      <app-super-sidebar/>
+    } @else { <span>Unknown state</span> }
+  </div>
+  <div class="right w-3/4 h-screen">
+    <router-outlet/>
   </div>
 </div>
