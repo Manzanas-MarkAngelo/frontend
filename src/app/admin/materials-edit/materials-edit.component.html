@@ -1,290 +1,332 @@
 <div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-end">
-    <div class="flex flex-col w-full">
-        <div class="w-full">
-            <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
-                <span class="text-white text-3xl ml-3">Edit Book:</span>
-            </div>
-        </div>
-        <div
-          class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
-          <div class="flex items-end justify-between">
-            <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
-              Book details
-            </h1>
-            <div class="dropdown dropdown-end slide-in-right">
-                <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">Category</div>
-                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
-                    <li><a>Filipiñana</a></li>
-                    <li><a>Circulation</a></li>
-                    <li><a>Fiction</a></li>
-                    <li><a>Reference</a></li>
-                    <li><a>Thesis/Dissertations</a></li>
-                    <li><a>Feasibility</a></li>
-                    <li><a>Donations</a></li>
-                    <li><a>E-Book</a></li>
-                    <li><a>PDF</a></li>
-                    <li><a>Business Plan</a></li>
-                    <li><a>Case Study</a></li>
-                    <li><a>Training Manual</a></li>
-                    <li><a>OJT/Internship</a></li>
+  <div class="flex flex-col w-full">
+    <div class="w-full">
+      <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
+        <span class="text-white text-3xl ml-3">Edit Book:</span>
+      </div>
+    </div>
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
+      <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
+        Book details
+      </h1>
+      <form (ngSubmit)="showConfirmModal()">
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Book title -->
+          <input
+            id="title"
+            name="title"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Title"
+            [(ngModel)]="material.title"
+            required />
+          <!-- Category -->
+          <div class="w-1/2 flex mt-1">
+            <input
+              id="category"
+              name="category"
+              type="hidden"
+              [(ngModel)]="material.category" />
+            <div class="flex-1 relative">
+              <div class="dropdown dropdown-end w-full">
+                <div tabindex="0" role="button"
+                     class="btn w-full bg-secondary 
+                            border-none text-black text-lg hover:bg-[#ffb700] 
+                            rounded-full flex items-center justify-between"
+                    (click)="toggleDropdown()">
+                  <span>{{ selectedCategory || 'Select Category' }}</span>
+                  <!-- Down Arrow Icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       class="w-4 h-4 ml-2" 
+                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" 
+                          stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+                <ul tabindex="0" *ngIf="isDropdownOpen"
+                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
+                           w-full p-2 shadow text-lg font-medium text-black">
+                  <li *ngFor="let category of categories">
+                    <a (click)="selectCategory(category)" 
+                       class="block px-4 py-2 hover:bg-[#ffb700] 
+                              hover:text-black">{{ category }}</a>
+                  </li>
                 </ul>
               </div>
-          </div>
-          <form>
-            <div class="mb-4 mt-1 flex items-center space-x-4">
-            <!-- Book title -->
-              <input
-                id="title"
-                name="title"
-                type="text"
-                class="w-1/2 
-                       flex 
-                       mt-1 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-3 
-                       pl-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                [(ngModel)]="material.title"
-                placeholder="Title"/>
-            <!-- Subject Heading -->
-              <input
-                id="heading"
-                name="heading"
-                type="text"
-                class="w-1/2 
-                       flex 
-                       mt-1 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-3 
-                       pl-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                [(ngModel)]="material.subj"
-                placeholder="Subject Heading"/>
             </div>
-            <div class="mb-4 mt-1 flex items-center space-x-4">
-                <!-- Accession number -->
-                  <input
-                    id="accnum"
-                    name="accnum"
-                    type="text"
-                    class="w-1/2 
-                           flex 
-                           mt-1 
-                           rounded-full 
-                           border 
-                           border-gray-300 
-                           px-3 
-                           pl-6 
-                           py-2 
-                           focus:ring-opacity-50 
-                           text-lg"
-                    [(ngModel)]="material.accnum"
-                    placeholder="Accession number"/>
-                <!-- Category -->
-                  <input
-                    id="category"
-                    name="category"
-                    type="text"
-                    class="w-1/2 
-                           flex 
-                           mt-1 
-                           rounded-full 
-                           border 
-                           border-gray-300 
-                           px-3 
-                           pl-6 
-                           py-2 
-                           focus:ring-opacity-50 
-                           text-lg"
-                    [(ngModel)]="material.category"
-                    placeholder="Category"/>
-                </div>
-
-                <div class="mb-4 mt-1 flex items-center space-x-4">
-                    <!-- Author -->
-                      <input
-                        id="author"
-                        name="author"
-                        type="text"
-                        class="w-1/2 
-                               flex 
-                               mt-1 
-                               rounded-full 
-                               border 
-                               border-gray-300 
-                               px-3 
-                               pl-6 
-                               py-2 
-                               focus:ring-opacity-50 
-                               text-lg"
-                        [(ngModel)]="material.author"
-                        placeholder="Author"/>
-                    <!-- Call number -->
-                      <input
-                        id="callnum"
-                        name="callnum"
-                        type="text"
-                        class="w-1/2 
-                               flex 
-                               mt-1 
-                               rounded-full 
-                               border 
-                               border-gray-300 
-                               px-3 
-                               pl-6 
-                               py-2 
-                               focus:ring-opacity-50 
-                               text-lg"
-                        [(ngModel)]="material.callno"
-                        placeholder="Call number"/>
-                    </div>
-            <div class="mb-4 mt-1 flex items-center space-x-4">
-            <!-- Copyright -->
-                <input
-                  id="copyright"
-                  name="copyright"
-                  type="text"
-                  class="w-1/2 
-                         flex 
-                         mt-1 
-                         rounded-full 
-                         border 
-                         border-gray-300 
-                         px-3 
-                         pl-6 
-                         py-2 
-                         focus:ring-opacity-50 
-                         text-lg"
-                  [(ngModel)]="material.copyright"
-                  placeholder="Copyright"/>
-            <!-- Publisher -->
-                <input
-                  id="publisher"
-                  name="publisher"
-                  type="text"
-                  class="w-1/2 
-                         flex 
-                         mt-1 
-                         rounded-full 
-                         border 
-                         border-gray-300 
-                         px-3 
-                         pl-6 
-                         py-2 
-                         focus:ring-opacity-50 
-                         text-lg"
-                  [(ngModel)]="material.publisher"
-                  placeholder="Publisher"/>
-              </div>
-            <div class="mb-4 mt-1 flex items-center space-x-4">
-            <!-- Edition -->
-                <input
-                  id="edition"
-                  name="edition"
-                  type="text"
-                  class="w-1/2 
-                         flex 
-                         mt-1 
-                         rounded-full 
-                         border 
-                         border-gray-300 
-                         px-3 
-                         pl-6 
-                         py-2 
-                         focus:ring-opacity-50 
-                         text-lg"
-                  [(ngModel)]="material.edition"
-                  placeholder="Edition"/>
-            <!-- ISBN -->
-                <input
-                  id="isbn"
-                  name="isbn"
-                  type="text"
-                  class="w-1/2 
-                         flex 
-                         mt-1 
-                         rounded-full 
-                         border 
-                         border-gray-300 
-                         px-3 
-                         pl-6 
-                         py-2 
-                         focus:ring-opacity-50 
-                         text-lg"
-                  [(ngModel)]="material.isbn"
-                  placeholder="ISBN"/>
-              </div>
-              <div class="mb-4 mt-1 flex items-center space-x-2">
-                <!-- Status -->
-                    <input
-                      id="status"
-                      name="status"
-                      type="text"
-                      class="w-1/2 
-                             flex 
-                             mt-1 
-                             rounded-full 
-                             border 
-                             border-gray-300 
-                             px-3 
-                             pl-6 
-                             py-2 
-                             focus:ring-opacity-50 
-                             text-lg"
-                      [(ngModel)]="material.status"
-                      placeholder="Status"/>
-                <!-- Back button -->
-                <button
-                    type="submit"
-                    class="w-1/5
-                           bg-primary 
-                           text-white 
-                           px-4 
-                           py-3 
-                           rounded-full 
-                           font-medium 
-                           hover:bg-[#ffb700] 
-                           hover:text-black 
-                           transition 
-                           duration-300 
-                           mt-0.5"
-                     routerLink="/materials">
-                    Back
-              </button>
-                      <!-- Continue-button -->
-                      <button
-                      type="submit"
-                      class="w-[30%] 
-                             bg-secondary 
-                             text-black 
-                             px-4 
-                             py-3 
-                             rounded-full 
-                             font-medium 
-                             hover:bg-[#801e1d] 
-                             hover:text-white 
-                             transition 
-                             duration-300 
-                             mt-0.5"
-                       routerLink="/materials-warning">
-                      Continue
-                    </button>
-
-                  </div>
-          </form>
+          </div>
         </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Accession number -->
+          <input
+            id="accnum"
+            name="accnum"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Accession number"
+            [(ngModel)]="material.accnum"
+            required />
+          <!-- Subject Heading -->
+          <input
+            id="heading"
+            name="heading"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Subject Heading"
+            [(ngModel)]="material.subj"
+            required />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Author -->
+          <input
+            id="author"
+            name="author"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Author"
+            [(ngModel)]="material.author"
+            required />
+          <!-- Call number -->
+          <input
+            id="callnum"
+            name="callnum"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Call number"
+            [(ngModel)]="material.callno"
+            required />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Copyright -->
+          <input
+            id="copyright"
+            name="copyright"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Copyright"
+            [(ngModel)]="material.copyright"
+            required />
+          <!-- Publisher -->
+          <input
+            id="publisher"
+            name="publisher"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Publisher"
+            [(ngModel)]="material.publisher"
+            required />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Edition -->
+          <input
+            id="edition"
+            name="edition"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Edition"
+            [(ngModel)]="material.edition"
+            required />
+          <!-- ISBN -->
+          <input
+            id="isbn"
+            name="isbn"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="ISBN"
+            [(ngModel)]="material.isbn"
+            required />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-2">
+          <!-- Status -->
+          <input
+            id="status"
+            name="status"
+            type="text"
+            class="w-1/2 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Status"
+            [(ngModel)]="material.status"
+            required />
+          <!-- Back button -->
+          <button
+            type="button"
+            class="w-1/5
+                   bg-primary 
+                   text-white 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   hover:bg-[#ffb700] 
+                   hover:text-black 
+                   transition 
+                   duration-300 
+                   mt-0.5"
+            routerLink="/materials">
+            Back
+          </button>
+          <!-- Continue button -->
+          <button
+            type="submit"
+            class="w-[30%] 
+                   bg-secondary 
+                   text-black 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   hover:bg-[#801e1d] 
+                   hover:text-white 
+                   transition 
+                   duration-300 
+                   mt-0.5">
+            Continue
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
 
-   </div>
-     
-   
-
-   
+<!-- Confirmation Modal -->
+<div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Do you want to save these changes?
+    </h2>
+    <div class="flex flex-col items-center justify-between h-full">
+      <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
+      <div class="flex flex-row gap-4 w-full mt-4">
+        <button
+          (click)="closeConfirmModal()"
+          class="flex-1
+                 bg-primary 
+                 text-white 
+                 px-6 
+                 py-3 
+                 rounded-full 
+                 font-medium 
+                 hover:bg-[#ffb700] 
+                 hover:text-black 
+                 transition 
+                 duration-300">
+          Back
+        </button>
+        <button
+          (click)="saveChanges()"
+          class="flex-1
+                 bg-secondary 
+                 text-black 
+                 px-6 
+                 py-3 
+                 rounded-full 
+                 font-medium 
+                 hover:bg-[#801e1d] 
+                 hover:text-white 
+                 transition 
+                 duration-300">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
