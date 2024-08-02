@@ -42,6 +42,16 @@ import { FacultyComponent } from './super-admin/faculty/faculty.component';
 import { VisitorComponent } from './super-admin/visitor/visitor.component';
 import { BooksComponent } from './super-admin/books/books.component';
 import { UserRecordComponent } from './super-admin/user-record/user-record.component';
+import { AddStudentComponent } from './super-admin/add-student/add-student.component';
+import { AddFacultyComponent } from './super-admin/add-faculty/add-faculty.component';
+import { AddVisitorComponent } from './super-admin/add-visitor/add-visitor.component';
+import { EditStudentComponent } from './super-admin/edit-student/edit-student.component';
+import { EditFacultyComponent } from './super-admin/edit-faculty/edit-faculty.component';
+import { EditVisitorComponent } from './super-admin/edit-visitor/edit-visitor.component';
+import { EditWarningComponent } from './super-admin/edit-warning/edit-warning.component';
+import { EditSuccessComponent } from './super-admin/edit-success/edit-success.component';
+import { DeleteWarningComponent } from './super-admin/delete-warning/delete-warning.component';
+import { DeleteSuccessComponent } from './super-admin/delete-success/delete-success.component';
 import { profile } from 'console';
 
 const routes: Routes = [
@@ -90,6 +100,16 @@ const routes: Routes = [
   { path: 'faculty', component: FacultyComponent },
   { path: 'visitor', component: VisitorComponent },
   { path: 'user-record', component: UserRecordComponent },
+  { path: 'add-student', component: AddStudentComponent },
+  { path: 'add-faculty', component: AddFacultyComponent },
+  { path: 'add-visitor', component: AddVisitorComponent },
+  { path: 'edit-student', component: EditStudentComponent },
+  { path: 'edit-faculty', component: EditFacultyComponent },
+  { path: 'edit-visitor', component: EditVisitorComponent },
+  { path: 'edit-warning', component: EditWarningComponent },
+  { path: 'edit-success', component: EditSuccessComponent },
+  { path: 'delete-warning', component: DeleteWarningComponent },
+  { path: 'delete-success', component: DeleteSuccessComponent },
 ];
 
 @NgModule({
