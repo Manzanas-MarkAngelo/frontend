@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-books',
   templateUrl: './books.component.html',
-  styleUrl: './books.component.css'
+  styleUrls: ['./books.component.css']
 })
 export class BooksComponent {
   materials: any[] = [];
@@ -18,15 +18,13 @@ export class BooksComponent {
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
+  showModal: boolean = false;
+  selectedMaterialId: number | null = null;
 
   categoryPlaceholder: string = 'Choose category';
 
   constructor(private materialsService: MaterialsService, 
-      private router: Router) {}
-
-  navigateToDetails(accnum: string) {
-    this.router.navigate(['/borrow-info', accnum]);
-  }
+              private router: Router) {}
 
   ngOnInit() {
     this.loadMaterials();
@@ -36,10 +34,10 @@ export class BooksComponent {
       switchMap(term => {
         if (this.category) {
           return this.materialsService.searchMaterialsByCategory(term, 
-              this.category, this.currentPage, this.itemsPerPage);
+                this.category, this.currentPage, this.itemsPerPage);
         } else {
-          return this.materialsService.searchMaterials(term, 
-              this.currentPage, this.itemsPerPage);
+          return this.materialsService.searchMaterials(term, this.currentPage, 
+                this.itemsPerPage);
         }
       })
     ).subscribe(response => {
@@ -119,5 +117,34 @@ export class BooksComponent {
       'OJT/Internship': 'PUPTOJT/I'
     };
     return categoryMap[category] || '';
+  }
+
+  navigateToDetails(accnum: string) {
+    this.router.navigate(['/borrow-info', accnum]);
+  }
+
+  showConfirmModal(id: number): void {
+    this.selectedMaterialId = id;
+    this.showModal = true;
+  }
+
+  closeConfirmModal(): void {
+    this.showModal = false;
+    this.selectedMaterialId = null;
+  }
+
+  deleteMaterial(): void {
+    if (this.selectedMaterialId !== null) {
+      this.materialsService.deleteMaterial(this.selectedMaterialId)
+            .subscribe(response => {
+        if (response.status === 'success') {
+          this.materials = this.materials.filter(material => 
+                material.id !== this.selectedMaterialId);
+          this.closeConfirmModal();
+        } else {
+          console.error('Failed to delete material');
+        }
+      });
+    }
   }
 }

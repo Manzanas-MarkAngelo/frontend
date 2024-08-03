@@ -32,4 +32,8 @@ export class MaterialsService {
   updateMaterial(material: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/update_material.php`, material);
   }
+
+  deleteMaterial(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/delete_material.php`, { id });
+  }
 }
