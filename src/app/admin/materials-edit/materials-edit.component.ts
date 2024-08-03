@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MaterialsService } from '../../../services/materials.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-materials-edit',
   templateUrl: './materials-edit.component.html',
@@ -15,7 +16,9 @@ export class MaterialsEditComponent implements OnInit {
   showModal: boolean = false;
 
   constructor(private route: ActivatedRoute, 
-    private materialsService: MaterialsService, private router: Router) {}
+              private materialsService: MaterialsService, 
+              private router: Router,
+              private location: Location) {}
 
   ngOnInit(): void {
     const accnum = this.route.snapshot.paramMap.get('accnum');
@@ -27,6 +30,10 @@ export class MaterialsEditComponent implements OnInit {
         console.log(this.categoryIdMap[this.material.category] || 'Select Category');
       });
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   private categoryIdMap: { [key: number]: string } = {
