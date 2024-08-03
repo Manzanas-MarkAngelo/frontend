@@ -28,4 +28,8 @@ export class MaterialsService {
   getMaterialDetails(accnum: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/fetch_material_details.php?accnum=${accnum}`);
   }
+
+  updateMaterial(material: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/update_material.php`, material);
+  }
 }

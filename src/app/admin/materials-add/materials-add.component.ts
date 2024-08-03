@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AddMaterialService } from '../../../services/add-material.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-materials-add',
@@ -41,11 +42,17 @@ export class MaterialsAddComponent {
     'OJT/Internship'
   ];
 
-  constructor(private addMaterialService: AddMaterialService, private router: Router) {}
+  constructor(private addMaterialService: AddMaterialService, 
+              private router: Router, 
+              private location: Location) {}
 
   openConfirmModal() {
     this.showModal = true;
     console.log('Modal opened');
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   closeConfirmModal() {

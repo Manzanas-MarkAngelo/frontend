@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-add-success',
   templateUrl: './add-success.component.html',
@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AddSuccessComponent {
 
+  constructor (private location: Location){}
+
+  goBack(): void {
+    this.location.back();
+    this.location.back();
+  }
 }
