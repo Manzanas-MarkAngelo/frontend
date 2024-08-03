@@ -23,6 +23,10 @@ export class BooksComponent {
 
   categoryPlaceholder: string = 'Choose category';
 
+  // Snackbar variables
+  snackBarVisible: boolean = false;
+  snackBarMessage: string = '';
+
   constructor(private materialsService: MaterialsService, 
               private router: Router) {}
 
@@ -140,11 +144,24 @@ export class BooksComponent {
         if (response.status === 'success') {
           this.materials = this.materials.filter(material => 
                 material.id !== this.selectedMaterialId);
+          this.snackBarMessage = 'Material deleted successfully';
+          this.snackBarVisible = true;
+          setTimeout(() => {
+            this.snackBarVisible = false;
+          }, 3000); // Snackbar visible for 3 seconds
           this.closeConfirmModal();
         } else {
-          console.error('Failed to delete material');
+          this.snackBarMessage = 'Failed to delete material';
+          this.snackBarVisible = true;
+          setTimeout(() => {
+            this.snackBarVisible = false;
+          }, 3000);
         }
       });
     }
+  }
+
+  closeSnackBar() {
+    this.snackBarVisible = false;
   }
 }
