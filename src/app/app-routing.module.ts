@@ -103,7 +103,7 @@ const routes: Routes = [
   { path: 'add-student', component: AddStudentComponent },
   { path: 'add-faculty', component: AddFacultyComponent },
   { path: 'add-visitor', component: AddVisitorComponent },
-  { path: 'edit-student', component: EditStudentComponent },
+  { path: 'edit-student/:user_id', component: EditStudentComponent },
   { path: 'edit-faculty', component: EditFacultyComponent },
   { path: 'edit-visitor', component: EditVisitorComponent },
   { path: 'edit-warning', component: EditWarningComponent },
