@@ -15,7 +15,7 @@ export class AddFacultyComponent {
   firstName: string = '';
   lastName: string = '';
   school: string = '';
-  course: string = '';
+  department: string = '';
   contact: string = '';
   identifier: string = '';
 
@@ -29,7 +29,7 @@ export class AddFacultyComponent {
       firstName: this.firstName,
       lastName: this.lastName,
       school: this.school,
-      course: this.course,
+      department: this.department,
       contact: this.contact,
     };
 
