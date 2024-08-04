@@ -54,6 +54,7 @@ import { DeleteWarningComponent } from './super-admin/delete-warning/delete-warn
 import { DeleteSuccessComponent } from './super-admin/delete-success/delete-success.component';
 import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/add-faculty-success.component';
 import { profile } from 'console';
+import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -109,6 +110,7 @@ const routes: Routes = [
   { path: 'edit-visitor', component: EditVisitorComponent },
   { path: 'edit-warning', component: EditWarningComponent },
   { path: 'edit-success', component: EditSuccessComponent },
+  { path: 'edit-faculty-success', component: EditFacultySuccessComponent},
   { path: 'delete-warning', component: DeleteWarningComponent },
   { path: 'delete-success', component: DeleteSuccessComponent },
   { path: 'add-faculty-success', component: AddFacultySuccessComponent },

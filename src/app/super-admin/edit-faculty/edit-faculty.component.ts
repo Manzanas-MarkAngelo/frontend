@@ -42,7 +42,7 @@ export class EditFacultyComponent implements OnInit {
 
   continueEdit() {
     this.recordsService.updateFaculty(this.faculty).subscribe(() => {
-      this.router.navigate(['/edit-success']);
+      this.router.navigate(['/edit-faculty-success']);
     }, error => {
       console.error('Error updating faculty:', error);
     });
