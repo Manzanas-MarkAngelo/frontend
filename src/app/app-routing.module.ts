@@ -52,6 +52,7 @@ import { EditWarningComponent } from './super-admin/edit-warning/edit-warning.co
 import { EditSuccessComponent } from './super-admin/edit-success/edit-success.component';
 import { DeleteWarningComponent } from './super-admin/delete-warning/delete-warning.component';
 import { DeleteSuccessComponent } from './super-admin/delete-success/delete-success.component';
+import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/add-faculty-success.component';
 import { profile } from 'console';
 
 const routes: Routes = [
@@ -110,6 +111,7 @@ const routes: Routes = [
   { path: 'edit-success', component: EditSuccessComponent },
   { path: 'delete-warning', component: DeleteWarningComponent },
   { path: 'delete-success', component: DeleteSuccessComponent },
+  { path: 'add-faculty-success', component: AddFacultySuccessComponent },
 ];
 
 @NgModule({
