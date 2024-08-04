@@ -52,7 +52,9 @@ import { EditWarningComponent } from './super-admin/edit-warning/edit-warning.co
 import { EditSuccessComponent } from './super-admin/edit-success/edit-success.component';
 import { DeleteWarningComponent } from './super-admin/delete-warning/delete-warning.component';
 import { DeleteSuccessComponent } from './super-admin/delete-success/delete-success.component';
+import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/add-faculty-success.component';
 import { profile } from 'console';
+import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -104,12 +106,14 @@ const routes: Routes = [
   { path: 'add-faculty', component: AddFacultyComponent },
   { path: 'add-visitor', component: AddVisitorComponent },
   { path: 'edit-student/:user_id', component: EditStudentComponent },
-  { path: 'edit-faculty', component: EditFacultyComponent },
+  { path: 'edit-faculty/:user_id', component: EditFacultyComponent },
   { path: 'edit-visitor', component: EditVisitorComponent },
   { path: 'edit-warning', component: EditWarningComponent },
   { path: 'edit-success', component: EditSuccessComponent },
+  { path: 'edit-faculty-success', component: EditFacultySuccessComponent},
   { path: 'delete-warning', component: DeleteWarningComponent },
   { path: 'delete-success', component: DeleteSuccessComponent },
+  { path: 'add-faculty-success', component: AddFacultySuccessComponent },
 ];
 
 @NgModule({

@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-delete-success',
-  templateUrl: './delete-success.component.html',
-  styleUrls: ['./delete-success.component.css']
+  selector: 'app-add-faculty-success',
+  templateUrl: './add-faculty-success.component.html',
+  styleUrls: ['./add-faculty-success.component.css']
 })
-export class DeleteSuccessComponent {
+export class AddFacultySuccessComponent {
   constructor(private router: Router) {}
 
   continue() {

@@ -8,6 +8,8 @@ import { environment } from './environments/local-environment';
 export class RecordsService {
   private logsUrl = `${environment.apiUrl}/get_time_logs.php`;
   private recordsUrl = `${environment.apiUrl}/get_records.php`;
+  private updateFacultyUrl = `${environment.apiUrl}/update_faculty.php`;
+  private deleteFacultyUrl = `${environment.apiUrl}/delete_faculty.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -27,6 +29,26 @@ export class RecordsService {
     }).pipe(
       catchError(this.handleError)
     );
+  }
+
+  getRecordById(recordType: string, user_id: string): Observable<any> {
+    const payload = { recordType, user_id };
+    return this.http.post<any>(this.recordsUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  updateFaculty(faculty: any): Observable<any> {
+    return this.http.post<any>(this.updateFacultyUrl, faculty, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  deleteFaculty(user_id: number): Observable<any> {
+    const payload = { user_id };
+    return this.http.post<any>(this.deleteFacultyUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   getStudentDetails(userId: string): Observable<any> {

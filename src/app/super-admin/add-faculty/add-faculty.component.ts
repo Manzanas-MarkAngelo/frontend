@@ -5,22 +5,33 @@ import { RegisterService } from '../../../services/register.service';
 @Component({
   selector: 'app-add-faculty',
   templateUrl: './add-faculty.component.html',
-  styleUrl: './add-faculty.component.css'
+  styleUrls: ['./add-faculty.component.css']
 })
 export class AddFacultyComponent {
   selectedRole: string = 'faculty';
-  studentNumber: string = '';
   empNumber: string = '';
   sex: string = '';
   firstName: string = '';
   lastName: string = '';
-  school: string = '';
-  course: string = '';
+  department: string = '';
   contact: string = '';
   identifier: string = '';
+  showModal: boolean = false;
 
-  constructor(private registerService: RegisterService, 
-    private router: Router) {}
+  constructor(private registerService: RegisterService, private router: Router) {}
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  hideModal() {
+    this.showModal = false;
+  }
+
+  continueAdd() {
+    this.showModal = false;
+    this.onSubmit();
+  }
 
   onSubmit() {
     const formData: any = {
@@ -28,26 +39,23 @@ export class AddFacultyComponent {
       sex: this.sex,
       firstName: this.firstName,
       lastName: this.lastName,
-      school: this.school,
-      course: this.course,
+      department: this.department,
       contact: this.contact,
+      empNumber: this.empNumber,
+      identifier: this.identifier
     };
-
-    if (this.selectedRole === 'student') {
-      formData.studentNumber = this.studentNumber;
-    } else if (this.selectedRole === 'faculty') {
-      formData.empNumber = this.empNumber;
-    } else if (this.selectedRole === 'visitor') {
-      formData.identifier = this.identifier;
-    }
 
     this.registerService.registerUser(formData).subscribe(response => {
       console.log('Response from server:', response);
       if(response.status === 'success') {
-        this.router.navigate(['/register-success']);
+        this.router.navigate(['/add-faculty-success']);
       } else {
         // TODO: Handle error here
       }
     });
+  }
+
+  cancelEdit() {
+    this.router.navigate(['/faculty']);
   }
 }
