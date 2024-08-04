@@ -13,6 +13,8 @@ export class FacultyComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 0;
   itemsPerPage: number = 13;
+  showModal: boolean = false;
+  selectedUserId: number | null = null;
 
   constructor(private recordsService: RecordsService, private router: Router) { }
 
@@ -29,8 +31,26 @@ export class FacultyComponent implements OnInit {
     });
   }
 
-  editFaculty(faculty: any) {
-    this.router.navigate(['/edit-faculty', faculty]);
+  openDeleteModal(user_id: number) {
+    this.selectedUserId = user_id;
+    this.showModal = true;
+  }
+
+  hideModal() {
+    this.showModal = false;
+    this.selectedUserId = null;
+  }
+
+  deleteFaculty() {
+    if (this.selectedUserId !== null) {
+      this.recordsService.deleteFaculty(this.selectedUserId).subscribe(() => {
+        this.showModal = false;
+        this.selectedUserId = null;
+        this.router.navigate(['/delete-success']);
+      }, error => {
+        console.error('Error deleting faculty:', error);
+      });
+    }
   }
 
   clearSearch(): void {
