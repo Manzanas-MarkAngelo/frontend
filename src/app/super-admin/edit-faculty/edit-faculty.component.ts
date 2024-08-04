@@ -9,6 +9,7 @@ import { RecordsService } from '../../../services/records.service';
 })
 export class EditFacultyComponent implements OnInit {
   faculty: any = {};
+  showModal: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +32,23 @@ export class EditFacultyComponent implements OnInit {
     }
   }
 
-  saveChanges() {
-    this.router.navigate(['/edit-warning', { faculty: JSON.stringify(this.faculty) }]);
+  confirmEdit() {
+    this.showModal = true;
+  }
+
+  hideModal() {
+    this.showModal = false;
+  }
+
+  continueEdit() {
+    this.recordsService.updateFaculty(this.faculty).subscribe(() => {
+      this.router.navigate(['/edit-success']);
+    }, error => {
+      console.error('Error updating faculty:', error);
+    });
+  }
+
+  cancelEdit() {
+    this.router.navigate(['/faculty']);
   }
 }

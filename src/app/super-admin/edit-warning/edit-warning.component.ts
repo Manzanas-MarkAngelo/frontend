@@ -26,7 +26,7 @@ export class EditWarningComponent implements OnInit {
 
   continue() {
     this.recordsService.updateFaculty(this.faculty).subscribe(() => {
-      this.router.navigate(['/faculty']);
+      this.router.navigate(['/edit-success']);
     }, error => {
       console.error('Error updating faculty:', error);
     });
