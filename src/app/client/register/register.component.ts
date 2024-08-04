@@ -14,6 +14,7 @@ export class RegisterComponent {
   sex: string = '';
   firstName: string = '';
   lastName: string = '';
+  department: string = '';
   school: string = '';
   course: string = '';
   contact: string = '';
@@ -28,6 +29,7 @@ export class RegisterComponent {
       sex: this.sex,
       firstName: this.firstName,
       lastName: this.lastName,
+      department: this.department,
       school: this.school,
       course: this.course,
       contact: this.contact,
