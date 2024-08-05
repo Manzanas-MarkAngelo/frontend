@@ -14,12 +14,13 @@ export class BooksComponent {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 12;
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
   showModal: boolean = false;
   selectedMaterialId: number | null = null;
+  selectedMaterialTitle = ''
 
   categoryPlaceholder: string = 'Choose category';
 
@@ -127,8 +128,9 @@ export class BooksComponent {
     this.router.navigate(['/borrow-info', accnum]);
   }
 
-  showConfirmModal(id: number): void {
+  showConfirmModal(id: number, title: string): void {
     this.selectedMaterialId = id;
+    this.selectedMaterialTitle = title;
     this.showModal = true;
   }
 
@@ -144,7 +146,7 @@ export class BooksComponent {
         if (response.status === 'success') {
           this.materials = this.materials.filter(material => 
                 material.id !== this.selectedMaterialId);
-          this.snackBarMessage = 'Material deleted successfully';
+          this.snackBarMessage = `Material ${this.selectedMaterialTitle} deleted successfully`;
           this.snackBarVisible = true;
           setTimeout(() => {
             this.snackBarVisible = false;
@@ -163,5 +165,13 @@ export class BooksComponent {
 
   closeSnackBar() {
     this.snackBarVisible = false;
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.category = '';
+    this.currentPage = 1; 
+    this.categoryPlaceholder = 'Choose category';
+    this.loadMaterials();
   }
 }
