@@ -100,7 +100,7 @@ if ($recordType === 'student' && $user_id) {
             $countQuery = "SELECT COUNT(*) as total FROM faculty";
             break;
         case 'visitor':
-            $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school, identifier
+            $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school, identifier, user_id
                       FROM visitor 
                       ORDER BY created_at DESC
                       LIMIT $itemsPerPage 
