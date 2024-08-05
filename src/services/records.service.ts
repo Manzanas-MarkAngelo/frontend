@@ -62,7 +62,6 @@ export class RecordsService {
     );
   }
   
-
   updateStudent(student: any): Observable<any> {
     const url = `${environment.apiUrl}/update_student_details.php`;
     return this.http.post<any>(url, student, {
@@ -81,6 +80,12 @@ export class RecordsService {
       }),
       catchError(this.handleError)
     );
+  }
+
+  updateVisitor(visitor: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/update_visitor.php`, visitor, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
