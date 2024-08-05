@@ -43,6 +43,23 @@ if ($recordType === 'student' && $user_id) {
     }
     
     $stmt->close();
+} elseif ($recordType === 'visitor' && $user_id) {
+    // Fetch details for a single visitor
+    $query = "SELECT user_id, first_name, surname, gender, phone_number, school, identifier 
+              FROM visitor 
+              WHERE user_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        echo json_encode($result->fetch_assoc());
+    } else {
+        echo json_encode(['error' => 'Visitor not found']);
+    }
+    
+    $stmt->close();
 } elseif ($user_id) {
     // Fetch details for a single faculty
     $query = "SELECT user_id, emp_number, first_name, surname, gender, department, phone_number 
@@ -53,7 +70,7 @@ if ($recordType === 'student' && $user_id) {
         echo json_encode(['error' => 'Error preparing statement: ' . $conn->error]);
         exit;
     }
-    $stmt->bind_param('s', $user_id);
+    $stmt->bind_param('i', $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
@@ -83,7 +100,7 @@ if ($recordType === 'student' && $user_id) {
             $countQuery = "SELECT COUNT(*) as total FROM faculty";
             break;
         case 'visitor':
-            $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school 
+            $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school, identifier
                       FROM visitor 
                       ORDER BY created_at DESC
                       LIMIT $itemsPerPage 

@@ -92,7 +92,7 @@
       </button>
       <button
         type="button"
-        (click)="setLogType('default')"
+        (click)="clearLogType()"
         class="w-20 
           bg-white 
           text-primary
@@ -178,27 +178,23 @@
             <tr class="text-primary text-center">
               <th>Student Number</th>
               <th>Name</th>
-              <th>Gender</th>
-              <th>Course</th>
-              <th>Phone Number</th>
+              <th>Time In</th>
+              <th>Time Out</th>
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr *ngFor="let record of logs">
-              <td>{{ record.student_number }}</td>
-              <td>{{ record.name }}</td>
-              <td>{{ record.gender }}</td>
-              <td>{{ record.course }}</td>
-              <td>{{ record.phone_number }}</td>
+            <tr *ngFor="let log of logs">
+              <td>{{ log.student_number }}</td>
+              <td>{{ log.name }}</td>
+              <td>{{ log.time_in }}</td>
+              <td>{{ log.time_out || 'await' }}</td>
             </tr>
           </tbody>
         </table>
       </ng-container>
 
       <div class="flex justify-between items-center mt-4">
-        <span class="text-lg font-medium ml-3"
-          >Page {{ currentPage }} / {{ totalPages }}
-        </span>
+        <span class="text-lg font-medium ml-3">Page {{ currentPage }} / {{ totalPages }}</span>
         <div class="flex gap-2">
           <button
             class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
@@ -207,7 +203,6 @@
           >
             Previous
           </button>
-
           <button
             class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
             [disabled]="currentPage === totalPages"
