@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-edit-visitor',
   templateUrl: './edit-visitor.component.html',
@@ -22,7 +22,8 @@ export class EditVisitorComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recordsService: RecordsService
+    private recordsService: RecordsService,
+    private loaction: Location,
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +33,10 @@ export class EditVisitorComponent implements OnInit {
         this.visitor = response;
       });
     });
+  }
+
+  goBack(): void {
+    this.loaction.back();
   }
 
   showConfirmModal(): void {

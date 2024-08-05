@@ -230,37 +230,35 @@
     </h2>
     <div class="flex flex-col items-center justify-between">
       <img src="../../../assets/return.jpg" alt="confirmation" class="w-4/5 h-full" />
-      <div class="flex flex-row gap-2 w-full">
+      <div class="flex flex-row gap-4 w-full">
         <button
-          class="w-1/2 
-                 bg-primary 
-                 text-white 
-                 px-4 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-[#ffb700] 
-                 hover:text-black 
-                 transition 
-                 duration-300 
-                 mb-5"
+          class="flex-1 
+                bg-primary 
+                text-white 
+                px-6 
+                py-3 
+                rounded-full 
+                font-medium 
+                hover:bg-[#ffb700] 
+                hover:text-black
+                transition 
+                duration-300"
           (click)="hideModal()">
           Back
         </button>
         <button
-          class="w-1/2 
-                 bg-secondary 
-                 text-black 
-                 px-4 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-[#801e1d] 
-                 hover:text-white 
-                 transition 
-                 duration-300 
-                 mb-5"
-          (click)="continueAdd()">
+            class="flex-1
+            bg-secondary 
+            text-black 
+            px-6 
+            py-3 
+            rounded-full 
+            font-medium 
+            hover:bg-[#801e1d] 
+            hover:text-white 
+            transition 
+            duration-300"
+            (click)="continueAdd()">
           Continue
         </button>
       </div>
