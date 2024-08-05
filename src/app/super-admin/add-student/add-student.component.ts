@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../../services/register.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-student',
@@ -20,7 +21,8 @@ export class AddStudentComponent {
   identifier: string = '';
 
   constructor(private registerService: RegisterService, 
-    private router: Router) {}
+              private router: Router,
+              private location: Location) {}
 
   onSubmit() {
     const formData: any = {
@@ -49,5 +51,9 @@ export class AddStudentComponent {
         // TODO: Handle error here
       }
     });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
