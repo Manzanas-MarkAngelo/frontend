@@ -4,10 +4,10 @@ import { RecordsService } from '../../../services/records.service';
 @Component({
   selector: 'app-user-record',
   templateUrl: './user-record.component.html',
-  styleUrl: './user-record.component.css'
+  styleUrls: ['./user-record.component.css']
 })
-export class UserRecordComponent {
-  currentLogType: string = 'default';
+export class UserRecordComponent implements OnInit {
+  currentLogType: string = 'student_log';
   searchPlaceholder: string = 'Search Student Log';
   logs: any[] = [];
   currentPage: number = 1;
@@ -17,7 +17,7 @@ export class UserRecordComponent {
   constructor(private recordsService: RecordsService) { }
 
   ngOnInit(): void {
-    this.setLogType('default');
+    this.setLogType('student_log');
   }
 
   setLogType(logType: string) {
@@ -37,7 +37,7 @@ export class UserRecordComponent {
         this.fetchLogs('visitor');
         break;
       default:
-        this.searchPlaceholder = 'Search student';
+        this.searchPlaceholder = 'Search student log';
         this.fetchLogs('student');
     }
   }
@@ -60,5 +60,9 @@ export class UserRecordComponent {
     if (this.currentLogType.includes('log')) {
       this.fetchLogs(this.currentLogType.replace('_log', ''));
     }
+  }
+
+  clearLogType() {
+    this.setLogType('student_log');
   }
 }

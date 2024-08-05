@@ -62,16 +62,18 @@
             <td>{{ record.school }}</td>
             <td>{{ record.identifier }}</td>
             <td>
-              <button class="bg-secondary 
-                          text-black 
-                          border-none 
-                          shadow-none 
-                          btn-sm 
-                          rounded-full 
-                          font-medium
-                          mr-1">
-                  Edit
-              </button>
+              <button 
+                class="bg-secondary 
+                      text-black 
+                      border-none 
+                      shadow-none 
+                      btn-sm 
+                      rounded-full 
+                      font-medium
+                      mr-1"
+                [routerLink]="['/edit-visitor', record.user_id]">
+                Edit
+              </button>            
               <button class="bg-primary 
                           text-white 
                           border-none 

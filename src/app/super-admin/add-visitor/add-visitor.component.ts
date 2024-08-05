@@ -5,22 +5,32 @@ import { RegisterService } from '../../../services/register.service';
 @Component({
   selector: 'app-add-visitor',
   templateUrl: './add-visitor.component.html',
-  styleUrl: './add-visitor.component.css'
+  styleUrls: ['./add-visitor.component.css']
 })
 export class AddVisitorComponent {
   selectedRole: string = 'visitor';
-  studentNumber: string = '';
-  empNumber: string = '';
   sex: string = '';
   firstName: string = '';
   lastName: string = '';
   school: string = '';
-  course: string = '';
   contact: string = '';
   identifier: string = '';
+  showModal: boolean = false;
 
-  constructor(private registerService: RegisterService, 
-    private router: Router) {}
+  constructor(private registerService: RegisterService, private router: Router) {}
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  hideModal() {
+    this.showModal = false;
+  }
+
+  continueAdd() {
+    this.showModal = false;
+    this.onSubmit();
+  }
 
   onSubmit() {
     const formData: any = {
@@ -29,25 +39,21 @@ export class AddVisitorComponent {
       firstName: this.firstName,
       lastName: this.lastName,
       school: this.school,
-      course: this.course,
       contact: this.contact,
+      identifier: this.identifier
     };
-
-    if (this.selectedRole === 'student') {
-      formData.studentNumber = this.studentNumber;
-    } else if (this.selectedRole === 'faculty') {
-      formData.empNumber = this.empNumber;
-    } else if (this.selectedRole === 'visitor') {
-      formData.identifier = this.identifier;
-    }
 
     this.registerService.registerUser(formData).subscribe(response => {
       console.log('Response from server:', response);
       if(response.status === 'success') {
-        this.router.navigate(['/register-success']);
+        this.router.navigate(['/add-visitor-success']);
       } else {
         // TODO: Handle error here
       }
     });
+  }
+
+  cancelEdit() {
+    this.router.navigate(['/visitor']);
   }
 }
