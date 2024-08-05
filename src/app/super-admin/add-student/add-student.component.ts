@@ -44,7 +44,7 @@ export class AddStudentComponent {
     this.registerService.registerUser(formData).subscribe(response => {
       console.log('Response from server:', response);
       if(response.status === 'success') {
-        this.router.navigate(['/register-success']);
+        this.router.navigate(['/edit-success']);
       } else {
         // TODO: Handle error here
       }

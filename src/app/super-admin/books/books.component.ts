@@ -20,6 +20,7 @@ export class BooksComponent {
   private searchTerms = new Subject<string>();
   showModal: boolean = false;
   selectedMaterialId: number | null = null;
+  selectedMaterialTitle = ''
 
   categoryPlaceholder: string = 'Choose category';
 
@@ -127,8 +128,9 @@ export class BooksComponent {
     this.router.navigate(['/borrow-info', accnum]);
   }
 
-  showConfirmModal(id: number): void {
+  showConfirmModal(id: number, title: string): void {
     this.selectedMaterialId = id;
+    this.selectedMaterialTitle = title;
     this.showModal = true;
   }
 

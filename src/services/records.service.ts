@@ -105,4 +105,14 @@ export class RecordsService {
 
     return throwError(() => new Error('Something went wrong; please try again later.'));
   }
+
+  deleteStudent(userId: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_student.php`;
+    return this.http.post<any>(url, { user_id: userId }, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
 }
