@@ -36,7 +36,11 @@ export class EditFacultyComponent implements OnInit {
     this.showModal = true;
   }
 
-  hideModal() {
+  showConfirmModal(): void {
+    this.showModal = true;
+  }
+
+  closeConfirmModal(): void {
     this.showModal = false;
   }
 

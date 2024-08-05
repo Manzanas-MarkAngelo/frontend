@@ -204,46 +204,48 @@
 </div>
 
 <!-- Confirmation Modal -->
-<div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
-    <h2 class="text-center text-2xl font-medium text-primary mb-3">
-      Do you want to save these changes?
-    </h2>
-    <div class="flex flex-col items-center justify-between h-full">
-      <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
-      <div class="flex flex-row gap-4 w-full mt-4">
-        <button
-          (click)="closeConfirmModal()"
-          class="flex-1
-                 bg-primary 
-                 text-white 
-                 px-6 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-[#ffb700] 
-                 hover:text-black 
-                 transition 
-                 duration-300">
-          Back
-        </button>
-        <button
-          (click)="saveChanges()"
-          class="flex-1
-                 bg-secondary 
-                 text-black 
-                 px-6 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-[#801e1d] 
-                 hover:text-white 
-                 transition 
-                 duration-300">
-          Save changes
-        </button>
+ @if(showModal){
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+        Do you want to save these changes?
+      </h2>
+      <div class="flex flex-col items-center justify-between h-full">
+        <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
+        <div class="flex flex-row gap-4 w-full mt-4">
+          <button
+            (click)="closeConfirmModal()"
+            class="flex-1
+                  bg-primary 
+                  text-white 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#ffb700] 
+                  hover:text-black 
+                  transition 
+                  duration-300">
+            Back
+          </button>
+          <button
+            (click)="saveChanges()"
+            class="flex-1
+                  bg-secondary 
+                  text-black 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#801e1d] 
+                  hover:text-white 
+                  transition 
+                  duration-300">
+            Save changes
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+}
 

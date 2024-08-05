@@ -34,11 +34,11 @@ export class EditVisitorComponent implements OnInit {
     });
   }
 
-  openModal() {
+  showConfirmModal(): void {
     this.showModal = true;
   }
 
-  hideModal() {
+  closeConfirmModal(): void {
     this.showModal = false;
   }
 
