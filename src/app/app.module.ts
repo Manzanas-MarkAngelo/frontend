@@ -78,6 +78,7 @@ import { EditSuccessComponent } from './super-admin/edit-success/edit-success.co
 import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/add-faculty-success.component';
 import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
 import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
+import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
 
 
 
@@ -145,7 +146,8 @@ import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/ad
     EditSuccessComponent,
     AddFacultySuccessComponent,
     EditFacultySuccessComponent,
-    AddVisitorSuccessComponent
+    AddVisitorSuccessComponent,
+    DeleteVisitorSuccessComponent
   ],
   imports: [
     BrowserModule,

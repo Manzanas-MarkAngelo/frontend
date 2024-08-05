@@ -56,6 +56,7 @@ import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/ad
 import { profile } from 'console';
 import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
 import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
+import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -115,7 +116,8 @@ const routes: Routes = [
   { path: 'delete-warning', component: DeleteWarningComponent },
   { path: 'delete-success', component: DeleteSuccessComponent },
   { path: 'add-faculty-success', component: AddFacultySuccessComponent },
-  { path: 'add-visitor-success', component: AddVisitorSuccessComponent}
+  { path: 'add-visitor-success', component: AddVisitorSuccessComponent },
+  { path: 'delete-visitor-success', component: DeleteVisitorSuccessComponent }
 ];
 
 @NgModule({

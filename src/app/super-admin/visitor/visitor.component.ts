@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-visitor',
@@ -12,8 +13,10 @@ export class VisitorComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 0;
   itemsPerPage: number = 12;
+  showModal: boolean = false;
+  selectedVisitor: any = null;
 
-  constructor(private recordsService: RecordsService) { }
+  constructor(private recordsService: RecordsService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchRecords();
@@ -31,5 +34,27 @@ export class VisitorComponent implements OnInit {
   onPageChange(page: number) {
     this.currentPage = page;
     this.fetchRecords();
+  }
+
+  openDeleteModal(visitor: any) {
+    this.selectedVisitor = visitor;
+    this.showModal = true;
+  }
+
+  hideModal() {
+    this.showModal = false;
+    this.selectedVisitor = null;
+  }
+
+  deleteVisitor() {
+    if (this.selectedVisitor) {
+      this.recordsService.deleteVisitor(this.selectedVisitor.user_id).subscribe(() => {
+        this.showModal = false;
+        this.selectedVisitor = null;
+        this.router.navigate(['/delete-visitor-success']);
+      }, error => {
+        console.error('Error deleting visitor:', error);
+      });
+    }
   }
 }

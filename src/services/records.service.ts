@@ -10,6 +10,7 @@ export class RecordsService {
   private recordsUrl = `${environment.apiUrl}/get_records.php`;
   private updateFacultyUrl = `${environment.apiUrl}/update_faculty.php`;
   private deleteFacultyUrl = `${environment.apiUrl}/delete_faculty.php`;
+  private deleteVisitorUrl = `${environment.apiUrl}/delete_visitor.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -88,6 +89,13 @@ export class RecordsService {
     });
   }
 
+  deleteVisitor(user_id: number): Observable<any> {
+    const payload = { user_id };
+    return this.http.post<any>(this.deleteVisitorUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
       // Client-side or network error occurred.
@@ -119,5 +127,4 @@ export class RecordsService {
       catchError(this.handleError)
     );
   }
-  
 }
