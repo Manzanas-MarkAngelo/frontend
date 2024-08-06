@@ -34,11 +34,35 @@ import { RecordsComponent } from './admin/records/records.component';
 import { ReportsComponent } from './admin/reports/reports.component';
 import { ProfileComponent } from './admin/profile/profile.component';
 import { SidebarAdminComponent } from './admin/sidebar-admin/sidebar-admin.component';
+import { MaterialInfoComponent } from './client/material-info/material-info.component';
+import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
+import { LogoutWarningComponent } from './admin/logout-warning/logout-warning.component';
+import { StudentComponent } from './super-admin/student/student.component';
+import { FacultyComponent } from './super-admin/faculty/faculty.component';
+import { VisitorComponent } from './super-admin/visitor/visitor.component';
+import { BooksComponent } from './super-admin/books/books.component';
+import { UserRecordComponent } from './super-admin/user-record/user-record.component';
+import { AddStudentComponent } from './super-admin/add-student/add-student.component';
+import { AddFacultyComponent } from './super-admin/add-faculty/add-faculty.component';
+import { AddVisitorComponent } from './super-admin/add-visitor/add-visitor.component';
+import { EditStudentComponent } from './super-admin/edit-student/edit-student.component';
+import { EditFacultyComponent } from './super-admin/edit-faculty/edit-faculty.component';
+import { EditVisitorComponent } from './super-admin/edit-visitor/edit-visitor.component';
+import { EditWarningComponent } from './super-admin/edit-warning/edit-warning.component';
+import { EditSuccessComponent } from './super-admin/edit-success/edit-success.component';
+import { DeleteWarningComponent } from './super-admin/delete-warning/delete-warning.component';
+import { DeleteSuccessComponent } from './super-admin/delete-success/delete-success.component';
+import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/add-faculty-success.component';
 import { profile } from 'console';
+import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
+import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
+import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
+  { path: 'borrow-info/:accnum', component: BorrowInfoComponent },
+  { path: 'material-info/:accnum', component: MaterialInfoComponent },
   { path: 'time-in', component: TimeInComponent },
   { path: 'time-out', component: TimeOutComponent },  
   { path: 'search', component: SearchBookComponent },
@@ -58,7 +82,7 @@ const routes: Routes = [
   { path: 'return-success', component: ReturnSuccessComponent },
   { path: 'return-warning', component: ReturnWarningComponent },
   { path: 'materials', component: MaterialsComponent },
-  { path: 'materials-edit', component: MaterialsEditComponent },
+  { path: 'materials-edit/:accnum', component: MaterialsEditComponent },
   { path: 'materials-warning', component: MaterialsWarningComponent },
   { path: 'materials-success', component: MaterialsSuccessComponent },
   { path: 'materials-add', component: MaterialsAddComponent },
@@ -72,7 +96,28 @@ const routes: Routes = [
   { path: 'reports', component: ReportsComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'sidebar-admin', component: SidebarAdminComponent },
-
+  { path: 'material-info', component: MaterialInfoComponent },
+  { path: 'timein-already', component: TimeinAlreadyComponent },
+  { path: 'logout-warning', component: LogoutWarningComponent },
+  { path: 'books', component: BooksComponent },
+  { path: 'student', component: StudentComponent },
+  { path: 'faculty', component: FacultyComponent },
+  { path: 'visitor', component: VisitorComponent },
+  { path: 'user-record', component: UserRecordComponent },
+  { path: 'add-student', component: AddStudentComponent },
+  { path: 'add-faculty', component: AddFacultyComponent },
+  { path: 'add-visitor', component: AddVisitorComponent },
+  { path: 'edit-student/:user_id', component: EditStudentComponent },
+  { path: 'edit-faculty/:user_id', component: EditFacultyComponent },
+  { path: 'edit-visitor/:user_id', component: EditVisitorComponent },
+  { path: 'edit-warning', component: EditWarningComponent },
+  { path: 'edit-success', component: EditSuccessComponent },
+  { path: 'edit-faculty-success', component: EditFacultySuccessComponent},
+  { path: 'delete-warning', component: DeleteWarningComponent },
+  { path: 'delete-success', component: DeleteSuccessComponent },
+  { path: 'add-faculty-success', component: AddFacultySuccessComponent },
+  { path: 'add-visitor-success', component: AddVisitorSuccessComponent },
+  { path: 'delete-visitor-success', component: DeleteVisitorSuccessComponent }
 ];
 
 @NgModule({

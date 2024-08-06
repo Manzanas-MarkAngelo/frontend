@@ -1,0 +1,165 @@
+<div class="flex flex-col h-[86vh] w-11/12 mx-auto">
+  <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
+    <div class="flex flex-row w-full">
+      <input
+        type="text"
+        placeholder="Search visitor"
+        class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
+      />
+      <button class="btn rounded-r-full bg-white slide-in-right">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="black"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
+      </button>
+      <button
+        routerLink="/add-visitor"
+        type="submit"
+        class="w-40 
+               bg-secondary 
+               text-black 
+               px-4 
+               py-3 
+               ml-2
+               rounded-full 
+               font-medium 
+               hover:bg-blue-500 
+               hover:text-white 
+               transition 
+               duration-300">
+        Add a visitor
+      </button>
+    </div>
+  </div>
+  <div class="p-4 bg-white text-black rounded-xl w-full slide-in-right">
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <thead>
+          <tr class="text-primary text-center">
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Contact Number</th>
+            <th>School</th>
+            <th>Identifier</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let record of logs">
+            <td>{{ record.name }}</td>
+            <td>{{ record.gender }}</td>
+            <td>{{ record.phone_number }}</td>
+            <td>{{ record.school }}</td>
+            <td>{{ record.identifier }}</td>
+            <td>
+              <button 
+                class="bg-secondary 
+                      text-black 
+                      border-none 
+                      shadow-none 
+                      btn-sm 
+                      rounded-full 
+                      font-medium
+                      mr-1"
+                [routerLink]="['/edit-visitor', record.user_id]">
+                Edit
+              </button>            
+              <button 
+                class="bg-primary 
+                      text-white 
+                      border-none 
+                      shadow-none 
+                      btn-sm 
+                      rounded-full 
+                      font-medium"
+                (click)="openDeleteModal(record, record.name)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex justify-between items-center mt-4">
+        <span class="text-lg font-medium ml-3">Page {{ currentPage }} / {{ totalPages }}</span>
+        <div class="flex gap-2">
+          <button
+            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+            [disabled]="currentPage === 1"
+            (click)="onPageChange(currentPage - 1)"
+          >
+            Previous
+          </button>
+          <button
+            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+            [disabled]="currentPage === totalPages"
+            (click)="onPageChange(currentPage + 1)"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if(showModal) {
+  <div 
+      class="fixed inset-0 flex items-center 
+             justify-center bg-gray-800 bg-opacity-50">
+      <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+          Do you want to delete this visitor? 
+          <div class="text-yellow-500 mt-4 italic">
+            {{selectedVisitorName}}
+          </div>
+      </h2>
+      <div class="flex flex-col items-center justify-between h-full">
+          <div class="flex flex-row gap-4 w-full mt-4">
+          <button
+              (click)="hideModal()"
+              class="flex-1
+                  bg-primary 
+                  text-white 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#ffb700] 
+                  hover:text-black 
+                  transition 
+                  duration-300">
+              Back
+          </button>
+          <button
+              (click)="deleteVisitor()"
+              class="flex-1
+                  bg-secondary 
+                  text-black 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#801e1d] 
+                  hover:text-white 
+                  transition 
+                  duration-300">
+              Delete Faculty
+          </button>
+          </div>
+      </div>
+      </div>
+  </div>
+}
+
+<!-- Snackbar for feedback -->
+<app-snackbar-delete/>

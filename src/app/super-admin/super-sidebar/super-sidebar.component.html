@@ -1,0 +1,126 @@
+<div
+  class="relative flex 
+         flex-col 
+         items-center 
+         justify-center 
+         min-h-screen 
+         bg-white 
+         p-4">
+  <div class="absolute top-4 right-4 flex flex-col justify-center items-center gap-4">
+    <!-- Profile-button -->
+    <img
+      src="assets/profile.png" 
+      alt="Profile"
+      class="w-12 h-12 cursor-pointer"
+      routerLink="/profile"/>
+    <!-- logout-button -->
+    <img
+      src="assets/log.png"
+      alt="Logout"
+      class="w-12 h-12 cursor-pointer"
+      (click)="onLogoutClick()"/> 
+  </div>
+  <!-- PUP-logo -->
+  <img
+    src="assets/pup.png"
+    alt=""
+    class="size-44 mb-4 slide-in-right cursor-pointer"
+    routerLink="/"/>
+  <!-- Title -->
+  <div class="flex items-center justify-center w-4/5">
+    <span class="text-4xl font-semibold text-black text-center mb-4"
+      >Library Information System</span>
+  </div>
+  <!-- Welcome-message -->
+  <span class="text-3xl 
+               text-center 
+               mt-10 
+               text-primary 
+               font-semibold 
+               slide-in-below">Welcome Admin!
+  </span>
+  <div class="divider mt-0 mb-10 w-1/2 mx-auto"></div>
+
+  <div class="flex flex-col space-y-6 slide-in-left">
+    <!-- Materials-button -->
+    <button
+      routerLink="/books"
+      routerLinkActive="active-btn"
+      class="btn 
+             bg-secondary 
+             hover:bg-[#801e1d] 
+             hover:text-white 
+             text-lg 
+             rounded-full 
+             w-56 
+             h-14
+             border-none
+             text-black">
+      Materials
+    </button>
+    <!-- Student-button -->
+    <button
+      routerLink="/student"
+      routerLinkActive="active-btn"
+      class="btn 
+             bg-secondary 
+             hover:bg-[#801e1d] 
+             hover:text-white 
+             text-lg 
+             rounded-full 
+             w-56 
+             h-14
+             border-none
+             text-black">
+      Student
+    </button>
+    <!-- Faculty-button -->
+    <button
+      routerLink="/faculty"
+      routerLinkActive="active-btn"
+      class="btn 
+             bg-secondary 
+             hover:bg-[#801e1d] 
+             hover:text-white 
+             text-lg 
+             rounded-full 
+             w-56 
+             h-14
+             border-none
+             text-black">
+      Faculty
+    </button>
+    <!-- Visitor-button -->
+    <button
+      routerLink="/visitor"
+      routerLinkActive="active-btn"
+      class="btn 
+             bg-secondary 
+             hover:bg-[#801e1d] 
+             hover:text-white 
+             text-lg 
+             rounded-full 
+             w-56 
+             h-14
+             border-none
+             text-black">
+      Visitor
+    </button>
+    <!-- Records-button -->
+    <button
+      routerLink="/user-record"
+      routerLinkActive="active-btn"
+      class="btn 
+             bg-secondary 
+             hover:bg-[#801e1d] 
+             hover:text-white 
+             text-lg 
+             rounded-full 
+             w-56 
+             h-14
+             border-none
+             text-black">
+      Records
+    </button>
+  </div>
+</div>

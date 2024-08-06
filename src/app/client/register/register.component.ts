@@ -10,15 +10,15 @@ import { RegisterService } from '../../../services/register.service';
 export class RegisterComponent {
   selectedRole: string = 'student';
   studentNumber: string = '';
-  empNumber: string = ''; // Added empNumber
+  empNumber: string = '';
   sex: string = '';
   firstName: string = '';
   lastName: string = '';
-  middleName: string = ''; // Added middleName
   department: string = '';
   school: string = '';
   course: string = '';
   contact: string = '';
+  identifier: string = '';
 
   constructor(private registerService: RegisterService, 
     private router: Router) {}
@@ -40,7 +40,7 @@ export class RegisterComponent {
     } else if (this.selectedRole === 'faculty') {
       formData.empNumber = this.empNumber;
     } else if (this.selectedRole === 'visitor') {
-      formData.middleName = this.middleName;
+      formData.identifier = this.identifier;
     }
 
     this.registerService.registerUser(formData).subscribe(response => {

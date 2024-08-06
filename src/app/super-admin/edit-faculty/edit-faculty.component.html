@@ -1,0 +1,192 @@
+<div class="flex items-start justify-center mt-80">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+    <div class="flex items-end justify-between">
+      <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
+        Edit faculty details
+      </h1>
+    </div>
+
+    <form (ngSubmit)="confirmEdit()">
+      <div class="mb-4 mt-4 flex items-center space-x-4">
+        <input
+          id="employeeNumber"
+          name="employeeNumber"
+          type="text"
+          [(ngModel)]="faculty.emp_number"
+          placeholder="Enter your Faculty code here"
+          class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
+          required
+        />
+        <div class="relative mr-44">
+          <select
+            id="gender"
+            name="gender"
+            [(ngModel)]="faculty.gender"
+            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
+            required
+          >
+            <option value="" disabled>Gender</option>
+            <option [selected]="faculty.gender === 'Male'">Male</option>
+            <option [selected]="faculty.gender === 'Female'">Female</option>
+            <option [selected]="faculty.gender === 'Prefer not to say'">Prefer not to say</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 mt-1 flex items-center space-x-4">
+        <input
+          id="firstName"
+          name="firstName"
+          type="text"
+          [(ngModel)]="faculty.first_name"
+          class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+          placeholder="First name"
+          required
+        />
+        <input
+          id="surname"
+          name="surname"
+          type="text"
+          [(ngModel)]="faculty.surname"
+          class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+          placeholder="Surname"
+          required
+        />
+
+        <div class="relative mr-44">
+          <select
+            id="department"
+            name="department"
+            [(ngModel)]="faculty.department"
+            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
+            required
+          >
+            <option value="" disabled>Division</option>
+            <option [selected]="faculty.department === 'EXECOM'">EXECOM</option>
+            <option [selected]="faculty.department === 'BA'">BA</option>
+            <option [selected]="faculty.department === 'ECE'">ECE</option>
+            <option [selected]="faculty.department === 'ED'">ED</option>
+            <option [selected]="faculty.department === 'ME'">ME</option>
+            <option [selected]="faculty.department === 'IT'">IT</option>
+            <option [selected]="faculty.department === 'OA'">OA</option>
+            <option [selected]="faculty.department === 'PSYCH'">PSYCH</option>
+            <option [selected]="faculty.department === 'ICT'">ICT</option>
+            <option [selected]="faculty.department === 'OMT'">OMT</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 flex items-center space-x-4">
+        <input
+          id="contact"
+          name="contact"
+          type="number"
+          [(ngModel)]="faculty.phone_number"
+          class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
+          placeholder="Contact number"
+          required
+        />
+      </div>
+      <div class="flex flex-row gap-4 w-full mt-4">
+        <button
+          type="button"
+          class="flex-1 
+                 bg-primary 
+                 text-white 
+                 px-6 
+                 py-3 
+                 rounded-full 
+                 font-medium 
+                 hover:bg-[#ffb700] 
+                 hover:text-black
+                 transition 
+                 duration-300"
+          (click)="cancelEdit()">
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="flex-1
+                 bg-secondary 
+                 text-black 
+                 px-6 
+                 py-3 
+                 rounded-full 
+                 font-medium 
+                 hover:bg-[#801e1d] 
+                 hover:text-white 
+                 transition 
+                 duration-300">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+@if(showModal){
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+        Do you want to save these changes?
+      </h2>
+      <div class="flex flex-col items-center justify-between h-full">
+        <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
+        <div class="flex flex-row gap-4 w-full mt-4">
+          <button
+            (click)="closeConfirmModal()"
+            class="flex-1
+                  bg-primary 
+                  text-white 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#ffb700] 
+                  hover:text-black 
+                  transition 
+                  duration-300">
+            Back
+          </button>
+          <button
+          (click)="continueEdit()"
+            class="flex-1
+                  bg-secondary 
+                  text-black 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#801e1d] 
+                  hover:text-white 
+                  transition 
+                  duration-300">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

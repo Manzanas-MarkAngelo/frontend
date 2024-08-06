@@ -1,27 +1,47 @@
-<!-- <div class="container flex flex-row min-h-screen">
-  <app-side-bar class="w-2/6 slide-in-left"/>
-  <app-sidebar-admin class="w-2/6 slide-in-left"/>
-
-  <div class="main-content flex-1">
-    <router-outlet></router-outlet>
-  </div>
-</div> -->
-
-<!-- <app-super-admin/> -->
-
-<div class="w-full flex flex-row">
-  <div class="left w-1/4">
-    <app-side-bar/>
-    <!-- <app-sidebar-admin/> -->
-  </div>
-  
-  <div class="right w-3/4">
-    <router-outlet/>
+<!-- <div *ngIf="!userRole">
+  <div class="w-full flex flex-row h-screen">
+    <div class="left w-1/4 slide-in-left">
+      <app-side-bar></app-side-bar>
+    </div>
+    <div class="right w-3/4 h-screen">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
 
+<div *ngIf="userRole === 'librarian'">
+  <div class="w-full flex flex-row h-screen">
+    <div class="left w-1/4 slide-in-left">
+      <app-sidebar-admin></app-sidebar-admin>
+    </div>
+    <div class="right w-3/4 h-screen">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
 
+<div *ngIf="userRole === 'admin'">
+  <div class="w-full flex flex-row h-screen">
+    <div class="left w-1/4">
+        <app-super-sidebar/>
+    </div>
+    <div class="right w-3/4 h-screen">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div> -->
 
-
-
-
+<div class="w-full flex flex-row h-screen">
+  <div class="left w-1/4 slide-in-left">
+    @if (!userRole) {
+      <app-side-bar/>
+    } @else if (userRole === 'librarian') {
+      <app-sidebar-admin/>
+    } @else if (userRole === 'admin') {
+      <app-super-sidebar/>
+    } @else { <span>Unknown state</span> }
+  </div>
+  <div class="right w-3/4 h-screen">
+    <router-outlet/>
+  </div>
+</div>

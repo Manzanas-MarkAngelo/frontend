@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 //Components
 import { AppRoutingModule } from './app-routing.module';
@@ -46,10 +47,41 @@ import { AddTypeSuccessComponent } from './admin/add-type-success/add-type-succe
 import { ProfileComponent } from './admin/profile/profile.component';
 import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { NavbarComponent } from './super-admin/navbar/navbar.component';
+import { MaterialInfoComponent } from './client/material-info/material-info.component';
 
 //Services
 import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
+import { TimeLogService } from '../services/time-log.service';
+import { RecordsService } from '../services/records.service';
+import { SnackbarService } from '../services/snackbar.service';
+import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
+import { AdminLoginService } from '../services/admin-login.service';
+import { AdminService } from '../services/admin.service';
+import { BooksComponent } from './super-admin/books/books.component';
+import { StudentComponent } from './super-admin/student/student.component';
+import { FacultyComponent } from './super-admin/faculty/faculty.component';
+import { VisitorComponent } from './super-admin/visitor/visitor.component';
+import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
+import { UserRecordComponent } from './super-admin/user-record/user-record.component';
+import { AddUserComponent } from './super-admin/add-user/add-user.component';
+import { AddMaterialService } from '../services/add-material.service';
+import { AddStudentComponent } from './super-admin/add-student/add-student.component';
+import { AddFacultyComponent } from './super-admin/add-faculty/add-faculty.component';
+import { AddVisitorComponent } from './super-admin/add-visitor/add-visitor.component';
+import { EditStudentComponent } from './super-admin/edit-student/edit-student.component';
+import { EditFacultyComponent } from './super-admin/edit-faculty/edit-faculty.component';
+import { EditVisitorComponent } from './super-admin/edit-visitor/edit-visitor.component';
+import { DeleteWarningComponent } from './super-admin/delete-warning/delete-warning.component';
+import { DeleteSuccessComponent } from './super-admin/delete-success/delete-success.component';
+import { EditWarningComponent } from './super-admin/edit-warning/edit-warning.component';
+import { EditSuccessComponent } from './super-admin/edit-success/edit-success.component';
+import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/add-faculty-success.component';
+import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
+import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
+import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
+import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-delete.component';
+
 
 
 @NgModule({
@@ -94,19 +126,50 @@ import { MaterialsService } from '../services/materials.service';
     AddTypeSuccessComponent,
     ProfileComponent,
     SuperAdminComponent,
-    NavbarComponent
+    NavbarComponent,
+    MaterialInfoComponent,
+    TimeinAlreadyComponent,
+    BooksComponent,
+    StudentComponent,
+    FacultyComponent,
+    VisitorComponent,
+    SuperSidebarComponent,
+    UserRecordComponent,
+    AddUserComponent,
+    AddStudentComponent,
+    AddFacultyComponent,
+    AddVisitorComponent,
+    EditStudentComponent,
+    EditFacultyComponent,
+    EditVisitorComponent,
+    DeleteWarningComponent,
+    DeleteSuccessComponent,
+    EditWarningComponent,
+    EditSuccessComponent,
+    AddFacultySuccessComponent,
+    EditFacultySuccessComponent,
+    AddVisitorSuccessComponent,
+    DeleteVisitorSuccessComponent,
+    SnackbarDeleteComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(withFetch()),
     RegisterService,
     MaterialsService,
+    TimeLogService,
+    RecordsService,
+    AdminLoginService,
+    AdminService,
+    AddMaterialService,
+    SnackbarService,
   ],
   bootstrap: [AppComponent]
 })

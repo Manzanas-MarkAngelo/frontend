@@ -1,7 +1,7 @@
 <app-time/>
 
 <div class="flex items-start justify-center mt-[3.5rem]">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 h-full mb-40 slide-in-right">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 h-full slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Fill up fields to register*
@@ -57,63 +57,7 @@
 
     <form (submit)="onSubmit()">
       <div class="mb-4 mt-4 flex items-center space-x-4">
-
-        <!-- <ng-container *ngIf="selectedRole === 'student'">
-          <input
-            id="studentNumber"
-            name="studentNumber"
-            type="text"
-            [(ngModel)]="studentNumber"
-            class="flex-grow 
-                   mt-1 
-                   block 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Enter your PUP ID number here"/>
-        </ng-container>
-        <ng-container *ngIf="selectedRole === 'faculty'">
-          <input
-            id="employeeNumber"
-            name="employeeNumber"
-            type="text"
-            [(ngModel)]="empNumber"
-            class="flex-grow 
-                   mt-1 
-                   block 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Enter your employee number here"/>
-        </ng-container>
-        <ng-container *ngIf="selectedRole === 'visitor'">
-          <input
-            id="school"
-            name="school"
-            type="text"
-            [(ngModel)]="school"
-            class="flex-grow 
-                   mt-1 
-                   block 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="School"/>
-        </ng-container> -->
-
-        @if (selectedRole === 'student') {
+        <ng-container *ngIf="selectedRole === 'student'">
           <input
           id="studentNumber"
           name="studentNumber"
@@ -130,13 +74,14 @@
                  py-2 
                  focus:ring-opacity-50 
                  text-lg"/>
-        } @else if (selectedRole === 'faculty') {
+        </ng-container>
+        <ng-container *ngIf="selectedRole === 'faculty'">
           <input
           id="employeeNumber"
           name="employeeNumber"
           type="text"
           [(ngModel)]="empNumber"
-          placeholder="Enter your employee number here"
+          placeholder="Enter your Faculty code here"
           class="flex-grow 
                  mt-1 
                  block 
@@ -147,7 +92,8 @@
                  py-2 
                  focus:ring-opacity-50 
                  text-lg"/>
-        } @else {
+        </ng-container>
+        <ng-container *ngIf="selectedRole === 'visitor'">
           <input
           id="school"
           name="school"
@@ -164,7 +110,7 @@
                  py-2 
                  focus:ring-opacity-50 
                  text-lg"/>
-        }
+        </ng-container>
         <div class="relative mr-44">
           <select
             id="sex"
@@ -250,102 +196,7 @@
           placeholder="Last name"/>
 
         <div class="relative mr-44">
-          <!-- <ng-container *ngIf="selectedRole === 'faculty'">
-            <input
-              id="dept"
-              name="dept"
-              type="text"
-              [(ngModel)]="department"
-              class="w-full 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Department"/>
-          </ng-container>
           <ng-container *ngIf="selectedRole === 'student'">
-            <select
-              id="course"
-              name="course"
-              [(ngModel)]="course"
-              class="block 
-                     appearance-none 
-                     w-full 
-                     bg-secondary 
-                     text-gray-700 
-                     font-medium 
-                     py-3 
-                     px-6 
-                     pr-8 
-                     rounded-full 
-                     leading-tight 
-                     focus:outline-none 
-                     focus:bg-[#ffb700] 
-                     cursor-pointer 
-                     text-lg">
-                     <option value="" disabled selected>Course</option>
-              <option>BSECE</option>
-              <option>BSME</option>
-              <option>BSA</option>
-              <option>BSBA</option>
-              <option>BSAM</option>
-              <option>BSIT</option>
-              <option>BSENTREP</option>
-              <option>BSED</option>
-              <option>BSOA</option>
-              <option>DICT</option>
-              <option>DOMT</option>
-            </select>
-            <div
-              class="pointer-events-none 
-                     absolute 
-                     inset-y-0 
-                     top-0.5 
-                     right-2 
-                     flex 
-                     items-center 
-                     text-gray-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-5">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-              </svg>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="selectedRole === 'visitor'">
-            <input
-              id="middleName"
-              name="middleName"
-              type="text"
-              [(ngModel)]="middleName"
-              class="w-full 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Middle name"/>
-          </ng-container> -->
-
-          @if (selectedRole === 'student') {
             <select
             id="course"
             name="course"
@@ -365,16 +216,14 @@
                    focus:bg-[#ffb700] 
                    cursor-pointer 
                    text-lg">
-                   <option value="" disabled selected>Course</option>
-            <option>BSECE</option>
-            <option>BSME</option>
-            <option>BSA</option>
+            <option value="" disabled selected>Course</option>
             <option>BSBA</option>
-            <option>BSAM</option>
-            <option>BSIT</option>
-            <option>BSENTREP</option>
+            <option>BSECE</option>
             <option>BSED</option>
+            <option>BSME</option>
+            <option>BSIT</option>
             <option>BSOA</option>
+            <option>BSPSYCH</option>
             <option>DICT</option>
             <option>DOMT</option>
           </select>
@@ -400,200 +249,160 @@
                 d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
             </svg>
           </div>
-          } @else if (selectedRole === 'faculty') {
-            <input
+          </ng-container>
+          <ng-container *ngIf="selectedRole === 'faculty'">
+            <select
             id="dept"
             name="dept"
-            type="text"
             [(ngModel)]="department"
-            placeholder="Department"
-            class="w-full 
-                   flex 
-                   mt-1 
+            class="block 
+                   appearance-none 
+                   w-full 
+                   bg-secondary 
+                   text-gray-700 
+                   font-medium 
+                   py-3 
+                   px-6 
+                   pr-8 
                    rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"/>
-          } @else {
-            <input
-            id="middleName"
-            name="middleName"
-            type="text"
-            [(ngModel)]="middleName"
-            placeholder="Middle name"
-            class="w-full 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"/>
-          }
-        </div>
-      </div>
-      <div class="mb-4 flex items-center space-x-4">
-        <input
-          id="contact"
-          name="contact"
-          type="text"
-          [(ngModel)]="contact"
-          class="flex-grow 
-                 mt-1 block 
-                 rounded-full 
-                 border 
-                 border-gray-300 
-                 px-6 
-                 py-2 
-                 focus:ring-opacity-50 
-                 text-lg"
-          placeholder="Contact number or email"/>
-        <button
-          type="submit"
-          class="w-40 
-                 bg-primary 
-                 text-white 
-                 px-4 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-[#ffb700] 
-                 hover:text-black 
-                 transition 
-                 duration-300 
-                 mt-0.5">
-          Enter
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-<!-- <div class="flex items-end justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-3xl shadow-lg ml-20 w-3/4 h-full mb-40 slide-in-right">
-      <div class="flex items-end justify-between">
-        <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
-          Fill up fields to register*
-        </h1>
-        <div class="relative">
-          <select
-            id="role"
-            name="role"
-            [(ngModel)]="selectedRole"
-            class="appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
-            <option value="" disabled selected>Role</option>
-            <option value="Student">Student</option>
-            <option value="Faculty">Faculty</option>
-            <option value="Visitor">Visitor</option>
+                   leading-tight 
+                   focus:outline-none 
+                   focus:bg-[#ffb700] 
+                   cursor-pointer 
+                   text-lg">
+            <option value="" disabled selected>Division</option>
+            <option>EXECOM</option>
+            <option>BA</option>
+            <option>ECE</option>
+            <option>ED</option>
+            <option>ME</option>
+            <option>IT</option>
+            <option>OA</option>
+            <option>PSYCH</option>
+            <option>ICT</option>
+            <option>OMT</option>
           </select>
-          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-            </svg>
-          </div>
+          <div
+          class="pointer-events-none 
+                 absolute 
+                 inset-y-0 
+                 top-0.5 
+                 right-2 
+                 flex 
+                 items-center 
+                 text-gray-700">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+          </svg>
+        </div>
+          </ng-container>
+          <ng-container *ngIf="selectedRole === 'visitor'">
+            <input
+            id="identifier"
+            name="identifier"
+            type="text"
+            [(ngModel)]="identifier"
+            placeholder="Identifier"
+            class="w-full 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"/>
+          </ng-container>
         </div>
       </div>
-  
-      <form>
-        <div class="mb-4 mt-4 flex items-center space-x-4">
-          <input
-            id="studentNumber"
-            name="studentNumber"
-            type="text"
-            class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
-            placeholder="Enter your PUP ID number here"/>
-          <div class="relative mr-44">
-            <select
-              id="sex"
-              name="sex"
-              class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
-              <option disabled selected>Sex</option>
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="mb-4 mt-1 flex items-center space-x-4">
-          <input
-            id="fname"
-            name="fname"
-            type="text"
-            class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
-            placeholder="First name"/>
-          <input
-            id="lname"
-            name="lname"
-            type="text"
-            class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
-            placeholder="Last name"/>
-          <div class="relative mr-44">
-            @if (selectedRole === 'Faculty') {
-                <input
-                id="dept"
-                name="dept"
-                type="text"
-                class="w-full flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
-                placeholder="Department"/>
-            } @else if (selectedRole === 'Visitor') {
-                <input
-                id="school"
-                name="school"
-                type="text"
-                class="w-full flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
-                placeholder="School"/>
-            }@else {
-                <select
-                id="course"
-                name="course"
-                class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
-                <option disabled selected>Course</option>
-                <option>BSECE</option>
-                <option>BSME</option>
-                <option>BSA</option>
-                <option>BSBA</option>
-                <option>BSAM</option>
-                <option>BSIT</option>
-                <option>BSENTREP</option>
-                <option>BSED</option>
-                <option>BSOA</option>
-                <option>DICT</option>
-                <option>DOMT</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-                </svg>
-              </div>
-            }
-          </div>
-        </div>
+      @if (selectedRole === 'visitor') {
         <div class="mb-4 flex items-center space-x-4">
           <input
             id="contact"
             name="contact"
-            type="text"
-            class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
-            placeholder="Contact number or email"/>
+            type="number"
+            [(ngModel)]="contact"
+            class="flex-grow 
+                   mt-1 block 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Contact number"/>
           <button
             type="submit"
-            class="w-40 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mt-0.5">
+            class="w-40 
+                   bg-primary 
+                   text-white 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   hover:bg-[#ffb700] 
+                   hover:text-black 
+                   transition 
+                   duration-300 
+                   mt-0.5">
             Enter
           </button>
         </div>
-      </form>
-    </div>
+        <div>
+          <span class="text-red-500 font-medium">Please read carefully*</span>
+          <p class="text-primary">Be sure to save or take note of 
+            your identifier. It could be your favorite color, pet's name, 
+            or favorite food. You'll need it to log in and out of the 
+            library information system. Thank you!</p>
+        </div>
+        
+      } @else {
+        <div class="mb-4 flex items-center space-x-4">
+          <input
+            id="contact"
+            name="contact"
+            type="number"
+            [(ngModel)]="contact"
+            class="flex-grow 
+                   mt-1 block 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Contact number"/>
+          <button
+            type="submit"
+            class="w-40 
+                   bg-primary 
+                   text-white 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   hover:bg-[#ffb700] 
+                   hover:text-black 
+                   transition 
+                   duration-300 
+                   mt-0.5">
+            Enter
+          </button>
+        </div>
+      }
+    </form>
   </div>
-   -->
+</div>

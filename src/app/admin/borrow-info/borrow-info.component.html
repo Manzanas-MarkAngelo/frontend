@@ -1,162 +1,354 @@
-<div class="flex items-end justify-center min-h-screen">
-    <div
-      class="bg-white p-8 rounded-3xl shadow-lg w-1/2 h-full mb-40 slide-in-right">
+<!-- <div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-end">
+  <div class="flex flex-col w-full">
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
       <div class="flex items-end justify-between">
-        <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
-          Book details
-        </h1>
+        <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">Material details</h1>
       </div>
       <form>
         <div class="mb-4 mt-1 flex items-center space-x-4">
-        <!-- Book title -->
+
           <input
             id="title"
             name="title"
             type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Title"/>
-        <!-- Book isbn -->
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Title"
+            [(ngModel)]="material.title"
+          />
+
+          <input
+            id="heading"
+            name="heading"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Subject Heading"
+            [(ngModel)]="material.subj"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+
+          <input
+            id="accnum"
+            name="accnum"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Accession number"
+            [(ngModel)]="material.accnum"
+          />
+
+          <input
+            id="category"
+            name="category"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            placeholder="Category"
+            [(ngModel)]="material.category"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+
+          <input
+            id="author"
+            name="author"
+            type="text"
+            class="w-1/2 flex 
+                   mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Author"
+            [(ngModel)]="material.author"
+          />
+
+          <input
+            id="callnum"
+            name="callnum"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Call number"
+            [(ngModel)]="material.callno"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+
+          <input
+            id="copyright"
+            name="copyright"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Copyright"
+            [(ngModel)]="material.copyright"
+          />
+
+          <input
+            id="publisher"
+            name="publisher"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Publisher"
+            [(ngModel)]="material.publisher"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+
+          <input
+            id="edition"
+            name="edition"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Edition"
+            [(ngModel)]="material.edition"
+          />
+
           <input
             id="isbn"
             name="isbn"
             type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="ISBN"/>
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="ISBN"
+            [(ngModel)]="material.isbn"
+          />
         </div>
-        <div class="mb-4 mt-1 flex items-center space-x-4">
-        <!-- Book publisher -->
-            <input
-              id="publish"
-              name="publish"
-              type="text"
-              class="w-1/2 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Publisher"/>
-        <!-- Book status -->
-            <input
-              id="status"
-              name="status"
-              type="text"
-              class="w-1/2 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Available"/>
-          </div>
-        <div class="mb-4 mt-1 flex items-center space-x-4">
-        <!-- Student number -->
-            <input
-              id="idnum"
-              name="idnum"
-              type="text"
-              class="w-1/2 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Student/Faculty ID number"/>
-        <!-- Accession number -->
-            <input
-              id="accnum"
-              name="accnum"
-              type="text"
-              class="w-1/2 
-                     flex 
-                     mt-1 
-                     rounded-full 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="Accession number"/>
-          </div>
-        <div class="mb-4 flex items-center justify-center space-x-4">
-            <!-- Back button -->
-            <button
-                type="submit"
-                class="w-2/5 
-                       bg-primary 
-                       text-white 
-                       px-4 
-                       py-3 
-                       rounded-full 
-                       font-medium 
-                       hover:bg-[#ffb700] 
-                       hover:text-black 
-                       transition 
-                       duration-300 
-                       mt-0.5"
-                 routerLink="/borrow">
-                Back
+        <div class="mb-4 mt-1 flex items-center space-x-2">
+
+          <input
+            id="status"
+            name="status"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="Status"
+            [(ngModel)]="material.status"
+          />
+
+          <input
+            id="idnum"
+            name="idnum"
+            type="text"
+            class="w-1/2 flex mt-1 rounded-full 
+                   border border-gray-300 px-3 pl-6 py-2 
+                   focus:ring-opacity-50 text-lg"
+            placeholder="ID number (Borrower)"
+          />
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-2 justify-end">
+
+          <button
+            routerLink="/borrow"
+            type="button"
+            class="w-1/5 bg-primary text-white px-4 py-3 
+                   rounded-full font-medium 
+                   hover:bg-[#ffb700] hover:text-black 
+                   transition duration-300 mt-0.5"
+          >
+            Back  
           </button>
-          <!-- Continue button -->
+
           <button
             type="submit"
-            class="w-2/5 
-                   bg-secondary 
-                   text-black 
-                   px-4 
-                   py-3 
-                   rounded-full 
-                   font-medium 
-                   hover:bg-[#801e1d] 
-                   hover:text-white 
-                   transition 
-                   duration-300 
-                   mt-0.5"
-             routerLink="/borrow-success">
+            class="w-[29%] bg-secondary text-black px-4 py-3 
+                   rounded-full font-medium hover:bg-[#801e1d] 
+                   hover:text-white transition duration-300 mt-0.5"
+          >
             Continue
           </button>
         </div>
       </form>
     </div>
-   </div>
-     
-   
+  </div>
+</div> -->
 
-   
+<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-32 justify-end">
+  <div class="flex flex-col w-full">
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
+      <div class="flex items-end justify-between">
+        <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">Material details</h1>
+      </div>
+      <form>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Book title -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="title"
+              name="title"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.title"
+            />
+            <label for="title" class="floating-label">Title</label>
+          </div>
+          <!-- Subject Heading -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="heading"
+              name="heading"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.subj"
+            />
+            <label for="heading" class="floating-label">Subject Heading</label>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Accession number -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="accnum"
+              name="accnum"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.accnum"
+            />
+            <label for="accnum" class="floating-label">Accession number</label>
+          </div>
+          <!-- Category -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="category"
+              name="category"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.category"
+            />
+            <label for="category" class="floating-label">Category</label>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Author -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="author"
+              name="author"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.author"
+            />
+            <label for="author" class="floating-label">Author</label>
+          </div>
+          <!-- Call number -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="callnum"
+              name="callnum"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.callno"
+            />
+            <label for="callnum" class="floating-label">Call number</label>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Copyright -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="copyright"
+              name="copyright"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.copyright"
+            />
+            <label for="copyright" class="floating-label">Copyright</label>
+          </div>
+          <!-- Publisher -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="publisher"
+              name="publisher"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.publisher"
+            />
+            <label for="publisher" class="floating-label">Publisher</label>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Edition -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="edition"
+              name="edition"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.edition"
+            />
+            <label for="edition" class="floating-label">Edition</label>
+          </div>
+          <!-- ISBN -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="isbn"
+              name="isbn"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.isbn"
+            />
+            <label for="isbn" class="floating-label">ISBN</label>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <!-- Status -->
+          <div class="relative w-1/2">
+            <input
+              readonly
+              id="status"
+              name="status"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.status"
+            />
+            <label for="status" class="floating-label">Status</label>
+          </div>
+          <!-- (Student/Faculty) ID number -->
+          <div class="relative w-1/2">
+            <input
+              id="idnum"
+              name="idnum"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 py-2 focus:ring-opacity-50 text-lg"
+              placeholder=" "
+            />
+            <label for="idnum" class="floating-label">ID number (Borrower)</label>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-1.5 justify-end">
+          <!-- Back button -->
+          <button
+            routerLink="/borrow"
+            type="button"
+            class="w-1/5 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mt-0.5"
+          >
+            Back
+          </button>
+          <!-- Continue button -->
+          <button
+            type="submit"
+            class="w-[29%] bg-secondary text-black px-4 py-3 rounded-full font-medium hover:bg-[#801e1d] hover:text-white transition duration-300 mt-0.5"
+          >
+            Continue
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
