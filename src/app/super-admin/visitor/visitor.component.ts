@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
+import { SnackbarService } from '../../../services/snackbar.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,8 +16,9 @@ export class VisitorComponent implements OnInit {
   itemsPerPage: number = 12;
   showModal: boolean = false;
   selectedVisitor: any = null;
+  selectedVisitorName: string = null;
 
-  constructor(private recordsService: RecordsService, private router: Router) { }
+  constructor(private recordsService: RecordsService, private snackbarService: SnackbarService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchRecords();
@@ -36,8 +38,9 @@ export class VisitorComponent implements OnInit {
     this.fetchRecords();
   }
 
-  openDeleteModal(visitor: any) {
+  openDeleteModal(visitor: any, name: string) {
     this.selectedVisitor = visitor;
+    this.selectedVisitorName = name;
     this.showModal = true;
   }
 
@@ -51,8 +54,10 @@ export class VisitorComponent implements OnInit {
       this.recordsService.deleteVisitor(this.selectedVisitor.user_id).subscribe(() => {
         this.showModal = false;
         this.selectedVisitor = null;
-        this.router.navigate(['/delete-visitor-success']);
+        this.snackbarService.showSnackbar('Visitor deleted successfully');
+        this.fetchRecords();
       }, error => {
+        this.snackbarService.showSnackbar('Failed to delete visitor');
         console.error('Error deleting visitor:', error);
       });
     }

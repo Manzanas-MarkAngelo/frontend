@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-student',
@@ -17,7 +18,8 @@ export class StudentComponent implements OnInit {
   selectedStudentId: number | null = null;
   slectedStudentName: string ='';
 
-  constructor(private recordsService: RecordsService) {}
+  constructor(private recordsService: RecordsService, 
+              private snackbarService: SnackbarService) {}
 
   ngOnInit(): void {
     this.fetchRecords();
@@ -52,29 +54,16 @@ export class StudentComponent implements OnInit {
     if (this.selectedStudentId !== null) {
       this.recordsService.deleteStudent(this.selectedStudentId).subscribe(
         response => {
-          console.log( this.selectedStudentId)
-          this.snackBarMessage = 'Student deleted successfully';
-          this.showSnackBar();
+          console.log( this.selectedStudentId, response)
+          this.snackbarService.showSnackbar('Student deleted successfully');
           this.fetchRecords();
         },
         error => {
-          this.snackBarMessage = 'Failed to delete student';
-          this.showSnackBar();
+          this.snackbarService.showSnackbar('Failed to delete student');
           console.error('Error deleting student:', error);
         }
       );
       this.closeConfirmModal();
     }
-  }
-
-  showSnackBar(): void {
-    this.snackBarVisible = true;
-    setTimeout(() => {
-      this.snackBarVisible = false;
-    }, 3000); // 3000ms = 3 seconds
-  }
-
-  closeSnackBar(): void {
-    this.snackBarVisible = false;
   }
 }

@@ -150,7 +150,7 @@ export class BooksComponent {
           this.snackBarVisible = true;
           setTimeout(() => {
             this.snackBarVisible = false;
-          }, 3000); // Snackbar visible for 3 seconds
+          }, 5000); // Snackbar visible for 3 seconds
           this.closeConfirmModal();
         } else {
           this.snackBarMessage = 'Failed to delete material';

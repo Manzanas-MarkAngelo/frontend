@@ -54,6 +54,7 @@ import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
 import { RecordsService } from '../services/records.service';
+import { SnackbarService } from '../services/snackbar.service';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
 import { AdminLoginService } from '../services/admin-login.service';
 import { AdminService } from '../services/admin.service';
@@ -79,6 +80,7 @@ import { AddFacultySuccessComponent } from './super-admin/add-faculty-success/ad
 import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
 import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
 import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
+import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-delete.component';
 
 
 
@@ -147,7 +149,8 @@ import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-succ
     AddFacultySuccessComponent,
     EditFacultySuccessComponent,
     AddVisitorSuccessComponent,
-    DeleteVisitorSuccessComponent
+    DeleteVisitorSuccessComponent,
+    SnackbarDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -166,6 +169,7 @@ import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-succ
     AdminLoginService,
     AdminService,
     AddMaterialService,
+    SnackbarService,
   ],
   bootstrap: [AppComponent]
 })
