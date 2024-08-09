@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MaterialsService } from '../../../services/materials.service';
+import { BorrowService } from '../../../services/borrow.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -21,8 +21,7 @@ export class BorrowComponent implements OnInit {
 
   categoryPlaceholder: string = 'Choose category';
 
-  constructor(private materialsService: MaterialsService, 
-      private router: Router) {}
+  constructor(private borrowService: BorrowService, private router: Router) {}
 
   navigateToDetails(accnum: string) {
     this.router.navigate(['/borrow-info', accnum]);
@@ -35,11 +34,9 @@ export class BorrowComponent implements OnInit {
       distinctUntilChanged(),
       switchMap(term => {
         if (this.category) {
-          return this.materialsService.searchMaterialsByCategory(term, 
-              this.category, this.currentPage, this.itemsPerPage);
+          return this.borrowService.searchBorrowableMaterialsByCategory(term, this.category, this.currentPage, this.itemsPerPage);
         } else {
-          return this.materialsService.searchMaterials(term, 
-              this.currentPage, this.itemsPerPage);
+          return this.borrowService.searchBorrowableMaterials(term, this.currentPage, this.itemsPerPage);
         }
       })
     ).subscribe(response => {
@@ -52,16 +49,14 @@ export class BorrowComponent implements OnInit {
   loadMaterials() {
     if (this.searchTerm) {
       if (this.category) {
-        this.materialsService.searchMaterialsByCategory(this.searchTerm, 
-              this.category, this.currentPage, this.itemsPerPage)
+        this.borrowService.searchBorrowableMaterialsByCategory(this.searchTerm, this.category, this.currentPage, this.itemsPerPage)
           .subscribe(response => {
             this.materials = response.data;
             this.totalItems = response.totalItems;
             this.totalPages = response.totalPages;
           });
       } else {
-        this.materialsService.searchMaterials(this.searchTerm, 
-              this.currentPage, this.itemsPerPage)
+        this.borrowService.searchBorrowableMaterials(this.searchTerm, this.currentPage, this.itemsPerPage)
           .subscribe(response => {
             this.materials = response.data;
             this.totalItems = response.totalItems;
@@ -69,15 +64,14 @@ export class BorrowComponent implements OnInit {
           });
       }
     } else if (this.category) {
-      this.materialsService.filterMaterialsByCategory(this.category, 
-            this.currentPage, this.itemsPerPage)
+      this.borrowService.filterBorrowableMaterialsByCategory(this.category, this.currentPage, this.itemsPerPage)
         .subscribe(response => {
           this.materials = response.data;
           this.totalItems = response.totalItems;
           this.totalPages = response.totalPages;
         });
     } else {
-      this.materialsService.getMaterials(this.currentPage, this.itemsPerPage)
+      this.borrowService.getBorrowableMaterials(this.currentPage, this.itemsPerPage)
         .subscribe(response => {
           this.materials = response.data;
           this.totalItems = response.totalItems;
@@ -115,16 +109,7 @@ export class BorrowComponent implements OnInit {
       'Filipiñana': 'PUPT Fili',
       'Circulation': 'PUPT Circ',
       'Fiction': 'PUPT Fic',
-      'Reference': 'PUPT Ref',
-      'Thesis/Dissertations': 'PUPT TH/D',
-      'Feasibility': 'PUPT Feas',
       'Donations': 'PUPT Don',
-      'E-Book': 'PUPT EB',
-      'PDF': 'PUPT pdf',
-      'Business Plan': 'PUPTBP',
-      'Case Study': 'PUPTCS',
-      'Training Manual': 'PUPTTM',
-      'OJT/Internship': 'PUPTOJT/I'
     };
     return categoryMap[category] || '';
   }

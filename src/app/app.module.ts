@@ -82,6 +82,7 @@ import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/
 import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
 import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
 import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-delete.component';
+import { BorrowService } from '../services/borrow.service';
 
 
 
@@ -171,7 +172,8 @@ import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-
     AdminService,
     AddMaterialService,
     SnackbarService,
-    ReportsService
+    ReportsService,
+    BorrowService
   ],
   bootstrap: [AppComponent]
 })
