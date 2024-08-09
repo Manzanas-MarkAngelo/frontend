@@ -69,19 +69,11 @@
                         tabindex="0"
                         class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black"
                     >
-                        <li><a (click)="CategoryPlaceholder('Filipiñana')">Filipiñana</a></li>
-                        <li><a (click)="CategoryPlaceholder('Circulation')">Circulation</a></li>
-                        <li><a (click)="CategoryPlaceholder('Fiction')">Fiction</a></li>
-                        <li><a (click)="CategoryPlaceholder('Reference')">Reference</a></li>
-                        <li><a (click)="CategoryPlaceholder('Thesis/Dissertations')">Thesis/Dissertations</a></li>
-                        <li><a (click)="CategoryPlaceholder('Feasibility')">Feasibility</a></li>
-                        <li><a (click)="CategoryPlaceholder('Donations')">Donations</a></li>
-                        <li><a (click)="CategoryPlaceholder('E-Book')">E-Book</a></li>
-                        <li><a (click)="CategoryPlaceholder('PDF')">PDF</a></li>
-                        <li><a (click)="CategoryPlaceholder('Business Plan')">Business Plan</a></li>
-                        <li><a (click)="CategoryPlaceholder('Case Study')">Case Study</a></li>
-                        <li><a (click)="CategoryPlaceholder('Training Manual')">Training Manual</a></li>
-                        <li><a (click)="CategoryPlaceholder('OJT/Internship')">OJT/Internship</a></li>
+                    @for (category of categories; track $index) {
+                       <li>
+                            <a (click)="CategoryPlaceholder(category.mat_type)">{{category.mat_type}}</a>
+                       </li>
+                    }
                     </ul>
                 </div>
             </div>
