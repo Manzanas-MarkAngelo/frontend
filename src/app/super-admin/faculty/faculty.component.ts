@@ -53,7 +53,6 @@ export class FacultyComponent implements OnInit {
     if (this.selectedUserId !== null) {
       this.recordsService.deleteFaculty(this.selectedUserId).subscribe(() => {
         this.showModal = false;
-        this.selectedUserId = null;
         this.fetchRecords();
         this.snackbarService.showSnackbar('Faculty deleted successfully');
       }, error => {
