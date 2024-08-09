@@ -22,7 +22,7 @@ $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
-$sql = "SELECT id, accnum, title, author, subj, copyright, callno, status 
+$sql = "SELECT id, accnum, title, author, subj, copyright, callno, status, isbn 
         FROM materials 
         WHERE (accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?)";
 
