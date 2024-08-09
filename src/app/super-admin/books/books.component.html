@@ -69,9 +69,11 @@
                         tabindex="0"
                         class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black"
                     >
-                       <li *ngFor="let category of categories">
+                    @for (category of categories; track $index) {
+                       <li>
                             <a (click)="CategoryPlaceholder(category.mat_type)">{{category.mat_type}}</a>
                        </li>
+                    }
                     </ul>
                 </div>
             </div>
