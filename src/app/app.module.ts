@@ -55,6 +55,7 @@ import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
 import { RecordsService } from '../services/records.service';
 import { SnackbarService } from '../services/snackbar.service';
+import { ReportsService } from '../services/reports.service';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
 import { AdminLoginService } from '../services/admin-login.service';
 import { AdminService } from '../services/admin.service';
@@ -170,6 +171,7 @@ import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-
     AdminService,
     AddMaterialService,
     SnackbarService,
+    ReportsService
   ],
   bootstrap: [AppComponent]
 })
