@@ -1,41 +1,77 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { ReportsService } from '../../../services/reports.service'; 
+import { MaterialsService } from '../../../services/materials.service';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit {
   inventoryPlaceholder: string = 'Inventory';
   categoryPlaceholder: string = 'Category';
   programPlaceholder: string = 'Program';
-  isLoading: boolean = false; // Add a loading state
+  category: string = ''; // This will hold the selected accession number
+  isLoading: boolean = false;
+  categories: { mat_type: string, accession_no: string }[] = [];
 
-  constructor(private reportsService: ReportsService) { }
+  constructor(private reportsService: ReportsService, private materialService: MaterialsService) { }
 
+  ngOnInit() {
+    this.fetchCategories();  
+  }
+
+  fetchCategories() {
+    this.materialService.getCategories().subscribe(
+      data => {
+        this.categories = data.map((category: any) => ({
+          mat_type: category.mat_type,
+          accession_no: category.accession_no
+        }));
+      },
+      error => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+  
   InventoryPlaceholder(value: string) {
     this.inventoryPlaceholder = value;
   }
 
   CategoryPlaceholder(value: string) {
+    console.log('Selected category:', value);
     this.categoryPlaceholder = value;
+    this.category = this.mapCategoryToAccessionNumber(value);
+    console.log(`Mapped accession number: ${this.category}`);
+  }
+
+  mapCategoryToAccessionNumber(selectedType: string): string {
+    if (selectedType === 'All') {
+      return ''; // Handle 'All' case for all records
+    }
+    const matchedCategory = this.categories.find(cat => cat.mat_type === selectedType);
+    return matchedCategory ? matchedCategory.accession_no : '';
   }
 
   ProgramPlaceholder(value: string) {
     this.programPlaceholder = value;
   }
 
+  //*PDF Generation
   generatePDFPreview() {
-    this.isLoading = true; // Set loading state to true
-
+    this.isLoading = true;
+  
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = "PUPT INVENTORY REPORTS";
-
-    this.reportsService.getMaterials().subscribe(
+  
+    // Use selected accession number for filtering
+    const selectedCategory = this.categoryPlaceholder === 'Category' ? '' : this.category;
+  
+    this.reportsService.getMaterials(selectedCategory).subscribe(
       data => {
         const tableData = data.data.map((material: any) => [
           material.accnum,
@@ -46,23 +82,27 @@ export class ReportsComponent {
           material.isbn,
           material.status
         ]);
-
+  
         doc.setFontSize(16);
         doc.setTextColor("#800000");
-        doc.text(title, doc.internal.pageSize.getWidth() / 2, 15, { align: "center" });
-
+        doc.text(title, doc.internal.pageSize
+            .getWidth() / 2, 15, { align: "center" });
+  
         doc.setFontSize(12);
         doc.setTextColor("#000000");
-        doc.text(subtitle, doc.internal.pageSize.getWidth() / 2, 23, { align: "center" });
-
-        let startY = 30;
-
+        doc.text(subtitle, doc.internal.pageSize
+            .getWidth() / 2, 23, { align: "center" });
+  
+        let startY = 35; //starting Y value for the table
+  
         autoTable(doc, {
-          head: [['Accession No.', 'Author', 'Title', 'Copyright', 'Call No.', 'ISBN', 'Remarks']],
+          head: [['Accession No.', 'Author', 'Title', 'Copyright',
+                  'Call No.', 'ISBN', 'Remarks']],         
           body: tableData,
           startY: startY,
           theme: 'grid',
           headStyles: { fillColor: '#800000', textColor: [255, 255, 255] },
+          
           columnStyles: {
             0: { cellWidth: 30 },
             1: { cellWidth: 40 },
@@ -72,6 +112,7 @@ export class ReportsComponent {
             5: { cellWidth: 30 },
             6: { cellWidth: 20 }
           },
+          
           styles: {
             overflow: 'linebreak',
             cellPadding: 2
@@ -80,17 +121,17 @@ export class ReportsComponent {
             startY = data.cursor.y;
           }
         });
-
+  
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
         const iframe = document.getElementById('pdf-preview') as HTMLIFrameElement;
         iframe.src = pdfUrl;
-
-        this.isLoading = false; // Set loading state to false after PDF is generated
+  
+        this.isLoading = false;
       },
       error => {
         console.error('Error generating PDF:', error);
-        this.isLoading = false; // Set loading state to false in case of error
+        this.isLoading = false;
       }
     );
   }

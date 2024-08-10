@@ -10,7 +10,12 @@ export class ReportsService {
 
   constructor(private http: HttpClient) { }
 
-  getMaterials(limit: number = 100000): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}?limit=${limit}`);
+getMaterials(category: string = '', limit: number = 100000): Observable<any> {
+  let url = `${this.apiUrl}?limit=${limit}`;
+  if (category && category !== 'All') {
+    url += `&category=${encodeURIComponent(category)}`;
   }
+  return this.http.get<any>(url);
+}
+
 }
