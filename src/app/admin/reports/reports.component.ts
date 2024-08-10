@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import { ReportsService } from '../../../services/reports.service'; 
 import { MaterialsService } from '../../../services/materials.service';
 
@@ -17,7 +19,8 @@ export class ReportsComponent implements OnInit {
   isLoading: boolean = false;
   categories: { mat_type: string, accession_no: string }[] = [];
 
-  constructor(private reportsService: ReportsService, private materialService: MaterialsService) { }
+  constructor(private reportsService: ReportsService, 
+              private materialService: MaterialsService) { }
 
   ngOnInit() {
     this.fetchCategories();  
@@ -60,7 +63,7 @@ export class ReportsComponent implements OnInit {
     this.programPlaceholder = value;
   }
 
-  //*PDF Generation
+  //* PDF Generation
   generatePDFPreview() {
     this.isLoading = true;
   
@@ -85,13 +88,11 @@ export class ReportsComponent implements OnInit {
   
         doc.setFontSize(16);
         doc.setTextColor("#800000");
-        doc.text(title, doc.internal.pageSize
-            .getWidth() / 2, 15, { align: "center" });
+        doc.text(title, doc.internal.pageSize.getWidth() / 2, 15, { align: "center" });
   
         doc.setFontSize(12);
         doc.setTextColor("#000000");
-        doc.text(subtitle, doc.internal.pageSize
-            .getWidth() / 2, 23, { align: "center" });
+        doc.text(subtitle, doc.internal.pageSize.getWidth() / 2, 23, { align: "center" });
   
         let startY = 35; //starting Y value for the table
   
@@ -102,7 +103,6 @@ export class ReportsComponent implements OnInit {
           startY: startY,
           theme: 'grid',
           headStyles: { fillColor: '#800000', textColor: [255, 255, 255] },
-          
           columnStyles: {
             0: { cellWidth: 30 },
             1: { cellWidth: 40 },
@@ -112,7 +112,6 @@ export class ReportsComponent implements OnInit {
             5: { cellWidth: 30 },
             6: { cellWidth: 20 }
           },
-          
           styles: {
             overflow: 'linebreak',
             cellPadding: 2
@@ -135,4 +134,87 @@ export class ReportsComponent implements OnInit {
       }
     );
   }
-}
+
+    //* Excel/CSV Generation
+    async saveAsExcel() {
+      this.isLoading = true;
+  
+      const selectedCategory = this.categoryPlaceholder === 'Category' ? '' : this.category;
+  
+      this.reportsService.getMaterials(selectedCategory).subscribe(
+        async data => {
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet('Report');
+  
+          // Add header row
+          worksheet.addRow(['Accession No.', 'Author', 'Title', 'Copyright', 
+                            'Call No.', 'ISBN', 'Remarks']);
+          
+          // Add data rows
+          data.data.forEach((material: any) => {
+            worksheet.addRow([
+              material.accnum,
+              material.author,
+              material.title,
+              material.copyright,
+              material.callno,
+              material.isbn,
+              material.status
+            ]);
+          });
+  
+          // Set column widths
+          worksheet.columns = [
+            { width: 15 }, // Accession No.
+            { width: 25 }, // Author
+            { width: 40 }, // Title
+            { width: 15 }, // Copyright
+            { width: 20 }, // Call No.
+            { width: 15 }, // ISBN
+            { width: 20 }  // Remarks
+          ];
+  
+          // Style the header
+          worksheet.getRow(1).eachCell(cell => {
+            cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+            cell.fill = {
+              type: 'pattern',
+              pattern: 'solid',
+              fgColor: { argb: 'FF800000' }
+            };
+            cell.alignment = { horizontal: 'center', vertical: 'middle' };
+            cell.border = {
+              top: { style: 'thin', color: { argb: 'FF000000' } },
+              left: { style: 'thin', color: { argb: 'FF000000' } },
+              bottom: { style: 'thin', color: { argb: 'FF000000' } },
+              right: { style: 'thin', color: { argb: 'FF000000' } }
+            };
+          });
+  
+          // Style data rows
+          worksheet.eachRow({ includeEmpty: false }, row => {
+            row.eachCell(cell => {
+              cell.alignment = { vertical: 'middle', horizontal: 'left' };
+              cell.border = {
+                top: { style: 'thin', color: { argb: 'FF000000' } },
+                left: { style: 'thin', color: { argb: 'FF000000' } },
+                bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                right: { style: 'thin', color: { argb: 'FF000000' } }
+              };
+            });
+          });
+  
+          // Generate Excel file
+          const buffer = await workbook.xlsx.writeBuffer();
+          const blob = new Blob([buffer], { type: 'application/octet-stream' });
+          saveAs(blob, `PUPT_Inventory_Report_${new Date().getTime()}.xlsx`);
+  
+          this.isLoading = false;
+        },
+        error => {
+          console.error('Error generating Excel:', error);
+          this.isLoading = false;
+        }
+      );
+    }
+  }
