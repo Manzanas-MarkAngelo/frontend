@@ -18,6 +18,7 @@ export class ReportsComponent implements OnInit {
   category: string = ''; // This will hold the selected accession number
   isLoading: boolean = false;
   categories: { mat_type: string, accession_no: string }[] = [];
+  showInitialDisplay: boolean = true;
 
   constructor(private reportsService: ReportsService, 
               private materialService: MaterialsService) { }
@@ -66,6 +67,7 @@ export class ReportsComponent implements OnInit {
   //* PDF Generation
   generatePDFPreview() {
     this.isLoading = true;
+    this.showInitialDisplay = false;
   
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
