@@ -168,11 +168,11 @@ export class ReportsComponent implements OnInit {
           // Set column widths
           worksheet.columns = [
             { width: 15 }, // Accession No.
-            { width: 25 }, // Author
-            { width: 40 }, // Title
+            { width: 70 }, // Author
+            { width: 70 }, // Title
             { width: 15 }, // Copyright
-            { width: 20 }, // Call No.
-            { width: 15 }, // ISBN
+            { width: 40 }, // Call No.
+            { width: 35 }, // ISBN
             { width: 20 }  // Remarks
           ];
   
