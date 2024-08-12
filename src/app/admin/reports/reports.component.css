@@ -5,7 +5,7 @@
 
 /* Loader styling */
 .loader {
-    border: 8px solid #dedede; /* Light grey */
+    border: 8px solid #c6c6c6; /* Light grey */
     border-top: 8px solid #8b0000; /* Blue */
     border-radius: 50%;
     width: 60px;

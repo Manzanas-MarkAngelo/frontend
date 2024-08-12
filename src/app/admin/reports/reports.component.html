@@ -79,6 +79,13 @@
       
       <!-- PDF preview iframe -->
       <iframe id="pdf-preview" class="w-full h-[650px] mt-3 rounded-md bg-[#8b0000] bg-opacity-65 p-2"></iframe>
+
+      @if(showInitialDisplay) {
+        <div class="flex justify-center items-center w-full h-full absolute top-0 left-0 z-0 pointer-events-none">
+          <img src="../../../assets/reports_inital_display.png" alt="Reports" class="w-1/4 h-auto">
+        </div>
+      }
+      
     </div>
   </div>
 </div>
