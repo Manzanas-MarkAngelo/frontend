@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BorrowService } from '../../../services/borrow.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-borrow',
@@ -21,11 +20,7 @@ export class BorrowComponent implements OnInit {
 
   categoryPlaceholder: string = 'Choose category';
 
-  constructor(private borrowService: BorrowService, private router: Router) {}
-
-  navigateToDetails(accnum: string) {
-    this.router.navigate(['/borrow-info', accnum]);
-  }
+  constructor(private borrowService: BorrowService) {}
 
   ngOnInit() {
     this.loadMaterials();
@@ -34,9 +29,18 @@ export class BorrowComponent implements OnInit {
       distinctUntilChanged(),
       switchMap(term => {
         if (this.category) {
-          return this.borrowService.searchBorrowableMaterialsByCategory(term, this.category, this.currentPage, this.itemsPerPage);
+          return this.borrowService.searchBorrowableMaterialsByCategory(
+            term, 
+            this.category, 
+            this.currentPage, 
+            this.itemsPerPage
+          );
         } else {
-          return this.borrowService.searchBorrowableMaterials(term, this.currentPage, this.itemsPerPage);
+          return this.borrowService.searchBorrowableMaterials(
+            term, 
+            this.currentPage, 
+            this.itemsPerPage
+          );
         }
       })
     ).subscribe(response => {
@@ -49,14 +53,23 @@ export class BorrowComponent implements OnInit {
   loadMaterials() {
     if (this.searchTerm) {
       if (this.category) {
-        this.borrowService.searchBorrowableMaterialsByCategory(this.searchTerm, this.category, this.currentPage, this.itemsPerPage)
+        this.borrowService.searchBorrowableMaterialsByCategory(
+          this.searchTerm, 
+          this.category, 
+          this.currentPage, 
+          this.itemsPerPage
+        )
           .subscribe(response => {
             this.materials = response.data;
             this.totalItems = response.totalItems;
             this.totalPages = response.totalPages;
           });
       } else {
-        this.borrowService.searchBorrowableMaterials(this.searchTerm, this.currentPage, this.itemsPerPage)
+        this.borrowService.searchBorrowableMaterials(
+          this.searchTerm, 
+          this.currentPage, 
+          this.itemsPerPage
+        )
           .subscribe(response => {
             this.materials = response.data;
             this.totalItems = response.totalItems;
@@ -64,14 +77,21 @@ export class BorrowComponent implements OnInit {
           });
       }
     } else if (this.category) {
-      this.borrowService.filterBorrowableMaterialsByCategory(this.category, this.currentPage, this.itemsPerPage)
+      this.borrowService.filterBorrowableMaterialsByCategory(
+        this.category, 
+        this.currentPage, 
+        this.itemsPerPage
+      )
         .subscribe(response => {
           this.materials = response.data;
           this.totalItems = response.totalItems;
           this.totalPages = response.totalPages;
         });
     } else {
-      this.borrowService.getBorrowableMaterials(this.currentPage, this.itemsPerPage)
+      this.borrowService.getBorrowableMaterials(
+        this.currentPage, 
+        this.itemsPerPage
+      )
         .subscribe(response => {
           this.materials = response.data;
           this.totalItems = response.totalItems;
@@ -99,7 +119,7 @@ export class BorrowComponent implements OnInit {
   clearSearch(): void {
     this.searchTerm = '';
     this.category = '';
-    this.currentPage = 1; 
+    this.currentPage = 1;
     this.categoryPlaceholder = 'Choose category';
     this.loadMaterials();
   }

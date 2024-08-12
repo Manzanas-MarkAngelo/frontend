@@ -24,4 +24,11 @@ export class BorrowService {
   searchBorrowableMaterialsByCategory(term: string, category: string, page: number, limit: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/fetch_borrowable_materials.php?search=${term}&category=${category}&page=${page}&limit=${limit}`);
   }
+
+  borrowBook(idNumber: string, materialId: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/borrow_book.php`, {
+      id_number: idNumber,
+      material_id: materialId
+    });
+  }
 }
