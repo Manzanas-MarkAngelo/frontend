@@ -11,20 +11,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+// Check for overdue books
+$currentDate = date('Y-m-d');
+$sql = "UPDATE borrowing 
+        SET remark = 'Overdue' 
+        WHERE due_date < ? AND remark = 'In Progress'";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $currentDate);
+$stmt->execute();
+
+// Now proceed with fetching the borrowable materials
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 13;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
-$sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn 
+$sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, 
+               m.copyright, m.callno, m.status, m.isbn 
         FROM materials m
         JOIN category c ON m.categoryid = c.cat_id
         WHERE c.cat_type = 'Normal' AND c.duration > 0 
-        AND (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
+        AND (m.accnum LIKE ? 
+             OR m.title LIKE ? 
+             OR m.author LIKE ? 
+             OR m.subj LIKE ? 
+             OR m.copyright LIKE ? 
+             OR m.callno LIKE ? 
+             OR m.status LIKE ?)";
 
 if (!empty($category)) {
     $sql .= " AND m.accnum LIKE ?";
@@ -35,9 +53,15 @@ $sql .= " LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 
 if (!empty($category)) {
-    $stmt->bind_param("ssssssssii", $search, $search, $search, $search, $search, $search, $search, $category, $limit, $offset);
+    $stmt->bind_param(
+        "ssssssssii", 
+        $search, $search, $search, $search, $search, 
+        $search, $search, $category, $limit, $offset);
 } else {
-    $stmt->bind_param("sssssssii", $search, $search, $search, $search, $search, $search, $search, $limit, $offset);
+    $stmt->bind_param(
+        "sssssssii", 
+        $search, $search, $search, $search, $search, 
+        $search, $search, $limit, $offset);
 }
 
 $stmt->execute();
@@ -52,7 +76,13 @@ $total_sql = "SELECT COUNT(*) as count
               FROM materials m
               JOIN category c ON m.categoryid = c.cat_id
               WHERE c.cat_type = 'Normal' AND c.duration > 0
-              AND (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
+              AND (m.accnum LIKE ? 
+                   OR m.title LIKE ? 
+                   OR m.author LIKE ? 
+                   OR m.subj LIKE ? 
+                   OR m.copyright LIKE ? 
+                   OR m.callno LIKE ? 
+                   OR m.status LIKE ?)";
 
 if (!empty($category)) {
     $total_sql .= " AND m.accnum LIKE ?";
@@ -61,9 +91,12 @@ if (!empty($category)) {
 $total_stmt = $conn->prepare($total_sql);
 
 if (!empty($category)) {
-    $total_stmt->bind_param("ssssssss", $search, $search, $search, $search, $search, $search, $search, $category);
+    $total_stmt->bind_param(
+        "ssssssss", 
+        $search, $search, $search, $search, $search, $search, $search, $category);
 } else {
-    $total_stmt->bind_param("sssssss", $search, $search, $search, $search, $search, $search, $search);
+    $total_stmt->bind_param(
+        "sssssss", $search, $search, $search, $search, $search, $search, $search);
 }
 
 $total_stmt->execute();

@@ -83,6 +83,7 @@ import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/ad
 import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
 import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-delete.component';
 import { BorrowService } from '../services/borrow.service';
+import { SnackbarComponent } from './admin/snackbar/snackbar.component';
 
 
 
@@ -152,7 +153,8 @@ import { BorrowService } from '../services/borrow.service';
     EditFacultySuccessComponent,
     AddVisitorSuccessComponent,
     DeleteVisitorSuccessComponent,
-    SnackbarDeleteComponent
+    SnackbarDeleteComponent,
+    SnackbarComponent
   ],
   imports: [
     BrowserModule,
