@@ -17,17 +17,18 @@ ini_set('display_errors', 1);
 $data = json_decode(file_get_contents('php://input'), true);
 
 $title = $data['title'] ?? null;
-$heading = $data['heading'] ?? null;
 $accnum = $data['accnum'] ?? null;
 $category = $data['category'] ?? null;
 $author = $data['author'] ?? null;
-$callnum = $data['callnum'] ?? null;
+$callno = $data['callnum'] ?? null;
 $copyright = $data['copyright'] ?? null;
 $publisher = $data['publisher'] ?? null;
 $edition = $data['edition'] ?? null;
 $isbn = $data['isbn'] ?? null;
 $status = $data['status'] ?? null;
-
+$heading = $data['heading'] ?? null;
+$datereceived = date('Y-m-d'); // set the current date
+$subj = $heading;
 // Define the category ID mapping
 $categoryMap = [
     'Filipiñana' => 20,
@@ -53,40 +54,15 @@ $conn->begin_transaction();
 try {
     // Insert book details into the materials table
     $stmt = $conn->prepare("INSERT INTO materials (
-        qrcode, accnum, isbn, title, subj, callno, issueno, author, 
-        publisher, amount, edition, volume, pages, source, categoryid, 
-        copyright, month, year, date, copies, boxno, thesisaccnum, 
-        articles, frequency, region, organizers, place, duration, 
-        remarks, status, location) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        accnum, isbn, datereceived, title, subj, callno, author, 
+        publisher, edition, copyright, copies, categoryid, status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $qrcode = 'null';     
-    $issueno = 'null';
-    $amount = 'null';
-    $volume = 'null';
-    $pages = 'null';
-    $source = 'null';
-    $month = 'null';
-    $year = 'null';
-    $date = 'null';
-    $copies = 'null';
-    $boxno = 'null';
-    $thesisaccnum = 'null';
-    $articles = 'null';
-    $frequency = 'null';
-    $region = 'null';
-    $organizers = 'null';
-    $place = 'null';
-    $duration = 'null';
-    $remarks = 'null';
-    $location = 'null';
+    $copies = 1; // Assuming a default value for copies, adjust as needed
 
-    $stmt->bind_param("sssssssssssssssssssssssssssssss", 
-        $qrcode, $accnum, $isbn, $title, $heading, $callnum, $issueno, 
-        $author, $publisher, $amount, $edition, $volume, $pages, $source, 
-        $categoryid, $copyright, $month, $year, $date, $copies, $boxno, 
-        $thesisaccnum, $articles, $frequency, $region, $organizers, $place, 
-        $duration, $remarks, $status, $location);
+    $stmt->bind_param("sssssssssssis", 
+        $accnum, $isbn, $datereceived, $title, $subj, $callno, 
+        $author, $publisher, $edition, $copyright, $copies, $categoryid, $status);
 
     $stmt->execute();
     $stmt->close();
