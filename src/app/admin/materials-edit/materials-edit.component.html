@@ -12,24 +12,18 @@
       <form (ngSubmit)="showConfirmModal()">
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Book title -->
-          <input
-            id="title"
-            name="title"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Title"
-            [(ngModel)]="material.title"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="title"
+              name="title"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.title"
+            />
+            <label for="title" class="floating-label">Title</label>
+          </div>
           <!-- Category -->
           <div class="w-1/2 flex mt-1">
             <input
@@ -42,7 +36,7 @@
                 <div tabindex="0" role="button"
                      class="btn w-full bg-secondary 
                             border-none text-black text-lg hover:bg-[#ffb700] 
-                            rounded-full flex items-center justify-between"
+                            rounded-box flex items-center justify-between"
                     (click)="toggleDropdown()">
                   <span>{{ selectedCategory || 'Select Category' }}</span>
                   <!-- Down Arrow Icon -->
@@ -68,184 +62,130 @@
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Accession number -->
-          <input
-            id="accnum"
-            name="accnum"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Accession number"
-            [(ngModel)]="material.accnum"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="accnum"
+              name="accnum"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.accnum"
+            />
+            <label for="accnum" class="floating-label">Accession number</label>
+          </div>
           <!-- Subject Heading -->
-          <input
-            id="heading"
-            name="heading"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Subject Heading"
-            [(ngModel)]="material.subj"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="heading"
+              name="heading"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.subj"
+            />
+            <label for="heading" class="floating-label">Subject Heading</label>
+          </div>
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Author -->
-          <input
-            id="author"
-            name="author"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Author"
-            [(ngModel)]="material.author"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="author"
+              name="author"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.author"
+            />
+            <label for="author" class="floating-label">Author</label>
+          </div>
           <!-- Call number -->
-          <input
-            id="callnum"
-            name="callnum"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Call number"
-            [(ngModel)]="material.callno"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="callnum"
+              name="callnum"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.callno"
+            />
+            <label for="callnum" class="floating-label">Call number</label>
+          </div>
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Copyright -->
-          <input
-            id="copyright"
-            name="copyright"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Copyright"
-            [(ngModel)]="material.copyright"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="copyright"
+              name="copyright"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.copyright"
+            />
+            <label for="copyright" class="floating-label">Copyright</label>
+          </div>
           <!-- Publisher -->
-          <input
-            id="publisher"
-            name="publisher"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Publisher"
-            [(ngModel)]="material.publisher"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="publisher"
+              name="publisher"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.publisher"
+            />
+            <label for="publisher" class="floating-label">Publisher</label>
+          </div>
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Edition -->
-          <input
-            id="edition"
-            name="edition"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Edition"
-            [(ngModel)]="material.edition"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="edition"
+              name="edition"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.edition"
+            />
+            <label for="edition" class="floating-label">Edition</label>
+          </div>
           <!-- ISBN -->
-          <input
-            id="isbn"
-            name="isbn"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="ISBN"
-            [(ngModel)]="material.isbn"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="isbn"
+              name="isbn"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.isbn"
+            />
+            <label for="isbn" class="floating-label">ISBN</label>
+          </div>
         </div>
-        <div class="mb-4 mt-1 flex items-center space-x-2">
+        <div class="mb-4 mt-1 flex items-center space-x-3">
           <!-- Status -->
-          <input
-            id="status"
-            name="status"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Status"
-            [(ngModel)]="material.status"
-            required />
+          <div class="relative w-1/2">
+            <input
+              required
+              placeholder=""
+              id="status"
+              name="status"
+              type="text"
+              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              [(ngModel)]="material.status"
+            />
+            <label for="status" class="floating-label">Status</label>
+          </div>
           <!-- Back button -->
           <button
             type="button"
@@ -253,8 +193,8 @@
                    bg-primary 
                    text-white 
                    px-4 
-                   py-3 
-                   rounded-full 
+                   py-4 
+                   rounded-box 
                    font-medium 
                    hover:bg-[#ffb700] 
                    hover:text-black 
@@ -267,12 +207,12 @@
           <!-- Continue button -->
           <button
             type="submit"
-            class="w-[30%] 
+            class="w-[29%] 
                    bg-secondary 
                    text-black 
                    px-4 
-                   py-3 
-                   rounded-full 
+                   py-4 
+                   rounded-box 
                    font-medium 
                    hover:bg-[#801e1d] 
                    hover:text-white 
@@ -290,12 +230,12 @@
 <!-- Confirmation Modal -->
 <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
   <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
-    <h2 class="text-center text-2xl font-medium text-primary mb-3">
-      Do you want to save these changes?
+    <h2 class="text-center text-xl font-medium text-primary mb-6">
+      Do you really want to save these changes?
     </h2>
     <div class="flex flex-col items-center justify-between h-full">
       <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
-      <div class="flex flex-row gap-4 w-full mt-4">
+      <div class="flex flex-row gap-4 w-full">
         <button
           (click)="closeConfirmModal()"
           class="flex-1

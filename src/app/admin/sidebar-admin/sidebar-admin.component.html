@@ -8,17 +8,23 @@
          p-4">
   <div class="absolute top-4 right-4 flex flex-col justify-center items-center gap-4">
     <!-- Profile-button -->
+    <div class="tooltip tooltip-left" data-tip="Profile">
     <img
       src="assets/profile.png" 
       alt="Profile"
       class="w-12 h-12 cursor-pointer"
       routerLink="/profile"/>
+    </div>
     <!-- logout-button -->
-    <img
-      src="assets/log.png"
-      alt="Logout"
-      class="w-12 h-12 cursor-pointer"
-      (click)="onLogoutClick()"/> 
+    <div class="tooltip tooltip-bottom" data-tip="Logout">
+      <img
+        src="assets/log.png"
+        alt="Logout"
+        class="w-12 h-12 cursor-pointer"
+        (click)="onLogoutClick()"
+      />
+    </div>
+    
   </div>
   <!-- PUP-logo -->
   <img
