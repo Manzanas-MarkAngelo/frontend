@@ -27,7 +27,7 @@ switch ($logType) {
                        JOIN time_log t ON s.user_id = t.user_id";
         break;
     case 'faculty':
-        $query = "SELECT emp_number as faculty_code, CONCAT(surname, ', ', first_name) as name, time_in, time_out 
+        $query = "SELECT emp_number as faculty_code, CONCAT(surname, ', ', first_name) as name, time_in, time_out, department
                   FROM faculty f 
                   JOIN time_log t ON f.user_id = t.user_id 
                   ORDER BY t.time_in DESC
