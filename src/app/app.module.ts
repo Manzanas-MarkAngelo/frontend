@@ -48,17 +48,7 @@ import { ProfileComponent } from './admin/profile/profile.component';
 import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { NavbarComponent } from './super-admin/navbar/navbar.component';
 import { MaterialInfoComponent } from './client/material-info/material-info.component';
-
-//Services
-import { RegisterService } from '../services/register.service';
-import { MaterialsService } from '../services/materials.service';
-import { TimeLogService } from '../services/time-log.service';
-import { RecordsService } from '../services/records.service';
-import { SnackbarService } from '../services/snackbar.service';
-import { ReportsService } from '../services/reports.service';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
-import { AdminLoginService } from '../services/admin-login.service';
-import { AdminService } from '../services/admin.service';
 import { BooksComponent } from './super-admin/books/books.component';
 import { StudentComponent } from './super-admin/student/student.component';
 import { FacultyComponent } from './super-admin/faculty/faculty.component';
@@ -66,7 +56,6 @@ import { VisitorComponent } from './super-admin/visitor/visitor.component';
 import { SuperSidebarComponent } from './super-admin/super-sidebar/super-sidebar.component';
 import { UserRecordComponent } from './super-admin/user-record/user-record.component';
 import { AddUserComponent } from './super-admin/add-user/add-user.component';
-import { AddMaterialService } from '../services/add-material.service';
 import { AddStudentComponent } from './super-admin/add-student/add-student.component';
 import { AddFacultyComponent } from './super-admin/add-faculty/add-faculty.component';
 import { AddVisitorComponent } from './super-admin/add-visitor/add-visitor.component';
@@ -82,10 +71,20 @@ import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/
 import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
 import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
 import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-delete.component';
-import { BorrowService } from '../services/borrow.service';
 import { SnackbarComponent } from './admin/snackbar/snackbar.component';
 
-
+//Services
+import { RegisterService } from '../services/register.service';
+import { MaterialsService } from '../services/materials.service';
+import { TimeLogService } from '../services/time-log.service';
+import { RecordsService } from '../services/records.service';
+import { SnackbarService } from '../services/snackbar.service';
+import { ReportsService } from '../services/reports.service';
+import { AdminLoginService } from '../services/admin-login.service';
+import { AdminService } from '../services/admin.service';
+import { AddMaterialService } from '../services/add-material.service';
+import { BorrowService } from '../services/borrow.service';
+import { ReturnService } from '../services/return.service';
 
 @NgModule({
   declarations: [
@@ -175,7 +174,8 @@ import { SnackbarComponent } from './admin/snackbar/snackbar.component';
     AddMaterialService,
     SnackbarService,
     ReportsService,
-    BorrowService
+    BorrowService,
+    ReturnService
   ],
   bootstrap: [AppComponent]
 })

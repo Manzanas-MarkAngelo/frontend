@@ -80,7 +80,7 @@ const routes: Routes = [
   { path: 'borrow-info', component: BorrowInfoComponent },
   { path: 'return', component: ReturnComponent },
   { path: 'return-success', component: ReturnSuccessComponent },
-  { path: 'return-warning', component: ReturnWarningComponent },
+  { path: 'return-warning/:material_id', component: ReturnWarningComponent },
   { path: 'materials', component: MaterialsComponent },
   { path: 'materials-edit/:accnum', component: MaterialsEditComponent },
   { path: 'materials-warning', component: MaterialsWarningComponent },
