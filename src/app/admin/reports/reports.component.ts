@@ -73,7 +73,48 @@ export class ReportsComponent implements OnInit {
       : `${year}`;
   }
 
-  generateInventoryReport() {
+  selectPdfReport() {
+    switch(this.inventoryPlaceholder) {
+
+      case 'Inventory':
+            this.generatePdfInventoryReport();
+            break;
+      case 'Borrowers':
+            console.log('Borrowers');
+            break;
+      case 'Students':
+            console.log('Students');
+            break;
+      case 'Faculty':
+            this.generatePdfFacultyReport();
+            break;      
+      case 'Visitors':
+            console.log('Visitors');
+            break;              
+    }
+  }
+
+  selectExcelReport() {
+    switch(this.inventoryPlaceholder) {
+
+      case 'Inventory':
+            this.generateExcelInventoryReport();
+            break;
+      case 'Borrowers':
+            console.log('Borrowers');
+            break;
+      case 'Students':
+            console.log('Students');
+            break;
+      case 'Faculty':
+            console.log('Faculty');
+            break;      
+      case 'Visitors':
+            console.log('Visitors');
+            break;              
+    }
+  }
+  generatePdfInventoryReport() {
     this.pdfReportInventoryService.generatePDF(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
       'pdf-preview',
@@ -82,7 +123,7 @@ export class ReportsComponent implements OnInit {
     );
   }
 
-  generateFacultyReport() {
+  generatePdfFacultyReport() {
     this.pdfReportFacultyService.generatePDF(
       'pdf-preview',
       (loading) => this.isLoading = loading,
@@ -90,7 +131,7 @@ export class ReportsComponent implements OnInit {
     );
   }
 
-  generateExcelReport() {
+  generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
       (loading) => this.isLoading = loading
