@@ -8,7 +8,7 @@
         <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
           <li><a (click)="InventoryPlaceholder('Inventory')">Inventory</a></li>
           <li><a (click)="InventoryPlaceholder('Borrowers')">Borrowers</a></li>
-          <li><a (click)="InventoryPlaceholder('Time-log')">Time-log</a></li>
+          <li><a (click)="InventoryPlaceholder('Time-log')">Students</a></li>
           <li><a (click)="InventoryPlaceholder('Faculty')">Faculty</a></li>
           <li><a (click)="InventoryPlaceholder('Visitors')">Visitors</a></li>
         </ul>
@@ -62,11 +62,11 @@
         </div>
         
         <div class="w-1/2 flex justify-end">
-          <button type="button" class="w-40 h-14 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300" (click)="generatePDFPreview()">
+          <button type="button" class="w-40 h-14 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300" (click)="selectPdfReport()">
             Generate PDF
           </button>
 
-          <button type="button" class="w-40 h-14 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 ml-2" (click)="saveAsExcel()">
+          <button type="button" class="w-40 h-14 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 ml-2" (click)="selectExcelReport()">
             Save to Excel
           </button>          
         </div>

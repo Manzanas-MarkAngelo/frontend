@@ -49,6 +49,9 @@ import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { NavbarComponent } from './super-admin/navbar/navbar.component';
 import { MaterialInfoComponent } from './client/material-info/material-info.component';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
+import { PdfReportInventoryService } from '../services/pdf-report-inventory.service';
+import { PdfReportFacultyService } from '../services/pdf-report-faculty.service';
+import { ExcelReportInventoryService } from '../services/excel-report-inventory.service';
 import { BooksComponent } from './super-admin/books/books.component';
 import { StudentComponent } from './super-admin/student/student.component';
 import { FacultyComponent } from './super-admin/faculty/faculty.component';
@@ -175,6 +178,9 @@ import { ReturnService } from '../services/return.service';
     SnackbarService,
     ReportsService,
     BorrowService,
+    PdfReportInventoryService,
+    PdfReportFacultyService,
+    ExcelReportInventoryService,,
     ReturnService
   ],
   bootstrap: [AppComponent]
