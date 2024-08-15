@@ -180,7 +180,7 @@ import { ReturnService } from '../services/return.service';
     BorrowService,
     PdfReportInventoryService,
     PdfReportFacultyService,
-    ExcelReportInventoryService,,
+    ExcelReportInventoryService,
     ReturnService
   ],
   bootstrap: [AppComponent]
