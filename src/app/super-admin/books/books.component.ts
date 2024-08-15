@@ -14,7 +14,7 @@ export class BooksComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 12;
+  itemsPerPage: number = 11;
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();

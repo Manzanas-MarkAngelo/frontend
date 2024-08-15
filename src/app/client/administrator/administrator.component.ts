@@ -12,12 +12,17 @@ export class AdministratorComponent {
   username: string = '';
   password: string = '';
   loginError: string | null = null;
+  passwordVisible: boolean = false;
 
   constructor(
     private adminLoginService: AdminLoginService,
     private adminService: AdminService,
     private router: Router
   ) {}
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
 
   onSubmit() {
     this.adminLoginService.login(this.username, this.password).subscribe(response => {
