@@ -19,6 +19,8 @@ export class ReportsComponent implements OnInit {
   isLoading: boolean = false;
   categories: { mat_type: string, accession_no: string }[] = [];
   showInitialDisplay: boolean = true;
+  yearAndDate = '';
+  totalItems: number = 0;  // Define totalItems property
 
   constructor(private reportsService: ReportsService, 
               private materialService: MaterialsService) { }
@@ -64,6 +66,17 @@ export class ReportsComponent implements OnInit {
     this.programPlaceholder = value;
   }
 
+  
+  getCurrentYearAndDate(option: 'get_date' | 'no_date'): string {
+      const now = new Date();
+      const year = now.getFullYear();
+      
+      return option === 'get_date' 
+          ? `${now.toLocaleString('en-US', { month: 'short' })} ${now.getDate()}, ${year}`
+          : `${year}`;
+    
+  }
+
   //* PDF Generation
   generatePDFPreview() {
     this.isLoading = true;
@@ -72,8 +85,8 @@ export class ReportsComponent implements OnInit {
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = "PUPT INVENTORY REPORTS";
+    const dateAndTime = `YEAR AS OF ${this.getCurrentYearAndDate('no_date')}`;
   
-    // Use selected accession number for filtering
     const selectedCategory = this.categoryPlaceholder === 'Category' ? '' : this.category;
   
     this.reportsService.getMaterials(selectedCategory).subscribe(
@@ -87,6 +100,7 @@ export class ReportsComponent implements OnInit {
           material.isbn,
           material.status
         ]);
+        this.totalItems = tableData.length;
   
         doc.setFontSize(16);
         doc.setTextColor("#800000");
@@ -96,11 +110,14 @@ export class ReportsComponent implements OnInit {
         doc.setTextColor("#000000");
         doc.text(subtitle, doc.internal.pageSize.getWidth() / 2, 23, { align: "center" });
   
+        doc.setFontSize(12);
+        doc.setTextColor("#252525");
+        doc.text(dateAndTime, doc.internal.pageSize.getWidth() / 2, 30, { align: "center" });
+  
         let startY = 35; //starting Y value for the table
   
         autoTable(doc, {
-          head: [['Accession No.', 'Author', 'Title', 'Copyright',
-                  'Call No.', 'ISBN', 'Remarks']],         
+          head: [['Accession No.', 'Author', 'Title', 'Copyright', 'Call No.', 'ISBN', 'Remarks']],
           body: tableData,
           startY: startY,
           theme: 'grid',
@@ -122,6 +139,35 @@ export class ReportsComponent implements OnInit {
             startY = data.cursor.y;
           }
         });
+        //TODO implement page number const totalPages = doc.getNumberOfPages();
+
+        // Define positions
+        const labelXPosition = 20; // X position for the labels
+        const valueXPosition = 80; // X position for the values
+
+        // Filter
+        const filterValue = (this.categoryPlaceholder === 'Category' || 
+            this.categoryPlaceholder === 'All') ? 
+            'None' : this.categoryPlaceholder;
+        doc.setFontSize(12);
+        doc.text(`FILTER:`, labelXPosition, doc.internal.pageSize
+            .getHeight() - 25);
+        doc.text(`${filterValue}`, valueXPosition, doc.internal.pageSize
+            .getHeight() - 25);
+
+        // Total Items
+        doc.text(`MATERIALS COUNT:`, labelXPosition, doc.internal.pageSize
+            .getHeight() - 20);
+        doc.text(`${this.totalItems}`, valueXPosition, doc.internal.pageSize
+            .getHeight() - 20);
+
+        // Year and Date
+        doc.text(`REPORT GENERATED ON:`, labelXPosition, doc.internal.pageSize
+            .getHeight() - 15);
+        doc.text(`${this.getCurrentYearAndDate('get_date')}`, valueXPosition, 
+            doc.internal.pageSize.getHeight() - 15);
+
+  
   
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
