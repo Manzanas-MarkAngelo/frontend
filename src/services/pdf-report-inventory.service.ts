@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { ReportsService } from './reports.service';
+import { CurrentDateYearService } from './current-date-year.service';
 
 @Injectable()
 export class PdfReportInventoryService {
-  constructor(private reportsService: ReportsService) {}
+  constructor(private reportsService: ReportsService, 
+              private currentDateYearService: CurrentDateYearService ) {}
 
   generatePDF(selectedCategory: string, iframeId: string, setLoading: 
     (loading: boolean) => void, setShowInitialDisplay: 
@@ -17,7 +19,8 @@ export class PdfReportInventoryService {
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = "PUPT INVENTORY REPORTS";
-    const dateAndTime = `YEAR AS OF ${this.getCurrentYearAndDate('no_date')}`;
+    const dateAndTime = `YEAR AS OF ${this.currentDateYearService
+          .getCurrentYearAndDate('no_date')}`;
 
     this.reportsService.getMaterials(selectedCategory).subscribe(
       data => {
@@ -92,7 +95,8 @@ export class PdfReportInventoryService {
         //Date and Year
         doc.text(`REPORT GENERATED ON:`, labelXPosition, doc.internal.pageSize
             .getHeight() - 15);
-        doc.text(`${this.getCurrentYearAndDate('get_date')}`, valueXPosition, 
+        doc.text(`${this.currentDateYearService
+              .getCurrentYearAndDate('get_date')}`, valueXPosition, 
           doc.internal.pageSize.getHeight() - 15);
 
         const pdfBlob = doc.output('blob');
@@ -107,14 +111,6 @@ export class PdfReportInventoryService {
         setLoading(false);
       }
     );
-  }
-
-  private getCurrentYearAndDate(option: 'get_date' | 'no_date'): string {
-    const now = new Date();
-    const year = now.getFullYear();
-    return option === 'get_date'
-      ? `${now.toLocaleString('en-US', { month: 'short' })} ${now.getDate()}, ${year}`
-      : `${year}`;
   }
 
   private getCategoryFilterLabel(selectedCategory: string): string {

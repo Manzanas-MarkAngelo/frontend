@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { RecordsService } from './records.service';
+import { CurrentDateYearService } from './current-date-year.service';
 
 @Injectable()
 export class PdfReportStudentsService {
-  constructor(private recordsService: RecordsService) {}
+  constructor(private recordsService: RecordsService, 
+              private currentDateYearService: CurrentDateYearService) {}
 
   generatePDF(iframeId: string, dateFrom: string | null, dateTo: string | null,
     setLoading: (loading: boolean) => void, setShowInitialDisplay: (show: boolean) => void) {
@@ -17,7 +19,8 @@ export class PdfReportStudentsService {
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = "PUPT FACULTY TIME LOGS";
-    const dateAndTime = `YEAR AS OF ${this.getCurrentYearAndDate('no_date')}`;
+    const dateAndTime = `YEAR AS OF ${this.currentDateYearService
+          .getCurrentYearAndDate('no_date')}`;
 
     this.recordsService.getLogs('student', 10, 1, dateFrom, dateTo).subscribe(
       response => {
@@ -78,7 +81,8 @@ export class PdfReportStudentsService {
             doc.internal.pageSize.getHeight() - 15);
         doc.text(`REPORT GENERATED ON:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 20);
-        doc.text(`${this.getCurrentYearAndDate('get_date')}`, valueXPosition, 
+        doc.text(`${this.currentDateYearService
+              .getCurrentYearAndDate('get_date')}`, valueXPosition, 
             doc.internal.pageSize.getHeight() - 20);
 
         const pdfBlob = doc.output('blob');
@@ -93,13 +97,5 @@ export class PdfReportStudentsService {
         setLoading(false);
       }
     );
-  }
-
-  private getCurrentYearAndDate(option: 'get_date' | 'no_date'): string {
-    const now = new Date();
-    const year = now.getFullYear();
-    return option === 'get_date'
-      ? `${now.toLocaleString('en-US', { month: 'short' })} ${now.getDate()}, ${year}`
-      : `${year}`;
   }
 }
