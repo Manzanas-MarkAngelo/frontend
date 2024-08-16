@@ -7,17 +7,19 @@ import { RecordsService } from './records.service';
 export class PdfReportFacultyService {
   constructor(private recordsService: RecordsService) {}
 
-  generatePDF(iframeId: string, setLoading: (loading: boolean) => void, 
-    setShowInitialDisplay: (show: boolean) => void) {
+  generatePDF(iframeId: string, dateFrom: string | null, dateTo: string | null,
+    setLoading: (loading: boolean) => void, setShowInitialDisplay: (show: boolean) => void) {
     setLoading(true);
     setShowInitialDisplay(false);
+    
+    console.log('PDF SERVICE' + dateFrom);
 
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = "PUPT FACULTY TIME LOGS";
     const dateAndTime = `YEAR AS OF ${this.getCurrentYearAndDate('no_date')}`;
 
-    this.recordsService.getLogs('faculty', 10, 1).subscribe(
+    this.recordsService.getLogs('faculty', 10, 1, dateFrom, dateTo).subscribe(
       response => {
         const facultyData = response?.records || [];
         const tableData = facultyData.map((faculty: any) => [

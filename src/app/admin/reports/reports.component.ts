@@ -19,6 +19,8 @@ export class ReportsComponent implements OnInit {
   categories: { mat_type: string, accession_no: string }[] = [];
   showInitialDisplay: boolean = true;
   totalItems: number = 0;
+  dateFrom: string | null = null;
+  dateTo: string | null = null;
 
   constructor(
     private pdfReportFacultyService: PdfReportFacultyService,
@@ -124,18 +126,32 @@ export class ReportsComponent implements OnInit {
       (show) => this.showInitialDisplay = show
     );
   }
+  //Fomat date to match date format in time_logs table in the database
+  formatDate(date: string | null): string | null {
+    if (!date) return null;
+    const parsedDate = new Date(date);
+    return `${parsedDate.getFullYear()}-${('0' + (parsedDate.getMonth() + 1))
+        .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
+  }
 
   generatePdfFacultyReport() {
+    console.log('Formatted dateFrom:', this.formatDate(this.dateFrom));
+    console.log('Formatted dateTo:', this.formatDate(this.dateTo));
+  
     this.pdfReportFacultyService.generatePDF(
       'pdf-preview',
+      this.formatDate(this.dateFrom),
+      this.formatDate(this.dateTo),
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show
     );
   }
-
+  
   generatePdfStudentsReport() {
     this.pdfReportStudentsService.generatePDF(
       'pdf-preview',
+      this.formatDate(this.dateFrom),
+      this.formatDate(this.dateTo),
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show
     );

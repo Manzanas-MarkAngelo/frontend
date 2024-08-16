@@ -9,20 +9,22 @@ import { RecordsService } from './records.service';
 export class PdfReportStudentsService {
   constructor(private recordsService: RecordsService) {}
 
-  generatePDF(iframeId: string, setLoading: (loading: boolean) => void, 
-    setShowInitialDisplay: (show: boolean) => void) {
+  generatePDF(iframeId: string, dateFrom: string | null, dateTo: string | null,
+    setLoading: (loading: boolean) => void, setShowInitialDisplay: (show: boolean) => void) {
     setLoading(true);
     setShowInitialDisplay(false);
+    
+    console.log('PDF SERVICE' + dateFrom);
 
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
-    const subtitle = "PUPT STUDENT TIME LOGS";
+    const subtitle = "PUPT FACULTY TIME LOGS";
     const dateAndTime = `YEAR AS OF ${this.getCurrentYearAndDate('no_date')}`;
 
-    this.recordsService.getLogs('student', 10, 1).subscribe(
+    this.recordsService.getLogs('student', 10, 1, dateFrom, dateTo).subscribe(
       response => {
-        const studentData = response?.records || [];
-        const tableData = studentData.map((student: any) => [
+        const sudentData = response?.records || [];
+        const tableData = sudentData.map((student: any) => [
           student.student_number,
           student.name,
           student.course,
@@ -74,7 +76,7 @@ export class PdfReportStudentsService {
         doc.setFontSize(10);
         doc.text(`Total student Records:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 15);
-        doc.text(`${studentData.length}`, valueXPosition, 
+        doc.text(`${sudentData.length}`, valueXPosition, 
             doc.internal.pageSize.getHeight() - 15);
         doc.text(`REPORT GENERATED ON:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 20);
