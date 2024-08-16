@@ -1,94 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ReturnService } from '../../../services/return.service';
 
 @Component({
   selector: 'app-return',
   templateUrl: './return.component.html',
-  styleUrl: './return.component.css'
+  styleUrls: ['./return.component.css']
 })
-export class ReturnComponent {
-  // Sample data only
-  items = [
-    {
-      name: 'Dela Cruz',
-      courseYear: 'BSIT 3-1',
-      title: 'Research 1',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2024-01-19'),
-      remarks: 'In progress'
-    },
-    {
-      name: 'Santos',
-      courseYear: 'BSIT 1-1',
-      title: 'College Algebra',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2023-12-20'),
-      remarks: 'Overdue'
-    },
-    {
-      name: 'Dela Cruz',
-      courseYear: 'BSIT 3-1',
-      title: 'Research 1',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2024-01-19'),
-      remarks: 'In progress'
-    },
-    {
-      name: 'Santos',
-      courseYear: 'BSIT 1-1',
-      title: 'College Algebra',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2023-12-20'),
-      remarks: 'Overdue'
-    },
-    {
-      name: 'Dela Cruz',
-      courseYear: 'BSIT 3-1',
-      title: 'Research 1',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2024-01-19'),
-      remarks: 'In progress'
-    },
-    {
-      name: 'Santos',
-      courseYear: 'BSIT 1-1',
-      title: 'College Algebra',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2023-12-20'),
-      remarks: 'Overdue'
-    },
-    {
-      name: 'Dela Cruz',
-      courseYear: 'BSIT 3-1',
-      title: 'Research 1',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2024-01-19'),
-      remarks: 'In progress'
-    },
-    {
-      name: 'Santos',
-      courseYear: 'BSIT 1-1',
-      title: 'College Algebra',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2023-12-20'),
-      remarks: 'Overdue'
-    },
-    {
-      name: 'Dela Cruz',
-      courseYear: 'BSIT 3-1',
-      title: 'Research 1',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2024-01-19'),
-      remarks: 'In progress'
-    },
-    {
-      name: 'Santos',
-      courseYear: 'BSIT 1-1',
-      title: 'College Algebra',
-      author: 'Sample Author',
-      dateBorrowed: new Date('2023-12-20'),
-      remarks: 'Overdue'
-    },
-    
-    // Add more items as needed
-  ];
+export class ReturnComponent implements OnInit {
+  items: any[] = [];
+
+  constructor(private returnService: ReturnService) {}
+
+  ngOnInit(): void {
+    this.fetchBorrowingData();
+  }
+
+  fetchBorrowingData(): void {
+    this.returnService.getBorrowingData().subscribe(data => {
+      this.items = data.map(item => {
+        return {
+          ...item,
+          name: `${item.first_name} ${item.surname}`,
+          courseYear: item.course_department,
+          remarks: item.remark,
+          dueDate: item.due_date,
+          dateBorrowed: item.claim_date,
+          material_id: item.material_id
+        };
+      }).sort((a, b) => {
+        if (a.remarks === 'Returned' && b.remarks !== 'Returned') {
+          return 1;
+        } else if (a.remarks !== 'Returned' && b.remarks === 'Returned') {
+          return -1;
+        } else {
+          return new Date(b.dateBorrowed).getTime() - new Date(a.dateBorrowed).getTime();
+        }
+      });
+    });
+  }  
 }
