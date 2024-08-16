@@ -3,9 +3,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { RecordsService } from './records.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PdfReportStudentsService {
   constructor(private recordsService: RecordsService) {}
 
