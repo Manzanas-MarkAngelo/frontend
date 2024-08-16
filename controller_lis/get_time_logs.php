@@ -16,7 +16,7 @@ $offset = ($page - 1) * $itemsPerPage;
 
 switch ($logType) {
     case 'student':
-        $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, time_in, time_out 
+        $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, time_in, time_out, course 
                   FROM students s 
                   JOIN time_log t ON s.user_id = t.user_id 
                   ORDER BY t.time_in DESC

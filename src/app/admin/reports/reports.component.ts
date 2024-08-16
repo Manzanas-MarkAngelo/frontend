@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PdfReportFacultyService } from '../../../services/pdf-report-faculty.service';
 import { PdfReportInventoryService } from '../../../services/pdf-report-inventory.service';
+import { PdfReportStudentsService } from '../../../services/pdf-report-students.service';
 import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
 import { MaterialsService } from '../../../services/materials.service';
 
@@ -22,6 +23,7 @@ export class ReportsComponent implements OnInit {
   constructor(
     private pdfReportFacultyService: PdfReportFacultyService,
     private pdfReportInventoryService: PdfReportInventoryService,
+    private pdfReportStudentsService: PdfReportStudentsService,
     private excelInventoryReportService: ExcelReportInventoryService,
     private materialService: MaterialsService
   ) {}
@@ -83,7 +85,7 @@ export class ReportsComponent implements OnInit {
             console.log('Borrowers');
             break;
       case 'Students':
-            console.log('Students');
+            this.generatePdfStudentsReport();
             break;
       case 'Faculty':
             this.generatePdfFacultyReport();
@@ -125,6 +127,14 @@ export class ReportsComponent implements OnInit {
 
   generatePdfFacultyReport() {
     this.pdfReportFacultyService.generatePDF(
+      'pdf-preview',
+      (loading) => this.isLoading = loading,
+      (show) => this.showInitialDisplay = show
+    );
+  }
+
+  generatePdfStudentsReport() {
+    this.pdfReportStudentsService.generatePDF(
       'pdf-preview',
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show
