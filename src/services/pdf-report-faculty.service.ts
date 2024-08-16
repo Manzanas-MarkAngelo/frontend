@@ -74,15 +74,28 @@ export class PdfReportFacultyService {
         const valueXPosition = 80;
 
         doc.setFontSize(10);
-        doc.text(`Total Faculty Records:`, labelXPosition, 
-            doc.internal.pageSize.getHeight() - 15);
-        doc.text(`${facultyData.length}`, valueXPosition, 
-            doc.internal.pageSize.getHeight() - 15);
+        //Date generated
         doc.text(`REPORT GENERATED ON:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 20);
         doc.text(`${this.currentDateYearService
               .getCurrentYearAndDate('get_date')}`, valueXPosition, 
             doc.internal.pageSize.getHeight() - 20);
+
+        //Total records
+        doc.text(`Total Faculty Records:`, labelXPosition, 
+            doc.internal.pageSize.getHeight() - 15);
+        doc.text(`${facultyData.length}`, valueXPosition, 
+            doc.internal.pageSize.getHeight() - 15);
+
+        //Filter
+        if (dateFrom && dateTo) {
+          doc.text(`Time log ranging from:`, labelXPosition, 
+              doc.internal.pageSize.getHeight() - 10);
+          doc.text(`${this.currentDateYearService
+              .formatDateString(dateFrom)} - ${this.currentDateYearService
+              .formatDateString(dateTo)}`, valueXPosition, 
+              doc.internal.pageSize.getHeight() - 10);
+        }
 
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
