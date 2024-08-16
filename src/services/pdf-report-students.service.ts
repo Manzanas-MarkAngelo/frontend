@@ -4,7 +4,7 @@ import autoTable from 'jspdf-autotable';
 import { RecordsService } from './records.service';
 
 @Injectable()
-export class PdfReportFacultyService {
+export class PdfReportStudentsService {
   constructor(private recordsService: RecordsService) {}
 
   generatePDF(iframeId: string, dateFrom: string | null, dateTo: string | null,
@@ -19,15 +19,15 @@ export class PdfReportFacultyService {
     const subtitle = "PUPT FACULTY TIME LOGS";
     const dateAndTime = `YEAR AS OF ${this.getCurrentYearAndDate('no_date')}`;
 
-    this.recordsService.getLogs('faculty', 10, 1, dateFrom, dateTo).subscribe(
+    this.recordsService.getLogs('student', 10, 1, dateFrom, dateTo).subscribe(
       response => {
-        const facultyData = response?.records || [];
-        const tableData = facultyData.map((faculty: any) => [
-          faculty.faculty_code,
-          faculty.name,
-          faculty.department,
-          faculty.time_in,
-          faculty.time_out ? faculty.time_out : 'await'
+        const sudentData = response?.records || [];
+        const tableData = sudentData.map((student: any) => [
+          student.student_number,
+          student.name,
+          student.course,
+          student.time_in,
+          student.time_out ? student.time_out : 'await'
         ]);
 
         doc.setFontSize(16);
@@ -47,7 +47,7 @@ export class PdfReportFacultyService {
 
         let startY = 35;
         autoTable(doc, {
-          head: [['Faculty Code', 'Name', 'Department', 'Time In', 'Time Out']],
+          head: [['Student No.', 'Name', 'Department', 'Time In', 'Time Out']],
           body: tableData,
           startY: startY,
           theme: 'grid',
@@ -72,9 +72,9 @@ export class PdfReportFacultyService {
         const valueXPosition = 80;
 
         doc.setFontSize(10);
-        doc.text(`Total Faculty Records:`, labelXPosition, 
+        doc.text(`Total student Records:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 15);
-        doc.text(`${facultyData.length}`, valueXPosition, 
+        doc.text(`${sudentData.length}`, valueXPosition, 
             doc.internal.pageSize.getHeight() - 15);
         doc.text(`REPORT GENERATED ON:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 20);
