@@ -89,6 +89,7 @@ import { PdfReportInventoryService } from '../services/pdf-report-inventory.serv
 import { PdfReportFacultyService } from '../services/pdf-report-faculty.service';
 import { PdfReportStudentsService } from '../services/pdf-report-students.service';
 import { ExcelReportInventoryService } from '../services/excel-report-inventory.service';
+import { CurrentDateYearService } from '../services/current-date-year.service';
 
 
 @NgModule({
@@ -185,6 +186,7 @@ import { ExcelReportInventoryService } from '../services/excel-report-inventory.
     ExcelReportInventoryService,
     ReturnService,
     PdfReportStudentsService,
+    CurrentDateYearService,
   ],
   bootstrap: [AppComponent]
 })
