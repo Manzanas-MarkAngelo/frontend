@@ -51,15 +51,21 @@
               <td>
                 @if (item.remarks === 'In Progress') {
                   <button
-                  class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
-                  [routerLink]="['/return-warning', item.material_id]">
-                  Return
-                </button>                                       
+                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
+                    [routerLink]="['/return-warning', item.material_id]">
+                    Return
+                  </button>             
                 } @else if (item.remarks === 'Overdue') {
                   <button 
                     class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium"
-                    [routerLink]="['/return-warning', item.material_id]">
+                    (click)="generatePenaltyReceipt(item)">
                     Penalty
+                  </button>
+                } @else if (item.remarks === 'Processing') {
+                  <button 
+                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
+                    [routerLink]="['/return-warning', item.material_id]">
+                    Return
                   </button>
                 } @else if (item.remarks === 'Returned') {
                   <button 
@@ -67,12 +73,20 @@
                     disabled>
                     Returned
                   </button>
+                } @else if (item.remarks === 'Returned Late') {
+                  <button 
+                    class="bg-gray-600 text-white border-none shadow-none btn-sm rounded-full font-medium" 
+                    disabled>
+                    Returned Late
+                  </button>
                 }
-              </td>
+              </td>              
             </tr>
           }
         </tbody>        
       </table>
     </div>
   </div>
+
+  <!-- <iframe id="pdfIframe" style="display: none;"></iframe> -->
 </div>

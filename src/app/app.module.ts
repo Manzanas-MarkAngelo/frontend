@@ -72,6 +72,7 @@ import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/ad
 import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
 import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-delete.component';
 import { SnackbarComponent } from './admin/snackbar/snackbar.component';
+import { PenaltyComponent } from './admin/penalty/penalty.component';
 
 //Services
 import { RegisterService } from '../services/register.service';
@@ -159,7 +160,8 @@ import { CurrentDateYearService } from '../services/current-date-year.service';
     AddVisitorSuccessComponent,
     DeleteVisitorSuccessComponent,
     SnackbarDeleteComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    PenaltyComponent
   ],
   imports: [
     BrowserModule,
