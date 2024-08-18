@@ -3,9 +3,11 @@ import { PdfReportFacultyService } from '../../../services/pdf-report-faculty.se
 import { PdfReportInventoryService } from '../../../services/pdf-report-inventory.service';
 import { PdfReportStudentsService } from '../../../services/pdf-report-students.service';
 import { PdfReportVisitorsService } from '../../../services/pdf-report-visitors.service';
-import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
-import { MaterialsService } from '../../../services/materials.service';
 import { PdfReportBorrowersService } from '../../../services/pdf-report-borrowers.service';
+import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
+import { ExcelReportFacultyService } from '../../../services/excel-report-faculty.service';
+import { MaterialsService } from '../../../services/materials.service';
+
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -32,6 +34,7 @@ export class ReportsComponent implements OnInit {
     private materialService: MaterialsService,
     private pdfReportVisitorsService: PdfReportVisitorsService,
     private pdfReportBorrowersService: PdfReportBorrowersService,
+    private excelReportFacultyService: ExcelReportFacultyService
   ) {}
 
   ngOnInit() {
@@ -103,26 +106,6 @@ export class ReportsComponent implements OnInit {
     }
   }
 
-  selectExcelReport() {
-    switch(this.inventoryPlaceholder) {
-
-      case 'Inventory':
-            this.generateExcelInventoryReport();
-            break;
-      case 'Borrowers':
-            console.log('Borrowers');
-            break;
-      case 'Students':
-            console.log('Students');
-            break;
-      case 'Faculty':
-            console.log('Faculty');
-            break;      
-      case 'Visitors':
-            console.log('Visitors');
-            break;              
-    }
-  }
   generatePdfInventoryReport() {
     this.pdfReportInventoryService.generatePDF(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
@@ -183,10 +166,39 @@ export class ReportsComponent implements OnInit {
     );
   }
 
+  selectExcelReport() {
+    switch(this.inventoryPlaceholder) {
+
+      case 'Inventory':
+            this.generateExcelInventoryReport();
+            break;
+      case 'Borrowers':
+            console.log('Borrowers');
+            break;
+      case 'Students':
+            console.log('Students');
+            break;
+      case 'Faculty':
+            this.generateExcelFacultyReport();
+            break;      
+      case 'Visitors':
+            console.log('Visitors');
+            break;              
+    }
+  }
+
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
       (loading) => this.isLoading = loading,  this.categoryPDFDIsplay
     );
   }
+
+  generateExcelFacultyReport() {
+    this.excelReportFacultyService.generateExcel(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
+    );
+}
 }
