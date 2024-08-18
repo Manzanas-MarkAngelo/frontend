@@ -75,7 +75,7 @@ export class PdfReportFacultyService {
 
         doc.setFontSize(10);
         //Date generated
-        doc.text(`REPORT GENERATED ON:`, labelXPosition, 
+        doc.text(`Report Generated On:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 20);
         doc.text(`${this.currentDateYearService
               .getCurrentYearAndDate('get_date')}`, valueXPosition, 
@@ -89,7 +89,7 @@ export class PdfReportFacultyService {
 
         //Filter
         if (dateFrom && dateTo) {
-          doc.text(`Time log ranging from:`, labelXPosition, 
+          doc.text(`Time Log Ranging From:`, labelXPosition, 
               doc.internal.pageSize.getHeight() - 10);
           doc.text(`${this.currentDateYearService
               .formatDateString(dateFrom)} - ${this.currentDateYearService

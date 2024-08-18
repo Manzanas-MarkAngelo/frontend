@@ -88,6 +88,7 @@ import { ReturnService } from '../services/return.service';
 import { PdfReportInventoryService } from '../services/pdf-report-inventory.service';
 import { PdfReportFacultyService } from '../services/pdf-report-faculty.service';
 import { PdfReportStudentsService } from '../services/pdf-report-students.service';
+import { PdfReportVisitorsService } from '../services/pdf-report-visitors.service';
 import { ExcelReportInventoryService } from '../services/excel-report-inventory.service';
 import { CurrentDateYearService } from '../services/current-date-year.service';
 
@@ -187,6 +188,7 @@ import { CurrentDateYearService } from '../services/current-date-year.service';
     ReturnService,
     PdfReportStudentsService,
     CurrentDateYearService,
+    PdfReportVisitorsService,
   ],
   bootstrap: [AppComponent]
 })

@@ -3,9 +3,8 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { RecordsService } from './records.service';
 import { CurrentDateYearService } from './current-date-year.service';
-
 @Injectable()
-export class PdfReportStudentsService {
+export class PdfReportVisitorsService {
   constructor(private recordsService: RecordsService, 
               private currentDateYearService: CurrentDateYearService) {}
 
@@ -22,15 +21,14 @@ export class PdfReportStudentsService {
     const dateAndTime = `YEAR AS OF ${this.currentDateYearService
           .getCurrentYearAndDate('no_date')}`;
 
-    this.recordsService.getLogs('student', 10, 1, dateFrom, dateTo).subscribe(
+    this.recordsService.getLogs('visitor', 10, 1, dateFrom, dateTo).subscribe(
       response => {
-        const sudentData = response?.records || [];
-        const tableData = sudentData.map((student: any) => [
-          student.student_number,
-          student.name,
-          student.course,
-          student.time_in,
-          student.time_out ? student.time_out : 'await'
+        const facultyData = response?.records || [];
+        const tableData = facultyData.map((faculty: any) => [
+          faculty.school,
+          faculty.name,
+          faculty.time_in,
+          faculty.time_out ? faculty.time_out : 'await'
         ]);
 
         doc.setFontSize(16);
@@ -50,17 +48,17 @@ export class PdfReportStudentsService {
 
         let startY = 35;
         autoTable(doc, {
-          head: [['Student No.', 'Name', 'Department', 'Time In', 'Time Out']],
+          head: [['School', 'Name', 'Time In', 'Time Out']],
           body: tableData,
           startY: startY,
           theme: 'grid',
           headStyles: { fillColor: '#800000', textColor: [255, 255, 255] },
           columnStyles: {
-            0: { cellWidth: 40 },
-            1: { cellWidth: 70 },
-            2: { cellWidth: 40 },
+            0: { cellWidth: 75 },
+            1: { cellWidth: 75 },
+            2: { cellWidth: 60 },
             3: { cellWidth: 60 },
-            4: { cellWidth: 60 }
+           
           },
           styles: {
             overflow: 'linebreak',
@@ -76,18 +74,18 @@ export class PdfReportStudentsService {
 
         doc.setFontSize(10);
         //Date generated
-        doc.text(`Rport Generated On:`, labelXPosition, 
-          doc.internal.pageSize.getHeight() - 20);
-      doc.text(`${this.currentDateYearService
-            .getCurrentYearAndDate('get_date')}`, valueXPosition, 
-          doc.internal.pageSize.getHeight() - 20);
+        doc.text(`Report Generated On:`, labelXPosition, 
+            doc.internal.pageSize.getHeight() - 20);
+        doc.text(`${this.currentDateYearService
+              .getCurrentYearAndDate('get_date')}`, valueXPosition, 
+            doc.internal.pageSize.getHeight() - 20);
 
-      //Total records
-      doc.text(`Total Student Records:`, labelXPosition, 
-          doc.internal.pageSize.getHeight() - 15);
-      doc.text(`${sudentData.length}`, valueXPosition, 
-          doc.internal.pageSize.getHeight() - 15);
-          
+        //Total records
+        doc.text(`Total Faculty Records:`, labelXPosition, 
+            doc.internal.pageSize.getHeight() - 15);
+        doc.text(`${facultyData.length}`, valueXPosition, 
+            doc.internal.pageSize.getHeight() - 15);
+
         //Filter
         if (dateFrom && dateTo) {
           doc.text(`Time Log Ranging From:`, labelXPosition, 
@@ -97,6 +95,7 @@ export class PdfReportStudentsService {
               .formatDateString(dateTo)}`, valueXPosition, 
               doc.internal.pageSize.getHeight() - 10);
         }
+
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
         const iframe = document.getElementById(iframeId) as HTMLIFrameElement;

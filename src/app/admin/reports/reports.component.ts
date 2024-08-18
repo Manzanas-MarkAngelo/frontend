@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PdfReportFacultyService } from '../../../services/pdf-report-faculty.service';
 import { PdfReportInventoryService } from '../../../services/pdf-report-inventory.service';
 import { PdfReportStudentsService } from '../../../services/pdf-report-students.service';
+import { PdfReportVisitorsService } from '../../../services/pdf-report-visitors.service';
 import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
 import { MaterialsService } from '../../../services/materials.service';
 
@@ -27,7 +28,8 @@ export class ReportsComponent implements OnInit {
     private pdfReportInventoryService: PdfReportInventoryService,
     private pdfReportStudentsService: PdfReportStudentsService,
     private excelInventoryReportService: ExcelReportInventoryService,
-    private materialService: MaterialsService
+    private materialService: MaterialsService,
+    private pdfReportVisitorsService: PdfReportVisitorsService,
   ) {}
 
   ngOnInit() {
@@ -93,7 +95,7 @@ export class ReportsComponent implements OnInit {
             this.generatePdfFacultyReport();
             break;      
       case 'Visitors':
-            console.log('Visitors');
+            this.generatePdfVisitorsReport()
             break;              
     }
   }
@@ -149,6 +151,16 @@ export class ReportsComponent implements OnInit {
   
   generatePdfStudentsReport() {
     this.pdfReportStudentsService.generatePDF(
+      'pdf-preview',
+      this.formatDate(this.dateFrom),
+      this.formatDate(this.dateTo),
+      (loading) => this.isLoading = loading,
+      (show) => this.showInitialDisplay = show
+    );
+  }
+
+  generatePdfVisitorsReport() {
+    this.pdfReportVisitorsService.generatePDF(
       'pdf-preview',
       this.formatDate(this.dateFrom),
       this.formatDate(this.dateTo),
