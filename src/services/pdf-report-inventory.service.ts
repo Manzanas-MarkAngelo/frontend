@@ -11,14 +11,18 @@ export class PdfReportInventoryService {
 
   generatePDF(selectedCategory: string, iframeId: string, setLoading: 
     (loading: boolean) => void, setShowInitialDisplay: 
-    (show: boolean) => void) {
+    (show: boolean) => void, categoryDisplay) {
       
     setLoading(true);
     setShowInitialDisplay(false);
+    let category = '';
+
+    category = categoryDisplay != 'All' ? categoryDisplay.toUpperCase() : category;
+    categoryDisplay = categoryDisplay == '' ? 'All' : categoryDisplay;
 
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
-    const subtitle = "PUPT INVENTORY REPORTS";
+    const subtitle = `PUPT INVENTORY REPORTS ${category}`;
     const dateAndTime = `YEAR AS OF ${this.currentDateYearService
           .getCurrentYearAndDate('no_date')}`;
 
@@ -81,9 +85,9 @@ export class PdfReportInventoryService {
         const valueXPosition = 80;
         //Filter
         doc.setFontSize(10);
-        doc.text(`FILTER:`, labelXPosition, doc.internal.pageSize
+        doc.text(`CATEGORY:`, labelXPosition, doc.internal.pageSize
             .getHeight() - 25);
-        doc.text(this.getCategoryFilterLabel(selectedCategory), valueXPosition, 
+        doc.text(categoryDisplay, valueXPosition, 
             doc.internal.pageSize.getHeight() - 25);
 
         //Total Items

@@ -22,6 +22,7 @@ export class ReportsComponent implements OnInit {
   totalItems: number = 0;
   dateFrom: string | null = null;
   dateTo: string | null = null;
+  categoryPDFDIsplay = '';
 
   constructor(
     private pdfReportFacultyService: PdfReportFacultyService,
@@ -57,6 +58,7 @@ export class ReportsComponent implements OnInit {
 
   CategoryPlaceholder(value: string) {
     this.categoryPlaceholder = value;
+    this.categoryPDFDIsplay = this.categoryPlaceholder;
     this.category = this.mapCategoryToAccessionNumber(value);
   }
 
@@ -126,7 +128,8 @@ export class ReportsComponent implements OnInit {
       this.categoryPlaceholder === 'Category' ? '' : this.category,
       'pdf-preview',
       (loading) => this.isLoading = loading,
-      (show) => this.showInitialDisplay = show
+      (show) => this.showInitialDisplay = show,
+      this.categoryPDFDIsplay
     );
   }
   //Fomat date to match date format in time_logs table in the database
@@ -183,7 +186,7 @@ export class ReportsComponent implements OnInit {
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
-      (loading) => this.isLoading = loading
+      (loading) => this.isLoading = loading,  this.categoryPDFDIsplay
     );
   }
 }
