@@ -5,7 +5,7 @@ import { PdfReportStudentsService } from '../../../services/pdf-report-students.
 import { PdfReportVisitorsService } from '../../../services/pdf-report-visitors.service';
 import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
 import { MaterialsService } from '../../../services/materials.service';
-
+import { PdfReportBorrowersService } from '../../../services/pdf-report-borrowers.service';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -30,6 +30,7 @@ export class ReportsComponent implements OnInit {
     private excelInventoryReportService: ExcelReportInventoryService,
     private materialService: MaterialsService,
     private pdfReportVisitorsService: PdfReportVisitorsService,
+    private pdfReportBorrowersService: PdfReportBorrowersService,
   ) {}
 
   ngOnInit() {
@@ -86,7 +87,7 @@ export class ReportsComponent implements OnInit {
             this.generatePdfInventoryReport();
             break;
       case 'Borrowers':
-            console.log('Borrowers');
+            this.generatePdfBorrowersReport()
             break;
       case 'Students':
             this.generatePdfStudentsReport();
@@ -134,6 +135,16 @@ export class ReportsComponent implements OnInit {
     const parsedDate = new Date(date);
     return `${parsedDate.getFullYear()}-${('0' + (parsedDate.getMonth() + 1))
         .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
+  }
+
+  generatePdfBorrowersReport() {
+    this.pdfReportBorrowersService.generatePDF(
+      'pdf-preview',
+      this.formatDate(this.dateFrom),
+      this.formatDate(this.dateTo),
+      (loading) => this.isLoading = loading,
+      (show) => this.showInitialDisplay = show
+    );
   }
 
   generatePdfFacultyReport() {

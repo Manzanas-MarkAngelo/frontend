@@ -11,6 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
+$startDate = isset($_GET['startDate']) ? $_GET['startDate'] : null;
+$endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
+
 $sql = "
 SELECT 
     b.material_id,
@@ -28,9 +31,13 @@ FROM
     JOIN materials m ON b.material_id = m.id
     JOIN users u ON b.user_id = u.id
     LEFT JOIN students s ON u.id = s.user_id
-    LEFT JOIN faculty f ON u.id = f.user_id
-ORDER BY 
-    b.claim_date DESC";
+    LEFT JOIN faculty f ON u.id = f.user_id";
+
+if ($startDate && $endDate) {
+    $sql .= " WHERE b.claim_date BETWEEN '$startDate' AND '$endDate'";
+}
+
+$sql .= " ORDER BY b.claim_date DESC";
 
 $result = $conn->query($sql);
 $borrowings = array();

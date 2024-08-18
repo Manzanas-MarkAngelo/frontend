@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './environments/local-environment';
 
@@ -12,8 +12,12 @@ export class ReturnService {
 
   constructor(private http: HttpClient) {}
 
-  getBorrowingData(): Observable<any> {
-    return this.http.get<any>(this.borrowingDataUrl);
+  getBorrowingData(dateFrom?: string | null, dateTo?: string | null): Observable<any> {
+    let params = new HttpParams();
+    if (dateFrom && dateTo) {
+      params = params.set('startDate', dateFrom).set('endDate', dateTo);
+    }
+    return this.http.get<any>(this.borrowingDataUrl, { params });
   }
 
   returnBook(material_id: number): Observable<any> {
