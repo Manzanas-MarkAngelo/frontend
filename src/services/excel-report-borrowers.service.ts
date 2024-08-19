@@ -1,49 +1,48 @@
 import { Injectable } from '@angular/core';
-import { RecordsService } from './records.service'; 
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import { ReturnService } from './return.service';
 import { CurrentDateYearService } from './current-date-year.service';
 
-@Injectable()
-export class ExcelReportFacultyService {
+@Injectable({
+  providedIn: 'root'
+})
+export class ExcelReportBorrowersService {
 
-  constructor(private recordsService: RecordsService, 
+  constructor(private returnService: ReturnService, 
               private currentDateYearService: CurrentDateYearService) { }
 
   async generateExcelReport(dateFrom: string | null, dateTo: string | null, 
-      setLoading: (loading: boolean) => void) {
-        
+        setLoading: (loading: boolean) => void) {
     setLoading(true);
 
-    this.recordsService.getLogs('faculty', 10, 1, dateFrom, dateTo).subscribe(
+    this.returnService.getBorrowingData(dateFrom, dateTo).subscribe(
       async response => {
-        const facultyData = response?.records || [];
-
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Faculty Time Logs');
+        const worksheet = workbook.addWorksheet('Borrowers Report');
 
         // Title
         const title = "Polytechnic University of the Philippines - Taguig Campus";
-        const subtitle = "PUPT FACULTY TIME LOGS";
+        const subtitle = "PUPT BORROWERS REPORT";
         const dateAndTime = `YEAR AS OF ${this.currentDateYearService
               .getCurrentYearAndDate('no_date')}`;
 
         // Add title and merge cells
-        worksheet.mergeCells('A1:E1');
+        worksheet.mergeCells('A1:H1');
         worksheet.getCell('A1').value = title;
         worksheet.getCell('A1').font = { bold: true, size: 16, 
               color: { argb: 'FF800000' } };
         worksheet.getCell('A1').alignment = { horizontal: 'center' };
-        
+
         // Add subtitle and merge cells
-        worksheet.mergeCells('A2:E2');
+        worksheet.mergeCells('A2:H2');
         worksheet.getCell('A2').value = subtitle;
         worksheet.getCell('A2').font = { bold: true, size: 12, 
               color: { argb: 'FF000000' } };
         worksheet.getCell('A2').alignment = { horizontal: 'center' };
-        
+
         // Add date and merge cells
-        worksheet.mergeCells('A3:E3');
+        worksheet.mergeCells('A3:H3');
         worksheet.getCell('A3').value = dateAndTime;
         worksheet.getCell('A3').font = { bold: false, size: 12, 
               color: { argb: 'FF252525' } };
@@ -53,36 +52,39 @@ export class ExcelReportFacultyService {
         worksheet.addRow([]);
 
         // Add header row
-        worksheet.addRow(['Faculty Code', 'Name', 'Department', 'Time In', 'Time Out']);
+        worksheet.addRow(['Title', 'Author', 'User Type', 'Name', 'Course',
+                          'Claim Date', 'Due Date', 'Remark']);
 
         // Add data rows
-        facultyData.forEach((faculty: any) => {
+        response.forEach((borrower: any) => {
           worksheet.addRow([
-            faculty.faculty_code,
-            faculty.name,
-            faculty.department,
-            faculty.time_in,
-            faculty.time_out ? faculty.time_out : 'await'
+            borrower.title,
+            borrower.author,
+            borrower.user_type,
+            `${borrower.first_name} ${borrower.surname}`,
+            borrower.course_department,
+            borrower.claim_date,
+            borrower.due_date,
+            borrower.remark
           ]);
         });
 
         // Set column widths
         worksheet.columns = [
-          { width: 25 }, // Faculty Code
-          { width: 40 }, // Name
-          { width: 35 }, // Department
-          { width: 20 }, // Time In
-          { width: 20 }  // Time Out
+          { width: 60 }, // Title
+          { width: 60 }, // Author
+          { width: 20 }, // User Type
+          { width: 45 }, // Name
+          { width: 20 }, // Course
+          { width: 30 }, // Claim Date
+          { width: 30 }, // Due Date
+          { width: 30 }  // Remark
         ];
 
         // Style the header
         worksheet.getRow(5).eachCell(cell => {
           cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'FF800000' }
-          };
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF800000' } };
           cell.alignment = { horizontal: 'center', vertical: 'middle' };
           cell.border = {
             top: { style: 'thin', color: { argb: 'FF000000' } },
@@ -110,15 +112,14 @@ export class ExcelReportFacultyService {
         // Add some spacing after the table
         worksheet.addRow([]);
 
-        // Add footer information
-        const footerStartRow = worksheet.lastRow.number + 1;
-        const totalRecords = `Total Faculty Records: ${facultyData.length}`;
+        // Add footer with total records and date generated
+        const totalRecords = `Total Borrowers Records: ${response.length}`;
         const reportGenerated = `Report Generated On: ${this.currentDateYearService
               .getCurrentYearAndDate('get_date')}`;
         const filterRange = dateFrom && dateTo ? 
-          `Time Log Ranging From: ${this.currentDateYearService
-                .formatDateString(dateFrom)} - ${this.currentDateYearService
-                .formatDateString(dateTo)}` : '';
+          `Borrowing Data From: ${this.currentDateYearService
+              .formatDateString(dateFrom)} - ${this.currentDateYearService
+              .formatDateString(dateTo)}` : '';
 
         worksheet.addRow([totalRecords]);
         worksheet.addRow([reportGenerated]);
@@ -127,8 +128,8 @@ export class ExcelReportFacultyService {
         }
 
         // Style footer
-        const footerRowNumbers = [footerStartRow, footerStartRow + 1, 
-              filterRange ? footerStartRow + 2 : footerStartRow + 1];
+        const footerRowNumbers = [worksheet.lastRow.number - 2, worksheet
+              .lastRow.number - 1, worksheet.lastRow.number];
         footerRowNumbers.forEach(rowNum => {
           worksheet.getRow(rowNum).eachCell({ includeEmpty: false }, cell => {
             cell.font = { bold: true, color: { argb: 'FF800000' } };
@@ -139,7 +140,7 @@ export class ExcelReportFacultyService {
         // Generate Excel file
         const buffer = await workbook.xlsx.writeBuffer();
         const blob = new Blob([buffer], { type: 'application/octet-stream' });
-        saveAs(blob, `Faculty_Time_Logs_${this.currentDateYearService
+        saveAs(blob, `PUPT_Borrowers_Report_${this.currentDateYearService
               .getCurrentYearAndDate('get_date')}.xlsx`);
 
         setLoading(false);
