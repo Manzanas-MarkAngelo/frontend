@@ -3,9 +3,14 @@ import { PdfReportFacultyService } from '../../../services/pdf-report-faculty.se
 import { PdfReportInventoryService } from '../../../services/pdf-report-inventory.service';
 import { PdfReportStudentsService } from '../../../services/pdf-report-students.service';
 import { PdfReportVisitorsService } from '../../../services/pdf-report-visitors.service';
-import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
-import { MaterialsService } from '../../../services/materials.service';
 import { PdfReportBorrowersService } from '../../../services/pdf-report-borrowers.service';
+import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
+import { ExcelReportFacultyService } from '../../../services/excel-report-faculty.service';
+import { ExcelReportStudentsService } from '../../../services/excel-report-students.service';
+import { ExcelReportVisitorsService } from '../../../services/excel-report-visitors.service';
+import { ExcelReportBorrowersService } from '../../../services/excel-report-borrowers.service';
+import { MaterialsService } from '../../../services/materials.service';
+
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -22,6 +27,7 @@ export class ReportsComponent implements OnInit {
   totalItems: number = 0;
   dateFrom: string | null = null;
   dateTo: string | null = null;
+  categoryPDFDIsplay = '';
 
   constructor(
     private pdfReportFacultyService: PdfReportFacultyService,
@@ -31,6 +37,10 @@ export class ReportsComponent implements OnInit {
     private materialService: MaterialsService,
     private pdfReportVisitorsService: PdfReportVisitorsService,
     private pdfReportBorrowersService: PdfReportBorrowersService,
+    private excelReportFacultyService: ExcelReportFacultyService,
+    private excelReportBorrowersService: ExcelReportBorrowersService,
+    private excelReportStudentsService: ExcelReportStudentsService,
+    private excelReportVisitorsService: ExcelReportVisitorsService,
   ) {}
 
   ngOnInit() {
@@ -57,6 +67,7 @@ export class ReportsComponent implements OnInit {
 
   CategoryPlaceholder(value: string) {
     this.categoryPlaceholder = value;
+    this.categoryPDFDIsplay = this.categoryPlaceholder;
     this.category = this.mapCategoryToAccessionNumber(value);
   }
 
@@ -80,6 +91,16 @@ export class ReportsComponent implements OnInit {
       : `${year}`;
   }
 
+    //Fomat date to match date format in time_logs table in the database
+    formatDate(date: string | null): string | null {
+      if (!date) return null;
+      const parsedDate = new Date(date);
+      return `${parsedDate.getFullYear()}-${('0' + (parsedDate.getMonth() + 1))
+          .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
+    }
+
+  //*PDF Generation
+
   selectPdfReport() {
     switch(this.inventoryPlaceholder) {
 
@@ -101,40 +122,14 @@ export class ReportsComponent implements OnInit {
     }
   }
 
-  selectExcelReport() {
-    switch(this.inventoryPlaceholder) {
-
-      case 'Inventory':
-            this.generateExcelInventoryReport();
-            break;
-      case 'Borrowers':
-            console.log('Borrowers');
-            break;
-      case 'Students':
-            console.log('Students');
-            break;
-      case 'Faculty':
-            console.log('Faculty');
-            break;      
-      case 'Visitors':
-            console.log('Visitors');
-            break;              
-    }
-  }
   generatePdfInventoryReport() {
     this.pdfReportInventoryService.generatePDF(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
       'pdf-preview',
       (loading) => this.isLoading = loading,
-      (show) => this.showInitialDisplay = show
+      (show) => this.showInitialDisplay = show,
+      this.categoryPDFDIsplay
     );
-  }
-  //Fomat date to match date format in time_logs table in the database
-  formatDate(date: string | null): string | null {
-    if (!date) return null;
-    const parsedDate = new Date(date);
-    return `${parsedDate.getFullYear()}-${('0' + (parsedDate.getMonth() + 1))
-        .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
   }
 
   generatePdfBorrowersReport() {
@@ -180,10 +175,65 @@ export class ReportsComponent implements OnInit {
     );
   }
 
+  //*Excel Generation
+
+  selectExcelReport() {
+    switch(this.inventoryPlaceholder) {
+
+      case 'Inventory':
+            this.generateExcelInventoryReport();
+            break;
+      case 'Borrowers':
+            this.generateExcelBorrowersReport();
+            break;
+      case 'Students':
+            this.generateExcelStudentsReport();
+            break;
+      case 'Faculty':
+            this.generateExcelFacultyReport();
+            break;      
+      case 'Visitors':
+            this.generateExcelVisitorsReport();
+            break;              
+    }
+  }
+
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
-      (loading) => this.isLoading = loading
+      (loading) => this.isLoading = loading,  this.categoryPDFDIsplay
+    );
+  }
+
+  generateExcelBorrowersReport() {
+    this.excelReportBorrowersService.generateExcelReport(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
+    );
+  }
+
+  generateExcelStudentsReport() {
+    this.excelReportStudentsService.generateExcelReport(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
+    );
+  }
+
+  generateExcelFacultyReport() {
+    this.excelReportFacultyService.generateExcelReport(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
+    );
+  }
+
+  generateExcelVisitorsReport() {
+    this.excelReportVisitorsService.generateExcelReport(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
     );
   }
 }
