@@ -18,7 +18,7 @@ export class PdfReportStudentsService {
 
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
-    const subtitle = "PUPT FACULTY TIME LOGS";
+    const subtitle = "PUPT STUDENT TIME LOGS";
     const dateAndTime = `YEAR AS OF ${this.currentDateYearService
           .getCurrentYearAndDate('no_date')}`;
 

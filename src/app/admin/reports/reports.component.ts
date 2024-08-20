@@ -6,6 +6,7 @@ import { PdfReportVisitorsService } from '../../../services/pdf-report-visitors.
 import { PdfReportBorrowersService } from '../../../services/pdf-report-borrowers.service';
 import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
 import { ExcelReportFacultyService } from '../../../services/excel-report-faculty.service';
+import { ExcelReportStudentsService } from '../../../services/excel-report-students.service';
 import { ExcelReportBorrowersService } from '../../../services/excel-report-borrowers.service';
 import { MaterialsService } from '../../../services/materials.service';
 
@@ -37,6 +38,7 @@ export class ReportsComponent implements OnInit {
     private pdfReportBorrowersService: PdfReportBorrowersService,
     private excelReportFacultyService: ExcelReportFacultyService,
     private excelReportBorrowersService: ExcelReportBorrowersService,
+    private excelReportStudentsService: ExcelReportStudentsService
   ) {}
 
   ngOnInit() {
@@ -87,6 +89,16 @@ export class ReportsComponent implements OnInit {
       : `${year}`;
   }
 
+    //Fomat date to match date format in time_logs table in the database
+    formatDate(date: string | null): string | null {
+      if (!date) return null;
+      const parsedDate = new Date(date);
+      return `${parsedDate.getFullYear()}-${('0' + (parsedDate.getMonth() + 1))
+          .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
+    }
+
+  //*PDF Generation
+
   selectPdfReport() {
     switch(this.inventoryPlaceholder) {
 
@@ -116,13 +128,6 @@ export class ReportsComponent implements OnInit {
       (show) => this.showInitialDisplay = show,
       this.categoryPDFDIsplay
     );
-  }
-  //Fomat date to match date format in time_logs table in the database
-  formatDate(date: string | null): string | null {
-    if (!date) return null;
-    const parsedDate = new Date(date);
-    return `${parsedDate.getFullYear()}-${('0' + (parsedDate.getMonth() + 1))
-        .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
   }
 
   generatePdfBorrowersReport() {
@@ -168,6 +173,8 @@ export class ReportsComponent implements OnInit {
     );
   }
 
+  //*Excel Generation
+
   selectExcelReport() {
     switch(this.inventoryPlaceholder) {
 
@@ -178,7 +185,7 @@ export class ReportsComponent implements OnInit {
             this.generateExcelBorrowersReport();
             break;
       case 'Students':
-            console.log('Students');
+            this.generateExcelStudentsReport();
             break;
       case 'Faculty':
             this.generateExcelFacultyReport();
@@ -198,6 +205,14 @@ export class ReportsComponent implements OnInit {
 
   generateExcelBorrowersReport() {
     this.excelReportBorrowersService.generateExcelReport(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
+    );
+  }
+
+  generateExcelStudentsReport() {
+    this.excelReportStudentsService.generateExcelReport(
         this.formatDate(this.dateFrom),
         this.formatDate(this.dateTo),
         (loading) => this.isLoading = loading
