@@ -49,27 +49,35 @@ export class ReturnComponent implements OnInit {
     this.returnService.generatePenalty(item.material_id).subscribe(response => {
       if (response.status === 'success') {
         const pdfUrl = this.pdfPenaltyReceiptService.generateReceipt(response);
-
-        // Create an iframe to load the PDF
+  
+        // iframe to load the PDF
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
         iframe.src = pdfUrl;
         document.body.appendChild(iframe);
-
+  
         iframe.onload = () => {
           const printWindow = iframe.contentWindow;
           if (printWindow) {
             printWindow.focus();
             printWindow.print();
-
-            // Set a timeout to wait for the print dialog to close
-            setTimeout(() => {
+  
+            // Attach an onafterprint event to the parent window
+            const afterPrint = () => {
               const userConfirmed = confirm("Did the PDF get printed or saved successfully?");
               if (userConfirmed) {
                 this.confirmPenalty(); // Update remark to 'Processing'
               }
-              document.body.removeChild(iframe); // Clean up
-            }, 500);
+              document.body.removeChild(iframe);
+            };
+  
+            // Use a timeout as a fallback to ensure the alert is shown
+            let printTimeout = setTimeout(afterPrint, 1000);
+  
+            printWindow.onafterprint = () => {
+              clearTimeout(printTimeout);
+              afterPrint();
+            };
           }
         };
       } else {
@@ -88,6 +96,3 @@ export class ReturnComponent implements OnInit {
     });
   }
 }
-
-
-//GOOD

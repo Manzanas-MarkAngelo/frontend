@@ -11,14 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $data = json_decode(file_get_contents('php://input'), true);
 $material_id = $data['material_id'] ?? null;
 
 if ($material_id) {
-    $sql = "SELECT * FROM borrowing WHERE material_id = ? AND remark = 'In Progress'";
+    $sql = "SELECT * FROM borrowing WHERE material_id = ? AND (remark = 'In Progress' OR remark = 'Processing')";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $material_id);
     $stmt->execute();
@@ -26,11 +23,16 @@ if ($material_id) {
 
     if ($result->num_rows > 0) {
         $return_date = date('Y-m-d');
+
+        $row = $result->fetch_assoc();
+        $due_date = $row['due_date'];
+        $remark = (strtotime($return_date) > strtotime($due_date)) ? 'Returned Late' : 'Returned';
+
         $sql = "UPDATE borrowing 
-                SET return_date = ?, remark = 'Returned' 
-                WHERE material_id = ? AND remark = 'In Progress'";
+                SET return_date = ?, remark = ? 
+                WHERE material_id = ? AND (remark = 'In Progress' OR remark = 'Processing')";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('si', $return_date, $material_id);
+        $stmt->bind_param('ssi', $return_date, $remark, $material_id);
 
         if ($stmt->execute()) {
             $sql = "UPDATE materials SET status = 'Available' WHERE id = ?";
