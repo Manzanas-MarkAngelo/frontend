@@ -57,6 +57,14 @@ import { profile } from 'console';
 import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
 import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
 import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
+import { CoursesComponent } from './super-admin/courses/courses.component';
+import { DepartmentsComponent } from './super-admin/departments/departments.component';
+import { AddCourseComponent } from './super-admin/add-course/add-course.component';
+import { AddDepartmentComponent } from './super-admin/add-department/add-department.component';
+import { EditCourseComponent } from './super-admin/edit-course/edit-course.component';
+import { EditDepartmentComponent } from './super-admin/edit-department/edit-department.component';
+import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
+import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -117,7 +125,15 @@ const routes: Routes = [
   { path: 'delete-success', component: DeleteSuccessComponent },
   { path: 'add-faculty-success', component: AddFacultySuccessComponent },
   { path: 'add-visitor-success', component: AddVisitorSuccessComponent },
-  { path: 'delete-visitor-success', component: DeleteVisitorSuccessComponent }
+  { path: 'delete-visitor-success', component: DeleteVisitorSuccessComponent },
+  { path: 'courses', component: CoursesComponent },
+  { path: 'departments', component: DepartmentsComponent },
+  { path: 'add-course', component: AddCourseComponent },
+  { path: 'add-department', component: AddDepartmentComponent },
+  { path: 'edit-course', component: EditCourseComponent },
+  { path: 'edit-department', component: EditDepartmentComponent },
+  { path: 'add-successful', component: AddSuccessfulComponent },
+  { path: 'add-department-success', component: AddDepartmentSuccessComponent },
 ];
 
 @NgModule({

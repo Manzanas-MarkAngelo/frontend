@@ -92,6 +92,14 @@ import { PdfReportVisitorsService } from '../services/pdf-report-visitors.servic
 import { ExcelReportInventoryService } from '../services/excel-report-inventory.service';
 import { CurrentDateYearService } from '../services/current-date-year.service';
 import { PdfReportBorrowersService } from '../services/pdf-report-borrowers.service';
+import { CoursesComponent } from './super-admin/courses/courses.component';
+import { DepartmentsComponent } from './super-admin/departments/departments.component';
+import { AddCourseComponent } from './super-admin/add-course/add-course.component';
+import { AddDepartmentComponent } from './super-admin/add-department/add-department.component';
+import { EditCourseComponent } from './super-admin/edit-course/edit-course.component';
+import { EditDepartmentComponent } from './super-admin/edit-department/edit-department.component';
+import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
+import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 
 
 @NgModule({
@@ -161,7 +169,15 @@ import { PdfReportBorrowersService } from '../services/pdf-report-borrowers.serv
     AddVisitorSuccessComponent,
     DeleteVisitorSuccessComponent,
     SnackbarDeleteComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    CoursesComponent,
+    DepartmentsComponent,
+    AddCourseComponent,
+    AddDepartmentComponent,
+    EditCourseComponent,
+    EditDepartmentComponent,
+    AddSuccessfulComponent,
+    AddDepartmentSuccessComponent
   ],
   imports: [
     BrowserModule,
