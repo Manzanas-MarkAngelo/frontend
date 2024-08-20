@@ -7,6 +7,7 @@ import { PdfReportBorrowersService } from '../../../services/pdf-report-borrower
 import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
 import { ExcelReportFacultyService } from '../../../services/excel-report-faculty.service';
 import { ExcelReportStudentsService } from '../../../services/excel-report-students.service';
+import { ExcelReportVisitorsService } from '../../../services/excel-report-visitors.service';
 import { ExcelReportBorrowersService } from '../../../services/excel-report-borrowers.service';
 import { MaterialsService } from '../../../services/materials.service';
 
@@ -38,7 +39,8 @@ export class ReportsComponent implements OnInit {
     private pdfReportBorrowersService: PdfReportBorrowersService,
     private excelReportFacultyService: ExcelReportFacultyService,
     private excelReportBorrowersService: ExcelReportBorrowersService,
-    private excelReportStudentsService: ExcelReportStudentsService
+    private excelReportStudentsService: ExcelReportStudentsService,
+    private excelReportVisitorsService: ExcelReportVisitorsService,
   ) {}
 
   ngOnInit() {
@@ -191,7 +193,7 @@ export class ReportsComponent implements OnInit {
             this.generateExcelFacultyReport();
             break;      
       case 'Visitors':
-            console.log('Visitors');
+            this.generateExcelVisitorsReport();
             break;              
     }
   }
@@ -221,6 +223,14 @@ export class ReportsComponent implements OnInit {
 
   generateExcelFacultyReport() {
     this.excelReportFacultyService.generateExcelReport(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
+    );
+  }
+
+  generateExcelVisitorsReport() {
+    this.excelReportVisitorsService.generateExcelReport(
         this.formatDate(this.dateFrom),
         this.formatDate(this.dateTo),
         (loading) => this.isLoading = loading

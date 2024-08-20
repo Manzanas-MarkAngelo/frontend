@@ -5,7 +5,7 @@ import { RecordsService } from './records.service';
 import { CurrentDateYearService } from './current-date-year.service';
 
 @Injectable()
-export class ExcelReportStudentsService {
+export class ExcelReportVisitorsService {
 
   constructor(private recordsService: RecordsService, 
               private currentDateYearService: CurrentDateYearService) { }
@@ -13,14 +13,14 @@ export class ExcelReportStudentsService {
   async generateExcelReport(dateFrom: string | null, dateTo: string | null, setLoading: (loading: boolean) => void) {
     setLoading(true);
 
-    this.recordsService.getLogs('student', 10, 1, dateFrom, dateTo).subscribe(
+    this.recordsService.getLogs('visitor', 10, 1, dateFrom, dateTo).subscribe(
       async response => {
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Student Time Logs Report');
+        const worksheet = workbook.addWorksheet('Visitor Time Logs Report');
 
         // Title
         const title = "Polytechnic University of the Philippines - Taguig Campus";
-        const subtitle = "PUPT STUDENT TIME LOGS";
+        const subtitle = "PUPT VISITOR TIME LOGS";
         const dateAndTime = `YEAR AS OF ${this.currentDateYearService.getCurrentYearAndDate('no_date')}`;
 
         // Add title and merge cells
@@ -45,25 +45,23 @@ export class ExcelReportStudentsService {
         worksheet.addRow([]);
 
         // Add header row
-        worksheet.addRow(['Student No.', 'Name', 'Department', 'Time In', 'Time Out']);
+        worksheet.addRow(['School', 'Name', 'Time In', 'Time Out']);
 
         // Add data rows
-        const studentData = response?.records || [];
-        studentData.forEach((student: any) => {
+        const visitorData = response?.records || [];
+        visitorData.forEach((visitor: any) => {
           worksheet.addRow([
-            student.student_number,
-            student.name,
-            student.course,
-            student.time_in,
-            student.time_out ? student.time_out : 'await'
+            visitor.school,
+            visitor.name,
+            visitor.time_in,
+            visitor.time_out ? visitor.time_out : 'await'
           ]);
         });
 
         // Set column widths
         worksheet.columns = [
-          { width: 40 }, // Student No.
+          { width: 50 }, // School
           { width: 50 }, // Name
-          { width: 35 }, // Department
           { width: 40 }, // Time In
           { width: 40 }  // Time Out
         ];
@@ -100,7 +98,7 @@ export class ExcelReportStudentsService {
         worksheet.addRow([]);
 
         // Add footer with total records and date generated
-        const totalRecords = `Total Student Records: ${studentData.length}`;
+        const totalRecords = `Total Visitor Records: ${visitorData.length}`;
         const reportGenerated = `Report Generated On: ${this.currentDateYearService.getCurrentYearAndDate('get_date')}`;
         const filterRange = dateFrom && dateTo ? 
           `Time Log Ranging From: ${this.currentDateYearService.formatDateString(dateFrom)} - ${this.currentDateYearService.formatDateString(dateTo)}` : '';
@@ -123,7 +121,7 @@ export class ExcelReportStudentsService {
         // Generate Excel file
         const buffer = await workbook.xlsx.writeBuffer();
         const blob = new Blob([buffer], { type: 'application/octet-stream' });
-        saveAs(blob, `PUPT_Student_Time_Logs_Report_${this.currentDateYearService.getCurrentYearAndDate('get_date')}.xlsx`);
+        saveAs(blob, `PUPT_Visitor_Time_Logs_Report_${this.currentDateYearService.getCurrentYearAndDate('get_date')}.xlsx`);
 
         setLoading(false);
       },

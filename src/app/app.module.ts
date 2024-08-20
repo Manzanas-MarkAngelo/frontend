@@ -91,6 +91,8 @@ import { PdfReportStudentsService } from '../services/pdf-report-students.servic
 import { PdfReportVisitorsService } from '../services/pdf-report-visitors.service';
 import { ExcelReportInventoryService } from '../services/excel-report-inventory.service';
 import { ExcelReportFacultyService } from '../services/excel-report-faculty.service';
+import { ExcelReportStudentsService } from '../services/excel-report-students.service';
+import { ExcelReportVisitorsService } from '../services/excel-report-visitors.service';
 import { CurrentDateYearService } from '../services/current-date-year.service';
 import { PdfReportBorrowersService } from '../services/pdf-report-borrowers.service';
 
@@ -192,7 +194,9 @@ import { PdfReportBorrowersService } from '../services/pdf-report-borrowers.serv
     CurrentDateYearService,
     PdfReportVisitorsService,
     PdfReportBorrowersService,
-    ExcelReportFacultyService
+    ExcelReportFacultyService,
+    ExcelReportStudentsService,
+    ExcelReportVisitorsService,
   ],
   bootstrap: [AppComponent]
 })
