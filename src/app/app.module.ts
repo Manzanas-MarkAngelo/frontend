@@ -181,6 +181,7 @@ import { AddDepartmentSuccessComponent } from './super-admin/add-department-succ
     EditDepartmentComponent,
     AddSuccessfulComponent,
     AddDepartmentSuccessComponent
+
   ],
   imports: [
     BrowserModule,
