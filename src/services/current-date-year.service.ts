@@ -12,4 +12,13 @@ export class CurrentDateYearService {
       ? `${now.toLocaleString('en-US', { month: 'short' })} ${now.getDate()}, ${year}`
       : `${year}`;
   }
+
+  formatDateString(dateString: string): string {
+    const date = new Date(dateString);
+
+    const formattedDate = `${date.toLocaleString
+      ('en-US', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()}`;
+
+    return formattedDate;
+  }
 }

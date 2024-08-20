@@ -1,36 +1,37 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { RecordsService } from './records.service';
+import { ReturnService } from './return.service';
 import { CurrentDateYearService } from './current-date-year.service';
 
 @Injectable()
-export class PdfReportStudentsService {
-  constructor(private recordsService: RecordsService, 
+export class PdfReportBorrowersService {
+  constructor(private returnService: ReturnService, 
               private currentDateYearService: CurrentDateYearService) {}
 
   generatePDF(iframeId: string, dateFrom: string | null, dateTo: string | null,
     setLoading: (loading: boolean) => void, setShowInitialDisplay: (show: boolean) => void) {
     setLoading(true);
     setShowInitialDisplay(false);
-    
-    console.log('PDF SERVICE' + dateFrom);
 
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
-    const subtitle = "PUPT STUDENT TIME LOGS";
+    const subtitle = "PUPT BORROWERS REPORT";
     const dateAndTime = `YEAR AS OF ${this.currentDateYearService
           .getCurrentYearAndDate('no_date')}`;
 
-    this.recordsService.getLogs('student', 10, 1, dateFrom, dateTo).subscribe(
+    this.returnService.getBorrowingData(dateFrom, dateTo).subscribe(
       response => {
-        const sudentData = response?.records || [];
-        const tableData = sudentData.map((student: any) => [
-          student.student_number,
-          student.name,
-          student.course,
-          student.time_in,
-          student.time_out ? student.time_out : 'await'
+        const borrowersData = response || [];
+        const tableData = borrowersData.map((borrower: any) => [
+          borrower.title,
+          borrower.author,
+          borrower.user_type,
+          `${borrower.first_name} ${borrower.surname}`,
+          borrower.course_department,
+          borrower.claim_date,
+          borrower.due_date,
+          borrower.remark
         ]);
 
         doc.setFontSize(16);
@@ -50,17 +51,20 @@ export class PdfReportStudentsService {
 
         let startY = 35;
         autoTable(doc, {
-          head: [['Student No.', 'Name', 'Department', 'Time In', 'Time Out']],
+          head: [[ 'Title', 'Author', 'User Type', 'Name', 'Course', 'Claim Date', 'Due Date', 'Remark']],
           body: tableData,
           startY: startY,
           theme: 'grid',
           headStyles: { fillColor: '#800000', textColor: [255, 255, 255] },
           columnStyles: {
-            0: { cellWidth: 40 },
-            1: { cellWidth: 70 },
-            2: { cellWidth: 40 },
-            3: { cellWidth: 60 },
-            4: { cellWidth: 60 }
+            0: { cellWidth: 45 },
+            1: { cellWidth: 40 },
+            2: { cellWidth: 20 },
+            3: { cellWidth: 45 },
+            4: { cellWidth: 20 },
+            5: { cellWidth: 30 },
+            6: { cellWidth: 30 },
+            7: { cellWidth: 30 },
           },
           styles: {
             overflow: 'linebreak',
@@ -75,28 +79,29 @@ export class PdfReportStudentsService {
         const valueXPosition = 80;
 
         doc.setFontSize(10);
-        //Date generated
-        doc.text(`Rport Generated On:`, labelXPosition, 
-          doc.internal.pageSize.getHeight() - 20);
-      doc.text(`${this.currentDateYearService
-            .getCurrentYearAndDate('get_date')}`, valueXPosition, 
-          doc.internal.pageSize.getHeight() - 20);
+        // Date generated
+        doc.text(`Report Generated On:`, labelXPosition, 
+            doc.internal.pageSize.getHeight() - 20);
+        doc.text(`${this.currentDateYearService
+              .getCurrentYearAndDate('get_date')}`, valueXPosition, 
+            doc.internal.pageSize.getHeight() - 20);
 
-      //Total records
-      doc.text(`Total Student Records:`, labelXPosition, 
-          doc.internal.pageSize.getHeight() - 15);
-      doc.text(`${sudentData.length}`, valueXPosition, 
-          doc.internal.pageSize.getHeight() - 15);
-          
-        //Filter
+        // Total records
+        doc.text(`Total Borrowers Records:`, labelXPosition, 
+            doc.internal.pageSize.getHeight() - 15);
+        doc.text(`${borrowersData.length}`, valueXPosition, 
+            doc.internal.pageSize.getHeight() - 15);
+
+        // Filter
         if (dateFrom && dateTo) {
-          doc.text(`Time Log Ranging From:`, labelXPosition, 
+          doc.text(`Borrowing Data From:`, labelXPosition, 
               doc.internal.pageSize.getHeight() - 10);
           doc.text(`${this.currentDateYearService
               .formatDateString(dateFrom)} - ${this.currentDateYearService
               .formatDateString(dateTo)}`, valueXPosition, 
               doc.internal.pageSize.getHeight() - 10);
         }
+
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
         const iframe = document.getElementById(iframeId) as HTMLIFrameElement;
