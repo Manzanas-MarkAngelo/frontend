@@ -21,7 +21,7 @@ export class PdfReportBorrowersService {
 
     // Image settings
     const imgBase64 = '../assets/pup.png'; // Replace with your base64 image string or URL
-    const imgXPosition = 45; // X position for the image
+    const imgXPosition = 15; // X position for the image
     const imgYPosition = 5; // Y position for the image
     const imgWidth = 23; // Image width
     const imgHeight = 23; // Image height
@@ -32,7 +32,7 @@ export class PdfReportBorrowersService {
     // Adjust text positioning to start below the image
     const textStartY = 12; // Position the text below the image with a margin
 
-    doc.setFontSize(16);
+    doc.setFontSize(18);
     doc.setTextColor("#800000");
     doc.text(title, doc.internal.pageSize.getWidth() / 2, textStartY, { align: "center" });
 
