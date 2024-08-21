@@ -21,8 +21,8 @@ export class PdfReportFacultyService {
     const subtitle = "PUPT FACULTY TIME LOGS";
     const dateAndTime = `YEAR AS OF ${this.currentDateYearService.getCurrentYearAndDate('no_date')}`;
 
-    // Image settings
-    const imgBase64 = '../assets/pup.png'; // Replace with your base64 image string or URL
+    // Logo settings
+    const imgBase64 = '../assets/pup.png';
     const imgXPosition = 15; // X position for the image
     const imgYPosition = 5; // Y position for the image
     const imgWidth = 23; // Image width
