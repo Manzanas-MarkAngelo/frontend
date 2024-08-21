@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { RecordsService } from './records.service';
 import { CurrentDateYearService } from './current-date-year.service';
+
 @Injectable()
 export class PdfReportFacultyService {
   constructor(private recordsService: RecordsService, 
@@ -18,8 +19,37 @@ export class PdfReportFacultyService {
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = "PUPT FACULTY TIME LOGS";
-    const dateAndTime = `YEAR AS OF ${this.currentDateYearService
-          .getCurrentYearAndDate('no_date')}`;
+    const dateAndTime = `YEAR AS OF ${this.currentDateYearService.getCurrentYearAndDate('no_date')}`;
+
+    // Logo settings
+    const imgBase64 = '../assets/pup.png';
+    const imgXPosition = 15; // X position for the image
+    const imgYPosition = 5; // Y position for the image
+    const imgWidth = 23; // Image width
+    const imgHeight = 23; // Image height
+
+    // Add the image to the PDF at the top left corner
+    doc.addImage(imgBase64, 'PNG', imgXPosition, imgYPosition, imgWidth, imgHeight);
+
+    // Adjust text positioning to start below the image
+    const textStartY = 12; // Position the text below the image with a margin
+
+    doc.setFontSize(18);
+    doc.setTextColor("#800000");
+    doc.text(title, doc.internal.pageSize
+          .getWidth() / 2, textStartY, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setTextColor("#000000");
+    doc.text(subtitle, doc.internal.pageSize
+          .getWidth() / 2, textStartY + 8, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setTextColor("#252525");
+    doc.text(dateAndTime, doc.internal.pageSize
+          .getWidth() / 2, textStartY + 15, { align: "center" });
+
+    let startY = textStartY + 23; // Adjust the table start Y position accordingly
 
     this.recordsService.getLogs('faculty', 10, 1, dateFrom, dateTo).subscribe(
       response => {
@@ -32,22 +62,6 @@ export class PdfReportFacultyService {
           faculty.time_out ? faculty.time_out : 'await'
         ]);
 
-        doc.setFontSize(16);
-        doc.setTextColor("#800000");
-        doc.text(title, doc.internal.pageSize
-            .getWidth() / 2, 15, { align: "center" });
-
-        doc.setFontSize(12);
-        doc.setTextColor("#000000");
-        doc.text(subtitle, doc.internal.pageSize
-            .getWidth() / 2, 23, { align: "center" });
-
-        doc.setFontSize(12);
-        doc.setTextColor("#252525");
-        doc.text(dateAndTime, doc.internal.pageSize
-            .getWidth() / 2, 30, { align: "center" });
-
-        let startY = 35;
         autoTable(doc, {
           head: [['Faculty Code', 'Name', 'Department', 'Time In', 'Time Out']],
           body: tableData,
@@ -74,20 +88,19 @@ export class PdfReportFacultyService {
         const valueXPosition = 80;
 
         doc.setFontSize(10);
-        //Date generated
+        // Date generated
         doc.text(`Report Generated On:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 20);
-        doc.text(`${this.currentDateYearService
-              .getCurrentYearAndDate('get_date')}`, valueXPosition, 
-            doc.internal.pageSize.getHeight() - 20);
+        doc.text(`${this.currentDateYearService.getCurrentYearAndDate('get_date')}`, 
+            valueXPosition, doc.internal.pageSize.getHeight() - 20);
 
-        //Total records
+        // Total records
         doc.text(`Total Faculty Records:`, labelXPosition, 
             doc.internal.pageSize.getHeight() - 15);
         doc.text(`${facultyData.length}`, valueXPosition, 
             doc.internal.pageSize.getHeight() - 15);
 
-        //Filter
+        // Filter
         if (dateFrom && dateTo) {
           doc.text(`Time Log Ranging From:`, labelXPosition, 
               doc.internal.pageSize.getHeight() - 10);

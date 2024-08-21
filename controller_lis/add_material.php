@@ -29,25 +29,17 @@ $status = $data['status'] ?? null;
 $heading = $data['heading'] ?? null;
 $datereceived = date('Y-m-d'); // set the current date
 $subj = $heading;
-// Define the category ID mapping
-$categoryMap = [
-    'Filipiñana' => 20,
-    'Circulation' => 21,
-    'Fiction' => 22,
-    'Reference' => 23,
-    'Thesis/Dissertations' => 26,
-    'Feasibility' => 27,
-    'Donations' => 28,
-    'E-Book' => 29,
-    'PDF' => 30,
-    'Business Plan' => 31,
-    'Case Study' => 32,
-    'Training Manual' => 33,
-    'OJT/Internship' => 34
-];
 
-// Assign category ID based on the selected category
-$categoryid = $categoryMap[$category] ?? 0; // Default to 0 if category is not found
+// Fetch the category ID dynamically based on mat_type
+$stmt = $conn->prepare("SELECT cat_id FROM category WHERE mat_type = ?");
+$stmt->bind_param("s", $category);
+$stmt->execute();
+$stmt->bind_result($categoryid);
+$stmt->fetch();
+$stmt->close();
+
+// If category ID is not found, set it to 0 (or handle as needed)
+$categoryid = $categoryid ?? 0;
 
 $conn->begin_transaction();
 
@@ -68,8 +60,8 @@ try {
     $stmt->close();
 
     // Increment the counter column in the category table
-    $stmt = $conn->prepare("UPDATE category SET counter = counter + 1 WHERE mat_type = ?");
-    $stmt->bind_param("s", $category);
+    $stmt = $conn->prepare("UPDATE category SET counter = counter + 1 WHERE cat_id = ?");
+    $stmt->bind_param("s", $categoryid);
     $stmt->execute();
     $stmt->close();
 
