@@ -6,25 +6,60 @@ import { CurrentDateYearService } from './current-date-year.service';
 
 @Injectable()
 export class PdfReportInventoryService {
-  constructor(private reportsService: ReportsService, 
-              private currentDateYearService: CurrentDateYearService ) {}
+  constructor(
+    private reportsService: ReportsService, 
+    private currentDateYearService: CurrentDateYearService
+  ) {}
 
-  generatePDF(selectedCategory: string, iframeId: string, setLoading: 
-    (loading: boolean) => void, setShowInitialDisplay: 
-    (show: boolean) => void, categoryDisplay) {
-      
+  generatePDF(
+    selectedCategory: string, 
+    iframeId: string, 
+    setLoading: (loading: boolean) => void, 
+    setShowInitialDisplay: (show: boolean) => void, 
+    categoryDisplay: string
+  ) {
     setLoading(true);
     setShowInitialDisplay(false);
-    let category = '';
 
-    category = categoryDisplay != 'All' ? categoryDisplay.toUpperCase() : category;
-    categoryDisplay = categoryDisplay == '' ? 'All' : categoryDisplay;
+    // Properly initialize 'category'
+    let category = categoryDisplay !== 'All' ? categoryDisplay.toUpperCase() : '';
+    categoryDisplay = categoryDisplay === '' ? 'All' : categoryDisplay;
 
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = `PUPT INVENTORY REPORTS ${category}`;
     const dateAndTime = `YEAR AS OF ${this.currentDateYearService
           .getCurrentYearAndDate('no_date')}`;
+
+    // Logo settings
+    const imgBase64 = '../assets/pup.png';
+    const imgXPosition = 15; // X position for the image
+    const imgYPosition = 5; // Y position for the image
+    const imgWidth = 23; // Image width
+    const imgHeight = 23; // Image height
+
+    // Add the image to the PDF at the top left corner
+    doc.addImage(imgBase64, 'PNG', imgXPosition, imgYPosition, imgWidth, imgHeight);
+
+    // Adjust text positioning to start below the image
+    const textStartY = 12; // Position the text below the image with a margin
+
+    doc.setFontSize(18);
+    doc.setTextColor("#800000");
+    doc.text(title, doc.internal.pageSize.getWidth() / 2, 
+        textStartY, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setTextColor("#000000");
+    doc.text(subtitle, doc.internal.pageSize.getWidth() / 2, 
+        textStartY + 8, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setTextColor("#252525");
+    doc.text(dateAndTime, doc.internal.pageSize.getWidth() / 2, 
+        textStartY + 15, { align: "center" });
+
+    let startY = textStartY + 23; // Adjust the table start Y position accordingly
 
     this.reportsService.getMaterials(selectedCategory).subscribe(
       data => {
@@ -40,24 +75,8 @@ export class PdfReportInventoryService {
 
         const totalItems = tableData.length;
 
-        doc.setFontSize(16);
-        doc.setTextColor("#800000");
-        doc.text(title, doc.internal.pageSize
-            .getWidth() / 2, 15, { align: "center" });
-
-        doc.setFontSize(12);
-        doc.setTextColor("#000000");
-        doc.text(subtitle, doc.internal.pageSize
-            .getWidth() / 2, 23, { align: "center" });
-
-        doc.setFontSize(12);
-        doc.setTextColor("#252525");
-        doc.text(dateAndTime, doc.internal.pageSize
-            .getWidth() / 2, 30, { align: "center" });
-
-        let startY = 35;
         autoTable(doc, {
-          head: [['Accession No.', 'Author', 'Title', 'Copyright',
+          head: [['Accession No.', 'Author', 'Title', 'Copyright', 
                   'Call No.', 'ISBN', 'Remarks']],
           body: tableData,
           startY: startY,
@@ -83,25 +102,25 @@ export class PdfReportInventoryService {
 
         const labelXPosition = 20;
         const valueXPosition = 80;
-        //Filter
+
+        // Filter
         doc.setFontSize(10);
         doc.text(`CATEGORY:`, labelXPosition, doc.internal.pageSize
-            .getHeight() - 25);
-        doc.text(categoryDisplay, valueXPosition, 
-            doc.internal.pageSize.getHeight() - 25);
+              .getHeight() - 25);
+        doc.text(categoryDisplay, valueXPosition, doc.internal.pageSize
+              .getHeight() - 25);
 
-        //Total Items
+        // Total Items
         doc.text(`MATERIALS COUNT:`, labelXPosition, doc.internal.pageSize
-            .getHeight() - 20);
+              .getHeight() - 20);
         doc.text(`${totalItems}`, valueXPosition, doc.internal.pageSize
-            .getHeight() - 20);
+              .getHeight() - 20);
 
-        //Date and Year
+        // Date and Year
         doc.text(`REPORT GENERATED ON:`, labelXPosition, doc.internal.pageSize
-            .getHeight() - 15);
-        doc.text(`${this.currentDateYearService
-              .getCurrentYearAndDate('get_date')}`, valueXPosition, 
-          doc.internal.pageSize.getHeight() - 15);
+              .getHeight() - 15);
+        doc.text(`${this.currentDateYearService.getCurrentYearAndDate('get_date')}`, 
+              valueXPosition, doc.internal.pageSize.getHeight() - 15);
 
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);

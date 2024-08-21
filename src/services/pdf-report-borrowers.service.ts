@@ -17,10 +17,11 @@ export class PdfReportBorrowersService {
     const doc = new jsPDF('landscape');
     const title = "Polytechnic University of the Philippines - Taguig Campus";
     const subtitle = "PUPT BORROWERS REPORT";
-    const dateAndTime = `YEAR AS OF ${this.currentDateYearService.getCurrentYearAndDate('no_date')}`;
+    const dateAndTime = `YEAR AS OF ${this.currentDateYearService
+          .getCurrentYearAndDate('no_date')}`;
 
-    // Image settings
-    const imgBase64 = '../assets/pup.png'; // Replace with your base64 image string or URL
+    // Logo settings
+    const imgBase64 = '../assets/pup.png';
     const imgXPosition = 15; // X position for the image
     const imgYPosition = 5; // Y position for the image
     const imgWidth = 23; // Image width
@@ -34,15 +35,18 @@ export class PdfReportBorrowersService {
 
     doc.setFontSize(18);
     doc.setTextColor("#800000");
-    doc.text(title, doc.internal.pageSize.getWidth() / 2, textStartY, { align: "center" });
+    doc.text(title, doc.internal.pageSize.getWidth() / 2, 
+        textStartY, { align: "center" });
 
     doc.setFontSize(12);
     doc.setTextColor("#000000");
-    doc.text(subtitle, doc.internal.pageSize.getWidth() / 2, textStartY + 8, { align: "center" });
+    doc.text(subtitle, doc.internal.pageSize.getWidth() / 2, 
+        textStartY + 8, { align: "center" });
 
     doc.setFontSize(12);
     doc.setTextColor("#252525");
-    doc.text(dateAndTime, doc.internal.pageSize.getWidth() / 2, textStartY + 15, { align: "center" });
+    doc.text(dateAndTime, doc.internal.pageSize.getWidth() / 2, 
+        textStartY + 15, { align: "center" });
 
     let startY = textStartY + 23; // Adjust the table start Y position accordingly
     this.returnService.getBorrowingData(dateFrom, dateTo).subscribe(
@@ -60,7 +64,8 @@ export class PdfReportBorrowersService {
         ]);
 
         autoTable(doc, {
-          head: [[ 'Title', 'Author', 'User Type', 'Name', 'Course', 'Claim Date', 'Due Date', 'Remark']],
+          head: [[ 'Title', 'Author', 'User Type', 'Name', 
+                   'Course', 'Claim Date', 'Due Date', 'Remark']],
           body: tableData,
           startY: startY,
           theme: 'grid',
