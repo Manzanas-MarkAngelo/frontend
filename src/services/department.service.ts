@@ -20,4 +20,8 @@ export class DepartmentService {
   updateDepartment(id: number, departmentData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/update_department.php`, { id, ...departmentData });
   }
+
+  deleteDepartment(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/delete_department.php`, { id });
+  }
 }
