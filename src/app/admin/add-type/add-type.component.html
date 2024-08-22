@@ -1,139 +1,156 @@
 <div class="flex items-end justify-center min-h-screen">
-    <div
-      class="bg-white py-8 px-8 rounded-3xl shadow-lg w-3/4 h-full mb-52 slide-in-right">
+  <div class="bg-white py-8 px-8 rounded-3xl shadow-lg w-3/4 h-full mb-52 slide-in-right">
       <div class="flex items-center justify-between ml-5">
-        <h1 class="text-4xl text-primary font-medium ml-2 mb-4">
-          Material Type
-        </h1>
-        <img src="../../../assets/book.png" alt="" class="w-36 h-24">
+          <h1 class="text-4xl text-primary font-medium ml-2 mb-4">Material Type</h1>
+          <img src="../../../assets/book.png" alt="" class="w-36 h-24">
       </div>
       <div class="flex flex-row w-full">
-        <div class="flex flex-col w-1/3 items-center justify-center">
+          <div class="flex flex-col w-1/3 items-center justify-center">
               <div>
-                <img src="../../../assets/read.svg" alt="" class="w-64 h-40">
+                  <img src="../../../assets/read.svg" alt="" class="w-64 h-40">
               </div>
           </div>
-          <form class="w-3/4 items-center justify-center">
-            <div class="mb-4 mt-4 flex items-center space-x-4">
-              <input
-                id="classname"
-                name="classname"
-                type="text"
-                class="flex-grow 
-                       w-full
-                       mt-1 
-                       block 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                placeholder="Classification name"/>
-              <div class="relative mr-44">
-                <select
-                  id="type"
-                  name="type"
-                  class="block 
-                         appearance-none 
-                         w-full 
-                         bg-secondary 
-                         text-gray-700 
-                         font-medium 
-                         py-3 
-                         px-6 
-                         pr-8 
-                         rounded-full 
-                         leading-tight 
-                         focus:outline-none 
-                         focus:bg-[#ffb700] 
-                         cursor-pointer 
-                         text-lg">
-                  <option disabled selected>Type</option>
-                  <option>Normal</option>
-                  <option>Special case</option>
-                </select>
-                <div
-                  class="pointer-events-none 
-                         absolute 
-                         inset-y-0 
-                         top-0.5 
-                         right-3 
-                         flex 
-                         items-center 
-                         text-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-                  </svg>
-                </div>
+          <form (ngSubmit)="addMaterialType()" class="w-3/4 items-center justify-center">
+              <div class="mb-4 mt-4 flex items-center space-x-4">
+                  <input
+                      id="classname"
+                      name="classname"
+                      [(ngModel)]="classname"
+                      type="text"
+                      class="flex-grow 
+                             w-full
+                             mt-1 
+                             block 
+                             rounded-full 
+                             border 
+                             border-gray-300 
+                             px-6 
+                             py-2 
+                             focus:ring-opacity-50 
+                             text-lg"
+                      placeholder="Classification name" />
+                  <div class="relative mr-44">
+                      <select
+                          id="type"
+                          name="type"
+                          [(ngModel)]="type"
+                          (ngModelChange)="onTypeChange($event)"
+                          class="block 
+                                 appearance-none 
+                                 w-full 
+                                 bg-secondary 
+                                 text-gray-700 
+                                 font-medium 
+                                 py-3 
+                                 px-6 
+                                 pr-8 
+                                 rounded-full 
+                                 leading-tight 
+                                 focus:outline-none 
+                                 focus:bg-[#ffb700] 
+                                 cursor-pointer 
+                                 text-lg">
+                          <option [ngValue]="true" disabled selected>Select Type</option>
+                          <option [ngValue]="false">Normal</option>
+                          <option [ngValue]="true">Special</option>
+                      </select>
+                      <div
+                          class="pointer-events-none 
+                                 absolute 
+                                 inset-y-0 
+                                 top-0.5 
+                                 right-3 
+                                 flex 
+                                 items-center 
+                                 text-gray-700">
+                          <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="size-5">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                          </svg>
+                      </div>
+                  </div>
               </div>
-            </div>
-            <div class="mb-4 flex items-center space-x-4">
-              <input
-                id="accnum"
-                name="accnum"
-                type="text"
-                class="flex-grow 
-                       mt-1 block 
-                       rounded-full 
-                       border 
-                       border-gray-300 
-                       px-6 
-                       py-2 
-                       focus:ring-opacity-50 
-                       text-lg"
-                placeholder="Accession number"/>
-            </div>
-            <div class="mb-4 flex items-center space-x-4">
-                <button
+              <div class="mb-4 flex items-center space-x-4">
+                  <input
+                      id="accnum"
+                      name="accnum"
+                      [(ngModel)]="accnum"
+                      type="text"
+                      class="flex-grow 
+                             w-full
+                             mt-1 
+                             block 
+                             rounded-full 
+                             border 
+                             border-gray-300 
+                             px-6 
+                             py-2 
+                             focus:ring-opacity-50 
+                             text-lg"
+                      placeholder="Accession number" />
+                  <input
+                      id="duration"
+                      name="duration"
+                      [(ngModel)]="duration"
+                      type="number"
+                      class="flex-grow 
+                             w-full
+                             mt-1 
+                             block 
+                             rounded-full 
+                             border 
+                             border-gray-300 
+                             px-6 
+                             py-2 
+                             focus:ring-opacity-50 
+                             text-lg"
+                      placeholder="Borrow Duration (Optional)" />
+              </div>
+              <div class="mb-4 flex items-center space-x-4">
+                  <button
+                      type="button"
+                      class="w-1/2 
+                             bg-primary 
+                             text-white 
+                             px-4 
+                             py-3 
+                             rounded-full 
+                             font-medium 
+                             hover:bg-[#ffb700] 
+                             hover:text-black 
+                             transition 
+                             duration-300 
+                             mt-0.5"
+                      routerLink="/materials-type">
+                      Back
+                  </button>
+                  <button
                   type="submit"
+                  [disabled]="isSubmitting"
                   class="w-1/2 
-                         bg-primary 
-                         text-white 
+                         bg-secondary 
+                         text-black 
                          px-4 
                          py-3 
                          rounded-full 
                          font-medium 
-                         hover:bg-[#ffb700] 
-                         hover:text-black 
+                         hover:bg-[#801e1d] 
+                         hover:text-white 
                          transition 
                          duration-300 
-                         mt-0.5"
-                   routerLink="/materials-type">
-                  Back    
-                </button>
-                <button
-                type="submit"
-                class="w-1/2 
-                       bg-secondary 
-                       text-black 
-                       px-4 
-                       py-3 
-                       rounded-full 
-                       font-medium 
-                       hover:bg-[#801e1d] 
-                       hover:text-white 
-                       transition 
-                       duration-300 
-                       mt-0.5"
-                 routerLink="/add-type-warning">
-                Continue
-              </button>
+                         mt-0.5">
+                  Continue
+                </button>                
               </div>
           </form>
       </div>
-    </div>
-   </div>
-     
-
-   
+  </div>
+</div>
