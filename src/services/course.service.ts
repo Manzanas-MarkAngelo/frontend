@@ -13,6 +13,10 @@ export class CourseService {
     return this.http.get<any>(`${this.apiUrl}/fetch_courses.php`);
   }
 
+  addCourse(courseData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add_course.php`, courseData);
+  }
+
   getCourseById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/update_course.php?id=${id}`);
   }
