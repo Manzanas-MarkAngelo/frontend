@@ -20,4 +20,8 @@ export class CourseService {
   updateCourse(id: number, course: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/update_course.php`, { id, course });
   }
+
+  deleteCourse(courseId: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/delete_course.php`, { courseId });
+  }
 }
