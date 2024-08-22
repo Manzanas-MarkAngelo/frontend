@@ -131,7 +131,7 @@ const routes: Routes = [
   { path: 'add-course', component: AddCourseComponent },
   { path: 'add-department', component: AddDepartmentComponent },
   { path: 'edit-course/:id', component: EditCourseComponent },
-  { path: 'edit-department', component: EditDepartmentComponent },
+  { path: 'edit-department/:id', component: EditDepartmentComponent },
   { path: 'add-successful', component: AddSuccessfulComponent },
   { path: 'add-department-success', component: AddDepartmentSuccessComponent },
 ];
