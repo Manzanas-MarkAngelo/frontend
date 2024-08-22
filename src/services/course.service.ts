@@ -12,4 +12,12 @@ export class CourseService {
   getCourses(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/fetch_courses.php`);
   }
+
+  getCourseById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/update_course.php?id=${id}`);
+  }
+
+  updateCourse(id: number, course: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/update_course.php`, { id, course });
+  }
 }

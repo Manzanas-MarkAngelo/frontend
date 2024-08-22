@@ -34,17 +34,17 @@
                             <td>{{ course.course_abbreviation }}</td>
                             <td>
                                 <button 
-                                routerLink="/edit-course/{{ course.id }}"
-                                class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
+                                    [routerLink]="['/edit-course', course.id]"
+                                    class="bg-secondary 
+                                        text-black 
+                                        border-none 
+                                        shadow-none 
+                                        btn-sm 
+                                        rounded-full 
+                                        font-medium
+                                        mr-1">
                                     Edit
-                                </button>
+                                </button>                              
                                 <button class="bg-primary 
                                               text-white 
                                               border-none 
