@@ -13,6 +13,10 @@ export class DepartmentService {
     return this.http.get<any>(`${this.apiUrl}/fetch_departments.php`);
   }
 
+  addDepartment(department: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add_department.php`, department);
+  }
+
   getDepartmentById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/update_department.php?id=${id}`);
   }
