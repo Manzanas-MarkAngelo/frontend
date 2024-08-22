@@ -104,6 +104,7 @@ import { EditDepartmentComponent } from './super-admin/edit-department/edit-depa
 import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 import { CourseService } from '../services/course.service';
+import { DepartmentService } from '../services/department.service';
 
 
 @NgModule({
@@ -216,6 +217,7 @@ import { CourseService } from '../services/course.service';
     ExcelReportStudentsService,
     ExcelReportVisitorsService,
     CourseService,
+    DepartmentService,
   ],
   bootstrap: [AppComponent]
 })
