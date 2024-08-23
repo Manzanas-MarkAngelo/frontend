@@ -65,6 +65,7 @@ import { EditCourseComponent } from './super-admin/edit-course/edit-course.compo
 import { EditDepartmentComponent } from './super-admin/edit-department/edit-department.component';
 import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
+import { AnalyticsComponent } from './admin/analytics/analytics.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -134,6 +135,8 @@ const routes: Routes = [
   { path: 'edit-department', component: EditDepartmentComponent },
   { path: 'add-successful', component: AddSuccessfulComponent },
   { path: 'add-department-success', component: AddDepartmentSuccessComponent },
+  { path: 'analytics', component: AnalyticsComponent },
+
 ];
 
 @NgModule({
