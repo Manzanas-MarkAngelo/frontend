@@ -217,15 +217,9 @@
                    cursor-pointer 
                    text-lg">
             <option value="" disabled selected>Course</option>
-            <option>BSBA</option>
-            <option>BSECE</option>
-            <option>BSED</option>
-            <option>BSME</option>
-            <option>BSIT</option>
-            <option>BSOA</option>
-            <option>BSPSYCH</option>
-            <option>DICT</option>
-            <option>DOMT</option>
+            <option *ngFor="let course of courses" [value]="course.id">
+              {{ course.course_abbreviation }}
+            </option>
           </select>
           <div
             class="pointer-events-none 
@@ -271,15 +265,9 @@
                    cursor-pointer 
                    text-lg">
             <option value="" disabled selected>Division</option>
-            <option>BA</option>
-            <option>ECE</option>
-            <option>ED</option>
-            <option>ME</option>
-            <option>IT</option>
-            <option>OA</option>
-            <option>PSYCH</option>
-            <option>ICT</option>
-            <option>OMT</option>
+            <option *ngFor="let dept of departments" [value]="dept.id">
+              {{ dept.dept_abbreviation }}
+            </option>
           </select>
           <div
           class="pointer-events-none 

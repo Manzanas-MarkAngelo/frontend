@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../../services/register.service';
+import { DepartmentService } from '../../../services/department.service';
 
 @Component({
   selector: 'app-add-faculty',
   templateUrl: './add-faculty.component.html',
   styleUrls: ['./add-faculty.component.css']
 })
-export class AddFacultyComponent {
+export class AddFacultyComponent implements OnInit {
   selectedRole: string = 'faculty';
   empNumber: string = '';
   sex: string = '';
@@ -17,8 +18,25 @@ export class AddFacultyComponent {
   contact: string = '';
   identifier: string = '';
   showModal: boolean = false;
+  departments: any[] = [];
 
-  constructor(private registerService: RegisterService, private router: Router) {}
+  constructor(
+    private registerService: RegisterService, 
+    private router: Router,
+    private departmentService: DepartmentService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadDepartments();
+  }
+
+  loadDepartments() {
+    this.departmentService.getDepartments().subscribe(data => {
+      this.departments = data;
+    }, error => {
+      console.error('Error fetching departments:', error);
+    });
+  }
 
   openModal() {
     this.showModal = true;
@@ -50,7 +68,7 @@ export class AddFacultyComponent {
       if(response.status === 'success') {
         this.router.navigate(['/add-faculty-success']);
       } else {
-        // TODO: Handle error here
+        // Handle error here
       }
     });
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
+import { DepartmentService } from '../../../services/department.service';
 
 @Component({
   selector: 'app-edit-faculty',
@@ -10,11 +11,13 @@ import { RecordsService } from '../../../services/records.service';
 export class EditFacultyComponent implements OnInit {
   faculty: any = {};
   showModal: boolean = false;
+  departments: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recordsService: RecordsService
+    private recordsService: RecordsService,
+    private departmentService: DepartmentService
   ) {}
 
   ngOnInit(): void {
@@ -23,6 +26,10 @@ export class EditFacultyComponent implements OnInit {
       this.recordsService.getRecordById('faculty', user_id).subscribe(data => {
         if (data && !data.error) {
           this.faculty = data;
+          const department = this.departments.find(dept => dept.dept_abbreviation === this.faculty.department);
+          if (department) {
+            this.faculty.dept_id = department.id;
+          }
         } else {
           console.error('No record found or error in fetching data', data.error);
         }
@@ -30,7 +37,13 @@ export class EditFacultyComponent implements OnInit {
         console.error('Error fetching faculty details:', error);
       });
     }
-  }
+    
+    this.departmentService.getDepartments().subscribe(data => {
+      this.departments = data;
+    }, error => {
+      console.error('Error fetching departments:', error);
+    });
+  }  
 
   confirmEdit() {
     this.showModal = true;

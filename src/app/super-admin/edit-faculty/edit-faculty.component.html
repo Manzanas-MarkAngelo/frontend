@@ -26,9 +26,9 @@
             required
           >
             <option value="" disabled>Gender</option>
-            <option [selected]="faculty.gender === 'Male'">Male</option>
-            <option [selected]="faculty.gender === 'Female'">Female</option>
-            <option [selected]="faculty.gender === 'Prefer not to say'">Prefer not to say</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Prefer not to say">Prefer not to say</option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
             <svg
@@ -68,21 +68,13 @@
           <select
             id="department"
             name="department"
-            [(ngModel)]="faculty.department"
+            [(ngModel)]="faculty.dept_id"
             class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
-            required
-          >
+            required>
             <option value="" disabled>Division</option>
-            <option [selected]="faculty.department === 'EXECOM'">EXECOM</option>
-            <option [selected]="faculty.department === 'BA'">BA</option>
-            <option [selected]="faculty.department === 'ECE'">ECE</option>
-            <option [selected]="faculty.department === 'ED'">ED</option>
-            <option [selected]="faculty.department === 'ME'">ME</option>
-            <option [selected]="faculty.department === 'IT'">IT</option>
-            <option [selected]="faculty.department === 'OA'">OA</option>
-            <option [selected]="faculty.department === 'PSYCH'">PSYCH</option>
-            <option [selected]="faculty.department === 'ICT'">ICT</option>
-            <option [selected]="faculty.department === 'OMT'">OMT</option>
+            <option *ngFor="let dept of departments" [value]="dept.id">
+              {{ dept.dept_abbreviation }}
+            </option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
             <svg
@@ -96,7 +88,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </div>
-        </div>
+        </div>        
       </div>
       <div class="mb-4 flex items-center space-x-4">
         <input

@@ -21,9 +21,9 @@ $studentNumber = isset($data['studentNumber']) ? $data['studentNumber'] : null;
 $sex = isset($data['sex']) ? $data['sex'] : null;
 $firstName = isset($data['firstName']) ? $data['firstName'] : null;
 $lastName = isset($data['lastName']) ? $data['lastName'] : null;
-$department = isset($data['department']) ? $data['department'] : null;
+$departmentId = isset($data['department']) ? $data['department'] : null;
 $school = isset($data['school']) ? $data['school'] : null;
-$course = isset($data['course']) ? $data['course'] : null;
+$courseId = isset($data['course']) ? $data['course'] : null;
 $contact = isset($data['contact']) ? $data['contact'] : null;
 $empNumber = isset($data['empNumber']) ? $data['empNumber'] : null;
 $identifier = isset($data['identifier']) ? $data['identifier'] : null;
@@ -46,14 +46,14 @@ try {
         if (!$studentNumber) {
             throw new Exception('Student number is required for students');
         }
-        $stmt = $conn->prepare("INSERT INTO students (user_id, student_number, first_name, surname, gender, phone_number, course, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-        $stmt->bind_param("issssss", $userId, $studentNumber, $firstName, $lastName, $sex, $contact, $course);
+        $stmt = $conn->prepare("INSERT INTO students (user_id, student_number, first_name, surname, gender, phone_number, course_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        $stmt->bind_param("issssss", $userId, $studentNumber, $firstName, $lastName, $sex, $contact, $courseId);
     } elseif ($selectedRole == 'faculty') {
         if (!$empNumber) {
             throw new Exception('Employee number is required for faculty');
         }
-        $stmt = $conn->prepare("INSERT INTO faculty (user_id, emp_number, first_name, surname, gender, phone_number, department, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-        $stmt->bind_param("issssss", $userId, $empNumber, $firstName, $lastName, $sex, $contact, $department);
+        $stmt = $conn->prepare("INSERT INTO faculty (user_id, emp_number, first_name, surname, gender, phone_number, dept_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        $stmt->bind_param("issssss", $userId, $empNumber, $firstName, $lastName, $sex, $contact, $departmentId);
     } elseif ($selectedRole == 'visitor') {
         if (!$identifier) {
             throw new Exception('Identifier is required for visitors');
