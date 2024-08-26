@@ -106,6 +106,7 @@ import { AddDepartmentSuccessComponent } from './super-admin/add-department-succ
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
 import { MostBorrowedComponent } from './admin/analytics/most-borrowed/most-borrowed.component';
 import { TopUsersComponent } from './admin/analytics/top-users/top-users.component';
+import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
 
 
 @NgModule({
@@ -186,7 +187,8 @@ import { TopUsersComponent } from './admin/analytics/top-users/top-users.compone
     AddDepartmentSuccessComponent,
     AnalyticsComponent,
     MostBorrowedComponent,
-    TopUsersComponent
+    TopUsersComponent,
+    MonthlyUsersComponent
 
   ],
   imports: [

@@ -66,6 +66,7 @@ import { EditDepartmentComponent } from './super-admin/edit-department/edit-depa
 import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
+import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -136,6 +137,7 @@ const routes: Routes = [
   { path: 'add-successful', component: AddSuccessfulComponent },
   { path: 'add-department-success', component: AddDepartmentSuccessComponent },
   { path: 'analytics', component: AnalyticsComponent },
+  {path: 'monthly-users', component: MonthlyUsersComponent},
 
 ];
 
