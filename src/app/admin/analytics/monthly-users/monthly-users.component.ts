@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { HttpClient } from '@angular/common/http';
+import { ChartsService } from '../../../../services/charts.service';
 
 Chart.register(...registerables);
 
@@ -15,7 +15,7 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
   public year: number = new Date().getFullYear();
   public years: number[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private chartsService: ChartsService) {}
 
   ngOnInit() {
     this.initializeYears();
@@ -31,7 +31,7 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
   }
 
   fetchData(year: number) {
-    this.http.get<any>(`http://localhost/controller_lis/fetch_monthly_users.php?year=${year}`)
+    this.chartsService.getMonthlyData(year)
       .subscribe(data => {
         console.log('Data received for chart:', data); // Log the data to check its format
         this.createChart(data, year);
