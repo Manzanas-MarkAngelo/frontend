@@ -31,11 +31,9 @@ export class EditStudentComponent implements OnInit {
         if (data && !data.error) {
           this.student = data;
 
-          // Ensure the courses are loaded before mapping
           this.courseService.getCourses().subscribe(coursesData => {
             this.courses = coursesData;
 
-            // Find the course ID based on the course abbreviation or name
             const course = this.courses.find(c => c.course_abbreviation === this.student.course);
             if (course) {
               this.student.course_id = course.id;
@@ -67,16 +65,29 @@ export class EditStudentComponent implements OnInit {
   }
 
   saveChanges(): void {
-    this.recordsService.updateStudent(this.student).subscribe(
+    const payload = {
+      user_id: this.userId,
+      student_number: this.student.student_number,
+      gender: this.student.gender,
+      first_name: this.student.first_name,
+      surname: this.student.surname,
+      course_id: this.student.course_id,
+      phone_number: this.student.phone_number
+    };
+  
+    console.log('Submitting student data:', payload);
+  
+    this.recordsService.updateStudent(payload).subscribe(
       response => {
+        console.log('Update response:', response);
         if (response.status === 'success') {
           this.router.navigate(['/edit-success']);
         } else {
-          console.log('Update failed', response.message);
+          console.error('Update failed:', response.message || response);
         }
       },
       error => {
-        console.error('Request failed', error);
+        console.error('Request failed:', error.message);
       }
     );
   }
