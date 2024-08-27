@@ -14,4 +14,7 @@ export class ChartsService {
   getMonthlyData(year: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?year=${year}&wau=monthly`);
   }
+  getMonthlyBorrowingData(year: number, month: number) {
+    return this.http.get<any>(`${environment.apiUrl}/fetch_monthly_borrowing.php?year=${year}&month=${month}`);
+  }
 }

@@ -67,6 +67,7 @@ import { AddSuccessfulComponent } from './super-admin/add-successful/add-success
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
 import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
+import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -138,7 +139,7 @@ const routes: Routes = [
   { path: 'add-department-success', component: AddDepartmentSuccessComponent },
   { path: 'analytics', component: AnalyticsComponent },
   {path: 'monthly-users', component: MonthlyUsersComponent},
-
+  {path: 'category-donut',component: MonthlyCategoryDonutComponent},
 ];
 
 @NgModule({
