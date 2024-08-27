@@ -38,7 +38,7 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.fetchData(this.year, this.month);
-  }  
+  }
 
   initializeYears() {
     const currentYear = new Date().getFullYear();
@@ -61,14 +61,14 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
       console.error('Failed to get canvas context');
       return;
     }
-
+  
     if (this.chart) {
       this.chart.destroy();
     }
-
+  
     const labels = Object.keys(data);
     const values = Object.values(data);
-
+  
     this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -89,14 +89,14 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: 'The Ratio of Material Catogry Borrowed Monthly',
+            text: 'Monthly Material Category Borrow Ratio',
             font: {
-              size: 14
+              size: 18
             },
-            position: 'bottom',
+            position: 'bottom', // Position the title at the bottom
             padding: {
-              top: 10,
-              bottom: 20
+              top: 20, // Space above the title
+              bottom: 10 // Space below the title
             }
           },
           legend: {
@@ -107,6 +107,7 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
       }
     });
   }
+  
 
   onYearChange(event: any) {
     const selectedYear = +event.target.value;

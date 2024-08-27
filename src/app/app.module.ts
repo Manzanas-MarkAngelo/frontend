@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -109,6 +110,7 @@ import { AnalyticsComponent } from './admin/analytics/analytics.component';
 import { MostBorrowedComponent } from './admin/analytics/most-borrowed/most-borrowed.component';
 import { TopUsersComponent } from './admin/analytics/top-users/top-users.component';
 import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
+import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
 
 
 
@@ -191,7 +193,8 @@ import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-u
     AnalyticsComponent,
     MostBorrowedComponent,
     TopUsersComponent,
-    MonthlyUsersComponent
+    MonthlyUsersComponent,
+    MonthlyCategoryDonutComponent,
 
   ],
   imports: [
@@ -200,6 +203,7 @@ import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-u
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    CommonModule,
   ],
   providers: [
     provideClientHydration(),
