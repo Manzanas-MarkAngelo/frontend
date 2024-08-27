@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   lastName: string = '';
   department: string = '';
   school: string = '';
-  course: string = '';
+  courseId: string = '';
   contact: string = '';
   identifier: string = '';
 
@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
       lastName: this.lastName,
       department: this.department,
       school: this.school,
-      course: this.course,
+      courseId: this.courseId,
       contact: this.contact,
     };
 

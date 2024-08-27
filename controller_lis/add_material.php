@@ -27,7 +27,7 @@ $edition = $data['edition'] ?? null;
 $isbn = $data['isbn'] ?? null;
 $status = $data['status'] ?? null;
 $heading = $data['heading'] ?? null;
-$datereceived = date('Y-m-d'); // set the current date
+//$datereceived = date('Y-m-d'); // set the current date
 $subj = $heading;
 
 // Fetch the category ID dynamically based on mat_type
@@ -46,15 +46,15 @@ $conn->begin_transaction();
 try {
     // Insert book details into the materials table
     $stmt = $conn->prepare("INSERT INTO materials (
-        accnum, isbn, datereceived, title, subj, callno, author, 
+        accnum, isbn, title, subj, callno, author, 
         publisher, edition, copyright, copies, categoryid, status) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $copies = 1; // Assuming a default value for copies, adjust as needed
 
-    $stmt->bind_param("sssssssssssis", 
-        $accnum, $isbn, $datereceived, $title, $subj, $callno, 
-        $author, $publisher, $edition, $copyright, $copies, $categoryid, $status);
+    $stmt->bind_param("ssssssssssis", 
+    $accnum, $isbn, $title, $subj, $callno, 
+    $author, $publisher, $edition, $copyright, $copies, $categoryid, $status);
 
     $stmt->execute();
     $stmt->close();
