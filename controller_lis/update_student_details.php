@@ -1,10 +1,9 @@
 <?php
-header('Access-Control-Allow-Origin: *'); // Allows all origins, you can specify your domain instead of '*'
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS'); // Allows specific methods
-header('Access-Control-Allow-Headers: Content-Type, Authorization'); // Allows specific headers
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json');
 
-// Handle the preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
@@ -21,16 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gender = $data['gender'];
     $first_name = $data['first_name'];
     $surname = $data['surname'];
-    $course = $data['course'];
+    $course_id = $data['course_id'];
     $phone_number = $data['phone_number'];
 
-    // Ensure this query matches your database structure
     $query = "UPDATE students SET 
               student_number = '$student_number',
               gender = '$gender',
               first_name = '$first_name',
               surname = '$surname',
-              course = '$course',
+              course_id = '$course_id',
               phone_number = '$phone_number'
               WHERE user_id = '$user_id'";
 

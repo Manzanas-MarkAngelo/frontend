@@ -12,12 +12,17 @@ ini_set('display_errors', 1);
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
+if (!isset($data['user_id'], $data['emp_number'], $data['first_name'], $data['surname'], $data['gender'], $data['dept_id'], $data['phone_number'])) {
+    echo json_encode(['error' => 'Missing required fields']);
+    exit;
+}
+
 $user_id = $data['user_id'];
 $emp_number = $data['emp_number'];
 $first_name = $data['first_name'];
 $surname = $data['surname'];
 $gender = $data['gender'];
-$department = $data['department'];
+$dept_id = $data['dept_id'];
 $phone_number = $data['phone_number'];
 
 $query = "UPDATE faculty SET 
@@ -25,7 +30,7 @@ $query = "UPDATE faculty SET
             first_name = ?, 
             surname = ?, 
             gender = ?, 
-            department = ?, 
+            dept_id = ?, 
             phone_number = ? 
           WHERE user_id = ?";
 $stmt = $conn->prepare($query);
@@ -33,12 +38,15 @@ if ($stmt === false) {
     echo json_encode(['error' => $conn->error]);
     exit;
 }
-$stmt->bind_param('sssssss', $emp_number, $first_name, $surname, $gender, $department, $phone_number, $user_id);
+
+$stmt->bind_param('ssssisi', $emp_number, $first_name, $surname, $gender, $dept_id, $phone_number, $user_id);
+
 if ($stmt->execute()) {
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['error' => $stmt->error]);
 }
+
 $stmt->close();
 $conn->close();
 ?>

@@ -29,230 +29,32 @@
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <tr>
-                            <td>Business Administration</td>
-                            <td>BA</td>
+                        <tr *ngFor="let department of departments">
+                            <td>{{ department.dept_program }}</td>
+                            <td>{{ department.dept_abbreviation }}</td>
                             <td>
                                 <button 
-                                routerLink="/edit-department"
-                                class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
+                                    routerLink="/edit-department/{{ department.id }}"
+                                    class="bg-secondary 
+                                                text-black 
+                                                border-none 
+                                                shadow-none 
+                                                btn-sm 
+                                                rounded-full 
+                                                font-medium
+                                                mr-1">
+                                        Edit
                                 </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Electronics Engineering</td>
-                            <td>ECE</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Bachelor of Education</td>
-                            <td>ED</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Mechanical Engineering</td>
-                            <td>ME</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Information Technology</td>
-                            <td>IT</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Office Administration</td>
-                            <td>OA</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Psychology</td>
-                            <td>PSYCH</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Information and Communications Technology</td>
-                            <td>ICT</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Office Management Technology</td>
-                            <td>OMT</td>
-                            <td>
-                                <button class="bg-secondary 
-                                              text-black 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium
-                                              mr-1">
-                                    Edit
-                                </button>
-                                <button class="bg-primary 
-                                              text-white 
-                                              border-none 
-                                              shadow-none 
-                                              btn-sm 
-                                              rounded-full 
-                                              font-medium">
-                                    Delete
+                                <button 
+                                    (click)="openConfirmModal(department)"
+                                    class="bg-primary 
+                                                text-white 
+                                                border-none 
+                                                shadow-none 
+                                                btn-sm 
+                                                rounded-full 
+                                                font-medium">
+                                        Delete
                                 </button>
                             </td>
                         </tr>
@@ -262,3 +64,54 @@
         </div>
     </div>
 </div>
+
+@if(showModal) {
+  <div 
+      class="fixed inset-0 flex items-center 
+             justify-center bg-gray-800 bg-opacity-50">
+      <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+          Do you want to delete this department? 
+          <div class="text-yellow-500 mt-4 italic">
+            {{selectedDepartment.dept_program}}
+          </div>
+      </h2>
+      <div class="flex flex-col items-center justify-between h-full">
+          <div class="flex flex-row gap-4 w-full mt-4">
+          <button
+              (click)="closeConfirmModal()"
+              class="flex-1
+                  bg-primary 
+                  text-white 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#ffb700] 
+                  hover:text-black 
+                  transition 
+                  duration-300">
+              Back
+          </button>
+          <button
+              (click)="deleteDepartment()"
+              class="flex-1
+                  bg-secondary 
+                  text-black 
+                  px-6 
+                  py-3 
+                  rounded-full 
+                  font-medium 
+                  hover:bg-[#801e1d] 
+                  hover:text-white 
+                  transition 
+                  duration-300">
+              Delete Department
+          </button>
+          </div>
+      </div>
+      </div>
+  </div>
+}
+
+<app-snackbar-delete/>

@@ -25,13 +25,15 @@ SELECT
     u.user_type,
     IF(u.user_type = 'student', s.first_name, f.first_name) as first_name,
     IF(u.user_type = 'student', s.surname, f.surname) as surname,
-    IF(u.user_type = 'student', s.course, f.department) as course_department
+    IF(u.user_type = 'student', c.course_abbreviation, d.dept_abbreviation) as course_department
 FROM 
     borrowing b
     JOIN materials m ON b.material_id = m.id
     JOIN users u ON b.user_id = u.id
     LEFT JOIN students s ON u.id = s.user_id
-    LEFT JOIN faculty f ON u.id = f.user_id";
+    LEFT JOIN faculty f ON u.id = f.user_id
+    LEFT JOIN courses c ON s.course_id = c.id
+    LEFT JOIN departments d ON f.dept_id = d.id";
 
 if ($startDate && $endDate) {
     $sql .= " WHERE b.claim_date BETWEEN '$startDate' AND '$endDate'";
@@ -49,4 +51,3 @@ while ($row = $result->fetch_assoc()) {
 echo json_encode($borrowings);
 
 $conn->close();
-?>
