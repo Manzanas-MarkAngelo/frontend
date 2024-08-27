@@ -105,6 +105,11 @@ import { AddSuccessfulComponent } from './super-admin/add-successful/add-success
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 import { CourseService } from '../services/course.service';
 import { DepartmentService } from '../services/department.service';
+import { AnalyticsComponent } from './admin/analytics/analytics.component';
+import { MostBorrowedComponent } from './admin/analytics/most-borrowed/most-borrowed.component';
+import { TopUsersComponent } from './admin/analytics/top-users/top-users.component';
+import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
+
 
 
 @NgModule({
@@ -182,7 +187,11 @@ import { DepartmentService } from '../services/department.service';
     EditCourseComponent,
     EditDepartmentComponent,
     AddSuccessfulComponent,
-    AddDepartmentSuccessComponent
+    AddDepartmentSuccessComponent,
+    AnalyticsComponent,
+    MostBorrowedComponent,
+    TopUsersComponent,
+    MonthlyUsersComponent
 
   ],
   imports: [
