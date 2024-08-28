@@ -106,6 +106,7 @@ import { AddSuccessfulComponent } from './super-admin/add-successful/add-success
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 import { CourseService } from '../services/course.service';
 import { DepartmentService } from '../services/department.service';
+import { LibrarianService } from '../services/librarian.service';
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
 import { MostBorrowedComponent } from './admin/analytics/most-borrowed/most-borrowed.component';
 import { TopUsersComponent } from './admin/analytics/top-users/top-users.component';
@@ -231,6 +232,7 @@ import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-categor
     ExcelReportVisitorsService,
     CourseService,
     DepartmentService,
+    LibrarianService,
   ],
   bootstrap: [AppComponent]
 })
