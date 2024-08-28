@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS' ) {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$sql = "SELECT * FROM category";
+$sql = "SELECT * FROM category ORDER BY mat_type ASC"; // Order by mat_type in ascending order
 $result = $conn->query($sql);
 
 $categories = [];
