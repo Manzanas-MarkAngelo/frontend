@@ -36,4 +36,8 @@ export class MaterialsService {
   deleteMaterial(id: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/delete_material.php`, { id });
   }
+
+  getCategories(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/fetch_categories.php`);
+  }
 }

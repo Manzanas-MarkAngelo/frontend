@@ -16,12 +16,10 @@ if (!isset($data['user_id'])) {
 
 $user_id = $data['user_id'];
 
-// Delete from faculty table
 $query = "DELETE FROM faculty WHERE user_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param('i', $user_id);
 if ($stmt->execute()) {
-    // Delete from users table
     $query = "DELETE FROM users WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('i', $user_id);

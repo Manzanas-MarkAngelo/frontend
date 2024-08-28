@@ -57,6 +57,17 @@ import { profile } from 'console';
 import { EditFacultySuccessComponent } from './super-admin/edit-faculty-success/edit-faculty-success.component';
 import { AddVisitorSuccessComponent } from './super-admin/add-visitor-success/add-visitor-success.component';
 import { DeleteVisitorSuccessComponent } from './super-admin/delete-visitor-success/delete-visitor-success.component';
+import { CoursesComponent } from './super-admin/courses/courses.component';
+import { DepartmentsComponent } from './super-admin/departments/departments.component';
+import { AddCourseComponent } from './super-admin/add-course/add-course.component';
+import { AddDepartmentComponent } from './super-admin/add-department/add-department.component';
+import { EditCourseComponent } from './super-admin/edit-course/edit-course.component';
+import { EditDepartmentComponent } from './super-admin/edit-department/edit-department.component';
+import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
+import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
+import { AnalyticsComponent } from './admin/analytics/analytics.component';
+import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
+import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -80,7 +91,7 @@ const routes: Routes = [
   { path: 'borrow-info', component: BorrowInfoComponent },
   { path: 'return', component: ReturnComponent },
   { path: 'return-success', component: ReturnSuccessComponent },
-  { path: 'return-warning', component: ReturnWarningComponent },
+  { path: 'return-warning/:material_id', component: ReturnWarningComponent },
   { path: 'materials', component: MaterialsComponent },
   { path: 'materials-edit/:accnum', component: MaterialsEditComponent },
   { path: 'materials-warning', component: MaterialsWarningComponent },
@@ -117,7 +128,18 @@ const routes: Routes = [
   { path: 'delete-success', component: DeleteSuccessComponent },
   { path: 'add-faculty-success', component: AddFacultySuccessComponent },
   { path: 'add-visitor-success', component: AddVisitorSuccessComponent },
-  { path: 'delete-visitor-success', component: DeleteVisitorSuccessComponent }
+  { path: 'delete-visitor-success', component: DeleteVisitorSuccessComponent },
+  { path: 'courses', component: CoursesComponent },
+  { path: 'departments', component: DepartmentsComponent },
+  { path: 'add-course', component: AddCourseComponent },
+  { path: 'add-department', component: AddDepartmentComponent },
+  { path: 'edit-course/:id', component: EditCourseComponent },
+  { path: 'edit-department/:id', component: EditDepartmentComponent },
+  { path: 'add-successful', component: AddSuccessfulComponent },
+  { path: 'add-department-success', component: AddDepartmentSuccessComponent },
+  { path: 'analytics', component: AnalyticsComponent },
+  {path: 'monthly-users', component: MonthlyUsersComponent},
+  {path: 'category-donut',component: MonthlyCategoryDonutComponent},
 ];
 
 @NgModule({

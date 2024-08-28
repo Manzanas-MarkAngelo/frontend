@@ -17,83 +17,51 @@ ini_set('display_errors', 1);
 $data = json_decode(file_get_contents('php://input'), true);
 
 $title = $data['title'] ?? null;
-$heading = $data['heading'] ?? null;
 $accnum = $data['accnum'] ?? null;
 $category = $data['category'] ?? null;
 $author = $data['author'] ?? null;
-$callnum = $data['callnum'] ?? null;
+$callno = $data['callnum'] ?? null;
 $copyright = $data['copyright'] ?? null;
 $publisher = $data['publisher'] ?? null;
 $edition = $data['edition'] ?? null;
 $isbn = $data['isbn'] ?? null;
 $status = $data['status'] ?? null;
+$heading = $data['heading'] ?? null;
+//$datereceived = date('Y-m-d'); // set the current date
+$subj = $heading;
 
-// Define the category ID mapping
-$categoryMap = [
-    'Filipiñana' => 20,
-    'Circulation' => 21,
-    'Fiction' => 22,
-    'Reference' => 23,
-    'Thesis/Dissertations' => 26,
-    'Feasibility' => 27,
-    'Donations' => 28,
-    'E-Book' => 29,
-    'PDF' => 30,
-    'Business Plan' => 31,
-    'Case Study' => 32,
-    'Training Manual' => 33,
-    'OJT/Internship' => 34
-];
+// Fetch the category ID dynamically based on mat_type
+$stmt = $conn->prepare("SELECT cat_id FROM category WHERE mat_type = ?");
+$stmt->bind_param("s", $category);
+$stmt->execute();
+$stmt->bind_result($categoryid);
+$stmt->fetch();
+$stmt->close();
 
-// Assign category ID based on the selected category
-$categoryid = $categoryMap[$category] ?? 0; // Default to 0 if category is not found
+// If category ID is not found, set it to 0 (or handle as needed)
+$categoryid = $categoryid ?? 0;
 
 $conn->begin_transaction();
 
 try {
     // Insert book details into the materials table
     $stmt = $conn->prepare("INSERT INTO materials (
-        qrcode, accnum, isbn, title, subj, callno, issueno, author, 
-        publisher, amount, edition, volume, pages, source, categoryid, 
-        copyright, month, year, date, copies, boxno, thesisaccnum, 
-        articles, frequency, region, organizers, place, duration, 
-        remarks, status, location) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        accnum, isbn, title, subj, callno, author, 
+        publisher, edition, copyright, copies, categoryid, status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $qrcode = 'null';     
-    $issueno = 'null';
-    $amount = 'null';
-    $volume = 'null';
-    $pages = 'null';
-    $source = 'null';
-    $month = 'null';
-    $year = 'null';
-    $date = 'null';
-    $copies = 'null';
-    $boxno = 'null';
-    $thesisaccnum = 'null';
-    $articles = 'null';
-    $frequency = 'null';
-    $region = 'null';
-    $organizers = 'null';
-    $place = 'null';
-    $duration = 'null';
-    $remarks = 'null';
-    $location = 'null';
+    $copies = 1; // Assuming a default value for copies, adjust as needed
 
-    $stmt->bind_param("sssssssssssssssssssssssssssssss", 
-        $qrcode, $accnum, $isbn, $title, $heading, $callnum, $issueno, 
-        $author, $publisher, $amount, $edition, $volume, $pages, $source, 
-        $categoryid, $copyright, $month, $year, $date, $copies, $boxno, 
-        $thesisaccnum, $articles, $frequency, $region, $organizers, $place, 
-        $duration, $remarks, $status, $location);
+    $stmt->bind_param("ssssssssssis", 
+    $accnum, $isbn, $title, $subj, $callno, 
+    $author, $publisher, $edition, $copyright, $copies, $categoryid, $status);
 
     $stmt->execute();
     $stmt->close();
 
     // Increment the counter column in the category table
-    $stmt = $conn->prepare("UPDATE category SET counter = counter + 1 WHERE mat_type = ?");
-    $stmt->bind_param("s", $category);
+    $stmt = $conn->prepare("UPDATE category SET counter = counter + 1 WHERE cat_id = ?");
+    $stmt->bind_param("s", $categoryid);
     $stmt->execute();
     $stmt->close();
 

@@ -1,0 +1,131 @@
+<div class="flex items-end justify-center min-h-screen">
+  <div class="bg-white py-8 px-8 rounded-3xl shadow-lg w-1/2 h-full mb-52 slide-in-right">
+    <div class="flex items-center justify-between ml-5">
+      <h1 class="text-4xl text-primary font-medium mb-4">
+        Edit course
+      </h1>
+      <img src="../../../assets/book.png" alt="" class="w-36 h-24">
+    </div>
+    <div class="flex flex-row w-full">
+      <div class="flex flex-col w-1/3 items-center justify-center">
+        <div>
+          <img src="../../../assets/read.svg" alt="" class="w-64 h-40">
+        </div>
+      </div>
+      <form class="w-3/4 items-center justify-center">
+        <div class="mb-4 mt-4 flex items-center space-x-4">
+          <input
+            id="classname"
+            name="classname"
+            type="text"
+            [(ngModel)]="courseData.course_program"
+            class="flex-grow 
+                   w-full
+                   mt-1 
+                   block 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"/>
+        </div>
+        <div class="mb-4 flex items-center space-x-4">
+          <input
+            id="accnum"
+            name="accnum"
+            type="text"
+            [(ngModel)]="courseData.course_abbreviation"
+            class="flex-grow 
+                   mt-1 block 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"/>
+        </div>
+        <div class="mb-4 flex items-center space-x-4">
+          <button
+            type="button"
+            class="w-1/2 
+                   bg-primary 
+                   text-white 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   hover:bg-[#ffb700] 
+                   hover:text-black 
+                   transition 
+                   duration-300 
+                   mt-0.5"
+            (click)="goBackToCourses()">
+            Back    
+          </button>
+          <button
+            type="button"
+            class="w-1/2 
+                   bg-secondary 
+                   text-black 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   hover:bg-[#801e1d] 
+                   hover:text-white 
+                   transition 
+                   duration-300 
+                   mt-0.5"
+            (click)="openConfirmModal()">
+            Continue
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Are you sure you want to save these changes?
+    </h2>
+    <div class="flex flex-col items-center justify-between h-full">
+      <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
+      <div class="flex flex-row gap-4 w-full">
+        <button
+          (click)="closeConfirmModal()"
+          class="flex-1
+                 bg-primary 
+                 text-white 
+                 px-6 
+                 py-3 
+                 rounded-full 
+                 font-medium 
+                 hover:bg-[#ffb700] 
+                 hover:text-black 
+                 transition 
+                 duration-300">
+          Back
+        </button>
+        <button
+          (click)="saveChanges()"
+          class="flex-1
+                 bg-secondary 
+                 text-black 
+                 px-6 
+                 py-3 
+                 rounded-full 
+                 font-medium 
+                 hover:bg-[#801e1d] 
+                 hover:text-white 
+                 transition 
+                 duration-300">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../../services/register.service';
+import { CourseService } from '../../../services/course.service';
+import { DepartmentService } from '../../../services/department.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   selectedRole: string = 'student';
   studentNumber: string = '';
   empNumber: string = '';
@@ -16,12 +18,36 @@ export class RegisterComponent {
   lastName: string = '';
   department: string = '';
   school: string = '';
-  course: string = '';
+  courseId: string = '';
   contact: string = '';
   identifier: string = '';
 
-  constructor(private registerService: RegisterService, 
-    private router: Router) {}
+  courses: any[] = [];
+  departments: any[] = [];
+
+  constructor(
+    private registerService: RegisterService, 
+    private courseService: CourseService,
+    private departmentService: DepartmentService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loadCourses();
+    this.loadDepartments();
+  }
+
+  loadCourses(): void {
+    this.courseService.getCourses().subscribe(data => {
+      this.courses = data;
+    });
+  }
+
+  loadDepartments(): void {
+    this.departmentService.getDepartments().subscribe(data => {
+      this.departments = data;
+    });
+  }
 
   onSubmit() {
     const formData: any = {
@@ -31,7 +57,7 @@ export class RegisterComponent {
       lastName: this.lastName,
       department: this.department,
       school: this.school,
-      course: this.course,
+      courseId: this.courseId,
       contact: this.contact,
     };
 
@@ -44,11 +70,8 @@ export class RegisterComponent {
     }
 
     this.registerService.registerUser(formData).subscribe(response => {
-      console.log('Response from server:', response);
       if(response.status === 'success') {
         this.router.navigate(['/register-success']);
-      } else {
-        // TODO: Handle error here
       }
     });
   }

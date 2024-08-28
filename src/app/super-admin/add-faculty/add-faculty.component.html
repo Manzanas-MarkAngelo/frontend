@@ -117,32 +117,25 @@
             name="dept"
             [(ngModel)]="department"
             class="block 
-                   appearance-none 
-                   w-full 
-                   bg-secondary 
-                   text-gray-700 
-                   font-medium 
-                   py-3 
-                   px-6 
-                   pr-8 
-                   rounded-full 
-                   leading-tight 
-                   focus:outline-none 
-                   focus:bg-[#ffb700] 
-                   cursor-pointer 
-                   text-lg">
+                  appearance-none 
+                  w-full 
+                  bg-secondary 
+                  text-gray-700 
+                  font-medium 
+                  py-3 
+                  px-6 
+                  pr-8 
+                  rounded-full 
+                  leading-tight 
+                  focus:outline-none 
+                  focus:bg-[#ffb700] 
+                  cursor-pointer 
+                  text-lg">
             <option value="" disabled selected>Division</option>
-            <option>EXECOM</option>
-            <option>BA</option>
-            <option>ECE</option>
-            <option>ED</option>
-            <option>ME</option>
-            <option>IT</option>
-            <option>OA</option>
-            <option>PSYCH</option>
-            <option>ICT</option>
-            <option>OMT</option>
-          </select>
+            <option *ngFor="let dept of departments" [value]="dept.id">
+                {{ dept.dept_abbreviation }}
+            </option>
+        </select>     
           <div
           class="pointer-events-none 
                  absolute 

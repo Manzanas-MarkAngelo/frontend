@@ -28,9 +28,10 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 // Determine the response based on recordType and user_id
 if ($recordType === 'student' && $user_id) {
     // Fetch details for a single student
-    $query = "SELECT student_number, first_name, surname, gender, course, phone_number
-              FROM students 
-              WHERE user_id = ?";
+    $query = "SELECT s.student_number, s.first_name, s.surname, s.gender, c.course_abbreviation AS course, s.phone_number
+              FROM students s
+              LEFT JOIN courses c ON s.course_id = c.id
+              WHERE s.user_id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -62,9 +63,10 @@ if ($recordType === 'student' && $user_id) {
     $stmt->close();
 } elseif ($user_id) {
     // Fetch details for a single faculty
-    $query = "SELECT user_id, emp_number, first_name, surname, gender, department, phone_number 
-              FROM faculty 
-              WHERE user_id = ?";
+    $query = "SELECT f.user_id, f.emp_number, f.first_name, f.surname, f.gender, d.dept_abbreviation AS department, f.phone_number 
+              FROM faculty f
+              LEFT JOIN departments d ON f.dept_id = d.id
+              WHERE f.user_id = ?";
     $stmt = $conn->prepare($query);
     if ($stmt === false) {
         echo json_encode(['error' => 'Error preparing statement: ' . $conn->error]);
@@ -84,17 +86,19 @@ if ($recordType === 'student' && $user_id) {
     // Fetch list of records based on recordType
     switch ($recordType) {
         case 'student':
-            $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, gender, course, phone_number, user_id
-                      FROM students 
-                      ORDER BY created_at DESC
+            $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number, s.user_id
+                      FROM students s
+                      LEFT JOIN courses c ON s.course_id = c.id
+                      ORDER BY s.created_at DESC
                       LIMIT $itemsPerPage 
                       OFFSET $offset";
             $countQuery = "SELECT COUNT(*) as total FROM students";
             break;
         case 'faculty':
-            $query = "SELECT user_id, emp_number as emp_number, CONCAT(surname, ', ', first_name) as name, gender, department, phone_number 
-                      FROM faculty 
-                      ORDER BY created_at DESC
+            $query = "SELECT f.user_id, f.emp_number, CONCAT(f.surname, ', ', f.first_name) as name, f.gender, d.dept_abbreviation AS department, f.phone_number 
+                      FROM faculty f
+                      LEFT JOIN departments d ON f.dept_id = d.id
+                      ORDER BY f.created_at DESC
                       LIMIT $itemsPerPage 
                       OFFSET $offset";
             $countQuery = "SELECT COUNT(*) as total FROM faculty";
@@ -108,9 +112,10 @@ if ($recordType === 'student' && $user_id) {
             $countQuery = "SELECT COUNT(*) as total FROM visitor";
             break;
         default:
-            $query = "SELECT student_number, CONCAT(surname, ', ', first_name) as name, gender, course, phone_number 
-                      FROM students 
-                      ORDER BY created_at DESC
+            $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number 
+                      FROM students s
+                      LEFT JOIN courses c ON s.course_id = c.id
+                      ORDER BY s.created_at DESC
                       LIMIT $itemsPerPage 
                       OFFSET $offset";
             $countQuery = "SELECT COUNT(*) as total FROM students";

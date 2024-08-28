@@ -6,7 +6,7 @@
       </h1>
     </div>
 
-    <form>
+    <form (ngSubmit)="saveChanges()">
       <div class="mb-4 mt-4 flex items-center space-x-4">
         <input
           name="studentNumber"
@@ -23,6 +23,7 @@
                  focus:ring-opacity-50 
                  text-lg"
           [(ngModel)]="student.student_number"
+          required
         />
 
         <div class="relative mr-44">
@@ -43,8 +44,9 @@
                    focus:bg-[#ffb700] 
                    cursor-pointer 
                    text-lg"
-            [(ngModel)]="student.gender">
-            <option value="" disabled selected>Gender</option>
+            [(ngModel)]="student.gender"
+            required>
+            <option value="" disabled>Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="Prefer not to say">Prefer not to say</option>
@@ -91,6 +93,7 @@
                  text-lg"
           placeholder="First name"
           [(ngModel)]="student.first_name"
+          required
         />
         <input
           name="lastName"
@@ -108,58 +111,36 @@
                  text-lg"
           placeholder="Last name"
           [(ngModel)]="student.surname"
+          required
         />
 
         <div class="relative mr-44">
           <select
             name="course"
             class="block 
-                   appearance-none 
-                   w-full 
-                   bg-secondary 
-                   text-gray-700 
-                   font-medium 
-                   py-3 
-                   px-6 
-                   pr-8 
-                   rounded-full 
-                   leading-tight 
-                   focus:outline-none 
-                   focus:bg-[#ffb700] 
-                   cursor-pointer 
-                   text-lg"
-            [(ngModel)]="student.course">
+                  appearance-none 
+                  w-full 
+                  bg-secondary 
+                  text-gray-700 
+                  font-medium 
+                  py-3 
+                  px-6 
+                  pr-8 
+                  rounded-full 
+                  leading-tight 
+                  focus:outline-none 
+                  focus:bg-[#ffb700] 
+                  cursor-pointer 
+                  text-lg"
+            [(ngModel)]="student.course_id">
             <option value="" disabled selected>Course</option>
-            <option value="BSBA">BSBA</option>
-            <option value="BSECE">BSECE</option>
-            <option value="BSED">BSED</option>
-            <option value="BSME">BSME</option>
-            <option value="BSIT">BSIT</option>
-            <option value="BSOA">BSOA</option>
-            <option value="BSPSYCH">BSPSYCH</option>
-            <option value="DICT">DICT</option>
-            <option value="DOMT">DOMT</option>
-          </select>
-          <div
-            class="pointer-events-none 
-                   absolute 
-                   inset-y-0 
-                   top-0.5 
-                   right-2 
-                   flex 
-                   items-center 
-                   text-gray-700">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-5">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+            <option *ngFor="let course of courses" [value]="course.id">
+              {{ course.course_abbreviation }}
+            </option>
+          </select>        
+          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </div>
         </div>
@@ -180,6 +161,7 @@
                  text-lg"
           placeholder="Contact number"
           [(ngModel)]="student.phone_number"
+          required
         />
       </div>
       <div class="flex flex-row gap-4 w-full mt-4">
@@ -211,8 +193,7 @@
                   hover:bg-[#801e1d] 
                   hover:text-white 
                   transition 
-                  duration-300"
-            (click)="showConfirmModal()">
+                  duration-300">
             Save Changes
           </button>
       </div>
@@ -220,8 +201,7 @@
   </div>
 </div>
 
-<!-- Confirmation Modal -->
- @if(showModal){
+@if(showModal){
   <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
       <h2 class="text-center text-2xl font-medium text-primary mb-3">
@@ -265,4 +245,3 @@
     </div>
   </div>
 }
-

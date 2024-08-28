@@ -1,3 +1,90 @@
-<div class="w-full h-full bg-black">
+<div class="flex flex-col justify-center items-center min-h-screen w-full">
+  <div class="flex items-center justify-center">
+    <div class="flex flex-row w-full h-30rem">
+      <div class="flex flex-col items-center justify-center gap-4 slide-in-left">
+        <img src="../../../assets/profile3.jpg" alt="profile-picture" class="w-[40rem] h-72">
+        <button 
+          type="submit"
+          (click)="toggleEditMode()"
+          class="w-60 
+                 bg-secondary 
+                 text-black 
+                 px-4 
+                 py-3 
+                 rounded-full 
+                 font-medium 
+                 transition 
+                 duration-300 
+                 mb-5">
+          {{ isEditMode ? 'Save Changes' : 'Edit' }}
+        </button>
+      </div>
 
+      <div class="flex flex-col w-3/4 slide-in-right">
+        <div class="flex flex-col w-full justify-center items-start">
+          <input 
+            type="text" 
+            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            [(ngModel)]="librarianData.name" 
+            [readonly]="!isEditMode"
+            placeholder="Librarian">
+          <span class="text-white">Librarian</span>
+        </div>
+        <div class="flex flex-col w-full justify-center items-start">
+          <input 
+            type="text" 
+            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            [(ngModel)]="librarianData.email" 
+            [readonly]="!isEditMode"
+            placeholder="Email">
+          <span class="text-white">Email</span>
+        </div>
+        <div class="flex flex-col w-full justify-center items-start">
+          <input 
+            type="text" 
+            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            [(ngModel)]="librarianData.telephone_number" 
+            [readonly]="!isEditMode"
+            placeholder="Telephone number">
+          <span class="text-white">Telephone number</span>
+        </div>
+        <div class="flex flex-col w-full justify-center items-start">
+          <input 
+            type="text" 
+            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            [(ngModel)]="librarianData.telefax_number" 
+            [readonly]="!isEditMode"
+            placeholder="Telefax number">
+          <span class="text-white">Telefax number</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-row items-center justify-center gap-10 slide-in-below">
+    <div class="flex flex-col w-full justify-center items-start">
+      <input 
+        type="text" 
+        class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+        [(ngModel)]="librarianData.username" 
+        [readonly]="!isEditMode"
+        placeholder="Username">
+      <span class="text-white">Username</span>
+    </div>
+    <div class="flex flex-col w-full justify-center items-start">
+      <!-- <input 
+        type="password" 
+        class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+        [(ngModel)]="librarianData.password" 
+        [readonly]="!isEditMode"
+        placeholder="Password"> -->
+        <input 
+        type="password" 
+        class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+        [(ngModel)]="librarianData.password" 
+        readonly
+        placeholder="Password">
+      <span class="text-white">Password</span>
+    </div>
+  </div>
 </div>

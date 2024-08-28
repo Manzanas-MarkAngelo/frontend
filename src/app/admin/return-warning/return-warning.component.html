@@ -1,14 +1,14 @@
 <div class="flex items-end justify-center min-h-screen">
-    <div class="bg-white p-8 pb-0 rounded-3xl shadow-lg w-1/2 h-1/3 mb-40 slide-in-below">
-      <h2 class="text-center text-2xl font-medium text-primary mb-3">
-        Are you sure the book has been returned?
-      </h2>
-      <form>
-        <div class="flex flex-col items-center justify-between">
+  <div class="bg-white p-8 pb-0 rounded-3xl shadow-lg w-1/2 h-1/3 mb-40 slide-in-below">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Are you sure the book has been returned?
+    </h2>
+    <form (ngSubmit)="onConfirmReturn()">
+      <div class="flex flex-col items-center justify-between">
         <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-full" />
         <div class="flex flex-row gap-2 w-full">
-            <button
-            type="submit"
+          <button
+            type="button"
             class="w-1/2 
                    bg-primary 
                    text-white 
@@ -25,27 +25,23 @@
             Back
           </button>
           <button
-          type="submit"
-          class="w-1/2 
-                 bg-secondary 
-                 text-black 
-                 px-4 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-[#801e1d] 
-                 hover:text-white 
-                 transition 
-                 duration-300 
-                 mb-5"
-          routerLink="/return-success">
-          Continue
-        </button>
+            type="submit"
+            class="w-1/2 
+                   bg-secondary 
+                   text-black 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   hover:bg-[#801e1d] 
+                   hover:text-white 
+                   transition 
+                   duration-300 
+                   mb-5">
+            Continue
+          </button>
         </div>
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
-  
-
-
+</div>
