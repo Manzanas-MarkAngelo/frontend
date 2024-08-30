@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lis_bar";
+$dbname = "lis";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
