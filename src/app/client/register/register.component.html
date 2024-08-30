@@ -159,41 +159,81 @@
           </div>
         </div>
       </div>
-      <div class="mb-4 mt-1 flex items-center space-x-4">
-          <input
-          id="fname"
-          name="fname"
-          type="text"
-          [(ngModel)]="firstName"
-          class="w-2/5 
-                 flex 
-                 mt-1 
-                 rounded-full 
-                 border 
-                 border-gray-300 
-                 px-3 
-                 pl-6 
-                 py-2 
-                 focus:ring-opacity-50 
-                 text-lg"
-          placeholder="First name"/>
-        <input
-          id="lname"
-          name="lname"
-          type="text"
-          [(ngModel)]="lastName"
-          class="w-2/5 
-                 flex 
-                 mt-1 
-                 rounded-full 
-                 border 
-                 border-gray-300 
-                 px-3 
-                 pl-6 
-                 py-2 
-                 focus:ring-opacity-50 
-                 text-lg"
-          placeholder="Last name"/>
+      <div class="mb-4 mt-1 flex items-center space-x-2">
+          @if (selectedRole === "faculty") {
+            <input
+            id="fname"
+            name="fname"
+            type="text"
+            [(ngModel)]="firstName"
+            class="w-[37%] 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="First name"/>
+          } @else {
+            <input
+            id="fname"
+            name="fname"
+            type="text"
+            [(ngModel)]="firstName"
+            class="w-2/5 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="First name"/>
+          }
+          @if (selectedRole === "faculty") {
+            <input
+            id="lname"
+            name="lname"
+            type="text"
+            [(ngModel)]="lastName"
+            class="w-[37%] 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Last name"/>
+          } @else {
+            <input
+            id="lname"
+            name="lname"
+            type="text"
+            [(ngModel)]="lastName"
+            class="w-2/5 
+                   flex 
+                   mt-1 
+                   rounded-full 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Last name"/>
+          }
 
         <div class="relative mr-44">
           <ng-container *ngIf="selectedRole === 'student'">
@@ -264,7 +304,7 @@
                    focus:bg-[#ffb700] 
                    cursor-pointer 
                    text-lg">
-            <option value="" disabled selected>Division</option>
+            <option value="" disabled selected>Department</option>
             <option *ngFor="let dept of departments" [value]="dept.id">
               {{ dept.dept_abbreviation }}
             </option>
