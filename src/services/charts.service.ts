@@ -32,5 +32,14 @@ export class ChartsService {
       })
     );
   }
-  
+
+  // fetch top 10 most borrowed books
+  getTopTenBorrowedBooks(year: number, month: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/fetch_top_ten_borrowed_books.php?year=${year}&month=${month}`).pipe(
+      catchError(error => {
+        console.error('Error fetching top ten borrowed books:', error);
+        return throwError(() => new Error('Error fetching top ten borrowed books'));
+      })
+    );
+  }
 }
