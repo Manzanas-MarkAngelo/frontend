@@ -22,16 +22,21 @@ $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
-$sql = "SELECT id, accnum, title, author, subj, copyright, callno, status, isbn 
-        FROM materials 
-        WHERE (accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?)";
+// Modified SQL query
+$sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn
+        FROM materials m
+        LEFT JOIN category c ON m.categoryid = c.cat_id
+        WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
 
 if (!empty($category)) {
-    $sql .= " AND accnum LIKE ?";
+    $sql .= " AND m.categoryid LIKE ?";
     $category = '%' . $category . '%';
 }
 
-$sql .= " LIMIT ? OFFSET ?";
+// Order by date_added and mat_type from the category table
+$sql .= " ORDER BY m.date_added DESC, c.mat_type ASC
+          LIMIT ? OFFSET ?";
+
 $stmt = $conn->prepare($sql);
 
 if (!empty($category)) {
@@ -52,7 +57,7 @@ $total_sql = "SELECT COUNT(*) as count FROM materials
               WHERE (accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?)";
 
 if (!empty($category)) {
-    $total_sql .= " AND accnum LIKE ?";
+    $total_sql .= " AND categoryid LIKE ?";
 }
 
 $total_stmt = $conn->prepare($total_sql);
