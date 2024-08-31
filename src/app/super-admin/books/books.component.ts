@@ -14,7 +14,7 @@ export class BooksComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 11;
+  itemsPerPage: number = 10;
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
@@ -25,25 +25,22 @@ export class BooksComponent implements OnInit {
   categoryPlaceholder: string = 'Choose category';
   categories: { mat_type: string, accession_no: string }[] = [];
 
-  // Snackbar variables
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';
+
+  sortField: string = 'date_added'; // Default sort field
+  sortOrder: string = 'DESC'; // Default sort order
 
   constructor(private materialsService: MaterialsService, private router: Router) {}
 
   ngOnInit() {
-    this.loadMaterials();
-    this.loadCategories(); // Load categories from the database
+    this.loadMaterials(); 
+    this.loadCategories(); 
+
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(term => {
-        if (this.category) {
-          return this.materialsService.searchMaterialsByCategory(term, this.category, this.currentPage, this.itemsPerPage);
-        } else {
-          return this.materialsService.searchMaterials(term, this.currentPage, this.itemsPerPage);
-        }
-      })
+      switchMap(term => this.getMaterials(term))
     ).subscribe(response => {
       this.materials = response.data;
       this.totalItems = response.totalItems;
@@ -54,34 +51,75 @@ export class BooksComponent implements OnInit {
   loadMaterials() {
     if (this.searchTerm) {
       if (this.category) {
-        this.materialsService.searchMaterialsByCategory(this.searchTerm, this.category, this.currentPage, this.itemsPerPage)
-          .subscribe(response => {
-            this.materials = response.data;
-            this.totalItems = response.totalItems;
-            this.totalPages = response.totalPages;
-          });
+        this.materialsService.searchMaterialsByCategory(
+          this.searchTerm, 
+          this.category, 
+          this.currentPage, 
+          this.itemsPerPage, 
+          this.sortField, 
+          this.sortOrder
+        ).subscribe(response => {
+          this.materials = response.data;
+          this.totalItems = response.totalItems;
+          this.totalPages = response.totalPages;
+        });
       } else {
-        this.materialsService.searchMaterials(this.searchTerm, this.currentPage, this.itemsPerPage)
-          .subscribe(response => {
-            this.materials = response.data;
-            this.totalItems = response.totalItems;
-            this.totalPages = response.totalPages;
-          });
+        this.materialsService.searchMaterials(
+          this.searchTerm, 
+          this.currentPage, 
+          this.itemsPerPage, 
+          this.sortField, 
+          this.sortOrder
+        ).subscribe(response => {
+          this.materials = response.data;
+          this.totalItems = response.totalItems;
+          this.totalPages = response.totalPages;
+        });
       }
     } else if (this.category) {
-      this.materialsService.filterMaterialsByCategory(this.category, this.currentPage, this.itemsPerPage)
-        .subscribe(response => {
-          this.materials = response.data;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
-        });
+      this.materialsService.filterMaterialsByCategory(
+        this.category, 
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      ).subscribe(response => {
+        this.materials = response.data;
+        this.totalItems = response.totalItems;
+        this.totalPages = response.totalPages;
+      });
     } else {
-      this.materialsService.getMaterials(this.currentPage, this.itemsPerPage)
-        .subscribe(response => {
-          this.materials = response.data;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
-        });
+      this.materialsService.getMaterials(
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      ).subscribe(response => {
+        this.materials = response.data;
+        this.totalItems = response.totalItems;
+        this.totalPages = response.totalPages;
+      });
+    }
+  }
+
+  getMaterials(term: string) {
+    if (this.category) {
+      return this.materialsService.searchMaterialsByCategory(
+        term, 
+        this.category, 
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      );
+    } else {
+      return this.materialsService.searchMaterials(
+        term, 
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      );
     }
   }
 
@@ -161,6 +199,21 @@ export class BooksComponent implements OnInit {
     this.category = '';
     this.currentPage = 1;
     this.categoryPlaceholder = 'Choose category';
+    this.sortField = 'date_added'; // Reset to default sort field
+    this.sortOrder = 'DESC'; // Reset to default sort order
+    this.loadMaterials();
+  }
+
+  sortMaterials(field: string) {
+    if (this.sortField === field) {
+      // Toggle sort order if the same field is clicked
+      this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+      // Set new sort field and default sort order to DESC
+      this.sortField = field;
+      this.sortOrder = 'DESC';
+    }
+    
     this.loadMaterials();
   }
 }
