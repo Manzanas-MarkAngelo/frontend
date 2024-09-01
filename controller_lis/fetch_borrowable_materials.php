@@ -49,7 +49,9 @@ if (!empty($category)) {
     $category = '%' . $category . '%';
 }
 
-$sql .= " LIMIT ? OFFSET ?";
+// Add ordering by date_added and mat_type
+$sql .= " ORDER BY m.date_added DESC, c.mat_type ASC
+          LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 
 if (!empty($category)) {

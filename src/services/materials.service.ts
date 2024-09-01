@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './environments/local-environment';
 
@@ -9,20 +9,60 @@ export class MaterialsService {
 
   constructor(private http: HttpClient) {}
 
-  getMaterials(page: number, limit: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php?page=${page}&limit=${limit}`);
+  getMaterials(page: number, limit: number, sortField?: string, sortOrder?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
+      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
+    
+    // Log the payload
+    console.log('getMaterials payload:', params.toString());
+    
+    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
 
-  searchMaterials(term: string, page: number, limit: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php?search=${term}&page=${page}&limit=${limit}`);
+  searchMaterials(term: string, page: number, limit: number, sortField?: string, sortOrder?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('search', term)
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
+      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
+    
+    // Log the payload
+    console.log('searchMaterials payload:', params.toString());
+    
+    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
 
-  filterMaterialsByCategory(category: string, page: number, limit: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php?category=${category}&page=${page}&limit=${limit}`);
+  filterMaterialsByCategory(category: string, page: number, limit: number, sortField?: string, sortOrder?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('category', category)
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
+      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
+    
+    // Log the payload
+    console.log('filterMaterialsByCategory payload:', params.toString());
+    
+    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
 
-  searchMaterialsByCategory(term: string, category: string, page: number, limit: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php?search=${term}&category=${category}&page=${page}&limit=${limit}`);
+  searchMaterialsByCategory(term: string, category: string, page: number, limit: number, sortField?: string, sortOrder?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('search', term)
+      .set('category', category)
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
+      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
+    
+    // Log the payload
+    console.log('searchMaterialsByCategory payload:', params.toString());
+    
+    return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
 
   getMaterialDetails(accnum: string): Observable<any> {

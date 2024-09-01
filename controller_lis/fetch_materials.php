@@ -20,48 +20,80 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
-$category = isset($_GET['category']) ? $_GET['category'] : '';
+$category = isset($_GET['category']) ? '%' . $_GET['category'] . '%' : '';
+$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'date_added';
+$sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'DESC';
 
-$sql = "SELECT id, accnum, title, author, subj, copyright, callno, status, isbn 
+// Sanitize sort field and order
+$allowedSortFields = ['title', 'author', 'subj', 'copyright', 'callno', 'status', 'date_added'];
+if (!in_array($sortField, $allowedSortFields)) {
+    $sortField = 'date_added'; // Fallback to default if invalid
+}
+
+$allowedSortOrders = ['ASC', 'DESC'];
+if (!in_array(strtoupper($sortOrder), $allowedSortOrders)) {
+    $sortOrder = 'DESC'; // Fallback to default if invalid
+}
+
+// SQL query for fetching materials with sorting and filtering
+$sql = "SELECT id, accnum, title, author, subj, copyright, callno, status, isbn, date_added 
         FROM materials 
         WHERE (accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?)";
 
+$params = [$search, $search, $search, $search, $search, $search, $search];
+$types = str_repeat('s', count($params));
+
 if (!empty($category)) {
     $sql .= " AND accnum LIKE ?";
-    $category = '%' . $category . '%';
+    $params[] = $category;
+    $types .= 's';
 }
 
-$sql .= " LIMIT ? OFFSET ?";
+$sql .= " ORDER BY $sortField $sortOrder
+          LIMIT ? OFFSET ?";
+
+// Prepare the statement
 $stmt = $conn->prepare($sql);
-
-if (!empty($category)) {
-    $stmt->bind_param("ssssssssii", $search, $search, $search, $search, $search, $search, $search, $category, $limit, $offset);
-} else {
-    $stmt->bind_param("sssssssii", $search, $search, $search, $search, $search, $search, $search, $limit, $offset);
+if (!$stmt) {
+    die('Prepare failed: ' . htmlspecialchars($conn->error));
 }
+
+// Bind parameters
+$bindParams = array_merge($params, [$limit, $offset]);
+$types .= 'ii';
+$stmt->bind_param($types, ...$bindParams);
 
 $stmt->execute();
 $result = $stmt->get_result();
+
+if (!$result) {
+    die('Execute failed: ' . htmlspecialchars($stmt->error));
+}
 
 $materials = array();
 while ($row = $result->fetch_assoc()) {
     $materials[] = $row;
 }
 
+// SQL query for counting total items
 $total_sql = "SELECT COUNT(*) as count FROM materials 
               WHERE (accnum LIKE ? OR title LIKE ? OR author LIKE ? OR subj LIKE ? OR copyright LIKE ? OR callno LIKE ? OR status LIKE ?)";
 
+$total_params = [$search, $search, $search, $search, $search, $search, $search];
+$total_types = str_repeat('s', count($total_params));
+
 if (!empty($category)) {
     $total_sql .= " AND accnum LIKE ?";
+    $total_params[] = $category;
+    $total_types .= 's';
 }
 
 $total_stmt = $conn->prepare($total_sql);
-
-if (!empty($category)) {
-    $total_stmt->bind_param("ssssssss", $search, $search, $search, $search, $search, $search, $search, $category);
-} else {
-    $total_stmt->bind_param("sssssss", $search, $search, $search, $search, $search, $search, $search);
+if (!$total_stmt) {
+    die('Prepare failed: ' . htmlspecialchars($conn->error));
 }
+
+$total_stmt->bind_param($total_types, ...$total_params);
 
 $total_stmt->execute();
 $total_result = $total_stmt->get_result();
