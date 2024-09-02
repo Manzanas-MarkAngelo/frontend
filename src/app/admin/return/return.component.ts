@@ -34,7 +34,7 @@ export class ReturnComponent implements OnInit {
         };
       }).sort((a, b) => {
         if (a.remarks === 'Returned Late' || a.remarks === 'Returned') {
-          return 1; // push returned items to the bottom
+          return 1;
         } else if (a.remarks !== 'Returned' && b.remarks === 'Returned') {
           return -1;
         } else {
@@ -48,32 +48,30 @@ export class ReturnComponent implements OnInit {
     this.selectedItem = item;
     this.returnService.generatePenalty(item.material_id).subscribe(response => {
       if (response.status === 'success') {
-        const pdfUrl = this.pdfPenaltyReceiptService.generateReceipt(response);
-  
-        // iframe to load the PDF
+        const isStudent = response.user_type === 'student';
+        const pdfUrl = this.pdfPenaltyReceiptService.generateReceipt(response, isStudent);
+
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
         iframe.src = pdfUrl;
         document.body.appendChild(iframe);
-  
+
         iframe.onload = () => {
           const printWindow = iframe.contentWindow;
           if (printWindow) {
             printWindow.focus();
             printWindow.print();
-  
-            // Attach an onafterprint event to the parent window
+
             const afterPrint = () => {
-              const userConfirmed = confirm("Did the PDF get printed or saved successfully?");
+              const userConfirmed = confirm("Were you able to successfully print or save the receipt?");
               if (userConfirmed) {
-                this.confirmPenalty(); // Update remark to 'Processing'
+                this.confirmPenalty();
               }
               document.body.removeChild(iframe);
             };
-  
-            // Use a timeout as a fallback to ensure the alert is shown
+
             let printTimeout = setTimeout(afterPrint, 1000);
-  
+
             printWindow.onafterprint = () => {
               clearTimeout(printTimeout);
               afterPrint();

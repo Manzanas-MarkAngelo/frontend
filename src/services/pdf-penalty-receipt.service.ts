@@ -8,7 +8,7 @@ import autoTable from 'jspdf-autotable';
 export class PdfPenaltyReceiptService {
   constructor() {}
 
-  generateReceipt(response: any): string {
+  generateReceipt(response: any, isStudent: boolean): string {
     const doc = new jsPDF('landscape');
     const img = new Image();
     img.src = 'assets/pup.png';
@@ -21,142 +21,114 @@ export class PdfPenaltyReceiptService {
       author: response.author,
       dateBorrowed: this.formatDate(response.date_borrowed),
       dueDate: this.formatDate(response.due_date),
-      returnDate: this.getCurrentDate(), // Use the actual return date
-      amountDue: `₱${response.amount_due}`
+      returnDate: this.getCurrentDate(),
+      amountDue: `P${response.amount_due}`
     };
 
-    // Set up common styles
+    const copyLabelLeft = isStudent ? "STUDENT'S COPY" : "FACULTY'S COPY";
+    const idLabel = isStudent ? "Student Number:" : "Faculty Code:";
+    const copyLabelRight = "LIBRARY'S COPY";
+
     doc.setFont('helvetica');
-    doc.setFontSize(10); // Adjusted font size for better fit
+    doc.setFontSize(12);
 
-    // Borders and spacing
-    const marginBetweenCopies = 5;
-    const sectionWidth = 135; // Half of the page width minus margin
-    const sectionHeight = 130; // Adjust based on the content height
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
 
-    // Draw full border for Student's Copy
-    doc.rect(5, 5, sectionWidth, sectionHeight);
+    const margin = 3;
+    const leftX = margin;
+    const sectionWidth = (pageWidth / 2) - (margin * 2);
+    const rightX = pageWidth / 2 + margin;
 
-    // Header for Student's Copy (Left side)
-    doc.addImage(img, 'PNG', 10, 10, 15, 15);
-    doc.text('POLYTECHNIC UNIVERSITY OF THE PHILIPPINES', 30, 15);
-    doc.text('Taguig Branch', 30, 20);
-    doc.text('Library Management System', 30, 25);
+    const topY = margin;
+    const bottomY = pageHeight - margin;
 
-    doc.text('Invoice Number:', 30, 35);
-    doc.text('Date:', 105, 35);
-    doc.text(borrowerDetails.date, 130, 35);
+    doc.setLineWidth(.6);
 
-    doc.text('Name:', 30, 40);
-    doc.text(borrowerDetails.name, 65, 40);
-    doc.text('ID Number:', 105, 40);
-    doc.text(borrowerDetails.borrowerId, 130, 40);
+    function drawText(isBold: boolean, text: string, x: number, y: number, options?: any) {
+      doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+      doc.text(text, x, y, options);
+    }
 
-    // Add autoTable with column width adjustments for Student's Copy
-    autoTable(doc, {
-      startY: 50,
-      head: [['Book Title', 'Author', 'Date Borrowed', 'Due Date', 'Date Returned', 'Amount Due']],
-      body: [
-        [
-          borrowerDetails.title,
-          borrowerDetails.author,
-          borrowerDetails.dateBorrowed,
-          borrowerDetails.dueDate,
-          borrowerDetails.returnDate,
-          borrowerDetails.amountDue
-        ]
-      ],
-      styles: {
-        fontSize: 8, // Smaller font size for table content
-        cellPadding: 1,
-        minCellHeight: 6,
-      },
-      columnStyles: {
-        0: { cellWidth: 20 }, // Title
-        1: { cellWidth: 20 }, // Author
-        2: { cellWidth: 20 }, // Date Borrowed
-        3: { cellWidth: 20 }, // Due Date
-        4: { cellWidth: 20 }, // Date Returned
-        5: { cellWidth: 20 }, // Amount Due
-      },
-      theme: 'grid',
-      margin: { left: 10, right: 0, bottom: 0 },
-      tableWidth: sectionWidth - 10
-    });
+    function drawSection(x, headerText, idLabel) {
+      doc.rect(x, topY, sectionWidth, bottomY - topY);
 
-    const studentTableY = (doc as any).lastAutoTable.finalY;
+      drawText(true, headerText, x + sectionWidth - margin, topY + 10, { align: 'right' });
 
-    doc.text('Total Amount: ', 100, studentTableY + 10);
-    doc.text(borrowerDetails.amountDue, 130, studentTableY + 10);
+      doc.addImage(img, 'PNG', x + margin, topY + 18, 20, 20);
+      drawText(true, 'POLYTECHNIC UNIVERSITY OF THE PHILIPPINES', x + 78, topY + 25, { align: 'center' });
+      drawText(true, 'Taguig Branch', x + 78, topY + 30, { align: 'center' });
+      drawText(true, 'Library Management System', x + 78, topY + 35, { align: 'center' });
 
-    doc.text('Note: We will charge ₱10.00 (ten pesos) a day for the late return of book/s.', 10, studentTableY + 20);
-    doc.text('Please pay the amount due to the Cashier’s Office. Thank you!', 10, studentTableY + 25);
-    doc.text('Signed by:', 10, studentTableY + 35);
-    doc.text('Elena C. Mamansag', 10, studentTableY + 40);
-    doc.text('Registered Librarian', 10, studentTableY + 45);
+      drawText(true, 'Invoice Number:', x + sectionWidth - 65, topY + 55);
+      drawText(false, '__________', x + sectionWidth - 30, topY + 55);
+      drawText(true, 'Name:', x + margin, topY + 70);
+      drawText(false, borrowerDetails.name, x + margin + 16, topY + 70);
+      drawText(true, idLabel, x + margin, topY + 80);
+      drawText(false, borrowerDetails.borrowerId, x + margin + 38, topY + 80);
+      drawText(true, 'Date:', x + sectionWidth - 42, topY + 70);
+      drawText(false, borrowerDetails.date, x + sectionWidth - 28, topY + 70);
 
-    // Draw full border for Library's Copy
-    doc.rect(sectionWidth + marginBetweenCopies + 10, 5, sectionWidth, sectionHeight);
+      autoTable(doc, {
+        startY: topY + 90,
+        head: [['Book Title', 'Author', 'Date Borrowed', 'Due Date', 'Date Returned', 'Amount Due']],
+        body: [
+          [
+            borrowerDetails.title,
+            borrowerDetails.author,
+            borrowerDetails.dateBorrowed,
+            borrowerDetails.dueDate,
+            borrowerDetails.returnDate,
+            borrowerDetails.amountDue
+          ]
+        ],
+        styles: {
+          fontSize: 11,
+          cellPadding: 1,
+          minCellHeight: 6,
+          halign: 'center'
+        },
+        headStyles: {
+          fontStyle: 'bold',
+          fillColor: [128, 30, 29],
+          textColor: [255, 255, 255],
+          halign: 'center'
+        },
+        columnStyles: {
+          0: { halign: 'center' },
+          1: { halign: 'center' },
+          2: { halign: 'center' },
+          3: { halign: 'center' },
+          4: { halign: 'center' },
+          5: { halign: 'center' }
+        },
+        theme: 'grid',
+        margin: { left: x + margin, right: margin },
+        tableWidth: sectionWidth - (margin * 2)
+      });
 
-    // Header for Library's Copy (Right side)
-    doc.addImage(img, 'PNG', 150 + marginBetweenCopies, 10, 15, 15);
-    doc.text('POLYTECHNIC UNIVERSITY OF THE PHILIPPINES', 170 + marginBetweenCopies, 15);
-    doc.text('Taguig Branch', 170 + marginBetweenCopies, 20);
-    doc.text('Library Management System', 170 + marginBetweenCopies, 25);
+      const tableY = (doc as any).lastAutoTable.finalY;
 
-    doc.text('Invoice Number:', 170 + marginBetweenCopies, 35);
-    doc.text('Date:', 245 + marginBetweenCopies, 35);
-    doc.text(borrowerDetails.date, 270 + marginBetweenCopies, 35);
+      drawText(true, 'Note:', x + margin, tableY + 15);
+      drawText(false, 'We will charge P10.00 (ten pesos) a day for the late return of book/s.', x + margin + 6, tableY + 20);
+      drawText(false, 'Please pay the amount due to the Cashier’s Office. Thank you!', x + margin + 6, tableY + 25);
+      drawText(true, 'Signed By:', x + sectionWidth / 2, tableY + 40, { align: 'center' });
+      drawText(false, '_______________________________', x + sectionWidth / 2, tableY + 50, { align: 'center' });
+      drawText(true, response.librarian_name, x + sectionWidth / 2, tableY + 60, { align: 'center' });
+      drawText(false, 'Registered Librarian', x + sectionWidth / 2, tableY + 65, { align: 'center' });
+    }
 
-    doc.text('Name:', 170 + marginBetweenCopies, 40);
-    doc.text(borrowerDetails.name, 205 + marginBetweenCopies, 40);
-    doc.text('ID Number:', 245 + marginBetweenCopies, 40);
-    doc.text(borrowerDetails.borrowerId, 270 + marginBetweenCopies, 40);
+    drawSection(leftX, copyLabelLeft, idLabel);
+    drawSection(rightX, copyLabelRight, idLabel);
 
-    // Add autoTable for Library's Copy
-    autoTable(doc, {
-      startY: 50,
-      head: [['Book Title', 'Author', 'Date Borrowed', 'Due Date', 'Date Returned', 'Amount Due']],
-      body: [
-        [
-          borrowerDetails.title,
-          borrowerDetails.author,
-          borrowerDetails.dateBorrowed,
-          borrowerDetails.dueDate,
-          borrowerDetails.returnDate,
-          borrowerDetails.amountDue
-        ]
-      ],
-      styles: {
-        fontSize: 8, // Smaller font size for table content
-        cellPadding: 1,
-        minCellHeight: 6,
-      },
-      columnStyles: {
-        0: { cellWidth: 20 }, // Title
-        1: { cellWidth: 20 }, // Author
-        2: { cellWidth: 20 }, // Date Borrowed
-        3: { cellWidth: 20 }, // Due Date
-        4: { cellWidth: 20 }, // Date Returned
-        5: { cellWidth: 20 }, // Amount Due
-      },
-      theme: 'grid',
-      margin: { left: 150 + marginBetweenCopies, right: 10, bottom: 0 },
-      tableWidth: sectionWidth - 10
-    });
+    const pageMiddleX = pageWidth / 2;
+    const dashLength = 2;
+    const gapLength = 2;
 
-    const libraryTableY = (doc as any).lastAutoTable.finalY;
+    for (let y = 0; y < pageHeight; y += dashLength + gapLength) {
+      doc.line(pageMiddleX, y, pageMiddleX, y + dashLength);
+    }
 
-    doc.text('Total Amount: ', 220 + marginBetweenCopies, libraryTableY + 10);
-    doc.text(borrowerDetails.amountDue, 250 + marginBetweenCopies, libraryTableY + 10);
-
-    doc.text('Note: We will charge ₱10.00 (ten pesos) a day for the late return of book/s.', 150 + marginBetweenCopies, libraryTableY + 20);
-    doc.text('Please pay the amount due to the Cashier’s Office. Thank you!', 150 + marginBetweenCopies, libraryTableY + 25);
-    doc.text('Signed by:', 150 + marginBetweenCopies, libraryTableY + 35);
-    doc.text('Elena C. Mamansag', 150 + marginBetweenCopies, libraryTableY + 40);
-    doc.text('Registered Librarian', 150 + marginBetweenCopies, libraryTableY + 45);
-
-    // Return the generated PDF blob
     const pdfBlob = doc.output('blob');
     return URL.createObjectURL(pdfBlob);
   }
