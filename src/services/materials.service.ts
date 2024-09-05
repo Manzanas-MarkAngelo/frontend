@@ -88,4 +88,8 @@ export class MaterialsService {
   updateCategory(cat_id: string, categoryDetails: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/edit_category.php`, { cat_id, ...categoryDetails });
   }
+
+    deleteCategory(cat_id: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/delete_category.php`, { cat_id });
+  }
 }

@@ -11,6 +11,11 @@ import { Router } from '@angular/router';
 export class MaterialsTypeComponent implements OnInit {
   categories: any[] = [];
   totalCount: number = 0;
+  snackBarVisible: boolean = false;
+  snackBarMessage: string = '';
+  showModal: boolean = false;
+  selectedCategoryId: string = '';
+  selectedMaterialTitle: string = '';
 
   constructor(private location: Location, private materialsService: MaterialsService, private router: Router) {}
 
@@ -44,12 +49,40 @@ export class MaterialsTypeComponent implements OnInit {
   editCategory(cat_id: string): void {
     this.router.navigate(['/edit-type', cat_id]);
   }
-  //TODO implement delete material type
+
   showConfirmModal(cat_id: string, mat_type: string): void {
+    this.selectedCategoryId = cat_id;
+    this.selectedMaterialTitle = mat_type;
+    this.showModal = true;
+  }
 
-    if (confirm(`Are you sure you want to delete the material type: ${mat_type}?`)) {
+  closeConfirmModal(): void {
+    this.showModal = false;
+  }
 
-      console.log('Delete category with cat_id:', cat_id);
-    }
+  deleteCategory(): void {
+    this.materialsService.deleteCategory(this.selectedCategoryId).subscribe(
+      response => {
+        if (response.error) {
+          this.snackBarMessage = response.error;
+          this.snackBarVisible = true;
+        } else {
+          this.snackBarMessage = response.success;
+          this.snackBarVisible = true;
+          this.getCategories(); // Refresh the categories list
+        }
+        this.closeConfirmModal();
+      },
+      error => {
+        console.error('Error deleting category', error);
+        this.snackBarMessage = 'Cannot delete, there are materials using this category';
+        this.snackBarVisible = true;
+        this.closeConfirmModal();
+      }
+    );
+  }
+
+  closeSnackBar(): void {
+    this.snackBarVisible = false;
   }
 }
