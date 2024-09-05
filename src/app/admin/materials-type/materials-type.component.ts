@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { MaterialsService } from '../../../services/materials.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-materials-type',
@@ -11,7 +12,7 @@ export class MaterialsTypeComponent implements OnInit {
   categories: any[] = [];
   totalCount: number = 0;
 
-  constructor(private location: Location, private materialsService: MaterialsService) {}
+  constructor(private location: Location, private materialsService: MaterialsService, private router: Router) {}
 
   ngOnInit(): void {
     this.getCategories();
@@ -31,7 +32,6 @@ export class MaterialsTypeComponent implements OnInit {
 
   calculateTotalCount(): void {
     this.totalCount = this.categories.reduce((total, category) => {
-      // Ensure the counter value is a number
       const counterValue = parseInt(category.counter || '0', 10);
       return total + counterValue;
     }, 0);
@@ -39,5 +39,17 @@ export class MaterialsTypeComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  editCategory(cat_id: string): void {
+    this.router.navigate(['/edit-type', cat_id]);
+  }
+  //TODO implement delete material type
+  showConfirmModal(cat_id: string, mat_type: string): void {
+
+    if (confirm(`Are you sure you want to delete the material type: ${mat_type}?`)) {
+
+      console.log('Delete category with cat_id:', cat_id);
+    }
   }
 }
