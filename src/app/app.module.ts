@@ -114,6 +114,7 @@ import { TopUsersComponent } from './admin/analytics/top-users/top-users.compone
 import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
 import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
 import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein/top-ten-user-timein.component';
+import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 
 
 
@@ -199,6 +200,7 @@ import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein
     MonthlyUsersComponent,
     MonthlyCategoryDonutComponent,
     TopTenUserTimeinComponent,
+    EditTypeComponent,
 
   ],
   imports: [

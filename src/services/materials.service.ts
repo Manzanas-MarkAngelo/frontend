@@ -80,4 +80,16 @@ export class MaterialsService {
   getCategories(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/fetch_categories.php`);
   }
+
+  getCategory(cat_id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/fetch_categories.php?cat_id=${cat_id}`);
+  }
+
+  updateCategory(cat_id: string, categoryDetails: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/edit_category.php`, { cat_id, ...categoryDetails });
+  }
+
+    deleteCategory(cat_id: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/delete_category.php`, { cat_id });
+  }
 }
