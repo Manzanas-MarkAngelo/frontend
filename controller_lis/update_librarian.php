@@ -16,6 +16,10 @@ $telefax_number = $data['telefax_number'];
 $username = $data['username'];
 $password = $data['password'];
 
+if (!empty($data['newPassword'])) {
+    $password = hash('sha256', $data['newPassword']);
+}
+
 $query = "UPDATE librarian SET 
           name = '$name', 
           email = '$email', 
