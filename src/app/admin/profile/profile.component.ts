@@ -53,11 +53,7 @@ export class ProfileComponent implements OnInit {
     }
   
     this.librarianService.updateLibrarian(librarianId, updatedLibrarianData).subscribe(response => {
-      if (response.message === 'Librarian updated successfully') {
-        this.showSaveChangesSuccessModal = true;
-      } else {
-        this.showSaveChangesSuccessModal = true;
-      }
+      this.showSaveChangesSuccessModal = true;
     });
   }
 
@@ -126,7 +122,7 @@ export class ProfileComponent implements OnInit {
         this.showIncorrectPasswordModal = true;
       }
     } else if (this.passwordStage === 'enterNew') {
-      if (this.newPasswordInput.length >= 8) {
+      if (this.isPasswordLongEnough() && this.hasUpperAndLowerCase() && this.hasNumber() && this.hasSpecialCharacter()) {
         this.passwordStage = 'confirmNew';
       }
     } else if (this.passwordStage === 'confirmNew') {
