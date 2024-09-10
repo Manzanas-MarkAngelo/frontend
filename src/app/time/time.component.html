@@ -1,7 +1,18 @@
-<div class="clock slide-in-top">
+<div class="bg-primary">
+    <div class="clock slide-in-top">
+        {{ time | date: 'hh:mm:ss a' | lowercase }}
+    </div>  
+    
+    <div class="date slide-in-below">
+        {{ date }}
+    </div>
+</div>
+
+
+<!-- <div class="clock text-center text-9xl mt-4 text-white animate-slide-in-top">
     {{ time | date: 'hh:mm:ss a' | lowercase }}
 </div>  
 
-<div class="date slide-in-below">
+<div class="date text-center text-5xl font-normal -mt-6 text-warning animate-slide-in-below">
     {{ date }}
-</div>
+</div> -->
