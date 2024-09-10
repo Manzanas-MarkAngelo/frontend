@@ -7,7 +7,6 @@
 }
 
 .date {
-    @apply text-center text-amber-400 font-normal pt-[-1.5rem];
     text-align: center;
     color: #ffb700;
     font-size: 60px;
