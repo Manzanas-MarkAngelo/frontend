@@ -12,8 +12,14 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                   </svg>              
             </button>
-        </div>
-        <div class="flex flex-row gap-2 slide-in-right">
+           </div>
+             <button
+                type="button"
+                class="w-40 bg-white text-primary px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2"
+                (click)="clearSearch()">
+                Clear
+             </button>
+           <div class="flex flex-row gap-2 slide-in-right">
             <button
             routerLink="/materials-add"
             type="submit"
@@ -49,6 +55,25 @@
           Material type
         </button>
         </div>
+        <div class="flex flex-row gap-2 slide-in-right mt-1">
+          <div class="dropdown dropdown-end slide-in-right">
+              <div
+                  tabindex="0"
+                  role="button"
+                  class="btn w-48 mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]"
+              >
+                  {{ categoryPlaceholder }}
+              </div>
+              <ul
+                  tabindex="0"
+                  class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black"
+              >
+              <li *ngFor="let category of categories">
+                  <a (click)="CategoryPlaceholder(category.mat_type)">{{ category.mat_type }}</a>
+              </li>
+              </ul>
+          </div>
+      </div>
     </div>
     <div class="p-4 bg-white text-black rounded-xl w-full mb-4 slide-in-right">
 
@@ -81,16 +106,46 @@
         <div class="overflow-x-auto">
           <table class="table w-full">
             <thead>
-              <tr class="text-primary text-center text-sm">
-                <th>Accession No.</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Subject</th>
-                <th>Copyright</th>
-                <th>Call number</th>
-                <th>Status</th>
+              <tr class="text-primary text-center">
+                  <th (click)="sortMaterials('accnum')">Acc No.
+                      <span *ngIf="sortField === 'categoryid'" class="sort-arrow">
+                        <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                        <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                      </span>
+                    </th>                         
+                  <th (click)="sortMaterials('title')">Title
+                      <span *ngIf="sortField === 'title'" class="sort-arrow">
+                          <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                          <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                      </span>
+                  </th>
+                  <th (click)="sortMaterials('author')">Author
+                      <span *ngIf="sortField === 'author'" class="sort-arrow">
+                          <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                          <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                      </span>
+                  </th>
+                  <th (click)="sortMaterials('subj')">Subject
+                      <span *ngIf="sortField === 'subj'" class="sort-arrow">
+                          <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                          <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                      </span>
+                  </th>
+                  <th (click)="sortMaterials('copyright')">Copyright
+                      <span *ngIf="sortField === 'copyright'" class="sort-arrow">
+                          <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                          <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                      </span>
+                  </th>
+                  <th (click)="sortMaterials('callno')">Call number
+                      <span *ngIf="sortField === 'callno'" class="sort-arrow">
+                          <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                          <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                      </span>
+                  </th>
+                  <th>Action</th>
               </tr>
-            </thead>
+          </thead>
             <tbody class="text-start text-sm">
               <!-- <tr *ngFor="let material of materials">
                 <td>{{ material.accnum }}</td>
