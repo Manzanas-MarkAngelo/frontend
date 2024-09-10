@@ -70,9 +70,10 @@ import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-u
 import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
 import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein/top-ten-user-timein.component';
 import { EditTypeComponent } from './admin/edit-type/edit-type.component';
+import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/landing', pathMatch: 'full' },
+  { path: '', redirectTo: '/time-in', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
   { path: 'borrow-info/:accnum', component: BorrowInfoComponent },
   { path: 'material-info/:accnum', component: MaterialInfoComponent },
@@ -144,6 +145,7 @@ const routes: Routes = [
   { path: 'category-donut',component: MonthlyCategoryDonutComponent},
   { path: 'top-users', component: TopTenUserTimeinComponent},
   { path: 'edit-type/:cat_id', component: EditTypeComponent },
+  { path: 'navbar-client', component: NavbarClientComponent },
 
 ];
 
