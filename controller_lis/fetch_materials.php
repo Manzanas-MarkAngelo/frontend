@@ -18,7 +18,7 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
-$category = isset($_GET['category']) ? '%' . $_GET['category'] . '%' : '';
+$category = isset($_GET['category']) ? $_GET['category'] : '';
 $sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'date_added';
 $sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'DESC';
 
@@ -32,34 +32,41 @@ if (!in_array(strtoupper($sortOrder), $allowedSortOrders)) {
     $sortOrder = 'DESC';
 }
 
+// Base SQL query
 $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn, m.date_added, c.mat_type 
         FROM materials m
         LEFT JOIN category c ON m.categoryid = c.cat_id
         WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
 
-$params = [$search, $search, $search, $search, $search, $search, $search];
-$types = str_repeat('s', count($params));
-
+// Add category filter if provided
 if (!empty($category)) {
     $sql .= " AND m.accnum LIKE ?";
-    $params[] = $category;
-    $types .= 's';
 }
 
-// Sorting by mat_type alphabetically, not by accnum
+// Add sorting logic
 if ($sortField === 'categoryid') {
-    $sql .= " ORDER BY c.mat_type $sortOrder";
+    // Sort by mat_type first, then by primary key id
+    $sql .= " ORDER BY c.mat_type $sortOrder, m.id $sortOrder";
 } else {
+    // Sort by other fields
     $sql .= " ORDER BY $sortField $sortOrder";
 }
 
+// Add pagination
 $sql .= " LIMIT ? OFFSET ?";
 
+// Prepare and execute the query
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die('Prepare failed: ' . htmlspecialchars($conn->error));
 }
 
+// Bind parameters
+$params = [$search, $search, $search, $search, $search, $search, $search];
+if (!empty($category)) {
+    $params[] = '%' . $category . '%';
+}
+$types = str_repeat('s', count($params));
 $bindParams = array_merge($params, [$limit, $offset]);
 $types .= 'ii';
 $stmt->bind_param($types, ...$bindParams);
@@ -76,18 +83,17 @@ while ($row = $result->fetch_assoc()) {
     $materials[] = $row;
 }
 
+// Get total count
 $total_sql = "SELECT COUNT(*) as count FROM materials m
               LEFT JOIN category c ON m.categoryid = c.cat_id
               WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
 
 $total_params = [$search, $search, $search, $search, $search, $search, $search];
-$total_types = str_repeat('s', count($total_params));
-
 if (!empty($category)) {
     $total_sql .= " AND m.accnum LIKE ?";
-    $total_params[] = $category;
-    $total_types .= 's';
+    $total_params[] = '%' . $category . '%';
 }
+$total_types = str_repeat('s', count($total_params));
 
 $total_stmt = $conn->prepare($total_sql);
 if (!$total_stmt) {

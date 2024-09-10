@@ -77,6 +77,7 @@ export class BooksComponent implements OnInit {
         });
       }
     } else if (this.category) {
+      // Ensure you are filtering by category and sorting by categoryid
       this.materialsService.filterMaterialsByCategory(
         this.category, 
         this.currentPage, 
@@ -100,7 +101,7 @@ export class BooksComponent implements OnInit {
         this.totalPages = response.totalPages;
       });
     }
-  }
+  }  
 
   getMaterials(term: string) {
     if (this.category) {
@@ -206,14 +207,14 @@ export class BooksComponent implements OnInit {
   }
 
   sortMaterials(field: string) {
+    // Special case for sorting by 'Acc No.'
     if (field === 'accnum') {
-      // Special case for sorting by 'Acc No.'
       // Toggle the sorting order for 'categoryid'
       this.sortField = 'categoryid';
       this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
     } else {
+      // Toggle the sorting order for the same field
       if (this.sortField === field) {
-        // Toggle the sorting order for the same field
         this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
       } else {
         // Set the new sorting field and default to 'DESC'
@@ -228,5 +229,6 @@ export class BooksComponent implements OnInit {
     // Reload materials with the updated sorting
     this.loadMaterials();
   }
+  
   
 }
