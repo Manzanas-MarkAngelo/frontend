@@ -1,7 +1,8 @@
-<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-start">
-  <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
-    <div class="flex flex-row w-full mt-0.5">
-      <input
+<div class="flex flex-col h-full w-full px-10 pb-[17px] bg-primary">
+  <div class="flex flex-wrap flex-col md:flex-col w-full p-4 rounded-t-xl gap-2">
+    <div class="flex flex-col xl:flex-row w-full">
+      <div class="w-full flex flex-row"> 
+        <input
         type="text"
         [placeholder]="searchPlaceholder"
         class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
@@ -22,9 +23,47 @@
           />
         </svg>
       </button>
+
+
+
+    <div class="relative">
+      <select id="role" 
+              name="role" 
+              class="block 
+              appearance-none 
+              w-auto 
+              bg-secondary 
+              text-gray-700 
+              font-medium 
+              py-3.5 
+              px-4 
+              rounded-full 
+              leading-tight 
+              focus:outline-none 
+              focus:bg-[#ffb700] 
+              cursor-pointer 
+              text-lg
+              ml-1"
+              [(ngModel)]="selectedRole"
+              (change)="setLogType(selectedRole)"
+              required>
+        <option value="" disabled selected>Select the Role</option>
+        <option value="student">Student</option>
+        <option value="faculty">Faculty</option>
+        <option value="visitor">Visitor</option>
+      </select>
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-gray-700">
+        <svg class="fill-current h-10 w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
+        </svg>
+      </div>
     </div>
-    <div class="flex flex-row gap-2 slide-in-right">
-      <div class="relative">
+
+      </div>
+      
+    </div>
+    <div class="flex flex-col md:flex-row gap-2 slide-in-right">
+      <!-- <div class="relative">
         <select id="role" 
                 name="role" 
                 class="block 
@@ -55,7 +94,8 @@
             <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
           </svg>
         </div>
-      </div>
+      </div> -->
+
       <button
         type="button"
         (click)="setLogType('student_log')"
@@ -74,8 +114,7 @@
           hover:text-white 
           transition 
           duration-300 
-          mt-0.5"
-      >
+          mt-0.5">
         Student Log
       </button>
       <button
@@ -96,8 +135,7 @@
           hover:text-white 
           transition 
           duration-300 
-          mt-0.5"
-      >
+          mt-0.5">
         Faculty Log
       </button>
       <button
@@ -118,30 +156,52 @@
           hover:text-white 
           transition 
           duration-300 
-          mt-0.5"
-      >
+          mt-0.5">
         Visitor Log
       </button>
       <button
-        type="button"
-        (click)="setLogType('default')"
-        class="w-20 
-          bg-white 
-          text-primary
-          hover:bg-blue-500 
-          hover:text-white 
-          px-4 
-          py-3 
-          rounded-full 
-          font-semibold
-          transition 
-          duration-300 
-          mt-0.5"
-      >
-        clear
-      </button>
+      type="button"
+      (click)="setLogType('default')"
+      class="w-20 
+        bg-white 
+        text-primary
+        hover:bg-blue-500 
+        hover:text-white 
+        px-4 
+        py-3 
+        rounded-full 
+        font-semibold
+        transition 
+        duration-300 
+        ml-1">
+      clear
+    </button>
+
+    <div class="flex justify-between items-center text-white">
+      <span class="text-lg font-medium mx-3"
+        >Page {{ currentPage }} / {{ totalPages }}
+      </span>
+      <div class="flex gap-2">
+        <button
+          class="btn bg-secondary text-black border-none hover:text-[#801e1d] hover:bg-white"
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+        >
+          Previous
+        </button>
+
+        <button
+          class="btn bg-secondary text-black border-none hover:text-[#801e1d] hover:bg-white"
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+        >
+          Next
+        </button>
+      </div>
+    </div>
     </div>
   </div>
+  
   <div class="p-4 bg-white text-black rounded-xl w-full slide-in-right">
     <div class="overflow-x-auto">
       <ng-container *ngIf="currentLogType === 'student'">
@@ -291,7 +351,7 @@
         </table>
       </ng-container>
 
-      <div class="flex justify-between items-center mt-4">
+      <!-- <div class="flex justify-between items-center mt-4">
         <span class="text-lg font-medium ml-3"
           >Page {{ currentPage }} / {{ totalPages }}
         </span>
@@ -312,7 +372,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
