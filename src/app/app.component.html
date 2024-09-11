@@ -36,7 +36,7 @@
     @if (!userRole) {
         <app-navbar-client/>
     } @else if (userRole === 'librarian') {
-      <app-sidebar-admin/>
+      <app-navbar-admin/>
     } @else if (userRole === 'admin') {
       <app-super-sidebar/>
     } @else { <span>Unknown state</span> }
