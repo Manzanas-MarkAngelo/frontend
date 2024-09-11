@@ -76,33 +76,6 @@
       </div>
     </div>
     <div class="p-4 bg-white text-black rounded-xl w-full mb-4 slide-in-right">
-
-        <!-- <div class="flex justify-between items-center mx-3">
-          <span class="text-lg font-medium text-black"
-            >Page {{ currentPage }} / {{ totalPages }}</span>
-      
-          <div class="flex gap-2">
-            <button
-            class="btn bg-secondary text-black hover:bg-primary-focus hover:bg-[#801E1D] hover:text-white"
-            [disabled]="currentPage === 1"
-            (click)="onPageChange(currentPage - 1)"
-          >
-            Previous
-          </button>
-      
-          <button
-            class="btn bg-secondary text-black hover:bg-primary-focus hover:bg-[#801E1D] hover:text-white"
-            [disabled]="currentPage === totalPages"
-            (click)="onPageChange(currentPage + 1)"
-          >
-            Next
-          </button>
-          </div>
-      
-        </div>
-    
-        <div class="divider my-0"></div> -->
-    
         <div class="overflow-x-auto">
           <table class="table w-full">
             <thead>
@@ -147,21 +120,6 @@
               </tr>
           </thead>
             <tbody class="text-start text-sm">
-              <!-- <tr *ngFor="let material of materials">
-                <td>{{ material.accnum }}</td>
-                <td>
-                  <a [routerLink]="['/borrow-info', material.accnum]" 
-                     class="text-primary font-semibold hover:text-[#ffb700] 
-                            hover:underline">
-                    {{ material.title | slice:0:48 }}{{ material.title.length > 48 ? '...' : '' }}
-                  </a>
-                </td>
-                <td>{{ material.author | slice:0:70 }}{{ material.author.length > 70 ? '...' : '' }}</td>
-                <td>{{ material.subj }}</td>
-                <td>{{ material.copyright }}</td>
-                <td>{{ material.callno | slice:0:12 }}{{ material.callno.length > 12 ? '...' : '' }}</td>
-                <td>{{ material.status }}</td>
-              </tr> -->
               @for (material of materials; track $index) {
                 <tr>
                   <td>{{ material.accnum }}</td>

@@ -201,5 +201,4 @@ export class MaterialsComponent {
     // Reload materials with the updated sorting
     this.loadMaterials();
   }
-  
 }
