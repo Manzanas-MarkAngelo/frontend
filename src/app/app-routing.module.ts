@@ -71,6 +71,7 @@ import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-categor
 import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein/top-ten-user-timein.component';
 import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
+import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -146,6 +147,7 @@ const routes: Routes = [
   { path: 'top-users', component: TopTenUserTimeinComponent},
   { path: 'edit-type/:cat_id', component: EditTypeComponent },
   { path: 'navbar-client', component: NavbarClientComponent },
+  { path: 'navbar-admin', component: NavbarAdminComponent },
 
 ];
 
