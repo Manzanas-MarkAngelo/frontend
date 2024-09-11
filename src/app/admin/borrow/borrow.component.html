@@ -44,10 +44,11 @@
         tabindex="0"
         class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black"
       >
-        <li><a (click)="CategoryPlaceholder('Filipiñana')">Filipiñana</a></li>
-        <li><a (click)="CategoryPlaceholder('Circulation')">Circulation</a></li>
-        <li><a (click)="CategoryPlaceholder('Fiction')">Fiction</a></li>
-        <li><a (click)="CategoryPlaceholder('Donations')">Donations</a></li>
+        <li *ngFor="let category of categories">
+          <a (click)="CategoryPlaceholder(category.mat_type)">
+            {{ category.mat_type }}
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -57,56 +58,83 @@
       <table class="table w-full">
         <thead>
           <tr class="text-primary text-center text-sm">
-            <th>Accession No.</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Subject</th>
-            <th>Copyright</th>
-            <th>Call number</th>
+            <th (click)="sortMaterials('accnum')">Accession No.
+              <span *ngIf="sortField === 'accnum'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('title')">Title
+              <span *ngIf="sortField === 'title'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('author')">Author
+              <span *ngIf="sortField === 'author'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('subj')">Subject
+              <span *ngIf="sortField === 'subj'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('copyright')">Copyright
+              <span *ngIf="sortField === 'copyright'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('callno')">Call number
+              <span *ngIf="sortField === 'callno'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody class="text-start text-sm">
-          @for (material of materials; track $index) {
-            <tr>
-              <td>{{ material.accnum }}</td>
-              <td>
-                <a [routerLink]="['/borrow-info', material.accnum]" 
-                   class="text-primary font-semibold hover:text-[#ffb700] 
-                          hover:underline">
-                  {{ material.title | slice:0:40 }}{{ material.title.length > 40 ? '...' : '' }}
-                </a>
-              </td>
-              <td>{{ material.author | slice:0:50 }}{{ material.author.length > 50 ? '...' : '' }}</td>
-              <td>{{ material.subj }}</td>
-              <td>{{ material.copyright }}</td>
-              <td>{{ material.callno | slice:0:11 }}{{ material.callno.length > 11 ? '...' : '' }}</td>
-              <td>{{ material.status }}</td>
-            </tr>
-          }
+          <tr *ngFor="let material of materials; trackBy: trackByAccNum">
+            <td>{{ material.accnum }}</td>
+            <td>
+              <a [routerLink]="['/borrow-info', material.accnum]"
+                 class="text-primary font-semibold hover:text-[#ffb700] hover:underline">
+                {{ material.title | slice: 0: 40 }}{{ material.title.length > 40 ? '...' : '' }}
+              </a>
+            </td>
+            <td>{{ material.author | slice: 0: 50 }}{{ material.author.length > 50 ? '...' : '' }}</td>
+            <td>{{ material.subj }}</td>
+            <td>{{ material.copyright }}</td>
+            <td>{{ material.callno | slice: 0: 11 }}{{ material.callno.length > 11 ? '...' : '' }}</td>
+            <td>{{ material.status }}</td>
+          </tr>
         </tbody>
       </table>
     </div>
-    
+
     <div class="flex justify-between items-center mt-4">
-      <span class="text-lg font-medium ml-3"
-        >Page {{ currentPage }} / {{ totalPages }}
+      <span class="text-lg font-medium ml-3">
+        Page {{ currentPage }} / {{ totalPages }}
       </span>
       <div class="flex gap-2">
         <button
-        class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-        [disabled]="currentPage === 1"
-        (click)="onPageChange(currentPage - 1)"
-      >
-        Previous
-      </button>
-      <button
-        class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-        [disabled]="currentPage === totalPages"
-        (click)="onPageChange(currentPage + 1)"
-      >
-        Next
-      </button>
+          class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+        >
+          Previous
+        </button>
+        <button
+          class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+        >
+          Next
+        </button>
       </div>
     </div>
   </div>
