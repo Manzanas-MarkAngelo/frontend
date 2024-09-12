@@ -13,7 +13,7 @@ export class SearchBookComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 12;
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();

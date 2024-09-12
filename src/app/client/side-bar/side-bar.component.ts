@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class SideBarComponent {
 
+sidebar = true;
+
+toggleSidebar() {
+  this.sidebar = false;
+}
+
 }

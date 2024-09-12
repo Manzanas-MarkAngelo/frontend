@@ -13,7 +13,7 @@ export class FacultyComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 12;
+  itemsPerPage: number = 10;
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';
   showModal: boolean = false;
