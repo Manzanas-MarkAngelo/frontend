@@ -47,7 +47,8 @@ export class MaterialsService {
     
     // Log the payload
     console.log('filterMaterialsByCategory payload:', params.toString());
-    
+    console.log('filterMaterialsByCategory payload:', params.toString());
+
     return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
 

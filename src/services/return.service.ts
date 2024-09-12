@@ -21,6 +21,22 @@ export class ReturnService {
     return this.http.get<any>(this.borrowingDataUrl, { params });
   }
 
+  searchBorrowingData(term: string, page: number, limit: number, dateFrom?: string | null, dateTo?: string | null): Observable<any> {
+    let params = new HttpParams()
+      .set('searchTerm', term)
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    
+    if (dateFrom && dateTo) {
+      params = params.set('startDate', dateFrom).set('endDate', dateTo);
+    }
+    
+    // Log the payload for debugging
+    console.log('searchBorrowingData payload:', params.toString());
+
+    return this.http.get<any>(this.borrowingDataUrl, { params });
+  }
+
   returnBook(material_id: number): Observable<any> {
     return this.http.post<any>(this.returnBookUrl, { material_id });
   }
@@ -31,5 +47,5 @@ export class ReturnService {
 
   updateRemark(material_id: number, remark: string): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/update_remark.php`, { material_id, remark });
-  }  
+  }
 }
