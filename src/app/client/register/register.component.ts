@@ -34,6 +34,8 @@ export class RegisterComponent implements OnInit {
   isUserExists: boolean = false;
   userExistsError: string = '';
 
+  hasFormErrors: boolean = false;
+
   constructor(
     private registerService: RegisterService,
     private courseService: CourseService,
@@ -59,7 +61,7 @@ export class RegisterComponent implements OnInit {
   }
 
   validateStudentNumber(): boolean {
-    const studentNumberPattern = /^\d{4}-\d{5}-TG-0/;
+    const studentNumberPattern = /^\d{4}-\d{5}-TG-0$/;
     if (!this.studentNumber.match(studentNumberPattern)) {
       this.isStudentNumberValid = false;
       this.studentNumberError = 'Invalid student number format.';
@@ -103,6 +105,36 @@ export class RegisterComponent implements OnInit {
     );
   }
 
+  validateRequiredFields(): boolean {
+    if (this.selectedRole === 'student') {
+      return !!this.studentNumber && !!this.sex && !!this.firstName && !!this.lastName && !!this.courseId && !!this.contact;
+    } else if (this.selectedRole === 'faculty') {
+      return !!this.empNumber && !!this.sex && !!this.firstName && !!this.lastName && !!this.department && !!this.contact;
+    } else if (this.selectedRole === 'visitor') {
+      return !!this.school && !!this.sex && !!this.firstName && !!this.lastName && !!this.identifier && !!this.contact;
+    }
+    return false;
+  }
+
+  onSubmit() {
+    this.hasFormErrors = !this.validateRequiredFields();
+    if (this.hasFormErrors) {
+      return;
+    }
+
+    if (this.selectedRole === 'student') {
+      if (this.validateStudentNumber()) {
+        this.checkIfUserExists('student', this.studentNumber);
+      }
+    } else if (this.selectedRole === 'faculty') {
+      if (this.validateEmpNumber()) {
+        this.checkIfUserExists('faculty', this.empNumber);
+      }
+    } else {
+      this.onSubmitForm();
+    }
+  }
+
   onSubmitForm() {
     const formData: any = {
       selectedRole: this.selectedRole,
@@ -129,18 +161,4 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
-
-  onSubmit() {
-    if (this.selectedRole === 'student') {
-      if (this.validateStudentNumber()) {
-        this.checkIfUserExists('student', this.studentNumber);
-      }
-    } else if (this.selectedRole === 'faculty') {
-      if (this.validateEmpNumber()) {
-        this.checkIfUserExists('faculty', this.empNumber);
-      }
-    } else {
-      this.onSubmitForm();
-    }
-  }  
 }
