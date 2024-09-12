@@ -117,6 +117,7 @@ import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein
 import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
+import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
 
 
 
@@ -205,6 +206,7 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
     EditTypeComponent,
     NavbarClientComponent,
     NavbarAdminComponent,
+    NavbarSuperAdminComponent,
 
   ],
   imports: [
