@@ -1,48 +1,16 @@
-<div class="flex flex-col h-[86vh] w-11/12 mx-auto">
-  <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
+<div class="flex flex-col h-full w-full mx-auto">
+  <div class="flex flex-col md:flex-row w-full p-4 rounded-t-xl gap-2 mt-5">
     <div class="flex flex-row w-full">
       <input
         type="text"
         placeholder="Search faculty"
-        class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
-      />
-      <button class="btn rounded-r-full bg-white slide-in-right">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="black"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-          />
-        </svg>
-      </button>
+        class="input input-bordered w-full rounded-full text-lg font-medium text-primary slide-in-left bg-white"/>
+    </div>
+    <div class="flex flex-row">
       <button
-        routerLink="/add-faculty"
-        type="submit"
-        class="w-1/4 
-               bg-secondary 
-               text-black 
-               px-4 
-               py-3
-               ml-2 
-               rounded-full 
-               font-medium 
-               hover:bg-blue-500 
-               hover:text-white 
-               transition 
-               duration-300">
-        Add a faculty
-      </button>
-      <button
-      routerLink="/departments"
+      routerLink="/add-faculty"
       type="submit"
-      class="w-1/4 
+      class="w-40 
              bg-secondary 
              text-black 
              px-4 
@@ -50,12 +18,50 @@
              ml-2 
              rounded-full 
              font-medium 
-             hover:bg-blue-500 
+             hover:bg-[#801e1d] 
              hover:text-white 
              transition 
-             duration-300">
-      Departments
+             duration-300
+             slide-in-right">
+      Add a faculty
     </button>
+    <button
+    routerLink="/departments"
+    type="submit"
+    class="w-40 
+           bg-secondary 
+           text-black 
+           px-4 
+           py-3
+           ml-2 
+           rounded-full 
+           font-medium 
+           hover:bg-[#801e1d] 
+           hover:text-white 
+           transition 
+           duration-300
+           slide-in-right">
+    Departments
+  </button>
+    </div>
+  </div>
+  <div class="flex justify-start items-center mx-5">
+    <span class="text-lg font-medium mx-3">Page {{ currentPage }} / {{ totalPages }}</span>
+    <div class="flex gap-2">
+      <button
+        class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        Previous
+      </button>
+      <button
+        class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        Next
+      </button>
     </div>
   </div>
   <div class="p-4 bg-white text-black rounded-xl w-full slide-in-right">
@@ -106,7 +112,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="flex justify-between items-center mt-4">
+      <!-- <div class="flex justify-between items-center mt-4">
         <span class="text-lg font-medium ml-3">Page {{ currentPage }} / {{ totalPages }}</span>
         <div class="flex gap-2">
           <button
@@ -124,7 +130,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
