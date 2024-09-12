@@ -7,7 +7,7 @@ import { DepartmentService } from '../../../services/department.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
   selectedRole: string = 'student';
@@ -25,8 +25,19 @@ export class RegisterComponent implements OnInit {
   courses: any[] = [];
   departments: any[] = [];
 
+  isStudentNumberValid: boolean = true;
+  studentNumberError: string = '';
+
+  isEmpNumberValid: boolean = true;
+  empNumberError: string = '';
+
+  isUserExists: boolean = false;
+  userExistsError: string = '';
+
+  hasFormErrors: boolean = false;
+
   constructor(
-    private registerService: RegisterService, 
+    private registerService: RegisterService,
     private courseService: CourseService,
     private departmentService: DepartmentService,
     private router: Router
@@ -38,18 +49,93 @@ export class RegisterComponent implements OnInit {
   }
 
   loadCourses(): void {
-    this.courseService.getCourses().subscribe(data => {
+    this.courseService.getCourses().subscribe((data) => {
       this.courses = data;
     });
   }
 
   loadDepartments(): void {
-    this.departmentService.getDepartments().subscribe(data => {
+    this.departmentService.getDepartments().subscribe((data) => {
       this.departments = data;
     });
   }
 
+  validateStudentNumber(): boolean {
+    const studentNumberPattern = /^\d{4}-\d{5}-TG-0$/;
+    if (!this.studentNumber.match(studentNumberPattern)) {
+      this.isStudentNumberValid = false;
+      this.studentNumberError = 'Invalid student number format.';
+      return false;
+    }
+    this.isStudentNumberValid = true;
+    this.studentNumberError = '';
+    return true;
+  }
+
+  validateEmpNumber(): boolean {
+    const empNumberPattern = /^FA\d{8}$/;
+    if (!this.empNumber.match(empNumberPattern)) {
+      this.isEmpNumberValid = false;
+      this.empNumberError = 'Invalid faculty code format.';
+      return false;
+    }
+    this.isEmpNumberValid = true;
+    this.empNumberError = '';
+    return true;
+  }
+
+  checkIfUserExists(role: string, identifier: string) {
+    this.registerService.checkUserExists(role, identifier).subscribe(
+      (response) => {
+        if (response.registered) {
+          this.isUserExists = true;
+          this.userExistsError =
+            role === 'student'
+              ? 'Student number is already registered.'
+              : 'Faculty code is already registered.';
+        } else {
+          this.isUserExists = false;
+          this.onSubmitForm();
+        }
+      },
+      (error) => {
+        console.error('Error checking user:', error);
+        this.isUserExists = false;
+      }
+    );
+  }
+
+  validateRequiredFields(): boolean {
+    if (this.selectedRole === 'student') {
+      return !!this.studentNumber && !!this.sex && !!this.firstName && !!this.lastName && !!this.courseId && !!this.contact;
+    } else if (this.selectedRole === 'faculty') {
+      return !!this.empNumber && !!this.sex && !!this.firstName && !!this.lastName && !!this.department && !!this.contact;
+    } else if (this.selectedRole === 'visitor') {
+      return !!this.school && !!this.sex && !!this.firstName && !!this.lastName && !!this.identifier && !!this.contact;
+    }
+    return false;
+  }
+
   onSubmit() {
+    this.hasFormErrors = !this.validateRequiredFields();
+    if (this.hasFormErrors) {
+      return;
+    }
+
+    if (this.selectedRole === 'student') {
+      if (this.validateStudentNumber()) {
+        this.checkIfUserExists('student', this.studentNumber);
+      }
+    } else if (this.selectedRole === 'faculty') {
+      if (this.validateEmpNumber()) {
+        this.checkIfUserExists('faculty', this.empNumber);
+      }
+    } else {
+      this.onSubmitForm();
+    }
+  }
+
+  onSubmitForm() {
     const formData: any = {
       selectedRole: this.selectedRole,
       sex: this.sex,
@@ -69,8 +155,8 @@ export class RegisterComponent implements OnInit {
       formData.identifier = this.identifier;
     }
 
-    this.registerService.registerUser(formData).subscribe(response => {
-      if(response.status === 'success') {
+    this.registerService.registerUser(formData).subscribe((response) => {
+      if (response.status === 'success') {
         this.router.navigate(['/register-success']);
       }
     });

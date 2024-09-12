@@ -11,7 +11,11 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 })
 export class ReturnComponent implements OnInit {
   items: any[] = [];
+  paginatedItems: any[] = [];
   selectedItem: any;
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+  totalPages: number = 1;
   searchTerm: string = '';
   private searchTerms = new Subject<string>();
   isLoading: boolean = false;
@@ -65,18 +69,50 @@ export class ReturnComponent implements OnInit {
           remarks: item.remark,
           dueDate: item.due_date,
           dateBorrowed: item.claim_date,
+          returnDate: item.return_date,
           material_id: item.material_id
         };
       }).sort((a, b) => {
-        if (a.remarks === 'Returned Late' || a.remarks === 'Returned') {
-          return 1;
-        } else if (a.remarks !== 'Returned' && b.remarks === 'Returned') {
-          return -1;
-        } else {
+        if (a.remarks !== 'Returned' && a.remarks !== 'Returned Late') {
+          if (b.remarks === 'Returned' || b.remarks === 'Returned Late') {
+            return -1;
+          }
           return new Date(b.dateBorrowed).getTime() - new Date(a.dateBorrowed).getTime();
         }
+  
+        if (a.remarks === 'Returned' || a.remarks === 'Returned Late') {
+          if (b.remarks !== 'Returned' && b.remarks !== 'Returned Late') {
+            return 1;
+          }
+          return new Date(b.returnDate).getTime() - new Date(a.returnDate).getTime();
+        }
+  
+        return 0;
       });
+  
+      this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+      this.paginateItems();
     });
+  }  
+
+  paginateItems(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedItems = this.items.slice(start, end);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginateItems();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateItems();
+    }
   }
 
   onSearch(): void {
