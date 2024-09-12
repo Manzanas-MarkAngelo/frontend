@@ -72,6 +72,7 @@ import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein
 import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
+import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -148,6 +149,7 @@ const routes: Routes = [
   { path: 'edit-type/:cat_id', component: EditTypeComponent },
   { path: 'navbar-client', component: NavbarClientComponent },
   { path: 'navbar-admin', component: NavbarAdminComponent },
+  { path: 'navbar-superadmin', component: NavbarSuperAdminComponent },
 
 ];
 
