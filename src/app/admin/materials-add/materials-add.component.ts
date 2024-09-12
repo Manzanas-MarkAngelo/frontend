@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AddMaterialService } from '../../../services/add-material.service';
+import { MaterialsService } from '../../../services/materials.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -23,28 +24,31 @@ export class MaterialsAddComponent {
     status: ''
   };
 
+  constructor(
+    private addMaterialService: AddMaterialService, 
+    private router: Router, 
+    private location: Location,
+    private materialsService: MaterialsService
+  ) {}
+
+  material: any = {};
   showModal = false; 
   isDropdownOpen = false; 
-  selectedCategory: string | null = null;
-  categories = [
-    'Filipiñana',
-    'Circulation',
-    'Fiction',
-    'Reference',
-    'Thesis/Dissertations',
-    'Feasibility',
-    'Donations',
-    'E-Book',
-    'PDF',
-    'Business Plan',
-    'Case Study',
-    'Training Manual',
-    'OJT/Internship'
-  ];
+  selectedCategory: { cat_id: number, mat_type: string } | null = null; // To display mat_type in dropdown
+  categories: { cat_id: number, mat_type: string }[] = []; // Holds cat_id and mat_type
 
-  constructor(private addMaterialService: AddMaterialService, 
-              private router: Router, 
-              private location: Location) {}
+  ngOnInit(): void {
+    // Fetch categories from the database
+    this.materialsService.getCategories().subscribe(data => {
+      this.categories = data.map((category: any) => ({
+        cat_id: category.cat_id,
+        mat_type: category.mat_type
+      }));
+
+      // Set a default selected category if necessary
+      this.selectedCategory = { cat_id: 0, mat_type: 'Select Category' };
+    });
+  }
 
   openConfirmModal() {
     this.showModal = true;
@@ -61,6 +65,7 @@ export class MaterialsAddComponent {
   }
 
   saveBook() {
+    console.log(this.bookDetails);  // Check if category is correctly set
     this.addMaterialService.addBook(this.bookDetails).subscribe(response => {
       console.log(response);
       this.closeConfirmModal();
@@ -73,9 +78,9 @@ export class MaterialsAddComponent {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  selectCategory(category: string) {
-    this.selectedCategory = category;
-    this.bookDetails.category = category;
+  selectCategory(cat_id: number, mat_type: string): void {
+    this.bookDetails.category = cat_id.toString();  // Set the category ID in bookDetails
+    this.selectedCategory = { cat_id, mat_type };  // Display selected mat_type in dropdown
     this.isDropdownOpen = false;
   }
 }

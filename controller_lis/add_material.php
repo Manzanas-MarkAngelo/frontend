@@ -18,7 +18,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 $title = $data['title'] ?? null;
 $accnum = $data['accnum'] ?? null;
-$category = $data['category'] ?? null;
+$categoryid = $data['category'] ?? null;
 $author = $data['author'] ?? null;
 $callno = $data['callnum'] ?? null;
 $copyright = $data['copyright'] ?? null;
@@ -29,17 +29,6 @@ $status = $data['status'] ?? null;
 $heading = $data['heading'] ?? null;
 //$datereceived = date('Y-m-d'); // set the current date
 $subj = $heading;
-
-// Fetch the category ID dynamically based on mat_type
-$stmt = $conn->prepare("SELECT cat_id FROM category WHERE mat_type = ?");
-$stmt->bind_param("s", $category);
-$stmt->execute();
-$stmt->bind_result($categoryid);
-$stmt->fetch();
-$stmt->close();
-
-// If category ID is not found, set it to 0 (or handle as needed)
-$categoryid = $categoryid ?? 0;
 
 $conn->begin_transaction();
 
