@@ -21,6 +21,7 @@ export class MaterialsService {
     
     return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
+  
 
   searchMaterials(term: string, page: number, limit: number, sortField?: string, sortOrder?: string): Observable<any> {
     let params = new HttpParams()

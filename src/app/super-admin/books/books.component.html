@@ -97,43 +97,43 @@
                 <thead>
                     <tr class="text-primary text-center">
                         <th (click)="sortMaterials('status')">Status
-                            <span *ngIf="sortField === 'status'">
+                            <span *ngIf="sortField === 'status'" class="sort-arrow">
                                 <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
                                 <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                             </span>
                         </th>
                         <th (click)="sortMaterials('accnum')">Acc No.
-                            <span *ngIf="sortField === 'accnum'">
-                                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                            <span *ngIf="sortField === 'categoryid'" class="sort-arrow">
+                              <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                              <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                             </span>
-                        </th>
+                          </th>                         
                         <th (click)="sortMaterials('title')">Title
-                            <span *ngIf="sortField === 'title'">
+                            <span *ngIf="sortField === 'title'" class="sort-arrow">
                                 <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
                                 <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                             </span>
                         </th>
                         <th (click)="sortMaterials('author')">Author
-                            <span *ngIf="sortField === 'author'">
+                            <span *ngIf="sortField === 'author'" class="sort-arrow">
                                 <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
                                 <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                             </span>
                         </th>
                         <th (click)="sortMaterials('subj')">Subject
-                            <span *ngIf="sortField === 'subj'">
+                            <span *ngIf="sortField === 'subj'" class="sort-arrow">
                                 <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
                                 <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                             </span>
                         </th>
                         <th (click)="sortMaterials('copyright')">Copyright
-                            <span *ngIf="sortField === 'copyright'">
+                            <span *ngIf="sortField === 'copyright'" class="sort-arrow">
                                 <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
                                 <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                             </span>
                         </th>
                         <th (click)="sortMaterials('callno')">Call number
-                            <span *ngIf="sortField === 'callno'">
+                            <span *ngIf="sortField === 'callno'" class="sort-arrow">
                                 <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
                                 <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                             </span>

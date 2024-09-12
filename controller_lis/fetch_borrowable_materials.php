@@ -30,7 +30,20 @@ $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 13;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
+$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'date_added';
+$sortOrder = isset($_GET['sortOrder']) ? strtoupper($_GET['sortOrder']) : 'DESC';
 
+$allowedSortFields = ['title', 'author', 'subj', 'callno', 'date_added', 'categoryid'];
+if (!in_array($sortField, $allowedSortFields)) {
+    $sortField = 'date_added'; // Default sort field
+}
+
+$allowedSortOrders = ['ASC', 'DESC'];
+if (!in_array($sortOrder, $allowedSortOrders)) {
+    $sortOrder = 'DESC'; // Default sort order
+}
+
+// Base SQL query to fetch borrowable materials
 $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, 
                m.copyright, m.callno, m.status, m.isbn 
         FROM materials m
@@ -44,14 +57,23 @@ $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj,
              OR m.callno LIKE ? 
              OR m.status LIKE ?)";
 
+// Add category filter if provided
 if (!empty($category)) {
     $sql .= " AND m.accnum LIKE ?";
     $category = '%' . $category . '%';
 }
 
-// Add ordering by date_added and mat_type
-$sql .= " ORDER BY m.date_added DESC, c.mat_type ASC
-          LIMIT ? OFFSET ?";
+// Add dynamic ordering
+if ($sortField == 'categoryid') {
+    // Sort by mat_type first, then by primary key id
+    $sql .= " ORDER BY c.mat_type $sortOrder, m.id $sortOrder";
+} else {
+    $sql .= " ORDER BY $sortField $sortOrder";
+}
+
+// Add pagination
+$sql .= " LIMIT ? OFFSET ?";
+
 $stmt = $conn->prepare($sql);
 
 if (!empty($category)) {
@@ -74,6 +96,7 @@ while ($row = $result->fetch_assoc()) {
     $materials[] = $row;
 }
 
+// Fetch total count for pagination
 $total_sql = "SELECT COUNT(*) as count 
               FROM materials m
               JOIN category c ON m.categoryid = c.cat_id
