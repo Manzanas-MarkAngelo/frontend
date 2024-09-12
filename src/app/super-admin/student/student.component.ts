@@ -11,7 +11,7 @@ export class StudentComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 12;
+  itemsPerPage: number = 10;
   showModal: boolean = false;
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';

@@ -115,6 +115,9 @@ import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-u
 import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
 import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein/top-ten-user-timein.component';
 import { EditTypeComponent } from './admin/edit-type/edit-type.component';
+import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
+import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
+import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
 
 
 
@@ -201,6 +204,9 @@ import { EditTypeComponent } from './admin/edit-type/edit-type.component';
     MonthlyCategoryDonutComponent,
     TopTenUserTimeinComponent,
     EditTypeComponent,
+    NavbarClientComponent,
+    NavbarAdminComponent,
+    NavbarSuperAdminComponent,
 
   ],
   imports: [

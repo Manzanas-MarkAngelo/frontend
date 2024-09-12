@@ -8,6 +8,7 @@ import { AdminService } from '../services/admin.service';
 })
 export class AppComponent implements OnInit {
   userRole: string | null = null;
+  filter = false;
 
   constructor(private adminService: AdminService) {}
 
@@ -19,5 +20,9 @@ export class AppComponent implements OnInit {
 
   clearRole() {
     this.adminService.setRole(null);
+  }
+
+  toggleFilter() {
+    this.filter = !this.filter;
   }
 }

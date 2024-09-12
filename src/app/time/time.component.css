@@ -1,14 +1,36 @@
+/* Base styles */
 .clock {
     text-align: center;
-    font-size: 12rem;
-    margin-top: 1rem;
-    color: #ffffff;
-}  
+    color: white;
+    padding-top: 8px;
+    font-size: 10rem;
+}
 
 .date {
     text-align: center;
+    color: #ffb700;
     font-size: 60px;
     font-weight: normal;
-    margin-top: -1.5rem;
-    color: #ffb700;
+    padding-top: -1.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .clock {
+        font-size: 6rem; /* Smaller font size for tablets and small screens */
+    }
+
+    .date {
+        font-size: 40px; /* Smaller font size for tablets and small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .clock {
+        font-size: 4rem; /* Even smaller font size for mobile phones */
+    }
+
+    .date {
+        font-size: 20px; /* Even smaller font size for mobile phones */
+    }
 }
