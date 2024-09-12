@@ -429,6 +429,11 @@
             Enter
           </button>
         </div>
+        <div *ngIf="!isStudentNumberValid || !isEmpNumberValid || isUserExists" class="flex justify-center mt-2">
+          <span *ngIf="!isStudentNumberValid" class="text-red-500">{{ studentNumberError }}</span>
+          <span *ngIf="!isEmpNumberValid" class="text-red-500">{{ empNumberError }}</span>
+          <span *ngIf="isUserExists" class="text-red-500">{{ userExistsError }}</span>
+        </div>
       }
     </form>
   </div>
