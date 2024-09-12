@@ -19,6 +19,7 @@ SELECT
     b.material_id,
     b.claim_date,
     b.due_date,
+    b.return_date,
     b.remark,
     m.title,
     m.author,
@@ -39,7 +40,16 @@ if ($startDate && $endDate) {
     $sql .= " WHERE b.claim_date BETWEEN '$startDate' AND '$endDate'";
 }
 
-$sql .= " ORDER BY b.claim_date DESC";
+$sql .= "
+ORDER BY 
+    CASE 
+        WHEN b.remark IN ('Returned', 'Returned Late') THEN 2
+        ELSE 1
+    END ASC,  -- Non-returned books first
+    CASE 
+        WHEN b.remark IN ('Returned', 'Returned Late') THEN b.return_date
+        ELSE b.claim_date
+    END DESC";
 
 $result = $conn->query($sql);
 $borrowings = array();

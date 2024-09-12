@@ -34,22 +34,31 @@ export class ReturnComponent implements OnInit {
           remarks: item.remark,
           dueDate: item.due_date,
           dateBorrowed: item.claim_date,
+          returnDate: item.return_date,
           material_id: item.material_id
         };
       }).sort((a, b) => {
-        if (a.remarks === 'Returned Late' || a.remarks === 'Returned') {
-          return 1;
-        } else if (a.remarks !== 'Returned' && b.remarks === 'Returned') {
-          return -1;
-        } else {
+        if (a.remarks !== 'Returned' && a.remarks !== 'Returned Late') {
+          if (b.remarks === 'Returned' || b.remarks === 'Returned Late') {
+            return -1;
+          }
           return new Date(b.dateBorrowed).getTime() - new Date(a.dateBorrowed).getTime();
         }
+  
+        if (a.remarks === 'Returned' || a.remarks === 'Returned Late') {
+          if (b.remarks !== 'Returned' && b.remarks !== 'Returned Late') {
+            return 1;
+          }
+          return new Date(b.returnDate).getTime() - new Date(a.returnDate).getTime();
+        }
+  
+        return 0;
       });
-
+  
       this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
       this.paginateItems();
     });
-  }
+  }  
 
   paginateItems(): void {
     const start = (this.currentPage - 1) * this.itemsPerPage;
