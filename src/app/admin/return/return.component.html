@@ -7,12 +7,13 @@
        [(ngModel)]="searchTerm"
        (ngModelChange)="onSearch()"/>
 
-      <button (click)="clearSearch()" class="btn rounded-r-full bg-white slide-in-right">
+      <button class="btn rounded-r-full bg-white slide-in-right">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
           </svg>              
       </button>
       <button
+          (click)="clearSearch()"
           type="button"
           class="w-40 bg-white text-primary px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2">
           Clear
