@@ -32,7 +32,7 @@ export class AdministratorComponent {
         } else if (response.role === 'admin') {
           this.adminService.setRole('admin');
         }
-        this.router.navigate(['/']);
+        this.router.navigate(['/analytics']);
       } else {
         this.loginError = 'Invalid username or password';
       }
