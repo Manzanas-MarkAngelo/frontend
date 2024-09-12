@@ -9,7 +9,11 @@ import { PdfPenaltyReceiptService } from '../../../services/pdf-penalty-receipt.
 })
 export class ReturnComponent implements OnInit {
   items: any[] = [];
+  paginatedItems: any[] = [];
   selectedItem: any;
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+  totalPages: number = 1;
 
   constructor(
     private returnService: ReturnService,
@@ -41,7 +45,30 @@ export class ReturnComponent implements OnInit {
           return new Date(b.dateBorrowed).getTime() - new Date(a.dateBorrowed).getTime();
         }
       });
+
+      this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+      this.paginateItems();
     });
+  }
+
+  paginateItems(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedItems = this.items.slice(start, end);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginateItems();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateItems();
+    }
   }
 
   generatePenaltyReceipt(item: any): void {
