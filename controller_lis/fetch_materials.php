@@ -19,17 +19,18 @@ $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
-$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'date_added';
-$sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'DESC';
+$program = isset($_GET['program']) ? '%' . $_GET['program'] . '%' : ''; // New program filter
+$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'm.id'; // Default to id column
+$sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'DESC'; // Default to descending order
 
-$allowedSortFields = ['title', 'author', 'subj', 'copyright', 'callno', 'status', 'date_added', 'categoryid'];
+$allowedSortFields = ['title', 'author', 'subj', 'copyright', 'callno', 'status', 'date_added', 'categoryid', 'm.id'];
 if (!in_array($sortField, $allowedSortFields)) {
-    $sortField = 'date_added';
+    $sortField = 'm.id'; // Ensure default is 'id' if no valid field is provided
 }
 
 $allowedSortOrders = ['ASC', 'DESC'];
 if (!in_array(strtoupper($sortOrder), $allowedSortOrders)) {
-    $sortOrder = 'DESC';
+    $sortOrder = 'DESC'; // Ensure default is 'DESC' if no valid order is provided
 }
 
 // Base SQL query
@@ -43,12 +44,17 @@ if (!empty($category)) {
     $sql .= " AND m.accnum LIKE ?";
 }
 
+// Add program filter if provided
+if (!empty($program)) {
+    $sql .= " AND (m.title LIKE ? OR m.subj LIKE ?)";
+}
+
 // Add sorting logic
 if ($sortField === 'categoryid') {
     // Sort by mat_type first, then by primary key id
     $sql .= " ORDER BY c.mat_type $sortOrder, m.id $sortOrder";
 } else {
-    // Sort by other fields
+    // Sort by other fields or id if not specified
     $sql .= " ORDER BY $sortField $sortOrder";
 }
 
@@ -65,6 +71,10 @@ if (!$stmt) {
 $params = [$search, $search, $search, $search, $search, $search, $search];
 if (!empty($category)) {
     $params[] = '%' . $category . '%';
+}
+if (!empty($program)) {
+    $params[] = $program;
+    $params[] = $program;
 }
 $types = str_repeat('s', count($params));
 $bindParams = array_merge($params, [$limit, $offset]);
@@ -92,6 +102,11 @@ $total_params = [$search, $search, $search, $search, $search, $search, $search];
 if (!empty($category)) {
     $total_sql .= " AND m.accnum LIKE ?";
     $total_params[] = '%' . $category . '%';
+}
+if (!empty($program)) {
+    $total_sql .= " AND (m.title LIKE ? OR m.subj LIKE ?)";
+    $total_params[] = $program;
+    $total_params[] = $program;
 }
 $total_types = str_repeat('s', count($total_params));
 

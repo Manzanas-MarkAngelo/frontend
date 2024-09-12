@@ -21,6 +21,7 @@ $title = $data['title'] ?? null;
 $heading = $data['subj'] ?? null;
 $accnum = $data['accnum'] ?? null;
 $category = $data['category'] ?? null;
+$categoryid = $data['category'] ?? null;
 $author = $data['author'] ?? null;
 $callnum = $data['callno'] ?? null;
 $copyright = $data['copyright'] ?? null;
@@ -29,25 +30,16 @@ $edition = $data['edition'] ?? null;
 $isbn = $data['isbn'] ?? null;
 $status = $data['status'] ?? null;
 
-// Define the category ID mapping
-$categoryMap = [
-    'Filipiñana' => 20,
-    'Circulation' => 21,
-    'Fiction' => 22,
-    'Reference' => 23,
-    'Thesis/Dissertations' => 26,
-    'Feasibility' => 27,
-    'Donations' => 28,
-    'E-Book' => 29,
-    'PDF' => 30,
-    'Business Plan' => 31,
-    'Case Study' => 32,
-    'Training Manual' => 33,
-    'OJT/Internship' => 34
-];
+// Fetch the category ID dynamically based on mat_type
+$stmt = $conn->prepare("SELECT cat_id FROM category WHERE mat_type = ?");
+$stmt->bind_param("s", $category);
+$stmt->execute();
+$stmt->bind_result($categoryid);
+$stmt->fetch();
+$stmt->close();
 
-// Assign category ID based on the selected category
-$categoryid = $categoryMap[$category] ?? 0; // Default to 0 if category is not found
+// If category ID is not found, set it to 0 (or handle as needed)
+//$categoryid = $categoryid ?? 0;
 
 $conn->begin_transaction();
 
