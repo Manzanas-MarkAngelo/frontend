@@ -18,6 +18,9 @@ export class AddMaterialService {
 
   // Method to add a book
   addBook(bookDetails: any): Observable<any> {
+      // Log the payload
+      console.log('updateMaterial payload:', bookDetails);
     return this.http.post<any>(this.addBookUrl, bookDetails);
+
   }
 }

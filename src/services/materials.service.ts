@@ -71,8 +71,12 @@ export class MaterialsService {
   }
 
   updateMaterial(material: any): Observable<any> {
+    // Log the payload
+    console.log('updateMaterial payload:', material);
+  
     return this.http.post<any>(`${this.apiUrl}/update_material.php`, material);
   }
+  
 
   deleteMaterial(id: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/delete_material.php`, { id });

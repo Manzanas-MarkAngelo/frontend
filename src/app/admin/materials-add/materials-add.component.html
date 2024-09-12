@@ -38,27 +38,23 @@
                 [(ngModel)]="bookDetails.category" />
               <div class="flex-1 relative">
                 <div class="dropdown dropdown-end w-full">
-                  <div tabindex="0" role="button" 
-                       class="btn w-full bg-secondary 
-                              border-none text-black text-lg hover:bg-[#ffb700] 
-                              rounded-full flex items-center justify-between" 
-                      (click)="toggleDropdown()">
-                    <span>{{ selectedCategory || 'Select Category' }}</span>
+                  <div
+                    tabindex="0" role="button"
+                    class="btn w-full bg-secondary border-none text-black text-lg hover:bg-[#ffb700] rounded-box flex items-center justify-between"
+                    (click)="toggleDropdown()">
+                    <span>{{ selectedCategory?.mat_type || 'Select Category' }}</span>
                     <!-- Down Arrow Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                         class="w-4 h-4 ml-2" 
-                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" 
-                            stroke-width="2" d="M19 9l-7 7-7-7" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
-                  <ul tabindex="0" *ngIf="isDropdownOpen" 
-                      class="dropdown-content menu bg-secondary rounded-box z-[1] 
-                             w-full p-2 shadow text-lg font-medium text-black">
+                  <ul tabindex="0" *ngIf="isDropdownOpen"
+                      class="dropdown-content menu bg-secondary rounded-box z-[1] w-full p-2 shadow text-lg font-medium text-black">
                     <li *ngFor="let category of categories">
-                      <a (click)="selectCategory(category)" 
-                         class="block px-4 py-2 hover:bg-[#ffb700] 
-                                hover:text-black">{{ category }}</a>
+                      <a (click)="selectCategory(category.cat_id, category.mat_type)" 
+                         class="block px-4 py-2 hover:bg-[#ffb700] hover:text-black">
+                        {{ category.mat_type }}
+                      </a>
                     </li>
                   </ul>
                 </div>
