@@ -179,7 +179,7 @@
       </div>
 </div> -->
 
-<div class="flex flex-col h-full w-full pb-[4.5px] px-2 sm:px-7 md:px-16 bg-primary">
+<div class="flex flex-col h-full w-full pb-[9px] px-2 sm:px-7 md:px-16 bg-primary">
   <div class="flex flex-col md:flex-row w-full p-4 rounded-t-xl gap-2">
     <div class="flex flex-wrap w-full p-2 rounded-t-xl gap-2">
       <div class="flex flex-row w-full">
@@ -236,16 +236,45 @@
     <div class="overflow-x-auto">
       <table class="table w-full text-xs md:text-sm ">
         <thead>
-          <tr class="text-primary text-center text-sm">
-            <th>Accession No.</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Subject</th>
-            <th>Copyright</th>
-            <th>Call number</th>
-            <th>Status</th>
+          <tr class="text-primary text-center">
+            <th (click)="sortMaterials('accnum')">Acc No.
+                <span *ngIf="sortField === 'categoryid'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>                         
+            <th (click)="sortMaterials('title')">Title
+                <span *ngIf="sortField === 'title'" class="sort-arrow">
+                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+            </th>
+            <th (click)="sortMaterials('author')">Author
+                <span *ngIf="sortField === 'author'" class="sort-arrow">
+                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+            </th>
+            <th (click)="sortMaterials('subj')">Subject
+                <span *ngIf="sortField === 'subj'" class="sort-arrow">
+                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+            </th>
+            <th (click)="sortMaterials('copyright')">Copyright
+                <span *ngIf="sortField === 'copyright'" class="sort-arrow">
+                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+            </th>
+            <th (click)="sortMaterials('callno')">Call number
+                <span *ngIf="sortField === 'callno'" class="sort-arrow">
+                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+            </th>
             <th>Action</th>
-          </tr>
+        </tr>
         </thead>
         <tbody class="text-start text-sm">
           @for (material of materials; track $index) {
