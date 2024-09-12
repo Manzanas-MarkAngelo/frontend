@@ -10,8 +10,9 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
   styleUrls: ['./return.component.css']
 })
 export class ReturnComponent implements OnInit {
-  items: any[] = [];
-  paginatedItems: any[] = [];
+  items: any[] = []; // All items fetched from the API
+  filteredItems: any[] = []; // Filtered items after search
+  paginatedItems: any[] = []; // Items to be displayed on the current page
   selectedItem: any;
   itemsPerPage: number = 10;
   currentPage: number = 1;
@@ -34,28 +35,10 @@ export class ReturnComponent implements OnInit {
 
     this.searchTerms.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => this.returnService.searchBorrowingData(term, this.page, this.limit, this.dateFrom, this.dateTo))
-    ).subscribe(data => {
-      this.items = data.map(item => {
-        return {
-          ...item,
-          name: `${item.first_name} ${item.surname}`,
-          courseYear: item.course_department,
-          remarks: item.remark,
-          dueDate: item.due_date,
-          dateBorrowed: item.claim_date,
-          material_id: item.material_id
-        };
-      }).sort((a, b) => {
-        if (a.remarks === 'Returned Late' || a.remarks === 'Returned') {
-          return 1;
-        } else if (a.remarks !== 'Returned' && b.remarks === 'Returned') {
-          return -1;
-        } else {
-          return new Date(b.dateBorrowed).getTime() - new Date(a.dateBorrowed).getTime();
-        }
-      });
+      distinctUntilChanged()
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.filterItems(); // Filter the items based on the search term
     });
   }
 
@@ -90,15 +73,34 @@ export class ReturnComponent implements OnInit {
         return 0;
       });
   
-      this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+      this.filteredItems = this.items;
+      this.totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
       this.paginateItems();
     });
-  }  
+  }
+
+  filterItems(): void {
+    if (this.searchTerm) {
+      // Filter items based on the search term (case-insensitive)
+      this.filteredItems = this.items.filter(item =>
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.courseYear.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.title?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.author?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.material_id.toString().includes(this.searchTerm)
+      );
+    } else {
+      this.filteredItems = this.items; // If no search term, show all items
+    }
+    this.totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
+    this.currentPage = 1; // Reset to the first page after filtering
+    this.paginateItems();
+  }
 
   paginateItems(): void {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.paginatedItems = this.items.slice(start, end);
+    this.paginatedItems = this.filteredItems.slice(start, end);
   }
 
   nextPage(): void {
@@ -116,12 +118,12 @@ export class ReturnComponent implements OnInit {
   }
 
   onSearch(): void {
-    this.searchTerms.next(this.searchTerm);
+    this.searchTerms.next(this.searchTerm); // Trigger search based on user input
   }
 
   clearSearch(): void {
     this.searchTerm = '';
-    this.fetchBorrowingData(); // Reload original data without search
+    this.filterItems(); // Clear the search and reset the list
   }
 
   generatePenaltyReceipt(item: any): void {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-faculty',
@@ -14,32 +15,44 @@ export class FacultyComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 0;
   itemsPerPage: number = 10;
+  showModal: boolean = false;
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';
-  showModal: boolean = false;
   selectedUserId: number | null = null;
-  slectedFacultyName: string = '';
+  selectedFacultyName: string = '';
+  searchTerm: string = '';
+  searchSubject: Subject<string> = new Subject<string>();
 
-  constructor(private recordsService: RecordsService, 
-              private router: Router,
-              private snackbarService: SnackbarService
-  ) { }
+  constructor(
+    private recordsService: RecordsService,
+    private router: Router,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     this.fetchRecords();
-  }
 
-  fetchRecords() {
-    this.recordsService.getRecords('faculty', this.itemsPerPage, this.currentPage).subscribe(data => {
-      this.logs = data.records;
-      this.totalPages = data.totalPages;
-    }, error => {
-      console.error('Error fetching records:', error);
+    // Set up search debounce
+    this.searchSubject.pipe(debounceTime(300)).subscribe(term => {
+      this.searchTerm = term;
+      this.fetchRecords();
     });
   }
 
+  fetchRecords() {
+    this.recordsService.getRecords('faculty', this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(
+      data => {
+        this.logs = data.records;
+        this.totalPages = data.totalPages;
+      },
+      error => {
+        console.error('Error fetching records:', error);
+      }
+    );
+  }
+
   openDeleteModal(user_id: number, name: string) {
-    this.slectedFacultyName = name;
+    this.selectedFacultyName = name;
     this.selectedUserId = user_id;
     this.showModal = true;
   }
@@ -51,19 +64,22 @@ export class FacultyComponent implements OnInit {
 
   deleteFaculty() {
     if (this.selectedUserId !== null) {
-      this.recordsService.deleteFaculty(this.selectedUserId).subscribe(() => {
-        this.showModal = false;
-        this.fetchRecords();
-        this.snackbarService.showSnackbar('Faculty deleted successfully');
-      }, error => {
-        console.error('Error deleting faculty:', error);
-        this.snackbarService.showSnackbar('Failed to delete faculty');
-      });
+      this.recordsService.deleteFaculty(this.selectedUserId).subscribe(
+        () => {
+          this.showModal = false;
+          this.fetchRecords();
+          this.snackbarService.showSnackbar('Faculty deleted successfully');
+        },
+        error => {
+          console.error('Error deleting faculty:', error);
+          this.snackbarService.showSnackbar('Failed to delete faculty');
+        }
+      );
     }
   }
 
-  clearSearch(): void {
-    this.currentPage = 1; 
+  onSearchChange(searchTerm: string) {
+    this.searchSubject.next(searchTerm);
   }
 
   onPageChange(page: number) {
