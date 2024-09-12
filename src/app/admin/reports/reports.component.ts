@@ -10,6 +10,7 @@ import { ExcelReportStudentsService } from '../../../services/excel-report-stude
 import { ExcelReportVisitorsService } from '../../../services/excel-report-visitors.service';
 import { ExcelReportBorrowersService } from '../../../services/excel-report-borrowers.service';
 import { MaterialsService } from '../../../services/materials.service';
+import { ReportsService } from '../../../services/reports.service';
 
 @Component({
   selector: 'app-reports',
@@ -21,6 +22,7 @@ export class ReportsComponent implements OnInit {
   categoryPlaceholder: string = 'Category';
   programPlaceholder: string = 'Program';
   category: string = '';
+  programs: string[] = [];  // For storing fetched programs
   isLoading: boolean = false;
   categories: { mat_type: string, accession_no: string }[] = [];
   showInitialDisplay: boolean = true;
@@ -28,6 +30,7 @@ export class ReportsComponent implements OnInit {
   dateFrom: string | null = null;
   dateTo: string | null = null;
   categoryPDFDIsplay = '';
+  programValue;
 
   constructor(
     private pdfReportFacultyService: PdfReportFacultyService,
@@ -41,10 +44,12 @@ export class ReportsComponent implements OnInit {
     private excelReportBorrowersService: ExcelReportBorrowersService,
     private excelReportStudentsService: ExcelReportStudentsService,
     private excelReportVisitorsService: ExcelReportVisitorsService,
+    private reportsService: ReportsService,
   ) {}
 
   ngOnInit() {
     this.fetchCategories();
+    this.fetchPrograms();
   }
 
   fetchCategories() {
@@ -60,6 +65,18 @@ export class ReportsComponent implements OnInit {
       }
     );
   }
+
+    // New method to fetch programs from the backend
+    fetchPrograms() {
+      this.reportsService.getDepartments().subscribe(
+        data => {
+          this.programs = data.map((department: any) => department.dept_program);  // Extract program names
+        },
+        error => {
+          console.error('Error fetching programs:', error);
+        }
+      );
+    }
 
   InventoryPlaceholder(value: string) {
     this.inventoryPlaceholder = value;
@@ -81,6 +98,26 @@ export class ReportsComponent implements OnInit {
 
   ProgramPlaceholder(value: string) {
     this.programPlaceholder = value;
+    this.fetchMaterialsByProgram(value);
+  }
+
+  // New method to fetch materials filtered by program
+  fetchMaterialsByProgram(program: string) {
+    console.log('Selected Program:', program);
+    const page = 1;  // Example: Default page
+    const limit = 12;  // Example: Default limit
+    const sortField = 'date_added';  // Example: Default sorting field
+    const sortOrder = 'DESC';  // Example: Default sorting order
+    this.programValue = program;
+    this.materialService.filterMaterialsByCategory(program, page, limit, sortField, sortOrder).subscribe(
+      (response) => {
+        // Handle the response here (e.g., store the materials in a component variable)
+        console.log('Filtered materials by program:', response);
+      },
+      (error) => {
+        console.error('Error fetching filtered materials:', error);
+      }
+    );
   }
 
   getCurrentYearAndDate(option: 'get_date' | 'no_date'): string {
@@ -122,13 +159,15 @@ export class ReportsComponent implements OnInit {
     }
   }
 
+  // Pass selected program to PDF generation services
   generatePdfInventoryReport() {
     this.pdfReportInventoryService.generatePDF(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
       'pdf-preview',
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show,
-      this.categoryPDFDIsplay
+      this.categoryPDFDIsplay,
+      this.programPlaceholder === 'Program' ? '' : this.programValue  // Pass program
     );
   }
 
