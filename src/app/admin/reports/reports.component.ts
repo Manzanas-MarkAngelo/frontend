@@ -240,9 +240,12 @@ export class ReportsComponent implements OnInit {
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
-      (loading) => this.isLoading = loading,  this.categoryPDFDIsplay
+      this.programPlaceholder === 'Program' ? '' : this.programPlaceholder, // Pass program filter
+      (loading) => this.isLoading = loading,  
+      this.categoryPDFDIsplay
     );
   }
+  
 
   generateExcelBorrowersReport() {
     this.excelReportBorrowersService.generateExcelReport(
