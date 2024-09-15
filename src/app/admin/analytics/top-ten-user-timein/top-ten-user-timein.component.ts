@@ -12,9 +12,9 @@ Chart.register(...registerables);
 export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
   @ViewChild('barChart', { static: false }) private chartRef!: ElementRef;
   public chart: any;
-  public year: number = new Date().getFullYear();
+  public year: number;
   public years: number[] = [];
-  public month: number = new Date().getMonth() + 1;
+  public month: number;
   public months: { name: string, value: number }[] = [
     { name: 'January', value: 1 },
     { name: 'February', value: 2 },
@@ -52,7 +52,11 @@ export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
     'rgba(37, 149, 102, 1)'  // Grey
   ];
 
-  constructor(private chartsService: ChartsService) {}
+  constructor(private chartsService: ChartsService) {
+    const now = new Date();
+    this.year = now.getFullYear();
+    this.month = now.getMonth() + 1; // Current month (1-based index)
+  }
 
   ngOnInit() {
     this.initializeYears();
@@ -70,8 +74,12 @@ export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
   fetchData(year: number, month: number) {
     this.chartsService.getTopTenUsers(year, month)
       .subscribe(data => {
-        //console.log('Data received for chart:', data);
-        this.createChart(data, month, year);
+        console.log('Data received:', data); 
+        if (data && data.data) {
+          this.createChart(data, month, year);
+        } else {
+          console.error('Data is not properly formatted or missing');
+        }
       }, error => {
         console.error('Error fetching data:', error);
       });
@@ -101,7 +109,7 @@ export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
     const borderColors = this.borderColors.slice(0, numBars);
   
     // Update chart title based on the number of users
-    const monthName = this.months[month - 1].name;
+    const monthName = this.months.find(m => m.value === month)?.name || 'Unknown';
     const chartTitle = numBars === 1 
       ? `Top User for ${monthName}, ${year}` 
       : `Top ${numBars} Users for ${monthName}, ${year}`;
@@ -172,7 +180,6 @@ export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
     });
   }
   
-
   onYearChange(event: any) {
     const selectedYear = +event.target.value;
     this.fetchData(selectedYear, this.month);

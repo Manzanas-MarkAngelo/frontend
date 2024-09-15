@@ -25,13 +25,18 @@ export class ChartsService {
 
   // bar graph
   getTopTenUsers(year: number, month: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/fetch_top_ten_users.php?year=${year}&month=${month}`).pipe(
+    const url = `${environment.apiUrl}/fetch_top_ten_users.php?year=${year}&month=${month}`;
+    console.log('Request URL:', url);
+    console.log(` month: ${month}, year:${year}`)  // Log the request URL with parameters
+  
+    return this.http.get<any>(url).pipe(
       catchError(error => {
         console.error('Error fetching top ten users:', error);
         return throwError(() => new Error('Error fetching top ten users'));
       })
     );
   }
+  
 
   // fetch top 10 most borrowed books
   getTopTenBorrowedBooks(year: number, month: number): Observable<any> {

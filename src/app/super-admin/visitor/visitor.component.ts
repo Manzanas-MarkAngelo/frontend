@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { Router } from '@angular/router';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-visitor',
@@ -16,21 +17,40 @@ export class VisitorComponent implements OnInit {
   itemsPerPage: number = 12;
   showModal: boolean = false;
   selectedVisitor: any = null;
-  selectedVisitorName: string = null;
+  selectedVisitorName: string = '';
+  searchTerm: string = '';
+  searchSubject: Subject<string> = new Subject<string>();
 
-  constructor(private recordsService: RecordsService, private snackbarService: SnackbarService, private router: Router) { }
+  constructor(
+    private recordsService: RecordsService, 
+    private snackbarService: SnackbarService, 
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchRecords();
+
+    // Set up search with debounce
+    this.searchSubject.pipe(debounceTime(300)).subscribe(term => {
+      this.searchTerm = term;
+      this.fetchRecords();
+    });
   }
 
   fetchRecords() {
-    this.recordsService.getRecords('visitor', this.itemsPerPage, this.currentPage).subscribe(data => {
-      this.logs = data.records;
-      this.totalPages = data.totalPages;
-    }, error => {
-      console.error('Error fetching records:', error);
-    });
+    this.recordsService.getRecords('visitor', this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(
+      data => {
+        this.logs = data.records;
+        this.totalPages = data.totalPages;
+      },
+      error => {
+        console.error('Error fetching records:', error);
+      }
+    );
+  }
+
+  onSearchChange(searchTerm: string) {
+    this.searchSubject.next(searchTerm);
   }
 
   onPageChange(page: number) {
@@ -51,15 +71,18 @@ export class VisitorComponent implements OnInit {
 
   deleteVisitor() {
     if (this.selectedVisitor) {
-      this.recordsService.deleteVisitor(this.selectedVisitor.user_id).subscribe(() => {
-        this.showModal = false;
-        this.selectedVisitor = null;
-        this.snackbarService.showSnackbar('Visitor deleted successfully');
-        this.fetchRecords();
-      }, error => {
-        this.snackbarService.showSnackbar('Failed to delete visitor');
-        console.error('Error deleting visitor:', error);
-      });
+      this.recordsService.deleteVisitor(this.selectedVisitor.user_id).subscribe(
+        () => {
+          this.showModal = false;
+          this.selectedVisitor = null;
+          this.snackbarService.showSnackbar('Visitor deleted successfully');
+          this.fetchRecords();
+        },
+        error => {
+          this.snackbarService.showSnackbar('Failed to delete visitor');
+          console.error('Error deleting visitor:', error);
+        }
+      );
     }
   }
 }

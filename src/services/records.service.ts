@@ -24,8 +24,9 @@ export class RecordsService {
     );
   } 
 
-  getRecords(recordType: string, itemsPerPage: number, page: number): Observable<any> {
-    const payload = { recordType, itemsPerPage, page };
+  getRecords(recordType: string, itemsPerPage: number, page: number, searchTerm?: string): Observable<any> {
+    const payload = { recordType, itemsPerPage, page, searchTerm };
+    console.log('GET RECORDS PAYLOAD:', payload); // Log payload for getRecords
     return this.http.post<any>(this.recordsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
