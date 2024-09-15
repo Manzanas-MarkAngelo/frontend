@@ -1,5 +1,96 @@
 <app-time/>
-<div class="flex flex-row items-center justify-evenly bg-primary pb-[13px]">
+<!-- <div class="flex flex-row items-center justify-evenly pb-[13px]">
+    <app-most-borrowed/>
+    <app-top-users/>
+</div> -->
+
+<div class="flex flex-row w-full justify-center flex-wrap bg-primary">
+    <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-top">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Materials:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white"
+            routerLink="/materials">Check</button>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-right">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Category:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white"
+            routerLink="/materials-type">Check</button>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-left">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Student:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white"
+            routerLink="/records">Check</button>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-below">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Faculty:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white"
+            routerLink="/records">Check</button>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-top">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Visitor:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white"
+            routerLink="/records">Check</button>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-right">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Program:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white">Check</button>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-left">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Department:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white">Check</button>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-[#FCDC94] w-96 shadow-xl m-5 slide-in-below">
+        <div class="card-body">
+          <h2 class="card-title text-black">Total number of Borrower:</h2>
+          <p  class="font-semibold text-xl text-black">100</p>
+          <div class="card-actions justify-end">
+            <button class="btn bg-primary text-white hover:bg-[#801e1d] hover:text-white">Check</button>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div class="flex flex-row justify-center flex-wrap xl:flex-nowrap bg-primary slide-in-below">
+    <app-monthly-category-donut/>
+    <app-monthly-users/>
+    <app-top-ten-user-timein/>
+</div>
+
+<div class="flex flex-col lg:flex-row items-center justify-evenly bg-primary pb-10">
     <app-most-borrowed/>
     <app-top-users/>
 </div>
@@ -10,4 +101,53 @@
 <div class="grid grid-cols-1 gap-1 bg-primary pb-[13px]">
     <app-top-ten-user-timein class="mt-4"/>
 </div>
+
+<p class="text-white text-5xl bg-primary text-center pb-5">Material Requests</p>
+<div class="w-full h-full bg-primary pb-10">
+    <div class="p-4 bg-white text-black rounded-3xl w-2/3 mb-12 slide-in-left h-auto md:h-1/4 mx-auto slide-in-below">
+        <div class="flex justify-between items-center gap-5 slide-in-right">
+            <span class="text-lg font-medium text-black">Page 1 / 1</span>
+            <div class="flex gap-2">    
+                <button
+                    class="btn border-none bg-primary text-white hover:bg-[#ffb700] hover:text-white">
+                    Previous
+                </button>
+                <button
+                    class="btn border-none bg-primary text-white hover:bg-[#ffb700] hover:text-white">
+                    Next
+                </button>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="table w-full mx-auto">
+            <thead>
+              <tr class="text-primary">
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year published</th>
+                <th>Requestor</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr class="text-black text-start">
+                <td>Harry Potter Series</td>
+                <td>J.K. Rowling</td>
+                <td>1997</td>
+                <td>Odrunia, Mark Ryan</td>
+                <td>
+                  <button
+                    class="bg-primary text-white -none shadow-none btn-sm rounded-full font-medium">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>
+
+
+
 
