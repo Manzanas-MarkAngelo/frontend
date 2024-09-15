@@ -1,4 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://lispupt.site/controller_lis'
+  //? Online Datbase
+  //apiUrl: 'https://lispupt.site/controller_lis'
+
+  //? Local Database
+  apiUrl: 'http://localhost/controller_lis'
 };
