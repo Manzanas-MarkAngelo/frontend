@@ -19,14 +19,8 @@
           <option value="faculty">Faculty</option>
           <option value="visitor">Visitor</option>
         </select>
-        <div class="pointer-events-none 
-                    absolute 
-                    inset-y-0 
-                    top-0.5 
-                    right-2 
-                    flex 
-                    items-center 
-                    text-gray-700">
+        <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 
+                    flex items-center text-gray-700">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
                viewBox="0 0 24 24" 
                stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -84,57 +78,145 @@
             <option>Male</option>
             <option>Female</option>
           </select>
-          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          <div 
+            class="pointer-events-none absolute inset-y-0 top-0.5 right-2 
+                   flex items-center text-gray-700">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke-width="1.5" 
+              stroke="currentColor" 
+              class="size-5">
+              <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                d="m19.5 8.25-7.5 7.5-7.5-7.5" 
+              />
             </svg>
           </div>
         </div>
       </div>
       <div class="mb-4 mt-1 flex items-center space-x-2">
-        <!-- Student and Faculty shared fields -->
-        <input id="fname" name="fname" type="text" [(ngModel)]="firstName" class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" placeholder="First name" />
-        <input id="lname" name="lname" type="text" [(ngModel)]="lastName" class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" placeholder="Last name" />
+        <input 
+          id="fname" 
+          name="fname" 
+          type="text" 
+          [(ngModel)]="firstName" 
+          class="w-2/5 flex mt-1 rounded-full border border-gray-300 
+                 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
+          placeholder="First name" 
+        />
+        <input 
+          id="lname" 
+          name="lname" 
+          type="text" 
+          [(ngModel)]="lastName" 
+          class="w-2/5 flex mt-1 rounded-full border border-gray-300
+                 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
+          placeholder="Last name" 
+        />
 
-        <!-- Dropdown for course or department based on selected role -->
         <div class="relative mr-44">
           <ng-container *ngIf="selectedRole === 'student'">
-            <select id="course" name="course" [(ngModel)]="courseId" class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
+            <select 
+              id="course"
+              name="course" 
+              [(ngModel)]="courseId" 
+              class="block appearance-none w-full bg-secondary text-gray-700 
+                     font-medium py-3 px-6 pr-8 rounded-full leading-tight 
+                     focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
               <option value="" disabled selected>Course</option>
-              <option *ngFor="let course of courses" [value]="course.id">{{ course.course_abbreviation }}</option>
+              <option *ngFor="let course of courses" [value]="course.id">
+                {{ course.course_abbreviation }}
+              </option>
             </select>
           </ng-container>
           <ng-container *ngIf="selectedRole === 'faculty'">
-            <select id="dept" name="dept" [(ngModel)]="department" class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
+            <select 
+              id="dept" 
+              name="dept" 
+              [(ngModel)]="department" 
+              class="block appearance-none w-full bg-secondary text-gray-700 
+                     font-medium py-3 px-6 pr-8 rounded-full leading-tight 
+                     focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg">
               <option value="" disabled selected>Department</option>
-              <option *ngFor="let dept of departments" [value]="dept.id">{{ dept.dept_abbreviation }}</option>
+              <option *ngFor="let dept of departments" [value]="dept.id">
+                {{ dept.dept_abbreviation }}
+              </option>
             </select>
           </ng-container>
+          <ng-container *ngIf="selectedRole === 'visitor'">
+            <input
+              id="identifier"
+              name="identifier"
+              type="text"
+              [(ngModel)]="identifier"
+              placeholder="Identifier"
+              class="w-full flex mt-1 rounded-full border border-gray-300 
+                     px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+            />
+          </ng-container>        
         </div>
       </div>
 
-      <!-- Contact number field -->
       <div class="mb-4 flex items-center space-x-4">
-        <input id="contact" name="contact" type="number" [(ngModel)]="contact" class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg" placeholder="Contact number" />
-        <button type="submit" class="w-40 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mt-0.5">
+        <input 
+          id="contact" 
+          name="contact" 
+          type="text" 
+          [(ngModel)]="contact" 
+          class="flex-grow mt-1 block rounded-full border border-gray-300 
+                 px-6 py-2 focus:ring-opacity-50 text-lg" 
+          placeholder="Contact number" 
+        />
+        <button 
+          type="submit" 
+          class="w-40 bg-primary text-white px-4 py-3 rounded-full font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300 mt-0.5"
+          >
           Enter
         </button>
       </div>
 
-      <!-- Visitor-specific notice and error message -->
       <ng-container *ngIf="selectedRole === 'visitor'">
         <div>
           <span class="text-red-500 font-medium">Please read carefully*</span>
-          <p class="text-primary">Take note of your identifier. It could be your favorite color, food, pet name or anything. You'll need it to log in and out of the Library Information System. Thank you!</p>
+          <p class="text-primary">
+            Take note of your identifier. It could be your favorite color, food,
+            pet name or anything. You'll need it to log in and out of the
+            Library Information System. Thank you!
+          </p>
         </div>
       </ng-container>
 
-      <!-- Shared error message for Student and Faculty -->
-      <div *ngIf="hasFormErrors" class="text-red-500 text-center mt-2">Please fill out all the required fields.</div>
-      <div *ngIf="!isStudentNumberValid || !isEmpNumberValid || isUserExists" class="flex justify-center mt-2">
-        <span *ngIf="!isStudentNumberValid" class="text-red-500">{{ studentNumberError }}</span>
-        <span *ngIf="!isEmpNumberValid" class="text-red-500">{{ empNumberError }}</span>
-        <span *ngIf="isUserExists" class="text-red-500">{{ userExistsError }}</span>
+      <div *ngIf="hasFormErrors" class="text-red-500 text-center mt-2">
+        Please fill out all the required fields.
+      </div>
+
+      <div *ngIf="!hasFormErrors && 
+                  (!isStudentNumberValid || 
+                  !isEmpNumberValid || 
+                  isUserExists || 
+                  !isContactValid || 
+                  isContactExists)" 
+            class="flex flex-col items-center justify-center mt-2 
+                   space-y-2 text-center">
+        <span *ngIf="!isStudentNumberValid" class="text-red-500">
+          {{ studentNumberError }}
+        </span>
+        <span *ngIf="!isEmpNumberValid" class="text-red-500">
+          {{ empNumberError }}
+        </span>
+        <span *ngIf="isUserExists" class="text-red-500">
+          {{ userExistsError }}
+        </span>
+        <span *ngIf="!isContactValid" class="text-red-500">
+          {{ contactError }}
+        </span>
+        <span *ngIf="isContactExists" class="text-red-500">
+          {{ contactExistsError }}
+        </span>
       </div>
     </form>
   </div>
