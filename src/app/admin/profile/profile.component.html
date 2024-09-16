@@ -1,8 +1,10 @@
 <div class="flex flex-col justify-center items-center h-full pb-44 pt-[99px] w-full bg-primary">
   <div class="flex items-center justify-center">
-    <div class="flex flex-col lg:flex-row w-full h-30rem">
+    <div class="flex flex-col lg:flex-row w-full h-30rem gap-40">
       <div class="flex flex-col items-center justify-center gap-4 slide-in-left">
-        <img src="../../../assets/profile3.jpg" alt="profile-picture" class="w-96 lg:w-[40rem] h-56 lg:h-72">
+        <div class="w-48 h-48 lg:w-72 lg:h-72">
+          <img src="assets/pup.png" alt="profile-picture" class="w-full h-full rounded-full object-cover">
+        </div>
         <div class="flex gap-4">
           <button 
             type="submit"
@@ -41,7 +43,7 @@
         <div class="flex flex-col w-full justify-center items-start">
           <input 
             type="text" 
-            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
             [(ngModel)]="librarianData.name" 
             [readonly]="!isEditMode"
             placeholder="Librarian">
@@ -51,7 +53,7 @@
         <div class="flex flex-col w-full justify-center items-start">
           <input 
             type="text" 
-            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
             [(ngModel)]="librarianData.email" 
             [readonly]="!isEditMode"
             placeholder="Email">
@@ -61,7 +63,7 @@
         <div class="flex flex-col w-full justify-center items-start">
           <input 
             type="text" 
-            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
             [(ngModel)]="librarianData.telephone_number" 
             [readonly]="!isEditMode"
             placeholder="Telephone number">
@@ -71,7 +73,7 @@
         <div class="flex flex-col w-full justify-center items-start">
           <input 
             type="text" 
-            class="w-[85%] h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+            class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
             [(ngModel)]="librarianData.telefax_number" 
             [readonly]="!isEditMode"
             placeholder="Telefax number">

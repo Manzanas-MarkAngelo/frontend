@@ -14,8 +14,8 @@ export class RegisterService {
     return this.http.post<any>(this.apiUrl, formData);
   }
 
-  checkUserExists(role: string, identifier: string): Observable<any> {
-    const data = { role, identifier };
+  checkUserExists(role: string, identifier: string, contact: string): Observable<any> {
+    const data = { role, identifier, contact };
     return this.http.post<any>(this.checkUserUrl, data);
   }
 }
