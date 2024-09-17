@@ -86,4 +86,9 @@ export class FacultyComponent implements OnInit {
     this.currentPage = page;
     this.fetchRecords();
   }
+  
+  clearLogType() {
+    this.searchTerm = ''; // Clear the search term
+    this.fetchRecords();
+  }
 }
