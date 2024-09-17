@@ -1,5 +1,5 @@
-<div class="flex flex-col h-full w-full px-16 pt-7 pb-[65px] bg-primary">
-  <div class="flex flex-col w-full">
+<div class="flex flex-col h-full w-full px-1 md:px-14 pt-20 pb-[79px] bg-primary justify-center items-center">
+  <div class="flex flex-col w-3/4">
     <div class="w-full">
       <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
         <span class="text-white text-3xl ml-3">Add a book:</span>
@@ -62,10 +62,10 @@
             </div>
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Accession number -->
+          <!-- Author -->
           <input
-            id="accnum"
-            name="accnum"
+            id="author"
+            name="author"
             type="text"
             class="w-1/2 
                    flex 
@@ -78,8 +78,8 @@
                    py-2 
                    focus:ring-opacity-50 
                    text-lg"
-            placeholder="Accession number"
-            [(ngModel)]="bookDetails.accnum" required />
+            placeholder="Author"
+            [(ngModel)]="bookDetails.author" required />
           <!-- Subject Heading -->
           <input
             id="heading"
@@ -101,10 +101,10 @@
           
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Author -->
+          <!-- Copyright -->
           <input
-            id="author"
-            name="author"
+            id="copyright"
+            name="copyright"
             type="text"
             class="w-1/2 
                    flex 
@@ -117,8 +117,8 @@
                    py-2 
                    focus:ring-opacity-50 
                    text-lg"
-            placeholder="Author"
-            [(ngModel)]="bookDetails.author" required />
+            placeholder="Copyright"
+            [(ngModel)]="bookDetails.copyright" required />
           <!-- Call number -->
           <input
             id="callnum"
@@ -139,10 +139,10 @@
             [(ngModel)]="bookDetails.callnum" required />
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Copyright -->
+          <!-- Edition -->
           <input
-            id="copyright"
-            name="copyright"
+            id="edition"
+            name="edition"
             type="text"
             class="w-1/2 
                    flex 
@@ -155,8 +155,8 @@
                    py-2 
                    focus:ring-opacity-50 
                    text-lg"
-            placeholder="Copyright"
-            [(ngModel)]="bookDetails.copyright" required />
+            placeholder="Edition"
+            [(ngModel)]="bookDetails.edition" required />
           <!-- Publisher -->
           <input
             id="publisher"
@@ -177,24 +177,6 @@
             [(ngModel)]="bookDetails.publisher" required />
         </div>
         <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Edition -->
-          <input
-            id="edition"
-            name="edition"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Edition"
-            [(ngModel)]="bookDetails.edition" required />
           <!-- ISBN -->
           <input
             id="isbn"
@@ -213,26 +195,6 @@
                    text-lg"
             placeholder="ISBN"
             [(ngModel)]="bookDetails.isbn" required />
-        </div>
-        <div class="mb-4 mt-1 flex items-center space-x-2">
-          <!-- Status -->
-          <input
-            id="status"
-            name="status"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Status"
-            [(ngModel)]="bookDetails.status" required />
           <!-- Back button -->
           <button
             type="button"

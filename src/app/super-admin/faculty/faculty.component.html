@@ -11,6 +11,13 @@
     </div>
     <div class="flex flex-row">
       <button
+        type="button"
+        (click)="clearLogType()"
+        class="w-40 border bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2 slide-in-right">
+        clear
+      </button>
+      
+      <button
       routerLink="/add-faculty"
       type="submit"
       class="w-40 

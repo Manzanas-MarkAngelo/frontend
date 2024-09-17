@@ -52,7 +52,7 @@ export class PdfReportStudentsService {
 
     let startY = textStartY + 23; // Adjust the table start Y position accordingly
 
-    this.recordsService.getLogs('student', 10, 1, dateFrom, dateTo).subscribe(
+    this.recordsService.getLogsReports('student', 10, 1, dateFrom, dateTo).subscribe(
       response => {
         const sudentData = response?.records || [];
         const tableData = sudentData.map((student: any) => [
