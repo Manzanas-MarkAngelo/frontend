@@ -78,4 +78,9 @@ export class StudentComponent implements OnInit {
   onSearchChange(searchTerm: string) {
     this.searchSubject.next(searchTerm);
   }
+
+  clearLogType() {
+    this.searchTerm = ''; // Clear the search term
+    this.fetchRecords();
+  }
 }

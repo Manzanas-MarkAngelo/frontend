@@ -49,6 +49,11 @@ export class VisitorComponent implements OnInit {
     );
   }
 
+  clearLogType() {
+    this.searchTerm = ''; // Clear the search term
+    this.fetchRecords();
+  }
+
   onSearchChange(searchTerm: string) {
     this.searchSubject.next(searchTerm);
   }
