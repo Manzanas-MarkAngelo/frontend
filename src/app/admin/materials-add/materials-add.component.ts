@@ -13,7 +13,7 @@ export class MaterialsAddComponent {
   bookDetails = {
     title: '',
     heading: '',
-    accnum: '',  // This will be updated with the backend response
+    accnum: '',  // This will be updated with the last number for accession number
     category: '',
     author: '',
     callnum: '',
@@ -21,7 +21,7 @@ export class MaterialsAddComponent {
     publisher: '',
     edition: '',
     isbn: '',
-    status: ''
+    status: 'Available' // Default value
   };
 
   constructor(

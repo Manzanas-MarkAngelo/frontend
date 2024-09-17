@@ -6,7 +6,10 @@
         type="text"
         [placeholder]="searchPlaceholder"
         class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
+        (input)="onSearchChange($event.target.value)"
       />
+      
+      
       <button class="btn rounded-r-full bg-white slide-in-right">
         <svg
           xmlns="http://www.w3.org/2000/svg"
