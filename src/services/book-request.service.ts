@@ -8,10 +8,15 @@ import { environment } from './environments/local-environment';
 })
 export class BookRequestService {
   private requestUrl = `${environment.apiUrl}/book_request.php`;
+  private fetchRequestsUrl = `${environment.apiUrl}/fetch_book_request.php`;
 
   constructor(private http: HttpClient) {}
 
   submitBookRequest(requestData: any): Observable<any> {
     return this.http.post<any>(this.requestUrl, requestData);
+  }
+
+  fetchRequests(): Observable<any> {
+    return this.http.get<any>(this.fetchRequestsUrl);
   }
 }

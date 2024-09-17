@@ -244,7 +244,7 @@ export class SearchBookComponent implements OnInit {
 
   submitRequest() {
     this.formErrorMessage = '';
-
+  
     if (
       !this.request.title || 
       !this.request.author || 
@@ -255,16 +255,15 @@ export class SearchBookComponent implements OnInit {
         'Please fill out all the fields before submitting the request.';
       return;
     }
-
+  
     this.bookRequestService.submitBookRequest(this.request).subscribe(
       response => {
         if (response.success) {
           this.snackbar.showMessage('Book request submitted successfully.');
-
           this.resetForm();
           this.closeRequestModal();
         } else {
-          if (response.message === 'User is not registered.') {
+          if (response.message === 'Requestor not found.') {
             this.openNotRegisteredModal();
           } else {
             this.snackbar.showMessage(
@@ -274,11 +273,9 @@ export class SearchBookComponent implements OnInit {
         }
       },
       error => {
-        if (this.snackbar) {
-          this.snackbar.showMessage('Error submitting book request.');
-        }
+        this.snackbar.showMessage('Error submitting book request.');
         console.error('Error:', error);
       }
     );
-  }
+  }  
 }

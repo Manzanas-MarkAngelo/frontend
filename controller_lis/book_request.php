@@ -28,38 +28,38 @@ if (
     exit();
 }
 
-function checkIfUserIsRegistered($conn, $requester_type, $requester_id) {
+function getRequesterName($conn, $requester_type, $requester_id) {
     if ($requester_type === 'student') {
-        $query = "SELECT id FROM students WHERE student_number = ?";
+        $query = "SELECT CONCAT(first_name, ' ', surname) as full_name FROM students WHERE student_number = ?";
     } elseif ($requester_type === 'faculty') {
-        $query = "SELECT id FROM faculty WHERE emp_number = ?";
+        $query = "SELECT CONCAT(first_name, ' ', surname) as full_name FROM faculty WHERE emp_number = ?";
     } elseif ($requester_type === 'visitor') {
-        $query = "SELECT id FROM visitor WHERE identifier = ?";
+        $query = "SELECT CONCAT(first_name, ' ', surname) as full_name FROM visitor WHERE identifier = ?";
     } else {
-        return false;
+        return null;
     }
 
     $stmt = $conn->prepare($query);
-    if ($stmt === false) {
-        return false;
-    }
     $stmt->bind_param("s", $requester_id);
     $stmt->execute();
-    $stmt->store_result();
+    $stmt->bind_result($full_name);
+    $stmt->fetch();
 
-    return $stmt->num_rows > 0;
+    return $full_name ?? 'Unknown';
 }
 
-if (!checkIfUserIsRegistered($conn, $requester_type, $requester_id)) {
+$requester_name = getRequesterName($conn, $requester_type, $requester_id);
+
+if ($requester_name === 'Unknown') {
     echo json_encode([
         'success' => false, 
-        'message' => 'User is not registered.'
+        'message' => 'Requestor not found.'
     ]);
     exit();
 }
 
-$query = "INSERT INTO request (title, author, year_published, requester_type, 
-          requester_id) VALUES (?, ?, ?, ?, ?)";
+$query = "INSERT INTO request (title, author, year_published, requester_type, requester_name, requester_id) 
+          VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($query);
 
 if ($stmt === false) {
@@ -71,11 +71,12 @@ if ($stmt === false) {
 }
 
 $stmt->bind_param(
-    "sssss", 
+    "ssssss", 
     $title, 
     $author, 
     $year_published, 
     $requester_type, 
+    $requester_name, 
     $requester_id
 );
 
