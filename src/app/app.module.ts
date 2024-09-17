@@ -118,7 +118,8 @@ import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
-
+import { BookRequestService } from '../services/book-request.service';
+import { ClientSnackbarComponent } from './client/client-snackbar/client-snackbar.component';
 
 
 @NgModule({
@@ -207,6 +208,7 @@ import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navb
     NavbarClientComponent,
     NavbarAdminComponent,
     NavbarSuperAdminComponent,
+    ClientSnackbarComponent,
 
   ],
   imports: [
@@ -245,6 +247,7 @@ import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navb
     DepartmentService,
     LibrarianService,
     ChartsService,
+    BookRequestService,
   ],
   bootstrap: [AppComponent]
 })
