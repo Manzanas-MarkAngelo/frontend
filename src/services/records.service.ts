@@ -14,7 +14,7 @@ export class RecordsService {
 
   constructor(private http: HttpClient) {}
 
-  getLogs(logType: string, itemsPerPage: number, page: number, startDate?: string | null, endDate?: string | null): Observable<any> {
+  getLogsReports(logType: string, itemsPerPage: number, page: number, startDate?: string | null, endDate?: string | null): Observable<any> {
     const payload = { logType, itemsPerPage, page, startDate, endDate };
     console.log('RECORDS SERVICE', payload); // To verify the correct payload is sent
     return this.http.post<any>(this.logsUrl, payload, {
@@ -23,6 +23,39 @@ export class RecordsService {
       catchError(this.handleError)
     );
   } 
+
+  getLogs(
+    logType: string,
+    itemsPerPage: number,
+    page: number,
+    searchTerm?: string | null,
+    startDate?: string | null,
+    endDate?: string | null
+  ): Observable<any> {
+    const payload: any = { logType, itemsPerPage, page };
+  
+    // Include searchTerm only if it is provided and not an empty string.
+    if (searchTerm && searchTerm.trim() !== '' && !(startDate && endDate)) {
+      payload.searchTerm = searchTerm;
+    }
+  
+    // Always add startDate and endDate if they are provided.
+    if (startDate) {
+      payload.startDate = startDate;
+    }
+  
+    if (endDate) {
+      payload.endDate = endDate;
+    }
+  
+    console.log('RECORDS SERVICE PAYLOAD', payload); // Detailed logging
+    return this.http.post<any>(this.logsUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
 
   getRecords(recordType: string, itemsPerPage: number, page: number, searchTerm?: string): Observable<any> {
     const payload = { recordType, itemsPerPage, page, searchTerm };
