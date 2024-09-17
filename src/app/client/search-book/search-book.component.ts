@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MaterialsService } from '../../../services/materials.service';
+import { BookRequestService } from '../../../services/book-request.service';
+import { ClientSnackbarComponent } from '../client-snackbar/client-snackbar.component';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-search-book',
   templateUrl: './search-book.component.html',
-  styleUrl: './search-book.component.css'
+  styleUrls: ['./search-book.component.css']
 })
 export class SearchBookComponent implements OnInit {
   materials: any[] = [];
@@ -24,17 +27,30 @@ export class SearchBookComponent implements OnInit {
   categoryPlaceholder: string = 'Choose category';
   categories: { mat_type: string, accession_no: string }[] = [];
 
-  snackBarVisible: boolean = false;
-  snackBarMessage: string = '';
+  sortField: string = 'date_added';
+  sortOrder: string = 'DESC';
 
-  sortField: string = 'date_added'; // Default sort field
-  sortOrder: string = 'DESC'; // Default sort order
+  @ViewChild(ClientSnackbarComponent) snackbar: ClientSnackbarComponent;
 
-  constructor(private materialsService: MaterialsService, private router: Router) {}
+  request = {
+    title: '',
+    author: '',
+    year_published: '',
+    requester_id: '',
+    requester_type: 'student'
+  };
+
+  formErrorMessage: string = '';
+
+  constructor(
+    private materialsService: MaterialsService,
+    private bookRequestService: BookRequestService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.loadMaterials(); 
-    this.loadCategories(); 
+    this.loadMaterials();
+    this.loadCategories();
 
     this.searchTerms.pipe(
       debounceTime(300),
@@ -51,11 +67,11 @@ export class SearchBookComponent implements OnInit {
     if (this.searchTerm) {
       if (this.category) {
         this.materialsService.searchMaterialsByCategory(
-          this.searchTerm, 
-          this.category, 
-          this.currentPage, 
-          this.itemsPerPage, 
-          this.sortField, 
+          this.searchTerm,
+          this.category,
+          this.currentPage,
+          this.itemsPerPage,
+          this.sortField,
           this.sortOrder
         ).subscribe(response => {
           this.materials = response.data;
@@ -64,10 +80,10 @@ export class SearchBookComponent implements OnInit {
         });
       } else {
         this.materialsService.searchMaterials(
-          this.searchTerm, 
-          this.currentPage, 
-          this.itemsPerPage, 
-          this.sortField, 
+          this.searchTerm,
+          this.currentPage,
+          this.itemsPerPage,
+          this.sortField,
           this.sortOrder
         ).subscribe(response => {
           this.materials = response.data;
@@ -77,10 +93,10 @@ export class SearchBookComponent implements OnInit {
       }
     } else if (this.category) {
       this.materialsService.filterMaterialsByCategory(
-        this.category, 
-        this.currentPage, 
-        this.itemsPerPage, 
-        this.sortField, 
+        this.category,
+        this.currentPage,
+        this.itemsPerPage,
+        this.sortField,
         this.sortOrder
       ).subscribe(response => {
         this.materials = response.data;
@@ -89,9 +105,9 @@ export class SearchBookComponent implements OnInit {
       });
     } else {
       this.materialsService.getMaterials(
-        this.currentPage, 
-        this.itemsPerPage, 
-        this.sortField, 
+        this.currentPage,
+        this.itemsPerPage,
+        this.sortField,
         this.sortOrder
       ).subscribe(response => {
         this.materials = response.data;
@@ -104,19 +120,19 @@ export class SearchBookComponent implements OnInit {
   getMaterials(term: string) {
     if (this.category) {
       return this.materialsService.searchMaterialsByCategory(
-        term, 
-        this.category, 
-        this.currentPage, 
-        this.itemsPerPage, 
-        this.sortField, 
+        term,
+        this.category,
+        this.currentPage,
+        this.itemsPerPage,
+        this.sortField,
         this.sortOrder
       );
     } else {
       return this.materialsService.searchMaterials(
-        term, 
-        this.currentPage, 
-        this.itemsPerPage, 
-        this.sortField, 
+        term,
+        this.currentPage,
+        this.itemsPerPage,
+        this.sortField,
         this.sortOrder
       );
     }
@@ -147,7 +163,9 @@ export class SearchBookComponent implements OnInit {
   }
 
   mapCategoryToAccessionNumber(category: string): string {
-    const matchedCategory = this.categories.find(cat => cat.mat_type === category);
+    const matchedCategory = this.categories.find(
+      cat => cat.mat_type === category
+    );
     return matchedCategory ? matchedCategory.accession_no : '';
   }
 
@@ -165,29 +183,23 @@ export class SearchBookComponent implements OnInit {
     this.showModal = false;
     this.selectedMaterialId = null;
   }
-  
-  closeSnackBar() {
-    this.snackBarVisible = false;
-  }
 
   clearSearch(): void {
     this.searchTerm = '';
     this.category = '';
     this.currentPage = 1;
     this.categoryPlaceholder = 'Choose category';
-    this.sortField = 'date_added'; // Reset to default sort field
-    this.sortOrder = 'DESC'; // Reset to default sort order
+    this.sortField = 'date_added';
+    this.sortOrder = 'DESC';
     this.loadMaterials();
   }
 
   sortMaterials(field: string) {
     if (field === 'accnum') {
-      // Special case for sorting by 'Acc No.'
       this.sortField = 'categoryid';
       this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
     } else {
       if (this.sortField === field) {
-        // Toggle the sorting order for the same field
         this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
       } else {
         this.sortField = field;
@@ -195,7 +207,78 @@ export class SearchBookComponent implements OnInit {
       }
     }
 
-    // Reload materials with the updated sorting
     this.loadMaterials();
+  }
+
+  resetForm() {
+    this.request = {
+      title: '',
+      author: '',
+      year_published: '',
+      requester_id: '',
+      requester_type: 'student'
+    };
+    this.formErrorMessage = '';
+  }  
+
+  openRequestModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement)
+      .showModal();
+  }
+
+  closeRequestModal() {
+    this.resetForm();
+    (document.getElementById('my_modal_1') as HTMLDialogElement)
+      .close();
+  }
+
+  openNotRegisteredModal() {
+    (document.getElementById('not_registered_modal') as HTMLDialogElement)
+      .showModal();
+  }
+
+  closeNotRegisteredModal() {
+    (document.getElementById('not_registered_modal') as HTMLDialogElement)
+      .close();
+  }
+
+  submitRequest() {
+    this.formErrorMessage = '';
+
+    if (
+      !this.request.title || 
+      !this.request.author || 
+      !this.request.year_published || 
+      !this.request.requester_id
+    ) {
+      this.formErrorMessage = 
+        'Please fill out all the fields before submitting the request.';
+      return;
+    }
+
+    this.bookRequestService.submitBookRequest(this.request).subscribe(
+      response => {
+        if (response.success) {
+          this.snackbar.showMessage('Book request submitted successfully.');
+
+          this.resetForm();
+          this.closeRequestModal();
+        } else {
+          if (response.message === 'User is not registered.') {
+            this.openNotRegisteredModal();
+          } else {
+            this.snackbar.showMessage(
+              'Failed to submit book request: ' + response.message
+            );
+          }
+        }
+      },
+      error => {
+        if (this.snackbar) {
+          this.snackbar.showMessage('Error submitting book request.');
+        }
+        console.error('Error:', error);
+      }
+    );
   }
 }
