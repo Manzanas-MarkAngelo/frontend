@@ -51,9 +51,7 @@ export class StudentComponent implements OnInit {
   showConfirmModal(userId: number, name: string): void {
     this.selectedStudentId = userId;
     this.selectedStudentName = name;
-    console.log(`Student name: ${this.selectedStudentName}`);
     this.showModal = true;
- 
   }
 
   closeConfirmModal(): void {
