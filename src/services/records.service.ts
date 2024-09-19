@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from './environments/local-environment';
 
 @Injectable()
@@ -48,13 +48,16 @@ export class RecordsService {
       payload.endDate = endDate;
     }
   
-    console.log('RECORDS SERVICE PAYLOAD', payload); // Detailed logging
+    console.log('RECORDS SERVICE PAYLOAD', payload); // Log the request payload
+  
     return this.http.post<any>(this.logsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
+      tap(response => console.log('RECORDS SERVICE RESPONSE', response)), // Log the response
       catchError(this.handleError)
     );
   }
+  
   
 
   getRecords(recordType: string, itemsPerPage: number, page: number, searchTerm?: string): Observable<any> {
