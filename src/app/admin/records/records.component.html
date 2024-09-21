@@ -1,34 +1,12 @@
-<div class="flex flex-col h-full w-full px-10 pb-[17px] bg-primary">
+<div class="flex flex-col w-full px-10 bg-primary">
   <div class="flex flex-wrap flex-col md:flex-col w-full p-4 rounded-t-xl gap-2">
     <div class="flex flex-col xl:flex-row w-full">
       <div class="w-full flex flex-row"> 
         <input
         type="text"
         [placeholder]="searchPlaceholder"
-        class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
-        (input)="onSearchChange($event.target.value)"
-      />
-      
-      
-      <button class="btn rounded-r-full bg-white slide-in-right">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="black"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-          />
-        </svg>
-      </button>
-
-
-
+        class="input input-bordered w-1/2 rounded-xl text-lg font-medium text-primary slide-in-left bg-white"
+        (input)="onSearchChange($event.target.value)"/>
     <div class="relative">
       <select id="role" 
               name="role" 
@@ -40,7 +18,7 @@
               font-medium 
               py-3.5 
               px-4 
-              rounded-full 
+              rounded-xl 
               leading-tight 
               focus:outline-none 
               focus:bg-[#ffb700] 
@@ -111,7 +89,7 @@
           text-black 
           px-4 
           py-3 
-          rounded-full 
+          rounded-xl 
           font-medium 
           hover:bg-blue-500 
           hover:text-white 
@@ -132,7 +110,7 @@
           text-black 
           px-4 
           py-3 
-          rounded-full 
+          rounded-xl 
           font-medium 
           hover:bg-blue-500 
           hover:text-white 
@@ -153,7 +131,7 @@
           text-black 
           px-4 
           py-3 
-          rounded-full 
+          rounded-xl 
           font-medium 
           hover:bg-blue-500 
           hover:text-white 
@@ -172,7 +150,7 @@
         hover:text-white 
         px-4 
         py-3 
-        rounded-full 
+        rounded-xl 
         font-semibold
         transition 
         duration-300 
@@ -205,177 +183,194 @@
     </div>
   </div>
   
-  <div class="p-4 bg-white text-black rounded-xl w-full slide-in-right">
-    <div class="overflow-x-auto">
-      <ng-container *ngIf="currentLogType === 'student'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Student Number</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Course</th>
-              <th>Phone Number</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let record of logs">
-              <td>{{ record.student_number }}</td>
-              <td>{{ record.name }}</td>
-              <td>{{ record.gender }}</td>
-              <td>{{ record.course }}</td>
-              <td>{{ record.phone_number }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'faculty'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Faculty Code</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Department</th>
-              <th>Phone Number</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let record of logs">
-              <td>{{ record.emp_number }}</td>
-              <td>{{ record.name }}</td>
-              <td>{{ record.gender }}</td>
-              <td>{{ record.department }}</td>
-              <td>{{ record.phone_number }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'visitor'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Phone Number</th>
-              <th>School</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let record of logs">
-              <td>{{ record.name }}</td>
-              <td>{{ record.gender }}</td>
-              <td>{{ record.phone_number }}</td>
-              <td>{{ record.school }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'student_log'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Student Number</th>
-              <th>Name</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.student_number }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'faculty_log'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Faculty Code</th>
-              <th>Name</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.faculty_code }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'visitor_log'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Name</th>
-              <th>School</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.name }}</td>
-              <td>{{ log.school }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'default'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Student Number</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Course</th>
-              <th>Phone Number</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let record of logs">
-              <td>{{ record.student_number }}</td>
-              <td>{{ record.name }}</td>
-              <td>{{ record.gender }}</td>
-              <td>{{ record.course }}</td>
-              <td>{{ record.phone_number }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-
-      <!-- <div class="flex justify-between items-center mt-4">
-        <span class="text-lg font-medium ml-3"
-          >Page {{ currentPage }} / {{ totalPages }}
-        </span>
-        <div class="flex gap-2">
-          <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === 1"
-            (click)="onPageChange(currentPage - 1)"
-          >
-            Previous
-          </button>
-
-          <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === totalPages"
-            (click)="onPageChange(currentPage + 1)"
-          >
-            Next
-          </button>
-        </div>
-      </div> -->
+  @if (logs.length > 0) {
+    <div class="p-4 bg-white text-black rounded-xl w-full slide-in-right">
+      <div class="overflow-x-auto">
+        <ng-container *ngIf="currentLogType === 'student'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Student Number</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Course</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let record of logs">
+                <td>{{ record.student_number }}</td>
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.course }}</td>
+                <td>{{ record.phone_number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'faculty'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Faculty Code</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Department</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let record of logs">
+                <td>{{ record.emp_number }}</td>
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.department }}</td>
+                <td>{{ record.phone_number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'visitor'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Phone Number</th>
+                <th>School</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let record of logs">
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.school }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'student_log'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Student Number</th>
+                <th>Name</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.student_number }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'faculty_log'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Faculty Code</th>
+                <th>Name</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.faculty_code }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'visitor_log'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Name</th>
+                <th>School</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.name }}</td>
+                <td>{{ log.school }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'default'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-center">
+                <th>Student Number</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Course</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let record of logs">
+                <td>{{ record.student_number }}</td>
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.course }}</td>
+                <td>{{ record.phone_number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+  
+        <!-- <div class="flex justify-between items-center mt-4">
+          <span class="text-lg font-medium ml-3"
+            >Page {{ currentPage }} / {{ totalPages }}
+          </span>
+          <div class="flex gap-2">
+            <button
+              class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+              [disabled]="currentPage === 1"
+              (click)="onPageChange(currentPage - 1)"
+            >
+              Previous
+            </button>
+  
+            <button
+              class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+              [disabled]="currentPage === totalPages"
+              (click)="onPageChange(currentPage + 1)"
+            >
+              Next
+            </button>
+          </div>
+        </div> -->
+      </div>
     </div>
+  } @else {
+    <div class="flex justify-center items-center slide-in-below">
+      <div class="card bg-primary w-96">
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"/>
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Nothing match your search!</h2>
+            <p class="text-white">Didn't find what you're looking for?</p>
+          </div>
+        </div>
   </div>
+  }
+
 </div>

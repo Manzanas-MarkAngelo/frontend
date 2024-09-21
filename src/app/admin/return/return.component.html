@@ -1,21 +1,15 @@
-<div class="flex flex-col h-full w-full pb-[62px] px-2 sm:px-7 md:px-16 bg-primary mx-auto justify-start">
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary mx-auto justify-start">
   <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
     <div class="flex flex-row w-full">
       <input type="text"
        placeholder="Search here (title, author, year, accession number)"
-       class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
+       class="input input-bordered w-1/2 rounded-xl text-lg font-medium text-primary slide-in-left bg-white"
        [(ngModel)]="searchTerm"
        (ngModelChange)="onSearch()"/>
-
-      <button class="btn rounded-r-full bg-white slide-in-right">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-          </svg>              
-      </button>
       <button
           (click)="clearSearch()"
           type="button"
-          class="w-40 bg-white text-primary px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2">
+          class="w-40 bg-white text-primary px-4 py-3 rounded-xl font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2 slide-in-right">
           Clear
       </button>
     </div>
@@ -41,68 +35,85 @@
     </div>
   </div>
 
-  <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto slide-in-right">
-    <div class="overflow-x-auto">
-      <table class="table w-full text-xs md:text-sm">
-        <thead>
-          <tr class="text-primary text-center">
-            <th>Name</th>
-            <th>Course/Department</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Date borrowed</th>
-            <th>Due Date</th>
-            <th>Remarks</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody class="text-start">
-          @for (item of paginatedItems; track $index) {
-            <tr>
-              <td>{{ item.name }}</td>
-              <td>{{ item.courseYear }}</td>
-              <td>{{ item.title }}</td>
-              <td>{{ item.author }}</td>
-              <td>{{ item.dateBorrowed | date: 'MM/dd/yyyy' }}</td>
-              <td>{{ item.dueDate | date: 'MM/dd/yyyy' }}</td>
-              <td>{{ item.remarks }}</td>
-              <td>
-                @if (item.remarks === 'In Progress') {
-                  <button
-                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
-                    [routerLink]="['/return-warning', item.material_id]">
-                    Return
-                  </button>             
-                } @else if (item.remarks === 'Overdue') {
-                  <button 
-                    class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium"
-                    (click)="generatePenaltyReceipt(item)">
-                    Penalty
-                  </button>
-                } @else if (item.remarks === 'Processing') {
-                  <button 
-                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
-                    [routerLink]="['/return-warning', item.material_id]">
-                    Return
-                  </button>
-                } @else if (item.remarks === 'Returned') {
-                  <button 
-                    class="bg-gray-400 text-white border-none shadow-none btn-sm rounded-full font-medium" 
-                    disabled>
-                    Returned
-                  </button>
-                } @else if (item.remarks === 'Returned Late') {
-                  <button 
-                    class="bg-gray-600 text-white border-none shadow-none btn-sm rounded-full font-medium" 
-                    disabled>
-                    Returned
-                  </button>
-                }
-              </td>              
+  @if (paginatedItems.length > 0) {
+    <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto slide-in-right mb-1">
+      <div class="overflow-x-auto">
+        <table class="table w-full text-xs md:text-sm">
+          <thead>
+            <tr class="text-primary text-center">
+              <th>Name</th>
+              <th>Course/Department</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Date borrowed</th>
+              <th>Due Date</th>
+              <th>Remarks</th>
+              <th>Action</th>
             </tr>
-          }
-        </tbody>        
-      </table>
+          </thead>
+          <tbody class="text-start">
+            @for (item of paginatedItems; track $index) {
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.courseYear }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.author }}</td>
+                <td>{{ item.dateBorrowed | date: 'MM/dd/yyyy' }}</td>
+                <td>{{ item.dueDate | date: 'MM/dd/yyyy' }}</td>
+                <td>{{ item.remarks }}</td>
+                <td>
+                  @if (item.remarks === 'In Progress') {
+                    <button
+                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
+                      [routerLink]="['/return-warning', item.material_id]">
+                      Return
+                    </button>             
+                  } @else if (item.remarks === 'Overdue') {
+                    <button 
+                      class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium"
+                      (click)="generatePenaltyReceipt(item)">
+                      Penalty
+                    </button>
+                  } @else if (item.remarks === 'Processing') {
+                    <button 
+                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
+                      [routerLink]="['/return-warning', item.material_id]">
+                      Return
+                    </button>
+                  } @else if (item.remarks === 'Returned') {
+                    <button 
+                      class="bg-gray-400 text-white border-none shadow-none btn-sm rounded-full font-medium" 
+                      disabled>
+                      Returned
+                    </button>
+                  } @else if (item.remarks === 'Returned Late') {
+                    <button 
+                      class="bg-gray-600 text-white border-none shadow-none btn-sm rounded-full font-medium" 
+                      disabled>
+                      Returned
+                    </button>
+                  }
+                </td>              
+              </tr>
+            }
+          </tbody>        
+        </table>
+      </div>
     </div>
-  </div>
+  } @else {
+    <div class="flex justify-center items-center slide-in-below">
+      <div class="card bg-primary w-96">
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"/>
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Nothing match your search!</h2>
+            <p class="text-white">Didn't find what you're looking for?</p>
+          </div>
+        </div>
+    </div>
+  }
+
 </div>

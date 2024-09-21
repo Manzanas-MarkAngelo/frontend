@@ -1,33 +1,16 @@
-<div class="flex flex-col h-full w-full pb-[27px] px-2 sm:px-7 md:px-16 bg-primary">
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary">
   <div class="flex flex-col md:flex-row w-full p-4 rounded-t-xl gap-2">
     <div class="flex flex-wrap w-full p-4 pb-3 rounded-t-xl gap-2">
       <div class="flex flex-row w-full">
         <input
           type="text"
           placeholder="Search here (title, author, year, accession number)"
-          class="input input-bordered w-full rounded-l-full text-lg font-medium text-primary slide-in-left bg-white"
+          class="input input-bordered w-1/2 rounded-xl text-lg font-medium text-primary slide-in-left bg-white"
           [(ngModel)]="searchTerm"
-          (input)="onSearch()"
-        />
-        <button class="btn rounded-r-full bg-white slide-in-right">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="black"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-        </button>
+          (input)="onSearch()"/>
         <button
           type="button"
-          class="w-40 bg-white text-primary px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2"
+          class="w-40 bg-white text-primary px-4 py-3 rounded-xl font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2 slide-in-right"
           (click)="clearSearch()"
         >
           Clear
@@ -80,80 +63,96 @@
     </div>
   </div>
 
-  <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto slide-in-right">
-    <table class="table w-full text-xs md:text-sm">
-      <thead>
-        <tr class="text-primary text-center">
-          <th (click)="sortMaterials('accnum')">
-            Accession No.
-            <span *ngIf="sortField === 'accnum'" class="sort-arrow">
-              <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-              <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-            </span>
-          </th>
-          <th (click)="sortMaterials('title')">
-            Title
-            <span *ngIf="sortField === 'title'" class="sort-arrow">
-              <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-              <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-            </span>
-          </th>
-          <th (click)="sortMaterials('author')">
-            Author
-            <span *ngIf="sortField === 'author'" class="sort-arrow">
-              <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-              <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-            </span>
-          </th>
-          <th (click)="sortMaterials('subj')">
-            Subject
-            <span *ngIf="sortField === 'subj'" class="sort-arrow">
-              <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-              <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-            </span>
-          </th>
-          <th (click)="sortMaterials('copyright')">
-            Copyright
-            <span *ngIf="sortField === 'copyright'" class="sort-arrow">
-              <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-              <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-            </span>
-          </th>
-          <th (click)="sortMaterials('callno')">
-            Call number
-            <span *ngIf="sortField === 'callno'" class="sort-arrow">
-              <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-              <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-            </span>
-          </th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody class="text-start text-sm">
-        <tr *ngFor="let material of materials; trackBy: trackByAccNum">
-          <td>{{ material.accnum }}</td>
-          <td>
-            <a
-              [routerLink]="['/borrow-info', material.accnum]"
-              class="text-primary font-semibold hover:text-[#ffb700] hover:underline"
-            >
-              {{ material.title | slice: 0: 40 }}
-              {{ material.title.length > 40 ? '...' : '' }}
-            </a>
-          </td>
-          <td>
-            {{ material.author | slice: 0: 50 }}
-            {{ material.author.length > 50 ? '...' : '' }}
-          </td>
-          <td>{{ material.subj }}</td>
-          <td>{{ material.copyright }}</td>
-          <td>
-            {{ material.callno | slice: 0: 11 }}
-            {{ material.callno.length > 11 ? '...' : '' }}
-          </td>
-          <td>{{ material.status }}</td>
-        </tr>
-      </tbody>
-    </table>
+  @if (materials.length >0 ) {
+    <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto slide-in-right mb-5">
+      <table class="table w-full text-xs md:text-sm">
+        <thead>
+          <tr class="text-primary text-center">
+            <th (click)="sortMaterials('accnum')">
+              Accession Number ↕
+              <span *ngIf="sortField === 'accnum'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('title')">
+              Title ↕
+              <span *ngIf="sortField === 'title'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('author')">
+              Author ↕
+              <span *ngIf="sortField === 'author'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('subj')">
+              Subject ↕
+              <span *ngIf="sortField === 'subj'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('copyright')">
+              Copyright ↕
+              <span *ngIf="sortField === 'copyright'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th (click)="sortMaterials('callno')">
+              Call number ↕
+              <span *ngIf="sortField === 'callno'" class="sort-arrow">
+                <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+              </span>
+            </th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody class="text-start text-sm">
+          <tr *ngFor="let material of materials; trackBy: trackByAccNum">
+            <td>{{ material.accnum }}</td>
+            <td>
+              <a
+                [routerLink]="['/borrow-info', material.accnum]"
+                class="text-primary font-semibold hover:text-[#ffb700] hover:underline"
+              >
+                {{ material.title }}
+              </a>
+            </td>
+            <td>
+              {{ material.author | slice: 0: 50 }}
+              {{ material.author.length > 50 ? '...' : '' }}
+            </td>
+            <td>{{ material.subj }}</td>
+            <td>{{ material.copyright }}</td>
+            <td>
+              {{ material.callno | slice: 0: 11 }}
+              {{ material.callno.length > 11 ? '...' : '' }}
+            </td>
+            <td>{{ material.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="flex justify-center items-center slide-in-below">
+      <div class="card bg-primary w-96">
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"/>
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Nothing match your search!</h2>
+            <p class="text-white">Didn't find what you're looking for?</p>
+          </div>
+        </div>
   </div>
+  }
+
 </div>
