@@ -14,7 +14,7 @@ export class RecordsComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 13;
+  itemsPerPage: number = 12;
   searchTerm: string = '';
   searchSubject: Subject<string> = new Subject<string>(); // For debounced search
 
