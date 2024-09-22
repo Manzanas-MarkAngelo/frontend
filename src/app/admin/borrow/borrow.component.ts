@@ -13,7 +13,7 @@ export class BorrowComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 12;
+  itemsPerPage: number = 13;
   searchTerm: string = '';
   category: string = '';
   categories: any[] = []; // Added categories array to store category data

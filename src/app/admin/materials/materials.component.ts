@@ -14,7 +14,7 @@ export class MaterialsComponent {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 11;
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();

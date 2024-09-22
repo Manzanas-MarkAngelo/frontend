@@ -14,7 +14,7 @@ export class ReturnComponent implements OnInit {
   filteredItems: any[] = []; // Filtered items after search
   paginatedItems: any[] = []; // Items to be displayed on the current page
   selectedItem: any;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 11;
   currentPage: number = 1;
   totalPages: number = 1;
   searchTerm: string = '';

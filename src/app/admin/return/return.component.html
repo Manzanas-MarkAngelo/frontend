@@ -1,37 +1,64 @@
 <div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary mx-auto justify-start">
-  <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
-    <div class="flex flex-row w-full">
-      <input type="text"
-       placeholder="Search here (title, author, year, accession number)"
-       class="input input-bordered w-1/2 rounded-xl text-lg font-medium text-primary slide-in-left bg-white"
-       [(ngModel)]="searchTerm"
-       (ngModelChange)="onSearch()"/>
-      <button
-          (click)="clearSearch()"
-          type="button"
-          class="w-40 bg-white text-primary px-4 py-3 rounded-xl font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2 slide-in-right">
-          Clear
+  <div class="flex w-full p-4 rounded-t-xl gap-2">
+    <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
+      <div class="flex flex-row w-full md:w-1/2 gap-2">
+        <input type="text"
+        placeholder="Search here (name, course/department, title, author)"
+        class="input input-bordered w-full rounded-xl text-lg font-medium text-primary slide-in-left bg-white"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearch()"/>
+        <button
+        type="button"
+        class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+               hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
+        (click)="clearSearch()"
+      >
+        Clear
       </button>
-    </div>
-  </div>
-  
-  <div class="flex mb-4 items-center gap-5 slide-in-right">
-    <span class="text-lg font-medium ml-3 text-white">Page {{ currentPage }} / {{ totalPages }}</span>
-    <div class="flex gap-2">
-        <button
-            class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
-            (click)="previousPage()"
-            [disabled]="currentPage === 1"
-        >
-            Previous
-        </button>
-        <button
-            class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
-            (click)="nextPage()"
-            [disabled]="currentPage === totalPages"
-        >
-            Next
-        </button>
+      </div>
+
+      <div class="flex flex-row flex-wrap">
+        <div class="flex flex-row gap-2 slide-in-right mt-1">
+          <div class="dropdown dropdown-bottom slide-in-right">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">
+              Remarks
+            </div>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+              <li><a>Returned</a></li>
+              <li><a>Returned Late</a></li>
+              <li><a>Processing</a></li>
+              <li><a>Overdue</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-5 slide-in-right">
+          <span class="text-lg font-medium ml-3 text-white">Page {{ currentPage }} / {{ totalPages }}</span>
+          <div class="flex gap-2">
+              <button
+                  class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                  (click)="previousPage()"
+                  [disabled]="currentPage === 1"
+              >
+                  Previous
+              </button>
+              <button
+                  class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                  (click)="nextPage()"
+                  [disabled]="currentPage === totalPages"
+              >
+                  Next
+              </button>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </div>
 
@@ -101,7 +128,7 @@
       </div>
     </div>
   } @else {
-    <div class="flex justify-center items-center slide-in-below">
+    <div class="flex justify-center items-center mt-20 slide-in-below">
       <div class="card bg-primary w-96">
           <figure class="px-10 pt-10">
             <img

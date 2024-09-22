@@ -1,13 +1,13 @@
-<div class="flex flex-col h-full w-full px-16 pt-7 pb-[19px] bg-primary">
-  <div class="flex flex-col w-full">
+<div class="flex flex-col w-full px-16 pt-7 bg-primary justify-center items-center">
+  <div class="flex flex-col w-full md:w-3/4">
     <div class="w-full">
       <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
         <span class="text-white text-3xl ml-3">Edit Book:</span>
       </div>
     </div>
-    <div class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full mb-40 slide-in-right">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
-        Book details
+        Material details
       </h1>
       <form (ngSubmit)="showConfirmModal()">
         <div class="mb-4 mt-1 flex items-center space-x-4">
@@ -19,7 +19,7 @@
               id="title"
               name="title"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.title"
             />
             <label for="title" class="floating-label">Title</label>
@@ -66,7 +66,7 @@
               id="accnum"
               name="accnum"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.accnum"
             />
             <label for="accnum" class="floating-label">Accession number</label>
@@ -79,7 +79,7 @@
               id="heading"
               name="heading"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.subj"
             />
             <label for="heading" class="floating-label">Subject Heading</label>
@@ -94,7 +94,7 @@
               id="author"
               name="author"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.author"
             />
             <label for="author" class="floating-label">Author</label>
@@ -107,7 +107,7 @@
               id="callnum"
               name="callnum"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.callno"
             />
             <label for="callnum" class="floating-label">Call number</label>
@@ -122,7 +122,7 @@
               id="copyright"
               name="copyright"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.copyright"
             />
             <label for="copyright" class="floating-label">Copyright</label>
@@ -135,7 +135,7 @@
               id="publisher"
               name="publisher"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.publisher"
             />
             <label for="publisher" class="floating-label">Publisher</label>
@@ -150,7 +150,7 @@
               id="edition"
               name="edition"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.edition"
             />
             <label for="edition" class="floating-label">Edition</label>
@@ -163,7 +163,7 @@
               id="isbn"
               name="isbn"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.isbn"
             />
             <label for="isbn" class="floating-label">ISBN</label>
@@ -179,7 +179,7 @@
               id="status"
               name="status"
               type="text"
-              class="floating-input w-full mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+              class="floating-input w-full mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
               [(ngModel)]="material.status"
             />
             <label for="status" class="floating-label">Status</label>
@@ -227,7 +227,7 @@
 
 <!-- Confirmation Modal -->
 <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
     <h2 class="text-center text-xl font-medium text-primary mb-6">
       Do you really want to save these changes?
     </h2>
