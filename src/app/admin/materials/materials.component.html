@@ -1,33 +1,27 @@
-<div class="flex flex-col h-full w-full pb-[25px] px-2 sm:px-7 md:px-16 bg-primary">
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary">
   <div class="flex flex-col md:flex-row w-full p-4 rounded-t-xl gap-2">
     <div class="flex flex-wrap w-full p-2 rounded-t-xl gap-2">
       <div class="flex flex-row w-full">
           <input type="text" placeholder="Search here (title, author, year, accession number)" 
-                 class="input input-bordered w-full rounded-l-full text-lg 
+                 class="input input-bordered w-1/2 rounded-xl text-lg 
                         font-medium text-primary slide-in-left bg-white"
                  [(ngModel)]="searchTerm"
-                 (input)="onSearch()" 
-          />
-          <button class="btn rounded-r-full bg-white slide-in-right">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-              </svg>              
-          </button>
+                 (input)="onSearch()" />
           <button
               type="button"
-              class="w-40 bg-white text-primary px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2"
+              class="w-40 bg-white text-primary px-4 py-3 rounded-xl font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2 slide-in-right"
               (click)="clearSearch()">
               Clear
           </button>
       </div>
         <button
         routerLink="/materials-add"
-        class="w-auto bg-secondary text-black px-4 py-3 rounded-full font-medium">
+        class="w-auto bg-secondary text-black px-4 py-3 rounded-xl font-medium">
         Add book
       </button>
       <button
         routerLink="/materials-type"
-        class="w-auto bg-secondary text-black px-4 py-3 rounded-full font-medium">
+        class="w-auto bg-secondary text-black px-4 py-3 rounded-xl font-medium">
         Material type
       </button>
       <div class="flex justify-between items-center gap-5 slide-in-right">
@@ -104,7 +98,7 @@
                   [routerLink]="['/material-info', material.accnum]"
                   class="text-primary font-semibold hover:text-[#ffb700] hover:underline"
                 >
-                  {{ material.title | slice: 0:30 }}{{ material.title.length > 30 ? '...' : '' }}
+                  {{ material.title }}
                 </a>
               </td>
               <td>{{ material.author | slice: 0:50 }}{{ material.author.length > 50 ? '...' : '' }}</td>
