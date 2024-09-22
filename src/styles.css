@@ -89,3 +89,7 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.pup-font {
+  font-family: 'Cinzel', Arial, Helvetica, sans-serif;
+}
