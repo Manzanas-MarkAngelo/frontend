@@ -1,27 +1,38 @@
-<div class="flex flex-col h-full w-full mx-auto px-10">
-  <div class="flex flex-wrap flex-col md:flex-row w-full p-4 rounded-t-xl gap-2 mt-5">
-    <div class="flex flex-row w-full mt-0.5">
-      <input
-      type="text"
-      [placeholder]="searchPlaceholder"
-      class="input input-bordered w-full rounded-full text-lg font-medium text-primary slide-in-left bg-white"
-      [(ngModel)]="searchTerm"   
-      (ngModelChange)="onSearchChange($event)"
-    />
-       
+<div class="flex flex-col w-full px-10 bg-primary justify-center items-center">
+  <div class="flex flex-wrap w-full p-4 rounded-t-xl gap-2 justify-center items-center">
+    <div class="flex flex-col xl:flex-row w-full">
+      <div class="w-full flex flex-row justify-center"> 
+        <input
+        type="text"
+        [placeholder]="searchPlaceholder"
+        class="input input-bordered w-1/2 rounded-xl text-lg font-medium text-primary slide-in-left bg-white"
+        (input)="onSearchChange($event.target.value)"/>
         <button
         type="button"
-        (click)="clearLogType()"
-        class="w-40 border bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 mb-1 ml-2 slide-in-right">
+        (click)="setLogType('default')"
+        class="w-20 
+          bg-white 
+          text-primary
+          hover:bg-blue-500 
+          hover:text-white 
+          px-4 
+          py-3 
+          rounded-xl 
+          font-semibold
+          transition 
+          duration-300 
+          ml-1">
         clear
       </button>
+      </div>
+      
     </div>
-    <div class="flex flex-col sm:flex-row gap-2 slide-in-right">
+    <div class="flex flex-wrap flex-row gap-2 slide-in-right">
       <button
         type="button"
         (click)="setLogType('student_log')"
         [ngClass]="{
-          'bg-[#801e1d] text-white': currentLogType === 'student_log',
+          'bg-blue-500 text-white': currentLogType === 'student_log',
           'bg-secondary text-black': currentLogType !== 'student_log'
         }"
         class="w-36 
@@ -29,21 +40,20 @@
           text-black 
           px-4 
           py-3 
-          rounded-full 
+          rounded-xl 
           font-medium 
-          hover:bg-[#801e1d]  
+          hover:bg-blue-500 
           hover:text-white 
           transition 
           duration-300 
-          mt-0.5"
-      >
+          mt-0.5">
         Student Log
       </button>
       <button
         type="button"
         (click)="setLogType('faculty_log')"
         [ngClass]="{
-          'bg-[#801e1d] text-white': currentLogType === 'faculty_log',
+          'bg-blue-500 text-white': currentLogType === 'faculty_log',
           'bg-secondary text-black': currentLogType !== 'faculty_log'
         }"
         class="w-36 
@@ -51,21 +61,20 @@
           text-black 
           px-4 
           py-3 
-          rounded-full 
+          rounded-xl 
           font-medium 
-          hover:bg-[#801e1d]  
+          hover:bg-blue-500 
           hover:text-white 
           transition 
           duration-300 
-          mt-0.5"
-      >
+          mt-0.5">
         Faculty Log
       </button>
       <button
         type="button"
         (click)="setLogType('visitor_log')"
         [ngClass]="{
-          'bg-[#801e1d] text-white': currentLogType === 'visitor_log',
+          'bg-blue-500 text-white': currentLogType === 'visitor_log',
           'bg-secondary text-black': currentLogType !== 'visitor_log'
         }"
         class="w-36 
@@ -73,139 +82,165 @@
           text-black 
           px-4 
           py-3 
-          rounded-full 
+          rounded-xl 
           font-medium 
-          hover:bg-[#801e1d]  
+          hover:bg-blue-500 
           hover:text-white 
           transition 
           duration-300 
-          mt-0.5"
-      >
+          mt-0.5">
         Visitor Log
       </button>
-      <div class="flex items-center">
-        <span class="text-lg font-medium mx-3">Page {{ currentPage }} / {{ totalPages }}</span>
-        <div class="flex gap-2">
-            <button
-                class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-                [disabled]="currentPage === 1"
-                (click)="onPageChange(currentPage - 1)"
-            >
-                Previous
-            </button>
-            <button
-                class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-                [disabled]="currentPage === totalPages"
-                (click)="onPageChange(currentPage + 1)"
-            >
-                Next
-            </button>
-        </div>
-    </div>
-    </div>
-  </div>
-  <div class="p-4 bg-white text-black rounded-xl w-full slide-in-right">
-    <div class="overflow-x-auto">
-      <ng-container *ngIf="currentLogType === 'student_log'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Student Number</th>
-              <th>Name</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.student_number }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'faculty_log'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Faculty Code</th>
-              <th>Name</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.faculty_code }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'visitor_log'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Name</th>
-              <th>School</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.name }}</td>
-              <td>{{ log.school }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-container *ngIf="currentLogType === 'default'">
-        <table class="table w-full">
-          <thead>
-            <tr class="text-primary text-center">
-              <th>Student Number</th>
-              <th>Name</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let log of logs">
-              <td>{{ log.student_number }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.time_in }}</td>
-              <td>{{ log.time_out || 'await' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
 
-      <div class="flex justify-between items-center mt-4">
-        <span class="text-lg font-medium ml-3">Page {{ currentPage }} / {{ totalPages }}</span>
-        <div class="flex gap-2">
-          <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === 1"
-            (click)="onPageChange(currentPage - 1)"
-          >
-            Previous
-          </button>
-          <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === totalPages"
-            (click)="onPageChange(currentPage + 1)"
-          >
-            Next
-          </button>
-        </div>
+    <div class="flex justify-between items-center text-white">
+      <span class="text-lg font-medium mx-3"
+        >Page {{ currentPage }} / {{ totalPages }}
+      </span>
+      <div class="flex gap-2">
+        <button
+          class="btn bg-secondary text-black border-none hover:text-[#801e1d] hover:bg-white"
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+        >
+          Previous
+        </button>
+
+        <button
+          class="btn bg-secondary text-black border-none hover:text-[#801e1d] hover:bg-white"
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+        >
+          Next
+        </button>
       </div>
     </div>
+    </div>
   </div>
+  
+  @if (logs.length > 0) {
+    <div class="p-4 bg-white text-black rounded-xl w-full md:w-3/4 slide-in-right mb-4">
+      <div class="overflow-x-auto">
+        <ng-container *ngIf="currentLogType === 'student_log'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Student Number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.student_number }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'faculty_log'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Faculty Code</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.faculty_code }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'visitor_log'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Name</th>
+                <th class="text-start">School</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.name }}</td>
+                <td>{{ log.school }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-container *ngIf="currentLogType === 'default'">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Student Number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Gender</th>
+                <th class="text-start">Course</th>
+                <th class="text-start">Phone Number</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let record of logs">
+                <td>{{ record.student_number }}</td>
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.course }}</td>
+                <td>{{ record.phone_number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+  
+        <!-- <div class="flex justify-between items-center mt-4">
+          <span class="text-lg font-medium ml-3"
+            >Page {{ currentPage }} / {{ totalPages }}
+          </span>
+          <div class="flex gap-2">
+            <button
+              class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+              [disabled]="currentPage === 1"
+              (click)="onPageChange(currentPage - 1)"
+            >
+              Previous
+            </button>
+  
+            <button
+              class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+              [disabled]="currentPage === totalPages"
+              (click)="onPageChange(currentPage + 1)"
+            >
+              Next
+            </button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  } @else {
+    <div class="flex justify-center items-center mt-20 slide-in-below">
+      <div class="card bg-primary w-96">
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"/>
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Nothing match your search!</h2>
+            <p class="text-white">Didn't find what you're looking for?</p>
+          </div>
+        </div>
+  </div>
+  }
+
 </div>

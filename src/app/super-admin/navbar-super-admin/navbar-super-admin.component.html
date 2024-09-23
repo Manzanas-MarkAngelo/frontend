@@ -1,4 +1,4 @@
-<div class="navbar bg-white shadow-md p-0 h-24 sticky top-0 z-50 slide-in-top">
+<!-- <div class="navbar bg-white shadow-md p-0 h-24 sticky top-0 z-50 slide-in-top">
     <div class="flex ml-2 sm:ml-0 md:mx-auto slide-in-left">
       <img
         src="assets/pup.png"
@@ -116,5 +116,123 @@
       </div>
     </div>
   </div>
+<router-outlet/> -->
+
+<div class="navbar bg-primary p-0 h-28 sticky top-0 z-50">
+  <div class="flex ml-2 sm:ml-0 md:mx-auto">
+    <img
+      src="assets/pup.png"
+      alt="Logo"
+      class="m-1 md:m-0 md:ml-8 logo sm:size-20 size-14 cursor-pointer slide-in-left"
+      routerLink="/analytics"/>
+      <div class="flex flex-col"> 
+        <a
+        class="text-xs sm:text-lg font-medium text-white ml-3 mb-2 sm:mb-0 slide-in-top pup-font"
+        routerLink="/analytics">
+        Polytechnic University of the Philippines - Taguig
+      </a>
+      <div class="h-0.5 w-auto ml-3 bg-secondary slide-in-right"></div>
+      <a
+      class="text-xl sm:text-3xl font-medium text-white md:mb-1 ml-3 slide-in-below"
+      routerLink="/analytics">
+      Welcome, Administrator!
+    </a>
+      </div>
+  </div>
+  <div class="container flex justify-end items-center w-full mr-auto">
+    <div class="flex">
+      <div class="hidden lg:flex space-x-0.5 slide-in-top">
+        <div class="tooltip tooltip-bottom" data-tip="Materials">
+          <a
+            routerLink="/books"
+            routerLinkActive="active-link"
+            class="btn btn-ghost rounded-none">
+            <a class="text-lg text-white">Materials</a>
+          </a>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="Students">
+          <a
+            routerLink="/student"
+            routerLinkActive="active-link"
+            class="btn btn-ghost rounded-none">
+            <a class="text-lg text-white">Students</a>
+          </a>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="Faculty">
+          <a
+            routerLink="/faculty"
+            routerLinkActive="active-link"
+            class="btn btn-ghost rounded-none">
+            <a class="text-lg text-white">Faculty</a>              
+          </a>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="Visitor">
+          <a
+            routerLink="/visitor"
+            routerLinkActive="active-link"
+            class="btn btn-ghost rounded-none">
+            <a class="text-lg text-white">Visitors</a>
+          </a>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="Audit Trail">
+          <a
+            routerLink="/user-record"
+            routerLinkActive="active-link"
+            class="btn btn-ghost rounded-none">
+            <a class="text-lg text-white">Audit Trail</a>
+          </a>
+        </div>
+      </div>
+      <div class="flex slide-in-right">
+        <div class="dropdown dropdown-end">
+          <div class="mr-2.5 md:mr-10 md:ml-4">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost avatar btn-circle border-gray-50 m-0">
+              <div
+                class="relative w-10 h-10 overflow-hidden bg-gray-100 
+                rounded-full">
+                <svg
+                  class="absolute w-12 h-12 text-gray-400 -left-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <ul
+          tabindex="0"
+          class="menu menu-sm dropdown-content mt-3 z-20 p-2 shadow 
+          bg-white rounded-box w-36">
+          <li><a class="font-bold" routerLink="/analytics">Analytics</a></li>
+          <li><a class="font-bold" routerLink="/profile">Profile</a></li>
+          <li class="block lg:hidden">
+            <a class="font-bold" routerLink="/books">Materials</a>
+          </li>
+          <li class="block lg:hidden">
+            <a class="font-bold" routerLink="/student">Students</a>
+          </li>
+          <li class="block lg:hidden">
+            <a class="font-bold" routerLink="/faculty">Faculty</a>
+          </li>
+          <li class="block lg:hidden">
+            <a class="font-bold" routerLink="/visitor">Visitors</a>
+          </li>
+          <li class="block lg:hidden">
+            <a class="font-bold" routerLink="/user-record">Audit Trail</a>
+          </li>
+          <li><a class="font-bold" (click)="onLogoutClick()">Logout</a></li>
+        </ul>
+        </div>
+      </div>        
+    </div>
+  </div>
+</div>
 <router-outlet/>
 

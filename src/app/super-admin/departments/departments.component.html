@@ -1,60 +1,77 @@
-<div class="flex items-center justify-center w-full mt-10 px-4 md:px-0">
-    <div class="flex flex-col w-full gap-3">
-      <!-- Centered Buttons -->
-      <div class="flex flex-col md:flex-row gap-2 md:gap-4">
-        <button
-        routerLink="/faculty"
-        type="submit"
-        class="w-full md:w-52 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-top mx-auto">
-        Back
-      </button>
-        <button
-          routerLink="/add-department"
-          type="submit"
-          class="w-full md:w-52 bg-secondary text-black px-4 py-3 rounded-full font-medium hover:bg-[#801e1d] hover:text-white transition duration-300 slide-in-top mx-auto">
-          Add a department
-        </button>
-      </div>
+<div class="flex items-center justify-center w-full pt-10 bg-primary">
+    <div class="flex flex-col w-full gap-3 px-4 md:px-0">
   
       <!-- Centered Table -->
-      <div class="p-4 bg-white text-black rounded-3xl w-3/4 mb-12 slide-in-left h-auto md:h-1/4 mx-auto">
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <thead>
-              <tr class="text-primary text-center">
-                <th class="text-start">Department</th>
-                <th>Abbreviation</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody class="text-center">
-              <tr *ngFor="let department of departments">
-                <td class="text-start">{{ department.dept_program }}</td>
-                <td>{{ department.dept_abbreviation }}</td>
-                <td class="flex justify-center">
-                  <button
-                    routerLink="/edit-department/{{ department.id }}"
-                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium mr-1">
-                    Edit
-                  </button>
-                  <button
-                    (click)="openConfirmModal(department)"
-                    class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+       @if (departments.length > 0) {
+        <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-1/2 mb-12 slide-in-left md:h-1/4 mx-auto">
+          <div class="overflow-x-auto">
+            <table class="table w-full">
+              <thead>
+                <tr class="text-primary text-center">
+                  <th class="text-start">Department</th>
+                  <th>Abbreviation</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <tr *ngFor="let department of departments">
+                  <td class="text-start">{{ department.dept_program }}</td>
+                  <td>{{ department.dept_abbreviation }}</td>
+                  <td class="flex justify-center">
+                    <button
+                      routerLink="/edit-department/{{ department.id }}"
+                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium mr-1">
+                      Edit
+                    </button>
+                    <button
+                      (click)="openConfirmModal(department)"
+                      class="bg-primary text-white border-none shadow-none btn-sm rounded-xl font-medium">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="divider my-0"></div>
+          <div class="flex items-center w-full flex-col md:flex-row md:justify-between gap-2">
+            <button
+            routerLink="/faculty"
+            type="submit"
+            class="w-3/4 md:w-1/4 bg-primary text-white px-4 py-3 rounded-xl font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-top">
+            Back
+          </button>
+            <button
+              routerLink="/add-department"
+              type="submit"
+              class="w-3/4 md:w-1/4 bg-secondary text-black px-4 py-3 rounded-xl font-medium hover:bg-[#801e1d] hover:text-white transition duration-300 slide-in-top">
+              Add a department
+            </button>
+          </div>
         </div>
-      </div>
+       } @else {
+        <div class="flex justify-center items-center mt-20 slide-in-below">
+          <div class="card bg-primary w-96">
+              <figure class="px-10 pt-10">
+                <img
+                  src="../../../assets/no-match1.svg"
+                  alt="no-match"/>
+              </figure>
+              <div class="card-body items-center text-center">
+                <h2 class="card-title text-white">Oops!</h2>
+                <p class="text-white">There's nothing to see here!</p>
+              </div>
+            </div>
+        </div>
+       }
+
     </div>
   </div>
   
   <!-- Modal -->
   <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-    <div class="bg-white p-8 rounded-3xl shadow-lg w-[90%] md:w-1/2 max-w-md">
-      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-[90%] md:w-1/2 max-w-md">
+      <h2 class="text-center text-xl font-medium text-primary mb-3">
         Do you really want to delete this department?
         <div class="text-yellow-500 mt-4 italic">
           {{selectedDepartment.dept_program}}
@@ -64,13 +81,13 @@
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="closeConfirmModal()"
-            class="flex-1 bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300">
-            No
+            class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium hover:bg-red-700 transition duration-300">
+            Cancel
           </button>
           <button
             (click)="deleteDepartment()"
-            class="flex-1 bg-secondary text-black px-6 py-3 rounded-full font-medium hover:bg-[#801e1d] hover:text-white transition duration-300">
-            Yes
+            class="flex-1 bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-500 transition duration-300">
+            Continue
           </button>
         </div>
       </div>
