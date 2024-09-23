@@ -66,6 +66,88 @@ try {
         throw new Exception('Error fetching category counts.');
     }
 
+    // SQL query to fetch the total number of CATEGORIES (count of rows in category table)
+    $sql_total_categories = "SELECT COUNT(*) as total_categories FROM category";
+    $result_total_categories = $conn->query($sql_total_categories);
+
+    if ($result_total_categories) {
+        $response['total_categories'] = $result_total_categories->fetch_assoc()['total_categories'];
+    } else {
+        throw new Exception('Error fetching total categories.');
+    }
+
+    // SQL query to fetch the total number of rows in the DEPARTMENTS table
+    $sql_total_departments = "SELECT COUNT(*) as total_departments FROM departments";
+    $result_total_departments = $conn->query($sql_total_departments);
+
+    if ($result_total_departments) {
+        $response['total_departments'] = $result_total_departments->fetch_assoc()['total_departments'];
+    } else {
+        throw new Exception('Error fetching total departments.');
+    }
+
+    // Total number of rows in the PROGRAMS
+    $sql_total_departments = "SELECT COUNT(*) as total_programs FROM departments";
+    $result_total_departments = $conn->query($sql_total_departments);   
+    if ($result_total_departments) {
+        $response['total_programs'] = $result_total_departments->fetch_assoc()['total_programs'];
+    } else {
+        throw new Exception('Error fetching total departments.');
+    }
+
+     // SQL query to count rows in the BORROWING table with remark = "In Progress"
+     $sql_total_charged = "SELECT COUNT(*) as total_charged FROM borrowing WHERE remark = 'In Progress'";
+     $result_total_charged = $conn->query($sql_total_charged);
+ 
+     if ($result_total_charged) {
+         $response['total_charged'] = $result_total_charged->fetch_assoc()['total_charged'];
+     } else {
+         throw new Exception('Error fetching total charged.');
+     }
+
+    // SQL query to count rows in the BORROWING table with remark = "Overdue"
+     $sql_total_charged = "SELECT COUNT(*) as total_overdue FROM borrowing WHERE remark = 'Overdue'";
+     $result_total_charged = $conn->query($sql_total_charged);
+ 
+     if ($result_total_charged) {
+         $response['total_overdue'] = $result_total_charged->fetch_assoc()['total_overdue'];
+     } else {
+         throw new Exception('Error fetching total charged.');
+     }
+
+    // Get current date in the format 'Y-m-d'
+     $current_date = date('Y-m-d');
+     
+     // SQL query to get total time_ins for the current date
+     $sql_total_time_ins = "SELECT COUNT(*) as total_time_ins FROM time_log WHERE DATE(time_in) = '$current_date'";
+     $result_total_time_ins = $conn->query($sql_total_time_ins);
+     
+     if ($result_total_time_ins) {
+         $response['total_time_ins'] = $result_total_time_ins->fetch_assoc()['total_time_ins'];
+     } else {
+         throw new Exception('Error fetching total time ins.');
+     }
+     
+     // SQL query to get total time_outs for the current date
+     $sql_total_time_outs = "SELECT COUNT(*) as total_time_outs FROM time_log WHERE DATE(time_out) = '$current_date'";
+     $result_total_time_outs = $conn->query($sql_total_time_outs);
+     
+     if ($result_total_time_outs) {
+         $response['total_time_outs'] = $result_total_time_outs->fetch_assoc()['total_time_outs'];
+     } else {
+         throw new Exception('Error fetching total time outs.');
+     }
+
+     // SQL query to count the total number of borrowers (rows in borrowing table)
+     $sql_total_borrowers = "SELECT COUNT(*) as total_borrowers FROM borrowing";
+     $result_total_borrowers = $conn->query($sql_total_borrowers);
+      
+     if ($result_total_borrowers) {
+         $response['total_borrowers'] = $result_total_borrowers->fetch_assoc()['total_borrowers'];
+     } else {
+         throw new Exception('Error fetching total borrowers.');
+     }
+
     // Send the final combined response
     echo json_encode($response);
 

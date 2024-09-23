@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookRequestService } from '../../../services/book-request.service';
-
+import { AnalyticsService } from '../../../services/analytics.service';
+import { subscribe } from 'diagnostics_channel';
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
@@ -12,11 +13,15 @@ export class AnalyticsComponent implements OnInit {
   itemsPerPage: number = 10;
   currentPage: number = 1;
   totalPages: number = 1;
+  analyticsData: any = {}
 
-  constructor(private bookRequestService: BookRequestService) {}
+
+  constructor(private bookRequestService: BookRequestService, 
+              private analyticsService: AnalyticsService) {}
 
   ngOnInit(): void {
     this.loadRequests();
+    this.loadAnalytics();
   }
 
   loadRequests() {
@@ -49,5 +54,16 @@ export class AnalyticsComponent implements OnInit {
       this.currentPage--;
       this.updatePaginatedRequests();
     }
+  }
+
+  loadAnalytics() {
+    this.analyticsService.getAnalyticsData().subscribe(
+      (data) => {
+        this.analyticsData = data;
+      },
+      (error) => {
+        console.error('Error fetching analytics data', error)
+      }
+    );
   }
 }
