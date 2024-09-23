@@ -18,84 +18,96 @@
     routerLink="/materials">
         <div class="card-body">
           <h2 class="card-title text-black">Total Materials:</h2>
-          <p class="font-bold text-4xl text-gray-950">100</p>
+          <p class="font-bold text-4xl text-gray-950">
+                {{ analyticsData.total_materials || 0 }}</p>
         </div>
       </div>
       <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
       routerLink="/materials">
           <div class="card-body">
             <h2 class="card-title text-black">Total Categories:</h2>
-            <p class="font-bold text-4xl text-gray-950">100</p>
+            <p class="font-bold text-4xl text-gray-950">
+                  {{ analyticsData.total_categories || 0 }}</p>
           </div>
         </div>
         <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
         routerLink="/materials">
             <div class="card-body">
               <h2 class="card-title text-black">Total Students:</h2>
-              <p class="font-bold text-4xl text-gray-950">100</p>
+              <p class="font-bold text-4xl text-gray-950">
+                    {{ analyticsData.user_type_counts.student || 0 }}</p>
             </div>
           </div>
           <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
           routerLink="/materials">
               <div class="card-body">
                 <h2 class="card-title text-black">Total Faculty:</h2>
-                <p class="font-bold text-4xl text-gray-950">100</p>
+                <p class="font-bold text-4xl text-gray-950">
+                    {{ analyticsData.user_type_counts.faculty || 0 }}</p>
               </div>
             </div>
             <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
             routerLink="/materials">
                 <div class="card-body">
                   <h2 class="card-title text-black">Total  Visitors:</h2>
-                  <p class="font-bold text-4xl text-gray-950">100</p>
+                  <p class="font-bold text-4xl text-gray-950">
+                    {{ analyticsData.user_type_counts.visitor || 0 }}</p>
                 </div>
               </div>
               <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
               routerLink="/materials">
-                  <div class="card-body">
-                    <h2 class="card-title text-black">Total Programs:</h2>
-                    <p class="font-bold text-4xl text-gray-950">100</p>
+                <div class="card-body">
+                  <h2 class="card-title text-black">Total Programs:</h2>
+                  <p class="font-bold text-4xl text-gray-950">
+                      {{ analyticsData.total_programs || 0 }}</p>
                   </div>
                 </div>
                 <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
                 routerLink="/materials">
-                    <div class="card-body">
-                      <h2 class="card-title text-black">Total Departments:</h2>
-                      <p class="font-bold text-4xl text-gray-950">100</p>
+                  <div class="card-body">
+                    <h2 class="card-title text-black">Total Departments:</h2>
+                    <p class="font-bold text-4xl text-gray-950">
+                        {{ analyticsData.total_departments || 0 }}</p>
                     </div>
                   </div>
                   <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
                   routerLink="/materials">
-                      <div class="card-body">
-                        <h2 class="card-title text-black">Total Borrowers:</h2>
-                        <p class="font-bold text-4xl text-gray-950">100</p>
+                    <div class="card-body">
+                      <h2 class="card-title text-black">Total Borrowers:</h2>
+                      <p class="font-bold text-4xl text-gray-950">
+                        {{ analyticsData.total_borrowers || 0 }}</p>
                       </div>
                     </div>
                     <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
                     routerLink="/materials">
-                        <div class="card-body">
-                          <h2 class="card-title text-black">Charged materials:</h2>
-                          <p class="font-bold text-4xl text-gray-950">100</p>
+                      <div class="card-body">
+                        <h2 class="card-title text-black">Charged materials:</h2>
+                        <p class="font-bold text-4xl text-gray-950">
+                          {{ analyticsData.total_charged }}</p>
                         </div>
                       </div>
                       <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
                     routerLink="/materials">
-                        <div class="card-body">
-                          <h2 class="card-title text-black">Overdue materials:</h2>
-                          <p class="font-bold text-4xl text-gray-950">100</p>
+                      <div class="card-body">
+                        <h2 class="card-title text-black">Overdue materials:</h2>
+                        <p class="font-bold text-4xl text-gray-950">
+                          {{ analyticsData.total_overdue }}</p>
                         </div>
                       </div>
                       <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
                       routerLink="/materials">
-                          <div class="card-body">
-                            <h2 class="card-title text-black">Time-ins today:</h2>
-                            <p class="font-bold text-4xl text-gray-950">100</p>
+                        <div class="card-body">
+                          <h2 class="card-title text-black">Time-ins today:</h2>
+                          <p class="font-bold text-4xl text-gray-950">
+                            {{ analyticsData.total_time_ins || 0 }}</p>
                           </div>
                         </div>
                         <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
                         routerLink="/materials">
-                            <div class="card-body">
-                              <h2 class="card-title text-black">Time-outs today:</h2>
-                              <p class="font-bold text-4xl text-gray-950">100</p>
+                          <div class="card-body">
+                            <h2 class="card-title text-black">Time-outs today:</h2>
+                            <p class="font-bold text-4xl text-gray-950">
+                              {{ analyticsData.total_time_outs || 0 }}</p>
                             </div>
                           </div>
 </div>

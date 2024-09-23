@@ -75,6 +75,7 @@ import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-
 import { SnackbarComponent } from './admin/snackbar/snackbar.component';
 
 //Services
+import { AnalyticsService } from '../services/analytics.service';
 import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
@@ -248,6 +249,7 @@ import { ClientSnackbarComponent } from './client/client-snackbar/client-snackba
     LibrarianService,
     ChartsService,
     BookRequestService,
+    AnalyticsService,
   ],
   bootstrap: [AppComponent]
 })
