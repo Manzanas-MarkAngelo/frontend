@@ -1,5 +1,5 @@
-<div class="flex items-start justify-center pt-40 pb-[205px] bg-primary">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+<div class="flex items-start justify-center pt-40 bg-primary">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Edit visitor details
@@ -17,7 +17,7 @@
           class="flex-grow 
                  mt-1 
                  block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -38,7 +38,7 @@
                    py-3 
                    px-6 
                    pr-8 
-                   rounded-full 
+                   rounded-xl 
                    leading-tight 
                    focus:outline-none 
                    focus:bg-[#ffb700] 
@@ -82,7 +82,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -99,7 +99,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -118,7 +118,7 @@
             class="w-full 
                    flex 
                    mt-1 
-                   rounded-full 
+                   rounded-xl 
                    border 
                    border-gray-300 
                    px-3 
@@ -136,7 +136,7 @@
           [(ngModel)]="visitor.phone_number"
           class="flex-grow 
                  mt-1 block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -149,33 +149,31 @@
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
         type="button"
-        class="flex-1 
-              bg-primary 
-              text-white 
-              px-6 
-              py-3 
-              rounded-full 
-              font-medium 
-              hover:bg-[#ffb700] 
-              hover:text-black
-              transition 
-              duration-300"
+        class="flex-1
+        bg-red-800
+        text-white 
+        px-6 
+        py-3 
+        rounded-xl 
+        font-medium 
+        hover:bg-red-700
+        transition 
+        duration-300"
         (click)="goBack()">
         Cancel
         </button>
         <button
           type="submit"
           class="flex-1
-                bg-secondary 
-                text-black 
-                px-6 
-                py-3 
-                rounded-full 
-                font-medium 
-                hover:bg-[#801e1d] 
-                hover:text-white 
-                transition 
-                duration-300"
+          bg-green-600 
+          text-white
+          px-6 
+          py-3 
+          rounded-xl 
+          font-medium 
+          hover:bg-green-500
+          transition 
+          duration-300"
           (click)="showConfirmModal()">
           Save Changes
         </button>
@@ -187,7 +185,7 @@
 
 @if(showModal){
   <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
       <h2 class="text-center text-2xl font-medium text-primary mb-3">
         Do you want to save these changes?
       </h2>
@@ -197,29 +195,27 @@
           <button
             (click)="closeConfirmModal()"
             class="flex-1
-                  bg-primary 
+                  bg-red-800
                   text-white 
                   px-6 
                   py-3 
-                  rounded-full 
+                  rounded-xl 
                   font-medium 
-                  hover:bg-[#ffb700] 
-                  hover:text-black 
+                  hover:bg-red-700
                   transition 
                   duration-300">
-            Back
+            Cancel
           </button>
           <button
           (click)="continueEdit()"
             class="flex-1
-                  bg-secondary 
-                  text-black 
+                  bg-green-600 
+                  text-white
                   px-6 
                   py-3 
-                  rounded-full 
+                  rounded-xl 
                   font-medium 
-                  hover:bg-[#801e1d] 
-                  hover:text-white 
+                  hover:bg-green-500
                   transition 
                   duration-300">
             Save changes
