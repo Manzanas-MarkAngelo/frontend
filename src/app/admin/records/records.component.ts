@@ -14,7 +14,7 @@ export class RecordsComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 12;
+  itemsPerPage: number = 14;
   searchTerm: string = '';
   searchSubject: Subject<string> = new Subject<string>(); // For debounced search
 
@@ -104,5 +104,10 @@ export class RecordsComponent implements OnInit {
   // Trigger search with debounce
   onSearchChange(searchTerm: string) {
     this.searchSubject.next(searchTerm); // Pass the search term to the debounced subject
+  }
+
+  clearLogType() {
+    this.setLogType('student');
+    this.searchTerm = ''; // Clear the search term
   }
 }

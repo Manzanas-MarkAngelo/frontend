@@ -31,6 +31,9 @@ export class BooksComponent implements OnInit {
   sortField: string = 'date_added'; // Default sort field
   sortOrder: string = 'DESC'; // Default sort order
 
+    // Checkbox logic
+    selectAllChecked: boolean = false; // Header checkbox state
+
   constructor(private materialsService: MaterialsService, private router: Router) {}
 
   ngOnInit() {
@@ -47,6 +50,19 @@ export class BooksComponent implements OnInit {
       this.totalPages = response.totalPages;
     });
   }
+
+    // Checkbox Selection Logic
+
+    toggleAllSelection(event: any) {
+      const isChecked = event.target.checked;
+      this.materials.forEach(material => {
+        material.selected = isChecked;
+      });
+    }
+  
+    checkIfAllSelected() {
+      this.selectAllChecked = this.materials.every(material => material.selected);
+    }
 
   loadMaterials() {
     if (this.searchTerm) {

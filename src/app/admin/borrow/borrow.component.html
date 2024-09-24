@@ -135,8 +135,8 @@
   @if (materials.length >0 ) {
     <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto slide-in-right mb-5">
       <table class="table w-full text-xs md:text-sm">
-        <thead>
-          <tr class="text-primary text-center">
+        <thead class="cursor-pointer">
+          <tr class="text-primary text-center text-sm">
             <th (click)="sortMaterials('accnum')">
               Accession Number ↕
               <span *ngIf="sortField === 'accnum'" class="sort-arrow">
@@ -179,7 +179,7 @@
                 <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
               </span>
             </th>
-            <th>Status</th>
+            <th class="cursor-not-allowed">Status</th>
           </tr>
         </thead>
         <tbody class="text-start text-sm">

@@ -1,10 +1,10 @@
 <div class="flex flex-col w-full bg-primary items-center pt-2">
     <div class="flex flex-row flex-wrap w-11/12 lg:w-5/6 mt-1 justify-between gap-1 mb-3">
-        <div class="flex flex-row w-full md:w-1/2 gap-2">
+        <div class="flex flex-row w-full md:w-1/2 gap-1">
           <input 
           type="text" 
           placeholder="Search here" 
-          class="input input-bordered w-full rounded-xl text-lg font-medium 
+          class="input input-bordered w-1/2 rounded-xl text-lg font-medium 
                  text-primary slide-in-left bg-white"
           [(ngModel)]="searchTerm"
           (input)="onSearch()" />
@@ -17,6 +17,12 @@
         >
           Clear
         </button>
+        <button
+        type="button"
+        disabled
+        class="h-[3rem] bg-secondary text-black rounded-xl px-4 font-medium slide-in-right ">
+        Delete material
+      </button>
           </div>
           
         <div class="flex flex-row w-auto flex-wrap gap-1">
@@ -87,6 +93,13 @@
                 <table class="table w-full">
                     <thead class="cursor-pointer">
                         <tr class="text-primary text-center text-sm">
+                          <th class="text-start">
+                            <input 
+                              type="checkbox" 
+                              class="cursor-pointer"
+                              [(ngModel)]="selectAllChecked" 
+                              (change)="toggleAllSelection($event)" />
+                          </th>
                             <th (click)="sortMaterials('status')">Status ↕
                                 <span *ngIf="sortField === 'status'" class="sort-arrow">
                                     <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
@@ -134,6 +147,13 @@
                     </thead>
                     <tbody class="text-start">
                     <tr *ngFor="let material of materials">
+                        <td>
+                          <input 
+                            type="checkbox" 
+                            class="cursor-pointer"
+                            [(ngModel)]="material.selected" 
+                            (change)="checkIfAllSelected()" />
+                        </td>
                         <td>{{ material.status }}</td>
                         <td>{{ material.accnum }}</td>
                         <td>
