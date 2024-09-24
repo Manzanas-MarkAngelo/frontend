@@ -21,6 +21,7 @@ export class BooksComponent implements OnInit {
   showModal: boolean = false;
   selectedMaterialId: number | null = null;
   selectedMaterialTitle = '';
+  isDisabled = true;
 
   categoryPlaceholder: string = 'Choose category';
   categories: { mat_type: string, accession_no: string }[] = [];
@@ -51,18 +52,18 @@ export class BooksComponent implements OnInit {
     });
   }
 
-    // Checkbox Selection Logic
+  // Checkbox Selection Logic
 
-    toggleAllSelection(event: any) {
-      const isChecked = event.target.checked;
-      this.materials.forEach(material => {
-        material.selected = isChecked;
-      });
-    }
+  toggleAllSelection(event: any) {
+    const isChecked = event.target.checked;
+    this.materials.forEach(material => {
+      material.selected = isChecked;
+    });
+  }
   
-    checkIfAllSelected() {
-      this.selectAllChecked = this.materials.every(material => material.selected);
-    }
+  checkIfAllSelected() {
+    this.selectAllChecked = this.materials.every(material => material.selected);
+  }
 
   loadMaterials() {
     if (this.searchTerm) {

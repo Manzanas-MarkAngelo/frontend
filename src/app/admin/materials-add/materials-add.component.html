@@ -1,11 +1,11 @@
 <div class="flex flex-col w-full px-1 md:px-14 pt-20 bg-primary justify-center items-center">
-  <div class="flex flex-col w-3/4">
+  <div class="flex flex-col w-full lg:w-1/2">
     <div class="w-full">
       <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
         <span class="text-white text-3xl ml-3">Add a material:</span>
       </div>
     </div>
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full h-full mb-40 slide-in-right">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full h-full slide-in-right">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
         Material details
       </h1>
@@ -37,19 +37,15 @@
                 type="hidden"
                 [(ngModel)]="bookDetails.category" />
               <div class="flex-1 relative">
-                <div class="dropdown dropdown-end w-full">
+                <div class="dropdown dropdown-left w-full">
                   <div
                     tabindex="0" role="button"
                     class="btn w-full bg-secondary border-none text-black text-lg hover:bg-[#ffb700] rounded-box flex items-center justify-between"
                     (click)="toggleDropdown()">
-                    <span>{{ selectedCategory?.mat_type || 'Select Category' }}</span>
-                    <!-- Down Arrow Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <span>{{ selectedCategory?.mat_type || 'Select material category' }}</span>
                   </div>
                   <ul tabindex="0" *ngIf="isDropdownOpen"
-                      class="dropdown-content menu bg-secondary rounded-box z-[1] w-full p-2 shadow text-lg font-medium text-black">
+                      class="dropdown-content menu bg-secondary rounded-box z-[1] w-full text-base font-medium text-black">
                     <li *ngFor="let category of categories">
                       <a (click)="selectCategory(category.cat_id, category.mat_type)" 
                          class="block px-4 py-2 hover:bg-[#ffb700] hover:text-black">
@@ -176,7 +172,7 @@
             placeholder="Publisher"
             [(ngModel)]="bookDetails.publisher" required />
         </div>
-        <div class="mb-4 mt-1 flex items-center space-x-4">
+        <div class="mb-4 mt-1 flex items-center space-x-2">
           <!-- ISBN -->
           <input
             id="isbn"
@@ -198,7 +194,7 @@
           <!-- Back button -->
           <button
             type="button"
-            class="w-1/5
+            class="w-1/4
                    bg-primary 
                    text-white 
                    px-4 
@@ -217,7 +213,7 @@
           <button
             type="button"
             (click)="openConfirmModal()"
-            class="w-[30%] 
+            class="w-1/4 
                    bg-secondary 
                    text-black 
                    px-4 

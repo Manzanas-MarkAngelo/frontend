@@ -121,6 +121,7 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
 import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
 import { BookRequestService } from '../services/book-request.service';
 import { ClientSnackbarComponent } from './client/client-snackbar/client-snackbar.component';
+import { RequestComponent } from './admin/request/request.component';
 
 
 @NgModule({
@@ -210,6 +211,7 @@ import { ClientSnackbarComponent } from './client/client-snackbar/client-snackba
     NavbarAdminComponent,
     NavbarSuperAdminComponent,
     ClientSnackbarComponent,
+    RequestComponent,
 
   ],
   imports: [

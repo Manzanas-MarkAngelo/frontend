@@ -1,23 +1,35 @@
-<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary">
-  <div class="flex flex-col md:flex-row w-full py-3 rounded-t-xl gap-2">
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary items-center">
+  <div class="flex flex-col md:flex-row w-full lg:w-11/12 py-3 rounded-t-xl gap-2">
     <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
-      <div class="flex flex-row w-full md:w-1/2 gap-2">
+      <div class="flex flex-row w-full md:w-1/2 gap-1">
         <input 
         type="text" 
         placeholder="Search here" 
-        class="input input-bordered w-full rounded-xl text-lg font-medium 
+        class="input input-bordered w-3/4 rounded-xl text-lg font-medium 
                text-primary slide-in-left bg-white"
         [(ngModel)]="searchTerm"
         (input)="onSearch()" />
       
       <button
         type="button"
-        class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+        class="h-[3rem] w-auto bg-white text-primary rounded-xl px-4 font-medium 
                hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
         (click)="clearSearch()"
       >
         Clear
       </button>
+      <button
+      type="button"
+      [ngClass]="{
+        'bg-secondary text-black cursor-pointer': !isDisabled,
+        'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
+      }"
+      class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
+      [disabled]="isDisabled"
+    >
+      Weed out
+    </button>
+    
         </div>
         
       <div class="flex flex-row w-auto flex-wrap gap-1">
@@ -84,12 +96,19 @@
     </div>
   </div>
   @if (materials.length > 0) {
-    <div class="p-3 bg-white text-black rounded-xl w-full mb-4 slide-in-right">
+    <div class="p-3 bg-white text-black rounded-xl w-full lg:w-11/12 mb-4 slide-in-right">
       <div class="overflow-x-auto">
         <table class="table w-full text-xs md:text-sm ">
           <thead class="cursor-pointer">
-            <tr class="text-primary text-center text-sm">
-              <th (click)="sortMaterials('accnum')">Accssion Number ↕
+            <tr class="text-primary text-sm">
+              <th class="text-start">
+                <input 
+                  type="checkbox" 
+                  class="cursor-pointer"
+                  [(ngModel)]="selectAllChecked" 
+                  (change)="toggleAllSelection($event)" />
+              </th>
+              <th (click)="sortMaterials('accnum')">Accession Number ↕
                   <span *ngIf="sortField === 'categoryid'" class="sort-arrow">
                     <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
                     <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
@@ -137,6 +156,13 @@
           <tbody class="text-start text-sm">
             @for (material of materials; track $index) {
               <tr>
+                <td>
+                  <input 
+                    type="checkbox" 
+                    class="cursor-pointer"
+                    [(ngModel)]="material.selected" 
+                    (change)="checkIfAllSelected()" />
+                </td>
                 <td>{{ material.accnum }}</td>
                 <td>
                   <a
@@ -153,7 +179,7 @@
                 <td>{{ material.status }}</td>
                 <td class="text-center">
                   <button
-                    class="bg-primary text-white border-none shadow-none btn-sm rounded-xl font-medium"
+                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium"
                     [routerLink]="['/materials-edit', material.accnum]"
                   >
                     Edit
