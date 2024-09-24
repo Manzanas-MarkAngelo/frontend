@@ -1,5 +1,5 @@
 <div class="flex flex-col w-full bg-primary items-center pt-2">
-    <div class="flex flex-row flex-wrap w-11/12 lg:w-5/6 mt-1 justify-between gap-1 mb-3">
+    <div class="flex flex-row flex-wrap w-[95%] lg:w-11/12 mt-1 justify-between gap-1 mb-3 mx-5">
         <div class="flex flex-row w-full md:w-1/2 gap-1">
           <input 
           type="text" 
@@ -9,20 +9,26 @@
           [(ngModel)]="searchTerm"
           (input)="onSearch()" />
         
-        <button
+          <button
           type="button"
-          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+          class="h-[3rem] w-auto bg-white text-primary rounded-xl px-4 font-medium 
                  hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
           (click)="clearSearch()"
         >
           Clear
         </button>
-        <button
-        type="button"
-        disabled
-        class="h-[3rem] bg-secondary text-black rounded-xl px-4 font-medium slide-in-right ">
-        Delete material
-      </button>
+      <button
+      type="button"
+      [ngClass]="{
+        'bg-secondary text-black cursor-pointer': !isDisabled,
+        'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
+      }"
+      class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
+      [disabled]="isDisabled"
+    >
+      Delete material
+    </button>
+
           </div>
           
         <div class="flex flex-row w-auto flex-wrap gap-1">
@@ -63,6 +69,18 @@
           hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right">
           Material type
         </button>
+
+        <button
+        type="button"
+        [ngClass]="{
+          'bg-secondary text-black cursor-pointer': !isDisabled,
+          'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
+        }"
+        class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
+        [disabled]="isDisabled"
+      >
+        Weed out
+      </button>
   
             <div class="flex justify-between items-center gap-5 slide-in-right mb-1">
               <span class="text-lg font-medium ml-3 text-white">
@@ -88,11 +106,11 @@
         </div>
       </div>
     @if (materials.length > 0 ) {
-        <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-5/6 slide-in-right mb-5">
+        <div class="p-4 bg-white text-black rounded-xl w-[95%] lg:w-11/12 slide-in-right mb-5">
             <div class="overflow-x-auto">
                 <table class="table w-full">
                     <thead class="cursor-pointer">
-                        <tr class="text-primary text-center text-sm">
+                        <tr class="text-primary text-sm">
                           <th class="text-start">
                             <input 
                               type="checkbox" 
@@ -142,7 +160,7 @@
                                     <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
                                 </span>
                             </th>
-                            <th>Action</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody class="text-start">
@@ -179,7 +197,7 @@
                                     [routerLink]="['/materials-edit', material.accnum]">
                                 Edit
                             </button>
-                            <button class="bg-primary 
+                            <!-- <button class="bg-primary 
                                           text-white 
                                           border-none 
                                           shadow-none 
@@ -188,7 +206,7 @@
                                           font-medium"
                                     (click)="showConfirmModal(material.id, material.title)">
                                 Delete
-                            </button>
+                            </button> -->
                         </td>
                     </tr>
                     </tbody>
