@@ -21,6 +21,7 @@ export class MaterialsComponent {
   showModal: boolean = false;
   selectedMaterialId: number | null = null;
   selectedMaterialTitle = '';
+  isDisabled = true;
 
   categoryPlaceholder: string = 'Choose category';
   categories: { mat_type: string, accession_no: string }[] = [];
@@ -30,6 +31,9 @@ export class MaterialsComponent {
 
   sortField: string = 'date_added'; // Default sort field
   sortOrder: string = 'DESC'; // Default sort order
+
+  // Checkbox logic
+  selectAllChecked: boolean = false; // Header checkbox state
 
   constructor(private materialsService: MaterialsService, private router: Router) {}
 
@@ -46,6 +50,19 @@ export class MaterialsComponent {
       this.totalItems = response.totalItems;
       this.totalPages = response.totalPages;
     });
+  }
+
+  // Checkbox Selection Logic
+
+  toggleAllSelection(event: any) {
+    const isChecked = event.target.checked;
+    this.materials.forEach(material => {
+      material.selected = isChecked;
+    });
+  }
+    
+  checkIfAllSelected() {
+    this.selectAllChecked = this.materials.every(material => material.selected);
   }
 
   loadMaterials() {
