@@ -73,6 +73,7 @@ import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
 import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
 import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
+import { RequestComponent } from './admin/request/request.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -150,7 +151,7 @@ const routes: Routes = [
   { path: 'navbar-client', component: NavbarClientComponent },
   { path: 'navbar-admin', component: NavbarAdminComponent },
   { path: 'navbar-superadmin', component: NavbarSuperAdminComponent },
-
+  { path: 'request', component: RequestComponent },
 ];
 
 @NgModule({
