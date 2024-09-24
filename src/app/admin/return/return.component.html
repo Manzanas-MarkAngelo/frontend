@@ -68,7 +68,7 @@
       <div class="overflow-x-auto">
         <table class="table w-full text-xs md:text-sm">
           <thead>
-            <tr class="text-primary text-center">
+            <tr class="text-primary text-sm">
               <th>Name</th>
               <th>Course/Department</th>
               <th>Title</th>
@@ -76,7 +76,7 @@
               <th>Date borrowed</th>
               <th>Due Date</th>
               <th>Remarks</th>
-              <th>Action</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody class="text-start">
@@ -89,34 +89,34 @@
                 <td>{{ item.dateBorrowed | date: 'MM/dd/yyyy' }}</td>
                 <td>{{ item.dueDate | date: 'MM/dd/yyyy' }}</td>
                 <td>{{ item.remarks }}</td>
-                <td>
+                <td class="text-center">
                   @if (item.remarks === 'In Progress') {
                     <button
-                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
+                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium"
                       [routerLink]="['/return-warning', item.material_id]">
                       Return
                     </button>             
                   } @else if (item.remarks === 'Overdue') {
                     <button 
-                      class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium"
+                      class="bg-primary text-white border-none shadow-none btn-sm rounded-xl font-medium"
                       (click)="generatePenaltyReceipt(item)">
                       Penalty
                     </button>
                   } @else if (item.remarks === 'Processing') {
                     <button 
-                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium"
+                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium"
                       [routerLink]="['/return-warning', item.material_id]">
                       Return
                     </button>
                   } @else if (item.remarks === 'Returned') {
                     <button 
-                      class="bg-gray-400 text-white border-none shadow-none btn-sm rounded-full font-medium" 
+                      class="bg-gray-400 text-white border-none shadow-none btn-sm rounded-xl font-medium" 
                       disabled>
                       Returned
                     </button>
                   } @else if (item.remarks === 'Returned Late') {
                     <button 
-                      class="bg-gray-600 text-white border-none shadow-none btn-sm rounded-full font-medium" 
+                      class="bg-gray-600 text-white border-none shadow-none btn-sm rounded-xl font-medium" 
                       disabled>
                       Returned
                     </button>
