@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['cat_id'])) {
             $accession_no = $row['accession_no'];
 
             // Add all counters except fiction and then add 1
-            $sql_all_counters = "SELECT SUM(counter) AS total_counter FROM category WHERE cat_id != 22";
+            $sql_all_counters = "SELECT SUM(counter) AS total_counter FROM category WHERE cat_type != 'Fiction' ";
             $result_counters = $conn->query($sql_all_counters);
             $total_counter = $result_counters->fetch_assoc()['total_counter'];
 
