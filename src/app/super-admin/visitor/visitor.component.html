@@ -57,8 +57,9 @@
           <tr class="text-primary text-sm">
             <th>Name</th>
             <th>Gender</th>
-            <th>Contact Number</th>
             <th>School</th>
+            <th>Contact Number</th>
+            <th>Email</th>
             <th>Identifier</th>
             <th class="text-center">Action</th>
           </tr>
@@ -67,8 +68,9 @@
           <tr *ngFor="let record of logs">
             <td>{{ record.name }}</td>
             <td>{{ record.gender }}</td>
-            <td>{{ record.phone_number }}</td>
             <td>{{ record.school }}</td>
+            <td>{{ record.phone_number }}</td>
+            <td>emailexampletestingsampleagmail.com</td>
             <td>{{ record.identifier }}</td>
             <td class="text-center">
               <button 
