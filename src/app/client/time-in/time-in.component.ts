@@ -11,6 +11,7 @@ export class TimeInComponent {
   selectedRole: string = 'Student';
   placeholderText: string = 'Enter your Student number here';
   identifier: string = '';
+  isSubmitting: boolean = false;  // Flag to prevent double submission
 
   constructor(private timeLogService: TimeLogService, private router: Router) { }
 
@@ -25,18 +26,30 @@ export class TimeInComponent {
   }
 
   onSubmit() {
-    this.timeLogService.checkUser(this.selectedRole, this.identifier).subscribe(response => {
-      if (response.registered) {
-        if (response.already_timed_in) {
-          this.router.navigate(['/timein-already']);
-        } else {
-          this.timeLogService.logTimeIn(response.user_id).subscribe(() => {
-            this.router.navigate(['/timein-success']);
-          });
-        }
-      } else {
-        this.router.navigate(['/unregistered']);
-      }
-    });
-  }
+  if (this.isSubmitting) return;  // Prevent double submission
+     this.isSubmitting = true;  // Set flag to true before submitting
+    
+     this.timeLogService.checkUser(this.selectedRole, this.identifier).subscribe({
+       next: (response) => {
+         if (response.registered) {
+           if (response.already_timed_in) {
+             this.router.navigate(['/timein-already']);
+           } else {
+             this.timeLogService.logTimeIn(response.user_id).subscribe(() => {
+               this.router.navigate(['/timein-success']);
+               this.isSubmitting = false;  // Reset flag after success
+             }, () => {
+               this.isSubmitting = false;  // Reset flag if error occurs
+             });
+           }
+         } else {
+           this.router.navigate(['/unregistered']);
+           this.isSubmitting = false;  // Reset flag after navigation
+         }
+       },
+       error: () => {
+         this.isSubmitting = false;  // Reset flag on error
+       }
+     });
+   }
 }
