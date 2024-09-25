@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AddMaterialService } from '../../../services/add-material.service';
 import { MaterialsService } from '../../../services/materials.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-materials-add',
@@ -10,6 +11,8 @@ import { Location } from '@angular/common';
   styleUrls: ['./materials-add.component.css']
 })
 export class MaterialsAddComponent {
+  @ViewChild('bookForm') bookForm!: NgForm;  // Reference to the form
+
   bookDetails = {
     title: '',
     heading: '',
@@ -36,6 +39,8 @@ export class MaterialsAddComponent {
   isDropdownOpen = false; 
   selectedCategory: { cat_id: number, mat_type: string } | null = null;  // To display mat_type in dropdown
   categories: { cat_id: number, mat_type: string }[] = [];  // Holds cat_id and mat_type
+  showTooltip = false;
+  continueButtonClicked = false;
 
   ngOnInit(): void {
     // Fetch categories from the database
@@ -51,9 +56,30 @@ export class MaterialsAddComponent {
   }
 
   openConfirmModal() {
-    this.showModal = true;
-    console.log('Modal opened');
+    this.continueButtonClicked = true;
+  
+    // List of form control names to validate
+    const controlsToValidate = [
+      'title', 'category', 'author', 'heading', 'copyright', 
+      'callnum', 'edition', 'publisher', 'isbn'
+    ];
+  
+    // Mark each control as touched if it's invalid
+    controlsToValidate.forEach(controlName => {
+      const control = this.bookForm.controls[controlName];
+      if (control && control.invalid) {
+        control.markAsTouched();
+      }
+    });
+  
+    // Check if form is valid and category is not invalid
+    if (this.bookForm.valid && !this.bookForm.controls['category'].invalid) {
+      this.showModal = true;
+      console.log('Modal opened');
+      this.continueButtonClicked = false;
+    }
   }
+  
 
   goBack(): void {
     this.location.back();
@@ -64,21 +90,40 @@ export class MaterialsAddComponent {
     console.log('Modal closed');
   }
 
+  isSubmitting: boolean = false;  // Flag to prevent multiple submissions
+
   saveBook() {
+    if (this.isSubmitting) {
+      return;  // Exit early if a submission is in progress
+    }
+  
+    this.isSubmitting = true;  // Set flag to true once submission starts
+  
     console.log(this.bookDetails);  // Check if category is correctly set
-    this.addMaterialService.addBook(this.bookDetails).subscribe(response => {
-      console.log(response);
-      this.closeConfirmModal();
-      // Handle success
-      this.router.navigate(['/add-success']);
+  
+    this.addMaterialService.addBook(this.bookDetails).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.closeConfirmModal();
+        // Handle success
+        this.router.navigate(['/add-success']);
+      },
+      error: (error) => {
+        console.error('Error adding material:', error);
+        // Optionally reset the flag on error
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        this.isSubmitting = false;  // Reset the flag once the submission completes
+      }
     });
   }
+  
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  // Updated selectCategory to fetch accession number based on the selected category
   selectCategory(cat_id: number, mat_type: string): void {
     this.bookDetails.category = cat_id.toString();  // Set the category ID in bookDetails
     this.selectedCategory = { cat_id, mat_type };  // Display selected mat_type in dropdown
