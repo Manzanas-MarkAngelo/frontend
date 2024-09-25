@@ -74,7 +74,7 @@
                     class="flex items-center"
                   >
                     <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4"/>
-                    <span class="tooltip">Please select a category.</span>
+                    <span class="tooltip" id="category_tooltip">Please select a category.</span>
                   </span>
                 </div>
                 
@@ -317,7 +317,7 @@
             (mouseleave)="showTooltip = false"
           >
             <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
-            <span class="tooltip">Edition cannot be empty.</span>
+            <span class="tooltip">Publisher cannot be empty.</span>
           </span>
         </div>
 
@@ -342,22 +342,22 @@
                    text-lg"
             placeholder="ISBN"
             [(ngModel)]="bookDetails.isbn"
-            #isbnherInput="ngModel"
-            (blur)="isbnherInput.control.markAsTouched()"
+            #isbnInput="ngModel"
+            (blur)="isbnInput.control.markAsTouched()"
             [ngClass]="{'border-red-500 focus:border-red-500': 
-                isbnherInput.invalid && isbnherInput.touched}"
+                isbnInput.invalid && isbnInput.touched}"
             required 
           />
           
           <!-- Exclamation icon shown if input is invalid -->
           <span
-            *ngIf="isbnherInput.invalid && isbnherInput.touched"
+            *ngIf="isbnInput.invalid && isbnInput.touched"
             class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
             (mouseenter)="showTooltip = true"
             (mouseleave)="showTooltip = false"
           >
             <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
-            <span class="tooltip">Edition cannot be empty.</span>
+            <span class="tooltip">ISBN cannot be empty.</span>
           </span>
         </div>
           <!-- Back button -->
