@@ -105,6 +105,7 @@ import { EditDepartmentComponent } from './super-admin/edit-department/edit-depa
 import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 import { CourseService } from '../services/course.service';
+import { ChartsService } from '../services/charts.service';
 import { DepartmentService } from '../services/department.service';
 import { LibrarianService } from '../services/librarian.service';
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
@@ -112,6 +113,8 @@ import { MostBorrowedComponent } from './admin/analytics/most-borrowed/most-borr
 import { TopUsersComponent } from './admin/analytics/top-users/top-users.component';
 import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
 import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
+import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein/top-ten-user-timein.component';
+import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 
 
 
@@ -196,6 +199,8 @@ import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-categor
     TopUsersComponent,
     MonthlyUsersComponent,
     MonthlyCategoryDonutComponent,
+    TopTenUserTimeinComponent,
+    EditTypeComponent,
 
   ],
   imports: [
@@ -233,6 +238,7 @@ import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-categor
     CourseService,
     DepartmentService,
     LibrarianService,
+    ChartsService,
   ],
   bootstrap: [AppComponent]
 })

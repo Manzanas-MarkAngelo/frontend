@@ -68,6 +68,8 @@ import { AddDepartmentSuccessComponent } from './super-admin/add-department-succ
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
 import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
 import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
+import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein/top-ten-user-timein.component';
+import { EditTypeComponent } from './admin/edit-type/edit-type.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -138,8 +140,11 @@ const routes: Routes = [
   { path: 'add-successful', component: AddSuccessfulComponent },
   { path: 'add-department-success', component: AddDepartmentSuccessComponent },
   { path: 'analytics', component: AnalyticsComponent },
-  {path: 'monthly-users', component: MonthlyUsersComponent},
-  {path: 'category-donut',component: MonthlyCategoryDonutComponent},
+  { path: 'monthly-users', component: MonthlyUsersComponent},
+  { path: 'category-donut',component: MonthlyCategoryDonutComponent},
+  { path: 'top-users', component: TopTenUserTimeinComponent},
+  { path: 'edit-type/:cat_id', component: EditTypeComponent },
+
 ];
 
 @NgModule({

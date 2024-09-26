@@ -3,21 +3,38 @@
     <div class="flex flex-row w-full h-30rem">
       <div class="flex flex-col items-center justify-center gap-4 slide-in-left">
         <img src="../../../assets/profile3.jpg" alt="profile-picture" class="w-[40rem] h-72">
-        <button 
-          type="submit"
-          (click)="toggleEditMode()"
-          class="w-60 
-                 bg-secondary 
-                 text-black 
-                 px-4 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 transition 
-                 duration-300 
-                 mb-5">
-          {{ isEditMode ? 'Save Changes' : 'Edit' }}
-        </button>
+        <div class="flex gap-4">
+          <button 
+            type="submit"
+            (click)="toggleEditMode()"
+            class="w-60 
+                   bg-secondary 
+                   text-black 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   transition 
+                   duration-300 
+                   mb-5">
+            {{ isEditMode ? 'Save Changes' : 'Edit' }}
+          </button>
+          <button 
+            *ngIf="isEditMode" 
+            (click)="cancelChanges()" 
+            class="w-60 
+                   bg-red-500 
+                   text-white 
+                   px-4 
+                   py-3 
+                   rounded-full 
+                   font-medium 
+                   transition 
+                   duration-300 
+                   mb-5">
+            Cancel
+          </button>
+        </div>
       </div>
 
       <div class="flex flex-col w-3/4 slide-in-right">
@@ -30,6 +47,7 @@
             placeholder="Librarian">
           <span class="text-white">Librarian</span>
         </div>
+
         <div class="flex flex-col w-full justify-center items-start">
           <input 
             type="text" 
@@ -39,6 +57,7 @@
             placeholder="Email">
           <span class="text-white">Email</span>
         </div>
+
         <div class="flex flex-col w-full justify-center items-start">
           <input 
             type="text" 
@@ -48,6 +67,7 @@
             placeholder="Telephone number">
           <span class="text-white">Telephone number</span>
         </div>
+
         <div class="flex flex-col w-full justify-center items-start">
           <input 
             type="text" 
@@ -71,20 +91,186 @@
         placeholder="Username">
       <span class="text-white">Username</span>
     </div>
+
     <div class="flex flex-col w-full justify-center items-start">
-      <!-- <input 
+      <input 
         type="password" 
-        class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
-        [(ngModel)]="librarianData.password" 
-        [readonly]="!isEditMode"
-        placeholder="Password"> -->
-        <input 
-        type="password" 
-        class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
-        [(ngModel)]="librarianData.password" 
-        readonly
+        class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2"
+        [readonly]="true"
+        [value]="displayedPassword"
+        *ngIf="!isEditMode"
         placeholder="Password">
-      <span class="text-white">Password</span>
+
+      <span *ngIf="!isEditMode" class="text-white">Password</span>
+      
+      <div class="relative" *ngIf="isEditMode && passwordStage === 'enterCurrent'">
+        <input 
+          [type]="currentPasswordVisible ? 'text' : 'password'" 
+          class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+          [(ngModel)]="currentPasswordInput" 
+          placeholder="Enter Current Password"
+          (keyup.enter)="handlePasswordInput()"
+        >
+        <span
+          class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          (click)="toggleCurrentPasswordVisibility()">
+          <ng-container *ngIf="!currentPasswordVisible">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="currentPasswordVisible">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+            </svg>
+          </ng-container>
+        </span>
+
+        <span class="text-white mt-1">Current Password</span>
+      </div>
+
+      <div class="relative" *ngIf="isEditMode && passwordStage === 'enterNew'">
+        <input 
+          [type]="newPasswordVisible ? 'text' : 'password'" 
+          class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+          [(ngModel)]="newPasswordInput" 
+          placeholder="Enter New Password"
+          (keyup.enter)="handlePasswordInput()"
+        >
+        <span
+          class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          (click)="toggleNewPasswordVisibility()">
+          <ng-container *ngIf="!newPasswordVisible">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="newPasswordVisible">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+            </svg>
+          </ng-container>
+        </span>
+
+        <span class="text-white mt-1">New Password</span>
+
+        <ul class="text-white mt-2">
+          <li [class.text-green-500]="isPasswordLongEnough()" [class.text-red-500]="!isPasswordLongEnough()">
+            Must be at least 8 characters long
+          </li>
+          <li [class.text-green-500]="hasUpperAndLowerCase()" [class.text-red-500]="!hasUpperAndLowerCase()">
+            Must contain an uppercase and a lowercase letter (A, z)
+          </li>
+          <li [class.text-green-500]="hasNumber()" [class.text-red-500]="!hasNumber()">
+            Must contain a number
+          </li>
+          <li [class.text-green-500]="hasSpecialCharacter()" [class.text-red-500]="!hasSpecialCharacter()">
+            Must contain a special character (!, %, &#64;, #, etc.)
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative" *ngIf="isEditMode && passwordStage === 'confirmNew'">
+        <input 
+          [type]="confirmNewPasswordVisible ? 'text' : 'password'" 
+          class="w-full h-20 text-4xl bg-primary text-secondary border-white border-b-2" 
+          [(ngModel)]="confirmNewPasswordInput" 
+          placeholder="Re-Enter New Password"
+          (keyup.enter)="handlePasswordInput()"
+        >
+        <span
+          class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          (click)="toggleConfirmNewPasswordVisibility()">
+          <ng-container *ngIf="!confirmNewPasswordVisible">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="confirmNewPasswordVisible">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+            </svg>
+          </ng-container>
+        </span>
+
+        <span class="text-white mt-1">Confirm New Password</span>
+      </div>
+
+      <div *ngIf="passwordStage === 'complete'" class="text-green-500 text-xl mt-2">
+        Password Ready To Save
+      </div>
+
+    </div>    
+  </div>
+</div>
+
+<div *ngIf="showIncorrectPasswordModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Incorrect Password
+    </h2>
+    <p class="text-center text-gray-500">The password you entered is incorrect. Please try again.</p>
+    <div class="flex flex-row gap-4 w-full mt-4">
+      <button
+        (click)="hideIncorrectPasswordModal()"
+        class="flex-1 bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300">
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showPasswordConfirmedModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Password Confirmed
+    </h2>
+    <p class="text-center text-gray-500">Password confirmed. You can now save changes.</p>
+    <div class="flex flex-row gap-4 w-full mt-4">
+      <button
+        (click)="hidePasswordConfirmedModal()"
+        class="flex-1 bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300">
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showPasswordMismatchModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Password Mismatch
+    </h2>
+    <p class="text-center text-gray-500">The passwords do not match. Please try again.</p>
+    <div class="flex flex-row gap-4 w-full mt-4">
+      <button
+        (click)="hidePasswordMismatchModal()"
+        class="flex-1 bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300">
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showSaveChangesSuccessModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Changes Saved
+    </h2>
+    <p class="text-center text-gray-500">Changes saved successfully.</p>
+    <div class="flex flex-row gap-4 w-full mt-4">
+      <button
+        (click)="hideSaveChangesSuccessModal()"
+        class="flex-1 bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300">
+        OK
+      </button>
     </div>
   </div>
 </div>

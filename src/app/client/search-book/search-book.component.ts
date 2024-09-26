@@ -13,34 +13,33 @@ export class SearchBookComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 13;
+  itemsPerPage: number = 10;
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
+  showModal: boolean = false;
+  selectedMaterialId: number | null = null;
+  selectedMaterialTitle = '';
 
   categoryPlaceholder: string = 'Choose category';
+  categories: { mat_type: string, accession_no: string }[] = [];
 
-  constructor(private materialsService: MaterialsService, 
-      private router: Router) {}
+  snackBarVisible: boolean = false;
+  snackBarMessage: string = '';
 
-  navigateToDetails(accnum: string) {
-    this.router.navigate(['/borrow-info', accnum]);
-  }
+  sortField: string = 'date_added'; // Default sort field
+  sortOrder: string = 'DESC'; // Default sort order
+
+  constructor(private materialsService: MaterialsService, private router: Router) {}
 
   ngOnInit() {
-    this.loadMaterials();
+    this.loadMaterials(); 
+    this.loadCategories(); 
+
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(term => {
-        if (this.category) {
-          return this.materialsService.searchMaterialsByCategory(term, 
-              this.category, this.currentPage, this.itemsPerPage);
-        } else {
-          return this.materialsService.searchMaterials(term, 
-              this.currentPage, this.itemsPerPage);
-        }
-      })
+      switchMap(term => this.getMaterials(term))
     ).subscribe(response => {
       this.materials = response.data;
       this.totalItems = response.totalItems;
@@ -51,38 +50,84 @@ export class SearchBookComponent implements OnInit {
   loadMaterials() {
     if (this.searchTerm) {
       if (this.category) {
-        this.materialsService.searchMaterialsByCategory(this.searchTerm, 
-              this.category, this.currentPage, this.itemsPerPage)
-          .subscribe(response => {
-            this.materials = response.data;
-            this.totalItems = response.totalItems;
-            this.totalPages = response.totalPages;
-          });
+        this.materialsService.searchMaterialsByCategory(
+          this.searchTerm, 
+          this.category, 
+          this.currentPage, 
+          this.itemsPerPage, 
+          this.sortField, 
+          this.sortOrder
+        ).subscribe(response => {
+          this.materials = response.data;
+          this.totalItems = response.totalItems;
+          this.totalPages = response.totalPages;
+        });
       } else {
-        this.materialsService.searchMaterials(this.searchTerm, 
-              this.currentPage, this.itemsPerPage)
-          .subscribe(response => {
-            this.materials = response.data;
-            this.totalItems = response.totalItems;
-            this.totalPages = response.totalPages;
-          });
+        this.materialsService.searchMaterials(
+          this.searchTerm, 
+          this.currentPage, 
+          this.itemsPerPage, 
+          this.sortField, 
+          this.sortOrder
+        ).subscribe(response => {
+          this.materials = response.data;
+          this.totalItems = response.totalItems;
+          this.totalPages = response.totalPages;
+        });
       }
     } else if (this.category) {
-      this.materialsService.filterMaterialsByCategory(this.category, 
-            this.currentPage, this.itemsPerPage)
-        .subscribe(response => {
-          this.materials = response.data;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
-        });
+      this.materialsService.filterMaterialsByCategory(
+        this.category, 
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      ).subscribe(response => {
+        this.materials = response.data;
+        this.totalItems = response.totalItems;
+        this.totalPages = response.totalPages;
+      });
     } else {
-      this.materialsService.getMaterials(this.currentPage, this.itemsPerPage)
-        .subscribe(response => {
-          this.materials = response.data;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
-        });
+      this.materialsService.getMaterials(
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      ).subscribe(response => {
+        this.materials = response.data;
+        this.totalItems = response.totalItems;
+        this.totalPages = response.totalPages;
+      });
     }
+  }
+
+  getMaterials(term: string) {
+    if (this.category) {
+      return this.materialsService.searchMaterialsByCategory(
+        term, 
+        this.category, 
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      );
+    } else {
+      return this.materialsService.searchMaterials(
+        term, 
+        this.currentPage, 
+        this.itemsPerPage, 
+        this.sortField, 
+        this.sortOrder
+      );
+    }
+  }
+
+  loadCategories(): void {
+    this.materialsService.getCategories().subscribe(data => {
+      this.categories = data;
+    }, error => {
+      console.error('Error fetching categories:', error);
+    });
   }
 
   onPageChange(page: number) {
@@ -101,30 +146,56 @@ export class SearchBookComponent implements OnInit {
     this.loadMaterials();
   }
 
+  mapCategoryToAccessionNumber(category: string): string {
+    const matchedCategory = this.categories.find(cat => cat.mat_type === category);
+    return matchedCategory ? matchedCategory.accession_no : '';
+  }
+
+  navigateToDetails(accnum: string) {
+    this.router.navigate(['/borrow-info', accnum]);
+  }
+
+  showConfirmModal(id: number, title: string): void {
+    this.selectedMaterialId = id;
+    this.selectedMaterialTitle = title;
+    this.showModal = true;
+  }
+
+  closeConfirmModal(): void {
+    this.showModal = false;
+    this.selectedMaterialId = null;
+  }
+  
+  closeSnackBar() {
+    this.snackBarVisible = false;
+  }
+
   clearSearch(): void {
     this.searchTerm = '';
     this.category = '';
-    this.currentPage = 1; 
+    this.currentPage = 1;
     this.categoryPlaceholder = 'Choose category';
+    this.sortField = 'date_added'; // Reset to default sort field
+    this.sortOrder = 'DESC'; // Reset to default sort order
     this.loadMaterials();
   }
 
-  mapCategoryToAccessionNumber(category: string): string {
-    const categoryMap = {
-      'Filipiñana': 'PUPT Fili',
-      'Circulation': 'PUPT Circ',
-      'Fiction': 'PUPT Fic',
-      'Reference': 'PUPT Ref',
-      'Thesis/Dissertations': 'PUPT TH/D',
-      'Feasibility': 'PUPT Feas',
-      'Donations': 'PUPT Don',
-      'E-Book': 'PUPT EB',
-      'PDF': 'PUPT pdf',
-      'Business Plan': 'PUPTBP',
-      'Case Study': 'PUPTCS',
-      'Training Manual': 'PUPTTM',
-      'OJT/Internship': 'PUPTOJT/I'
-    };
-    return categoryMap[category] || '';
+  sortMaterials(field: string) {
+    if (field === 'accnum') {
+      // Special case for sorting by 'Acc No.'
+      this.sortField = 'categoryid';
+      this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+      if (this.sortField === field) {
+        // Toggle the sorting order for the same field
+        this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
+      } else {
+        this.sortField = field;
+        this.sortOrder = 'DESC';
+      }
+    }
+
+    // Reload materials with the updated sorting
+    this.loadMaterials();
   }
 }
