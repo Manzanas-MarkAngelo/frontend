@@ -13,12 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 $startDate = isset($_GET['startDate']) ? $_GET['startDate'] : null;
 $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
+$searchTerm = isset($_GET['searchTerm']) ? $_GET['searchTerm'] : '';
 
 $sql = "
 SELECT 
     b.material_id,
     b.claim_date,
     b.due_date,
+    b.return_date,
     b.remark,
     m.title,
     m.author,
@@ -33,13 +35,31 @@ FROM
     LEFT JOIN students s ON u.id = s.user_id
     LEFT JOIN faculty f ON u.id = f.user_id
     LEFT JOIN courses c ON s.course_id = c.id
-    LEFT JOIN departments d ON f.dept_id = d.id";
+    LEFT JOIN departments d ON f.dept_id = d.id
+WHERE 
+    (m.title LIKE '%$searchTerm%' 
+    OR m.author LIKE '%$searchTerm%' 
+    OR b.remark LIKE '%$searchTerm%' 
+    OR s.first_name LIKE '%$searchTerm%' 
+    OR s.surname LIKE '%$searchTerm%' 
+    OR f.first_name LIKE '%$searchTerm%' 
+    OR f.surname LIKE '%$searchTerm%')
+";
 
 if ($startDate && $endDate) {
-    $sql .= " WHERE b.claim_date BETWEEN '$startDate' AND '$endDate'";
+    $sql .= " AND b.claim_date BETWEEN '$startDate' AND '$endDate'";
 }
 
-$sql .= " ORDER BY b.claim_date DESC";
+$sql .= "
+ORDER BY 
+    CASE 
+        WHEN b.remark IN ('Returned', 'Returned Late') THEN 2
+        ELSE 1
+    END ASC,  -- Non-returned books first
+    CASE 
+        WHEN b.remark IN ('Returned', 'Returned Late') THEN b.return_date
+        ELSE b.claim_date
+    END DESC";
 
 $result = $conn->query($sql);
 $borrowings = array();

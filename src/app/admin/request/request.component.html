@@ -1,0 +1,53 @@
+<p class="text-white text-4xl bg-primary text-center pb-5">Material Requests</p>
+<div class="w-full bg-primary pb-5">
+  <div class="p-4 bg-base-100 text-black rounded-xl w-2/3 slide-in-left mx-auto slide-in-below">
+    <div class="flex justify-between items-center gap-5 slide-in-right">
+      <span class="text-lg font-medium ml-3 text-black">Page {{ currentPage }} / {{ totalPages }}</span>
+      <div class="flex gap-2">
+        <button
+          class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-base-100 hover:text-[#801e1d]"
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+        >
+          Previous
+        </button>
+        <button
+          class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-base-100 hover:text-[#801e1d]"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="table w-full mx-auto">
+        <thead>
+          <tr class="text-primary text-sm">
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year Published</th>
+            <th>Requestor Type</th>
+            <th>Requestor Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="text-start">
+          <tr *ngFor="let request of paginatedRequests" class="text-black text-start">
+            <td>{{ request.title }}</td>
+            <td>{{ request.author }}</td>
+            <td>{{ request.year_published }}</td>
+            <td>{{ request.requester_type | titlecase }}</td>
+            <td>{{ request.requester_name }}</td>
+            <td>
+              <button class="bg-primary text-white shadow-none btn-sm rounded-full font-medium">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>   
+  </div>
+</div>

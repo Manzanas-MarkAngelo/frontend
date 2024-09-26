@@ -1,0 +1,49 @@
+/* Adjust input field border when invalid */
+input.border-red-500 {
+  border-color: red !important;
+}
+
+/* Tooltip styling */
+.tooltip {
+  background-color: #e64b4b;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  white-space: nowrap;
+  z-index: 10;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#category_tooltip {
+  right: 35px;
+}
+
+/* Tooltip arrow positioning */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #2a2a2a;
+}
+
+/* Show tooltip on hover */
+.relative:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.bttm_err_msg {
+  color: #e13636;
+  font-weight: bold;
+}

@@ -1,98 +1,146 @@
-<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-start">
-  <div class="flex flex-col w-full">
+<div class="flex flex-col w-full px-1 md:px-14 pt-20 bg-primary justify-center items-center">
+  <div class="flex flex-col w-full lg:w-1/2">
     <div class="w-full">
       <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
-        <span class="text-white text-3xl ml-3">Add a book:</span>
+        <span class="text-white text-3xl ml-3">Add a material:</span>
       </div>
     </div>
-    <div class="bg-white p-8 rounded-3xl shadow-lg w-full h-full mb-40 slide-in-right">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full h-full slide-in-right">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
-        Book details
+        Material details
       </h1>
-      <form>
+      <form #bookForm="ngForm">
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Book title -->
-          <input
-            id="title"
-            name="title"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Title"
-            [(ngModel)]="bookDetails.title" required />
+          <div class="relative w-1/2">
+            <input
+              id="title"
+              name="title"
+              type="text"
+              class="w-full 
+                     flex 
+                     mt-1 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-3 
+                     pl-6 
+                     py-2 
+                     text-lg
+                     focus:ring-opacity-50
+                     pr-10"
+              placeholder="Title"
+              [(ngModel)]="bookDetails.title"
+              #titleInput="ngModel"
+              (blur)="titleInput.control.markAsTouched()"
+              [ngClass]="{'border-red-500 focus:border-red-500': titleInput.invalid && titleInput.touched}"
+              required
+            />
+            
+            <!-- Exclamation icon shown if input is invalid -->
+            <span
+              *ngIf="titleInput.invalid && titleInput.touched"
+              class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              (mouseenter)="showTooltip = true"
+              (mouseleave)="showTooltip = false"
+            >
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="tooltip">Title cannot be empty.</span>
+            </span>
+          </div>
+        
           <!-- Category -->
-            <div class="w-1/2 flex mt-1">
-              <input
-                id="category"
-                name="category"
-                type="hidden"
-                [(ngModel)]="bookDetails.category" />
-              <div class="flex-1 relative">
-                <div class="dropdown dropdown-end w-full">
-                  <div tabindex="0" role="button" 
-                       class="btn w-full bg-secondary 
-                              border-none text-black text-lg hover:bg-[#ffb700] 
-                              rounded-full flex items-center justify-between" 
-                      (click)="toggleDropdown()">
-                    <span>{{ selectedCategory || 'Select Category' }}</span>
-                    <!-- Down Arrow Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                         class="w-4 h-4 ml-2" 
-                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" 
-                            stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                  <ul tabindex="0" *ngIf="isDropdownOpen" 
-                      class="dropdown-content menu bg-secondary rounded-box z-[1] 
-                             w-full p-2 shadow text-lg font-medium text-black">
-                    <li *ngFor="let category of categories">
-                      <a (click)="selectCategory(category)" 
-                         class="block px-4 py-2 hover:bg-[#ffb700] 
-                                hover:text-black">{{ category }}</a>
-                    </li>
-                  </ul>
+          <div class="w-1/2 flex mt-1">
+            <input id="category" name="category" type="hidden" [(ngModel)]="bookDetails.category" #categoryInput="ngModel" required />
+            <div class="flex-1 relative">
+              <div class="dropdown dropdown-left w-full">
+                <div tabindex="0" role="button"
+                     class="btn w-full 
+                            bg-secondary 
+                            border-none 
+                            text-black 
+                            text-lg 
+                            hover:bg-[#ffb700] 
+                            rounded-box 
+                            flex items-center 
+                            justify-between"
+                     (click)="toggleDropdown()"
+                     (blur)="categoryInput.control.markAsTouched()">
+                  <span>{{ selectedCategory?.mat_type || 'Select material category' }}</span>
+                  
+                  <!-- Exclamation icon shown if category is invalid -->
+                  <span
+                    *ngIf="categoryInput.invalid && categoryInput.touched"
+                    class="flex items-center"
+                  >
+                    <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4"/>
+                    <span class="tooltip" id="category_tooltip">Please select a category.</span>
+                  </span>
                 </div>
+                
+                <ul tabindex="0" *ngIf="isDropdownOpen"
+                    class="dropdown-content menu bg-secondary rounded-box z-[1] w-full text-base font-medium text-black">
+                  <li *ngFor="let category of categories">
+                    <a (click)="selectCategory(category.cat_id, category.mat_type)" 
+                       class="block px-4 py-2 hover:bg-[#ffb700] hover:text-black">
+                      {{ category.mat_type }}
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
+          </div>
+          
         </div>
+        
         <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Accession number -->
-          <input
-            id="accnum"
-            name="accnum"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Accession number"
-            [(ngModel)]="bookDetails.accnum" required />
+          <!-- Author -->
+          <div class="relative w-1/2">
+            <input
+              id="author"
+              name="author"
+              type="text"
+              class="w-full 
+                     flex 
+                     mt-1 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-3 
+                     pl-6 
+                     py-2 
+                     text-lg
+                     focus:ring-opacity-50
+                     pr-10"
+              placeholder="Author"
+              [(ngModel)]="bookDetails.author" 
+              #authorInput="ngModel"
+              (blur)="authorInput.control.markAsTouched()"
+              [ngClass]="{'border-red-500 focus:border-red-500': authorInput.invalid && authorInput.touched}"
+              required 
+              />
+              <!-- Exclamation icon shown if input is invalid -->
+              <span
+                 *ngIf="authorInput.invalid && authorInput.touched"
+                 class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                 (mouseenter)="showTooltip = true"
+                 (mouseleave)="showTooltip = false"
+              >
+                 <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+                 <span class="tooltip">Author cannot be empty.</span>
+              </span>
+          </div>
+
           <!-- Subject Heading -->
+          <div class="relative w-1/2">
           <input
             id="heading"
             name="heading"
             type="text"
-            class="w-1/2 
+            class="w-full 
                    flex 
                    mt-1 
-                   rounded-full 
+                   rounded-xl 
                    border 
                    border-gray-300 
                    px-3 
@@ -101,95 +149,113 @@
                    focus:ring-opacity-50 
                    text-lg"
             placeholder="Subject Heading"
-            [(ngModel)]="bookDetails.heading" required />
+            [(ngModel)]="bookDetails.heading"
+            #subjectInput="ngModel"
+            (blur)="subjectInput.control.markAsTouched()"
+            [ngClass]="{'border-red-500 focus:border-red-500': subjectInput.invalid && subjectInput.touched}"
+            required 
+          />
+               <!-- Exclamation icon shown if input is invalid -->
+               <span
+               *ngIf="subjectInput.invalid && subjectInput.touched"
+               class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+               (mouseenter)="showTooltip = true"
+               (mouseleave)="showTooltip = false"
+             >
+               <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+               <span class="tooltip">Subject cannot be empty.</span>
+             </span>
+           </div>
           
         </div>
-        <div class="mb-4 mt-1 flex items-center space-x-4">
-          <!-- Author -->
-          <input
-            id="author"
-            name="author"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Author"
-            [(ngModel)]="bookDetails.author" required />
-          <!-- Call number -->
-          <input
-            id="callnum"
-            name="callnum"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Call number"
-            [(ngModel)]="bookDetails.callnum" required />
-        </div>
+
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Copyright -->
-          <input
-            id="copyright"
-            name="copyright"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Copyright"
-            [(ngModel)]="bookDetails.copyright" required />
-          <!-- Publisher -->
-          <input
-            id="publisher"
-            name="publisher"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Publisher"
-            [(ngModel)]="bookDetails.publisher" required />
+          <div class="relative w-1/2">
+            <input
+              id="copyright"
+              name="copyright"
+              type="text"
+              class="w-full 
+                     flex 
+                     mt-1 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-3 
+                     pl-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"
+              placeholder="Copyright"
+              [(ngModel)]="bookDetails.copyright" 
+              #copyrightInput="ngModel"
+              (blur)="copyrightInput.control.markAsTouched()"
+              [ngClass]="{'border-red-500 focus:border-red-500': copyrightInput.invalid && copyrightInput.touched}"
+              required 
+            />
+            
+            <!-- Exclamation icon shown if input is invalid -->
+            <span
+              *ngIf="copyrightInput.invalid && copyrightInput.touched"
+              class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              (mouseenter)="showTooltip = true"
+              (mouseleave)="showTooltip = false"
+            >
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="tooltip">Copyright cannot be empty.</span>
+            </span>
+          </div>
+        
+          <!-- Call number -->
+          <div class="relative w-1/2">
+            <input
+              id="callnum"
+              name="callnum"
+              type="text"
+              class="w-full 
+                     flex 
+                     mt-1 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-3 
+                     pl-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"
+              placeholder="Call number"
+              [(ngModel)]="bookDetails.callnum" 
+              #callnumInput="ngModel"
+              (blur)="callnumInput.control.markAsTouched()"
+              [ngClass]="{'border-red-500 focus:border-red-500': callnumInput.invalid && callnumInput.touched}"
+              required 
+            />
+            
+            <!-- Exclamation icon shown if input is invalid -->
+            <span
+              *ngIf="callnumInput.invalid && callnumInput.touched"
+              class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              (mouseenter)="showTooltip = true"
+              (mouseleave)="showTooltip = false"
+            >
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="tooltip">Call number cannot be empty.</span>
+            </span>
+          </div>
         </div>
+        
         <div class="mb-4 mt-1 flex items-center space-x-4">
           <!-- Edition -->
+          <div class="relative w-1/2">
           <input
             id="edition"
             name="edition"
             type="text"
-            class="w-1/2 
+            class="w-full
                    flex 
                    mt-1 
-                   rounded-full 
+                   rounded-xl 
                    border 
                    border-gray-300 
                    px-3 
@@ -198,16 +264,75 @@
                    focus:ring-opacity-50 
                    text-lg"
             placeholder="Edition"
-            [(ngModel)]="bookDetails.edition" required />
+            [(ngModel)]="bookDetails.edition"
+            #editionInput="ngModel"
+            (blur)="editionInput.control.markAsTouched()"
+            [ngClass]="{'border-red-500 focus:border-red-500': 
+                editionInput.invalid && editionInput.touched}"
+            required 
+          />
+          
+          <!-- Exclamation icon shown if input is invalid -->
+          <span
+            *ngIf="editionInput.invalid && editionInput.touched"
+            class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+            (mouseenter)="showTooltip = true"
+            (mouseleave)="showTooltip = false"
+          >
+            <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+            <span class="tooltip">Edition cannot be empty.</span>
+          </span>
+        </div>
+          <!-- Publisher -->
+          <div class="relative w-1/2">
+          <input
+            id="publisher"
+            name="publisher"
+            type="text"
+            class="w-full
+                   flex 
+                   mt-1 
+                   rounded-xl 
+                   border 
+                   border-gray-300 
+                   px-3 
+                   pl-6 
+                   py-2 
+                   focus:ring-opacity-50 
+                   text-lg"
+            placeholder="Publisher"
+            [(ngModel)]="bookDetails.publisher"
+            #publisherInput="ngModel"
+            (blur)="publisherInput.control.markAsTouched()"
+            [ngClass]="{'border-red-500 focus:border-red-500': 
+                publisherInput.invalid && publisherInput.touched}"
+            required 
+          />
+          
+          <!-- Exclamation icon shown if input is invalid -->
+          <span
+            *ngIf="publisherInput.invalid && publisherInput.touched"
+            class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+            (mouseenter)="showTooltip = true"
+            (mouseleave)="showTooltip = false"
+          >
+            <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+            <span class="tooltip">Publisher cannot be empty.</span>
+          </span>
+        </div>
+
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-2">
           <!-- ISBN -->
+           <div class="relative w-1/2">
           <input
             id="isbn"
             name="isbn"
             type="text"
-            class="w-1/2 
+            class="w-full 
                    flex 
                    mt-1 
-                   rounded-full 
+                   rounded-xl 
                    border 
                    border-gray-300 
                    px-3 
@@ -216,36 +341,34 @@
                    focus:ring-opacity-50 
                    text-lg"
             placeholder="ISBN"
-            [(ngModel)]="bookDetails.isbn" required />
+            [(ngModel)]="bookDetails.isbn"
+            #isbnInput="ngModel"
+            (blur)="isbnInput.control.markAsTouched()"
+            [ngClass]="{'border-red-500 focus:border-red-500': 
+                isbnInput.invalid && isbnInput.touched}"
+            required 
+          />
+          
+          <!-- Exclamation icon shown if input is invalid -->
+          <span
+            *ngIf="isbnInput.invalid && isbnInput.touched"
+            class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+            (mouseenter)="showTooltip = true"
+            (mouseleave)="showTooltip = false"
+          >
+            <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+            <span class="tooltip">ISBN cannot be empty.</span>
+          </span>
         </div>
-        <div class="mb-4 mt-1 flex items-center space-x-2">
-          <!-- Status -->
-          <input
-            id="status"
-            name="status"
-            type="text"
-            class="w-1/2 
-                   flex 
-                   mt-1 
-                   rounded-full 
-                   border 
-                   border-gray-300 
-                   px-3 
-                   pl-6 
-                   py-2 
-                   focus:ring-opacity-50 
-                   text-lg"
-            placeholder="Status"
-            [(ngModel)]="bookDetails.status" required />
           <!-- Back button -->
           <button
             type="button"
-            class="w-1/5
+            class="w-1/4
                    bg-primary 
                    text-white 
                    px-4 
                    py-3 
-                   rounded-full 
+                   rounded-xl 
                    font-medium 
                    hover:bg-[#ffb700] 
                    hover:text-black 
@@ -259,12 +382,12 @@
           <button
             type="button"
             (click)="openConfirmModal()"
-            class="w-[30%] 
+            class="w-1/4 
                    bg-secondary 
                    text-black 
                    px-4 
                    py-3 
-                   rounded-full 
+                   rounded-xl 
                    font-medium 
                    hover:bg-[#801e1d] 
                    hover:text-white 
@@ -275,19 +398,22 @@
           </button>
         </div>
       </form>
+      @if (continueButtonClicked && bookForm.invalid) {
+        <div class="bttm_err_msg">There are missing details on the form.</div> 
+      }
     </div>
   </div>
 </div>
 
 <!-- Confirmation Modal -->
 <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
-    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-xl font-medium text-primary mb-3">
       Do you really want to add this material?
     </h2>
     <div class="flex flex-col items-center justify-between h-full">
       <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
-      <div class="flex flex-row gap-4 w-full mt-4">
+      <div class="flex flex-row gap-4 w-full">
         <button
           (click)="closeConfirmModal()"
           class="flex-1
@@ -295,7 +421,7 @@
                  text-white 
                  px-6 
                  py-3 
-                 rounded-full 
+                 rounded-xl 
                  font-medium 
                  hover:bg-[#ffb700] 
                  hover:text-black 
@@ -304,18 +430,20 @@
           Back
         </button>
         <button
-          (click)="saveBook()"
+        (click)="saveBook()"
+        [disabled]="isSubmitting"
           class="flex-1
                  bg-secondary 
                  text-black 
                  px-6 
                  py-3 
-                 rounded-full 
+                 rounded-xl 
                  font-medium 
                  hover:bg-[#801e1d] 
                  hover:text-white 
                  transition 
-                 duration-300">
+                 duration-300"
+                 [ngClass]="{ 'opacity-50 cursor-not-allowed': isSubmitting }">
           Save changes
         </button>
       </div>

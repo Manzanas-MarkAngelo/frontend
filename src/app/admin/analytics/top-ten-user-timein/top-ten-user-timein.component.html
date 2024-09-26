@@ -1,0 +1,17 @@
+<div class="container flex items-center justify-center">
+  <div class="w-full">
+    <div class="chart-container">
+      <div class="dropdown-container">
+        <label for="year" class="sr-only">Select Year:</label>
+        <select id="year" (change)="onYearChange($event)" class="dropdown" [value]="year">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+        <label for="month" class="sr-only">Select Month:</label>
+        <select id="month" (change)="onMonthChange($event)" class="dropdown" [value]="month">
+          <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+        </select>
+      </div>
+      <canvas #barChart></canvas>
+    </div>
+  </div>
+</div>

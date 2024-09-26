@@ -8,12 +8,17 @@ export class AddMaterialService {
 
   private addCategoryUrl = `${environment.apiUrl}/add_material_type.php`;
   private addBookUrl = `${environment.apiUrl}/add_material.php`;
-
+  private getAccessionNumberUrl = `${environment.apiUrl}/fetch_accession_no.php`;
   constructor(private http: HttpClient) { }
 
   // Method to add a category
   addCategory(categoryDetails: any): Observable<any> {
     return this.http.post<any>(this.addCategoryUrl, categoryDetails);
+  }
+
+  // Method to get accession number by category ID
+  getAccessionNumber(cat_id: number): Observable<any> {
+    return this.http.get<any>(`${this.getAccessionNumberUrl}?cat_id=${cat_id}`);
   }
 
   // Method to add a book

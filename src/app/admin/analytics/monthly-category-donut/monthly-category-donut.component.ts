@@ -89,7 +89,7 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: 'Monthly Material Category Borrow Ratio',
+            text: `Monthly Borrow Ratio by Material Category for ${this.months[this.month - 1].name}, ${this.year}`, // Updated title
             font: {
               size: 18
             },

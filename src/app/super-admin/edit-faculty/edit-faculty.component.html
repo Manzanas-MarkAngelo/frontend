@@ -1,5 +1,5 @@
-<div class="flex items-start justify-center mt-80">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+<div class="flex items-start justify-center pt-40 bg-primary">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Edit faculty details
@@ -14,7 +14,7 @@
           type="text"
           [(ngModel)]="faculty.emp_number"
           placeholder="Enter your Faculty code here"
-          class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
+          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
           required
         />
         <div class="relative mr-44">
@@ -22,7 +22,7 @@
             id="gender"
             name="gender"
             [(ngModel)]="faculty.gender"
-            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
+            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
             required
           >
             <option value="" disabled>Gender</option>
@@ -50,7 +50,7 @@
           name="firstName"
           type="text"
           [(ngModel)]="faculty.first_name"
-          class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
           placeholder="First name"
           required
         />
@@ -59,7 +59,7 @@
           name="surname"
           type="text"
           [(ngModel)]="faculty.surname"
-          class="w-2/5 flex mt-1 rounded-full border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
           placeholder="Surname"
           required
         />
@@ -69,7 +69,7 @@
             id="department"
             name="department"
             [(ngModel)]="faculty.dept_id"
-            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-full leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
+            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
             required>
             <option value="" disabled>Division</option>
             <option *ngFor="let dept of departments" [value]="dept.id">
@@ -96,7 +96,7 @@
           name="contact"
           type="number"
           [(ngModel)]="faculty.phone_number"
-          class="flex-grow mt-1 block rounded-full border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
+          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
           placeholder="Contact number"
           required
         />
@@ -105,14 +105,13 @@
         <button
           type="button"
           class="flex-1 
-                 bg-primary 
+                 bg-red-800 
                  text-white 
                  px-6 
                  py-3 
-                 rounded-full 
+                 rounded-xl 
                  font-medium 
-                 hover:bg-[#ffb700] 
-                 hover:text-black
+                 hover:bg-red-700 
                  transition 
                  duration-300"
           (click)="cancelEdit()">
@@ -121,17 +120,16 @@
         <button
           type="submit"
           class="flex-1
-                 bg-secondary 
-                 text-black 
+                 bg-green-600 
+                 text-white
                  px-6 
                  py-3 
-                 rounded-full 
+                 rounded-xl 
                  font-medium 
-                 hover:bg-[#801e1d] 
-                 hover:text-white 
+                 hover:bg-green-500
                  transition 
                  duration-300">
-          Save
+          Save Changes
         </button>
       </div>
     </form>
@@ -140,7 +138,7 @@
 
 @if(showModal){
   <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
       <h2 class="text-center text-2xl font-medium text-primary mb-3">
         Do you want to save these changes?
       </h2>
@@ -149,32 +147,30 @@
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="closeConfirmModal()"
-            class="flex-1
-                  bg-primary 
-                  text-white 
-                  px-6 
-                  py-3 
-                  rounded-full 
-                  font-medium 
-                  hover:bg-[#ffb700] 
-                  hover:text-black 
-                  transition 
-                  duration-300">
-            Back
+            class="flex-1 
+            bg-red-800 
+            text-white 
+            px-6 
+            py-3 
+            rounded-xl 
+            font-medium 
+            hover:bg-red-700 
+            transition 
+            duration-300">
+            Cancel
           </button>
           <button
           (click)="continueEdit()"
             class="flex-1
-                  bg-secondary 
-                  text-black 
-                  px-6 
-                  py-3 
-                  rounded-full 
-                  font-medium 
-                  hover:bg-[#801e1d] 
-                  hover:text-white 
-                  transition 
-                  duration-300">
+            bg-green-600 
+            text-white
+            px-6 
+            py-3 
+            rounded-xl 
+            font-medium 
+            hover:bg-green-500
+            transition 
+            duration-300">
             Save changes
           </button>
         </div>

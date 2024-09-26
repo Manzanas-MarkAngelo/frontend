@@ -18,11 +18,29 @@ $itemsPerPage = $data['itemsPerPage'] ?? 13;
 $page = $data['page'] ?? 1;
 $offset = ($page - 1) * $itemsPerPage;
 $user_id = $data['user_id'] ?? ''; // Fetch user_id from JSON data
+$searchTerm = $data['searchTerm'] ?? ''; // Fetch search term from JSON data
 
 // Error handling for invalid JSON input
 if (json_last_error() !== JSON_ERROR_NONE) {
     echo json_encode(['error' => 'Invalid JSON input']);
     exit;
+}
+
+// Prepare search term for SQL LIKE clause
+$searchTerm = $conn->real_escape_string($searchTerm);
+// Dynamically generate search condition based on record type
+switch ($recordType) {
+    case 'student':
+        $searchCondition = $searchTerm ? " AND (s.surname LIKE '%$searchTerm%' OR s.first_name LIKE '%$searchTerm%' OR s.student_number LIKE '%$searchTerm%')" : '';
+        break;
+    case 'faculty':
+        $searchCondition = $searchTerm ? " AND (f.surname LIKE '%$searchTerm%' OR f.first_name LIKE '%$searchTerm%' OR f.emp_number LIKE '%$searchTerm%')" : '';
+        break;
+    case 'visitor':
+        $searchCondition = $searchTerm ? " AND (surname LIKE '%$searchTerm%' OR first_name LIKE '%$searchTerm%' OR identifier LIKE '%$searchTerm%')" : '';
+        break;
+    default:
+        $searchCondition = '';
 }
 
 // Determine the response based on recordType and user_id
@@ -89,44 +107,48 @@ if ($recordType === 'student' && $user_id) {
             $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number, s.user_id
                       FROM students s
                       LEFT JOIN courses c ON s.course_id = c.id
+                      WHERE 1=1 $searchCondition
                       ORDER BY s.created_at DESC
-                      LIMIT $itemsPerPage 
-                      OFFSET $offset";
+                      LIMIT ? OFFSET ?";
             $countQuery = "SELECT COUNT(*) as total FROM students";
             break;
         case 'faculty':
             $query = "SELECT f.user_id, f.emp_number, CONCAT(f.surname, ', ', f.first_name) as name, f.gender, d.dept_abbreviation AS department, f.phone_number 
                       FROM faculty f
                       LEFT JOIN departments d ON f.dept_id = d.id
+                      WHERE 1=1 $searchCondition
                       ORDER BY f.created_at DESC
-                      LIMIT $itemsPerPage 
-                      OFFSET $offset";
+                      LIMIT ? OFFSET ?";
             $countQuery = "SELECT COUNT(*) as total FROM faculty";
             break;
         case 'visitor':
             $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school, identifier, user_id
                       FROM visitor 
+                      WHERE 1=1 $searchCondition
                       ORDER BY created_at DESC
-                      LIMIT $itemsPerPage 
-                      OFFSET $offset";
+                      LIMIT ? OFFSET ?";
             $countQuery = "SELECT COUNT(*) as total FROM visitor";
             break;
         default:
             $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number 
                       FROM students s
                       LEFT JOIN courses c ON s.course_id = c.id
+                      WHERE 1=1 $searchCondition
                       ORDER BY s.created_at DESC
-                      LIMIT $itemsPerPage 
-                      OFFSET $offset";
+                      LIMIT ? OFFSET ?";
             $countQuery = "SELECT COUNT(*) as total FROM students";
     }
 
-    $result = $conn->query($query);
-    if ($result === false) {
-        echo json_encode(['error' => 'Error executing query: ' . $conn->error]);
+    // Fetch records with search term
+    $stmt = $conn->prepare($query);
+    if ($stmt === false) {
+        echo json_encode(['error' => 'Error preparing statement: ' . $conn->error]);
         exit;
     }
-
+    $stmt->bind_param('ii', $itemsPerPage, $offset);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
     $records = [];
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {

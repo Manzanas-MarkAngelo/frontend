@@ -1,5 +1,5 @@
-<div class="flex items-center justify-center mt-80">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+<div class="flex items-start justify-center pt-40 bg-primary">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Edit student details
@@ -15,7 +15,7 @@
           class="flex-grow 
                  mt-1 
                  block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -38,7 +38,7 @@
                    py-3 
                    px-6 
                    pr-8 
-                   rounded-full 
+                   rounded-xl 
                    leading-tight 
                    focus:outline-none 
                    focus:bg-[#ffb700] 
@@ -83,7 +83,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -101,7 +101,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -126,7 +126,7 @@
                   py-3 
                   px-6 
                   pr-8 
-                  rounded-full 
+                  rounded-xl 
                   leading-tight 
                   focus:outline-none 
                   focus:bg-[#ffb700] 
@@ -152,7 +152,7 @@
           type="number"
           class="flex-grow 
                  mt-1 block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -163,19 +163,33 @@
           [(ngModel)]="student.phone_number"
           required
         />
+        <input
+        name="email"
+        type="email"
+        class="flex-grow 
+               mt-1 block 
+               rounded-xl 
+               border 
+               border-gray-300 
+               px-6 
+               py-2 
+               focus:ring-opacity-50 
+               text-lg"
+        placeholder="Email"
+        required
+      />
       </div>
       <div class="flex flex-row gap-4 w-full mt-4">
           <button
           type="button"
           class="flex-1 
-                bg-primary 
+                bg-red-800 
                 text-white 
                 px-6 
                 py-3 
-                rounded-full 
+                rounded-xl 
                 font-medium 
-                hover:bg-[#ffb700] 
-                hover:text-black
+                hover:bg-red-700
                 transition 
                 duration-300"
           (click)="goBack()">
@@ -184,14 +198,13 @@
           <button
             type="submit"
             class="flex-1
-                  bg-secondary 
-                  text-black 
+                  bg-green-600
+                  text-white
                   px-6 
                   py-3 
-                  rounded-full 
+                  rounded-xl 
                   font-medium 
-                  hover:bg-[#801e1d] 
-                  hover:text-white 
+                  hover:bg-green-500
                   transition 
                   duration-300">
             Save Changes
@@ -217,7 +230,7 @@
                   text-white 
                   px-6 
                   py-3 
-                  rounded-full 
+                  rounded-xl 
                   font-medium 
                   hover:bg-[#ffb700] 
                   hover:text-black 
@@ -232,7 +245,7 @@
                   text-black 
                   px-6 
                   py-3 
-                  rounded-full 
+                  rounded-xl 
                   font-medium 
                   hover:bg-[#801e1d] 
                   hover:text-white 
