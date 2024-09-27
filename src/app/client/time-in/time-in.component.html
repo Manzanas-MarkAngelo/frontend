@@ -79,13 +79,9 @@
           Enter your ID number to time-in!
         </h1>
       <img src="../../../assets/book.png" alt="Book" class="w-24 h-16 md:w-32 md:h-20 hidden 2xl:flex"/>
-      <p class="text-base text-black font-semibold">
-        Library Hours: (Mon-Sat) 7:00am - 8:00pm
-      </p>
-      <div class="w-[55%] h-0.5 bg-gray-300"></div>
-      <p class="text-sm text-red-600 font-semibold mt-1">
+      <span class="text-sm text-black font-semibold mt-1">
         Note* Always Time-out when leaving library
-      </p>
+      </span>
     </div>
     <form (ngSubmit)="onSubmit()">
       <div class="mb-4">
@@ -128,7 +124,7 @@
         Not registered yet? 
         <a 
           routerLink="/register" 
-          class="text-primary underline font-semibold"
+          class="text-blue-500 underline font-semibold"
         >
           Click here to sign up!
         </a>

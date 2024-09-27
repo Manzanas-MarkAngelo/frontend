@@ -17,6 +17,10 @@ export class RecordsComponent implements OnInit {
   itemsPerPage: number = 14;
   searchTerm: string = '';
   searchSubject: Subject<string> = new Subject<string>(); // For debounced search
+  isDisabled = true;
+
+  // Checkbox logic
+  selectAllChecked: boolean = false; // Header checkbox state
 
   constructor(private recordsService: RecordsService) { }
 
@@ -110,4 +114,17 @@ export class RecordsComponent implements OnInit {
     this.setLogType('student');
     this.searchTerm = ''; // Clear the search term
   }
+
+    // Checkbox Selection Logic
+
+    toggleAllSelection(event: any) {
+      const isChecked = event.target.checked;
+      this.logs.forEach(record => {
+        record.selected = isChecked;
+      });
+    }
+      
+    checkIfAllSelected() {
+      this.selectAllChecked = this.logs.every(record => record.selected);
+    }
 }

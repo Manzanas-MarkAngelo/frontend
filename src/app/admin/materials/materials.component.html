@@ -20,6 +20,7 @@
       </button>
       <button
       type="button"
+      (click)="openWarningModal()"
       [ngClass]="{
         'bg-secondary text-black cursor-pointer': !isDisabled,
         'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
@@ -209,4 +210,22 @@
 
 </div>
 
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+      <h3 class="text-xl font-bold text-primary text-center">
+          Are you sure to mark selected materials as "Weed-out"?
+      </h3>
 
+      <div class="modal-action justify-center items-center">
+          <button 
+              class="btn w-40 bg-red-800 text-white hover:bg-red-700"
+              (click)="closeWarningModal()">
+              Cancel
+          </button>
+          <button 
+              class="btn w-40 bg-green-600 text-white hover:bg-green-500">
+              Confirm
+          </button>
+      </div>
+  </div>
+</dialog>
