@@ -218,4 +218,14 @@ export class MaterialsComponent {
     // Reload materials with the updated sorting
     this.loadMaterials();
   }
+
+  openWarningModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement)
+      .showModal();
+  }
+
+  closeWarningModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement)
+      .close();
+  }
 }
