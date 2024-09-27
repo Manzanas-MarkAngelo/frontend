@@ -42,6 +42,11 @@ export class MaterialsAddComponent {
   showTooltip = false;
   continueButtonClicked = false;
 
+  isSubjectDropdownOpen = false; 
+  selectedSubject: { id: number, subject_name: string } | null = null;  // To display subject heading in dropdown
+  subjects: { id: number, subject_name: string }[] = [];  // Holds subject ids and headings
+
+
   ngOnInit(): void {
     // Fetch categories from the database
     this.materialsService.getCategories().subscribe(data => {
@@ -53,6 +58,16 @@ export class MaterialsAddComponent {
       // Set a default selected category if necessary
       this.selectedCategory = { cat_id: 0, mat_type: 'Select Category' };
     });
+
+        // Fetch subject headings from the database
+        this.addMaterialService.getSubjectHeadings().subscribe(data => {
+          this.subjects = data.map((subject: any) => ({
+            id: subject.id,
+            subject_name: subject.subject_name
+          }));
+    
+          this.selectedSubject = { id: 0, subject_name: 'Select Subject' };
+        });
   }
 
   openConfirmModal() {
@@ -118,7 +133,6 @@ export class MaterialsAddComponent {
       }
     });
   }
-  
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -134,5 +148,15 @@ export class MaterialsAddComponent {
       this.bookDetails.accnum = response.response;  // Update accnum with the response from the backend
       console.log(`ACCNUM: ${this.bookDetails.accnum}`);
     });
+  }
+
+  toggleSubjectDropdown() {
+    this.isSubjectDropdownOpen = !this.isSubjectDropdownOpen;
+  }
+
+  selectSubjectHeading(id: number, subject_name: string): void {
+    this.bookDetails.heading = subject_name;  // Set the subject heading in bookDetails
+    this.selectedSubject = { id, subject_name };  // Display selected heading in dropdown
+    this.isSubjectDropdownOpen = false;
   }
 }
