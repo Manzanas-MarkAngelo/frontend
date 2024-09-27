@@ -9,6 +9,8 @@ export class AddMaterialService {
   private addCategoryUrl = `${environment.apiUrl}/add_material_type.php`;
   private addBookUrl = `${environment.apiUrl}/add_material.php`;
   private getAccessionNumberUrl = `${environment.apiUrl}/fetch_accession_no.php`;
+  private getSubjectHeadingsUrl = `${environment.apiUrl}/fetch_subjects.php`;
+
   constructor(private http: HttpClient) { }
 
   // Method to add a category
@@ -25,4 +27,8 @@ export class AddMaterialService {
   addBook(bookDetails: any): Observable<any> {
     return this.http.post<any>(this.addBookUrl, bookDetails);
   }
+    // Method to get subject headings
+    getSubjectHeadings(): Observable<any> {
+      return this.http.get<any>(this.getSubjectHeadingsUrl);
+    }
 }
