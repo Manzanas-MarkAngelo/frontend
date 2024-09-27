@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <form (submit)="onSubmit()">
+    <form (submit)="openRequestModal()">
       <div class="mb-4 mt-4 flex items-center space-x-4">
         <ng-container *ngIf="selectedRole === 'student'">
           <input
@@ -263,3 +263,106 @@
     </form>
   </div>
 </div>
+
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+      <h3 class="text-xl font-bold text-primary text-center">
+          Are you sure the details are correct?
+      </h3>
+      <p class="text-black text-sm text-center my-1">
+        Note: Kindly double-check your information to ensure there are no errors.
+      </p>
+      @if (selectedRole === 'student') {
+        <div class="flex justify-center items-center gap-2 flex-col mt-5">
+          <div>
+            <span class="text-primary font-semibold">Role: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Student number: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">First name: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Last name: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Gender: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Course: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Contact number: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Email: </span><span>sampletestagmail.com</span>
+          </div>
+        </div>
+      } @else if (selectedRole === 'faculty') {
+        <div class="flex justify-center items-center gap-2 flex-col mt-5">
+          <div>
+            <span class="text-primary font-semibold">Role: </span><span>Faculty</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Faculty code: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">First name: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Last name: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Gender: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Course: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Contact number: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Email: </span><span>sampletestagmail.com</span>
+          </div>
+        </div>
+      } @else {
+        <div class="flex justify-center items-center gap-2 flex-col mt-5">
+          <div>
+            <span class="text-primary font-semibold">Role: </span><span>Visitor</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">School: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">First name: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Last name: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Gender: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Contact number: </span><span>sampletest</span>
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Email: </span><span>sampletestagmail.com</span>
+          </div>
+        </div>
+      }
+
+      <div class="modal-action justify-center items-center">
+          <button 
+              class="btn w-40 bg-primary text-white hover:bg-[#ffb700] hover:text-black" 
+              (click)="closeRequestModal()">
+              Close
+          </button>
+          <button 
+              type="submit"
+              class="btn w-40 bg-secondary text-black hover:bg-[#801e1d] hover:text-white">
+              Submit
+          </button>
+      </div>
+  </div>
+</dialog>
