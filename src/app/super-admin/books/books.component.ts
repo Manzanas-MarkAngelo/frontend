@@ -247,5 +247,23 @@ export class BooksComponent implements OnInit {
     this.loadMaterials();
   }
   
+  openWarningModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement)
+      .showModal();
+  }
+
+  closeWarningModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement)
+      .close();
+  }
   
+  openWarningDeleteModal() {
+    (document.getElementById('my_modal_2') as HTMLDialogElement)
+      .showModal();
+  }
+
+  closeWarningDeleteModal() {
+    (document.getElementById('my_modal_2') as HTMLDialogElement)
+      .close();
+  }
 }
