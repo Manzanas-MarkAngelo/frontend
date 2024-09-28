@@ -1,87 +1,85 @@
 
-    <div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary">
-        <div class="flex flex-wrap w-full p-4 rounded-t-xl gap-2 mt-5">
-            <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
-                <div class="flex flex-row w-full md:w-1/2 gap-2">
-                    <input 
-                      type="text" 
-                      placeholder="Search here (title, author, year, accession number)" 
-                      class="input input-bordered w-full rounded-xl text-lg font-medium 
-                             text-primary slide-in-left bg-white"
-                      [(ngModel)]="searchTerm"
-                      (input)="onSearch()" />
-                    
-                    <button
-                      type="button"
-                      class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
-                             hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
-                      (click)="clearSearch()"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                  
-                <div class="flex flex-row w-auto flex-wrap">
-                    <div class="flex flex-row gap-2 slide-in-right">
-                        <div class="dropdown dropdown-bottom slide-in-right">
-                            <div
-                                tabindex="0"
-                                role="button"
-                                class="btn w-auto mb-1 mx-2 bg-secondary border-none 
-                                       text-black text-lg hover:bg-[#ffb700]"
-                            >
-                                {{ categoryPlaceholder }}
-                            </div>
-                            <ul
-                                tabindex="0"
-                                class="dropdown-content menu bg-secondary rounded-box 
-                                       z-[1] w-52 p-2 shadow text-lg font-medium 
-                                       text-black"
-                            >
-                                <li *ngFor="let category of categories">
-                                    <a (click)="CategoryPlaceholder(category.mat_type)">
-                                        {{ category.mat_type }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center gap-5 slide-in-right">
-                        <span class="text-lg font-medium ml-3 text-white">
-                            Page {{ currentPage }} / {{ totalPages }}
-                        </span>
-                        <div class="flex gap-2">
-                            <button
-                                class="btn border-none bg-secondary text-black 
-                                       hover:bg-primary-focus hover:bg-white 
-                                       hover:text-[#801e1d]"
-                                [disabled]="currentPage === 1"
-                                (click)="onPageChange(currentPage - 1)"
-                            >
-                                Previous
-                            </button>
-                            <button
-                                class="btn border-none bg-secondary text-black 
-                                       hover:bg-primary-focus hover:bg-white 
-                                       hover:text-[#801e1d]"
-                                [disabled]="currentPage === totalPages"
-                                (click)="onPageChange(currentPage + 1)"
-                            >
-                                Next
-                            </button>
-                        </div>
-                    </div>
-                    <button
-                        class="w-auto h-[3rem] mt-0.5 bg-white text-primary px-4 rounded-xl 
-                               font-medium hover:bg-[#ffb700] hover:text-black 
-                               transition duration-300 ml-1 slide-in-left"
-                        (click)="openRequestModal()">
-                        Request a material
-                    </button>
-                </div>
-
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary">
+    <div class="flex flex-wrap w-full p-4 rounded-t-xl gap-2 mt-5">
+        <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
+            <div class="flex flex-row w-full md:w-1/2 gap-2">
+                <input 
+                    type="text" 
+                    placeholder="Search here (title, author, year, accession number)" 
+                    class="input input-bordered w-full rounded-xl text-lg font-medium 
+                           text-primary slide-in-left bg-white"
+                    [(ngModel)]="searchTerm"
+                    (input)="onSearch()" 
+                />
+                <button
+                    type="button"
+                    class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+                           hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
+                    (click)="clearSearch()"
+                >
+                    Clear
+                </button>
             </div>
-
+                  
+            <div class="flex flex-row w-auto flex-wrap">
+                <div class="flex flex-row gap-2 slide-in-right">
+                    <div class="dropdown dropdown-bottom slide-in-right">
+                        <div
+                            tabindex="0"
+                            role="button"
+                            class="btn w-auto mb-1 mx-2 bg-secondary border-none 
+                                   text-black text-lg hover:bg-[#ffb700]"
+                        >
+                            {{ categoryPlaceholder }}
+                        </div>
+                        <ul
+                            tabindex="0"
+                            class="dropdown-content menu bg-secondary rounded-box 
+                                   z-[1] w-52 p-2 shadow text-lg font-medium 
+                                   text-black"
+                        >
+                            <li *ngFor="let category of categories">
+                                <a (click)="CategoryPlaceholder(category.mat_type)">
+                                    {{ category.mat_type }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center gap-5 slide-in-right">
+                    <span class="text-lg font-medium ml-3 text-white">
+                        Page {{ currentPage }} / {{ totalPages }}
+                    </span>
+                    <div class="flex gap-2">
+                        <button
+                            class="btn border-none bg-secondary text-black 
+                                   hover:bg-primary-focus hover:bg-white 
+                                   hover:text-[#801e1d]"
+                            [disabled]="currentPage === 1"
+                            (click)="onPageChange(currentPage - 1)"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            class="btn border-none bg-secondary text-black 
+                                   hover:bg-primary-focus hover:bg-white 
+                                   hover:text-[#801e1d]"
+                            [disabled]="currentPage === totalPages"
+                            (click)="onPageChange(currentPage + 1)"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
+                <button
+                    class="w-auto h-[3rem] mt-0.5 bg-white text-primary px-4 rounded-xl 
+                           font-medium hover:bg-[#ffb700] hover:text-black 
+                           transition duration-300 ml-1 slide-in-left"
+                    (click)="openRequestModal()"
+                >
+                    Request a material
+                </button>
+            </div>
 
             <dialog id="my_modal_1" class="modal">
                 <div class="modal-box">
@@ -93,27 +91,96 @@
                     </p>
               
                     <div class="flex justify-center items-center gap-2 flex-col mt-5">
-                        <input [(ngModel)]="request.title" 
-                               type="text" 
-                               placeholder="Title" 
-                               class="input input-bordered w-full" />
-                        <input [(ngModel)]="request.author" 
-                               type="text" 
-                               placeholder="Author" 
-                               class="input input-bordered w-full" />
-                        <input [(ngModel)]="request.year_published" 
-                               type="text" 
-                               placeholder="Year published" 
-                               class="input input-bordered w-full" />
-              
-                        <input [(ngModel)]="request.requester_id" 
-                               type="text" 
-                               placeholder="Student ID / Faculty code / Identifier" 
-                               class="input input-bordered w-full" />
-              
-                        <p *ngIf="formErrorMessage" 
-                           class="text-red-500 text-sm mt-2">
-                           {{ formErrorMessage }}
+                        <div class="relative w-full">
+                            <input [(ngModel)]="request.title"
+                                   type="text"
+                                   placeholder="Title"
+                                   class="input input-bordered w-full"
+                                   [ngClass]="{'border-red-500': !request.title && formSubmitted}" 
+                                   (input)="onFieldInput('title')"/>
+                            <span *ngIf="!request.title && formSubmitted"
+                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                <img 
+                                    src="../../../assets/Exclamation_flat_icon.svg.png" 
+                                    alt="Exclamation Mark" 
+                                    class="h-4 w-4 mt-1"
+                                />
+                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                                             whitespace-nowrap group-hover:block hidden">
+                                    Title cannot be empty.
+                                </span>
+                            </span>
+                        </div>
+                        
+                        <div class="relative w-full">
+                            <input [(ngModel)]="request.author"
+                                   type="text"
+                                   placeholder="Author"
+                                   class="input input-bordered w-full"
+                                   [ngClass]="{'border-red-500': !request.author && formSubmitted}"
+                                   (input)="onFieldInput('author')"/>
+                            <span *ngIf="!request.author && formSubmitted"
+                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                <img 
+                                    src="../../../assets/Exclamation_flat_icon.svg.png" 
+                                    alt="Exclamation Mark" 
+                                    class="h-4 w-4 mt-1"
+                                />
+                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                                             whitespace-nowrap group-hover:block hidden">
+                                    Author cannot be empty.
+                                </span>
+                            </span>
+                        </div>
+                    
+                        <div class="relative w-full">
+                            <input [(ngModel)]="request.year_published"
+                                   type="text"
+                                   placeholder="Year published"
+                                   class="input input-bordered w-full"
+                                   [ngClass]="{'border-red-500': !request.year_published && formSubmitted}"
+                                   (input)="onFieldInput('year_published')"/>
+                            <span *ngIf="!request.year_published && formSubmitted"
+                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                <img 
+                                    src="../../../assets/Exclamation_flat_icon.svg.png" 
+                                    alt="Exclamation Mark" 
+                                    class="h-4 w-4 mt-1"
+                                />
+                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                                             whitespace-nowrap group-hover:block hidden">
+                                    Year Published cannot be empty.
+                                </span>
+                            </span>
+                        </div>
+                    
+                        <div class="relative w-full">
+                            <input [(ngModel)]="request.requester_id"
+                                   type="text"
+                                   placeholder="Student ID / Faculty code / Identifier"
+                                   class="input input-bordered w-full"
+                                   [ngClass]="{'border-red-500': !request.requester_id && formSubmitted}"
+                                   (input)="onFieldInput('requester_id')"/>
+                            <span *ngIf="!request.requester_id && formSubmitted"
+                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                <img 
+                                    src="../../../assets/Exclamation_flat_icon.svg.png" 
+                                    alt="Exclamation Mark" 
+                                    class="h-4 w-4 mt-1"
+                                />
+                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                                             whitespace-nowrap group-hover:block hidden">
+                                    Requester ID cannot be empty.
+                                </span>
+                            </span>
+                        </div>
+                    
+                        <p *ngIf="formErrorMessage" class="text-red-500 text-sm mt-2">
+                            {{ formErrorMessage }}
                         </p>
                     </div>
               
@@ -151,6 +218,7 @@
                 </div>
             </dialog>
         </div>
+    </div>
 
     <div class="flex flex-col w-full">
         <div class="flex-grow bg-primary">
@@ -158,91 +226,95 @@
                 <div class="p-2 bg-white text-black rounded-xl w-full slide-in-right border border-gray-300 mb-5">
                     <div class="overflow-x-auto">
                         <table class="table w-full">
-                                <thead class="cursor-pointer">
-                                    <tr class="text-primary text-center text-sm">
-                                        <th (click)="sortMaterials('status')">
-                                            Status ↕
-                                            <span *ngIf="sortField === 'status'">
-                                                <ng-container *ngIf="sortOrder === 'ASC'">
-                                                    ↑
-                                                </ng-container>
-                                                <ng-container *ngIf="sortOrder === 'DESC'">
-                                                    ↓
-                                                </ng-container>
-                                            </span>
-                                        </th>
-                                        <th (click)="sortMaterials('accnum')">
-                                            Accession Number ↕
-                                            <span *ngIf="sortField === 'accnum'">
-                                                <ng-container *ngIf="sortOrder === 'ASC'">
-                                                    ↑
-                                                </ng-container>
-                                                <ng-container *ngIf="sortOrder === 'DESC'">
-                                                    ↓
-                                                </ng-container>
-                                            </span>
-                                        </th>
-                                        <th (click)="sortMaterials('title')">
-                                            Title ↕
-                                            <span *ngIf="sortField === 'title'">
-                                                <ng-container *ngIf="sortOrder === 'ASC'">
-                                                    ↑
-                                                </ng-container>
-                                                <ng-container *ngIf="sortOrder === 'DESC'">
-                                                    ↓
-                                                </ng-container>
-                                            </span>
-                                        </th>
-                                        <th (click)="sortMaterials('author')">
-                                            Author ↕
-                                            <span *ngIf="sortField === 'author'">
-                                                <ng-container *ngIf="sortOrder === 'ASC'">
-                                                    ↑
-                                                </ng-container>
-                                                <ng-container *ngIf="sortOrder === 'DESC'">
-                                                    ↓
-                                                </ng-container>
-                                            </span>
-                                        </th>
-                                        <th (click)="sortMaterials('subj')">
-                                            Subject ↕
-                                            <span *ngIf="sortField === 'subj'">
-                                                <ng-container *ngIf="sortOrder === 'ASC'">
-                                                    ↑
-                                                </ng-container>
-                                                <ng-container *ngIf="sortOrder === 'DESC'">
-                                                    ↓
-                                                </ng-container>
-                                            </span>
-                                        </th>
-                                        <th (click)="sortMaterials('copyright')">
-                                            Copyright ↕
-                                            <span *ngIf="sortField === 'copyright'">
-                                                <ng-container *ngIf="sortOrder === 'ASC'">
-                                                    ↑
-                                                </ng-container>
-                                                <ng-container *ngIf="sortOrder === 'DESC'">
-                                                    ↓
-                                                </ng-container>
-                                            </span>
-                                        </th>
-                                        <th (click)="sortMaterials('callno')">
-                                            Call number ↕
-                                            <span *ngIf="sortField === 'callno'">
-                                                <ng-container *ngIf="sortOrder === 'ASC'">
-                                                    ↑
-                                                </ng-container>
-                                                <ng-container *ngIf="sortOrder === 'DESC'">
-                                                    ↓
-                                                </ng-container>
-                                            </span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-start">
+                            <thead class="cursor-pointer">
+                                <tr class="text-primary text-center text-sm">
+                                    <th (click)="sortMaterials('status')">
+                                        Status ↕
+                                        <span *ngIf="sortField === 'status'">
+                                            <ng-container *ngIf="sortOrder === 'ASC'">
+                                                ↑
+                                            </ng-container>
+                                            <ng-container *ngIf="sortOrder === 'DESC'">
+                                                ↓
+                                            </ng-container>
+                                        </span>
+                                    </th>
+                                    <th (click)="sortMaterials('accnum')">
+                                        Accession Number ↕
+                                        <span *ngIf="sortField === 'accnum'">
+                                            <ng-container *ngIf="sortOrder === 'ASC'">
+                                                ↑
+                                            </ng-container>
+                                            <ng-container *ngIf="sortOrder === 'DESC'">
+                                                ↓
+                                            </ng-container>
+                                        </span>
+                                    </th>
+                                    <th (click)="sortMaterials('title')">
+                                        Title ↕
+                                        <span *ngIf="sortField === 'title'">
+                                            <ng-container *ngIf="sortOrder === 'ASC'">
+                                                ↑
+                                            </ng-container>
+                                            <ng-container *ngIf="sortOrder === 'DESC'">
+                                                ↓
+                                            </ng-container>
+                                        </span>
+                                    </th>
+                                    <th (click)="sortMaterials('author')">
+                                        Author ↕
+                                        <span *ngIf="sortField === 'author'">
+                                            <ng-container *ngIf="sortOrder === 'ASC'">
+                                                ↑
+                                            </ng-container>
+                                            <ng-container *ngIf="sortOrder === 'DESC'">
+                                                ↓
+                                            </ng-container>
+                                        </span>
+                                    </th>
+                                    <th (click)="sortMaterials('subj')">
+                                        Subject ↕
+                                        <span *ngIf="sortField === 'subj'">
+                                            <ng-container *ngIf="sortOrder === 'ASC'">
+                                                ↑
+                                            </ng-container>
+                                            <ng-container *ngIf="sortOrder === 'DESC'">
+                                                ↓
+                                            </ng-container>
+                                        </span>
+                                    </th>
+                                    <th (click)="sortMaterials('copyright')">
+                                        Copyright ↕
+                                        <span *ngIf="sortField === 'copyright'">
+                                            <ng-container *ngIf="sortOrder === 'ASC'">
+                                                ↑
+                                            </ng-container>
+                                            <ng-container *ngIf="sortOrder === 'DESC'">
+                                                ↓
+                                            </ng-container>
+                                        </span>
+                                    </th>
+                                    <th (click)="sortMaterials('callno')">
+                                        Call number ↕
+                                        <span *ngIf="sortField === 'callno'">
+                                            <ng-container *ngIf="sortOrder === 'ASC'">
+                                                ↑
+                                            </ng-container>
+                                            <ng-container *ngIf="sortOrder === 'DESC'">
+                                                ↓
+                                            </ng-container>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-start">
                                 <tr *ngFor="let material of materials">
-                                    <td>{{ material.status }}</td>
-                                    <td>{{ material.accnum }}</td>
+                                    <td>
+                                        {{ material.status }}
+                                    </td>
+                                    <td>
+                                        {{ material.accnum }}
+                                    </td>
                                     <td>
                                         <a [routerLink]="['/material-info', material.accnum]" 
                                            class="text-primary font-semibold hover:text-[#ffb700] 
@@ -250,44 +322,63 @@
                                             {{ material.title}}
                                         </a>
                                     </td>
-                                    <td>{{ material.author | slice:0:30 }}{{ material.author.length > 30 ? '...' : '' }}</td>
-                                    <td>{{ material.subj }}</td>
-                                    <td>{{ material.copyright }}</td>
-                                    <td>{{ material.callno | slice:0:8 }}{{ material.callno.length > 8 ? '...' : '' }}</td>
+                                    <td>
+                                        {{ material.author | slice:0:30 }}
+                                        {{ material.author.length > 30 ? '...' : '' }}
+                                    </td>
+                                    <td>
+                                        {{ material.subj }}
+                                    </td>
+                                    <td>
+                                        {{ material.copyright }}
+                                    </td>
+                                    <td>
+                                        {{ material.callno | slice:0:8 }}
+                                        {{ material.callno.length > 8 ? '...' : '' }}
+                                    </td>
                                 </tr>
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
-                  </div>
+                </div>
             } @else {
                 <div class="flex justify-center items-center">
                     <div class="card bg-primary w-96">
                         <figure class="px-10 pt-10">
-                          <img
-                            src="../../../assets/no-match1.svg"
-                            alt="no-match"/>
+                            <img
+                                src="../../../assets/no-match1.svg"
+                                alt="no-match"
+                            />
                         </figure>
                         <div class="card-body items-center text-center">
-                          <h2 class="card-title text-white">Nothing match your search!</h2>
-                          <p class="text-white">Didn't find what you're looking for?</p>
-                          <div class="card-actions">
-                            <button
-                            class="w-auto h-[3rem] mt-0.5 bg-white text-primary px-4 rounded-xl 
-                                   font-medium hover:bg-[#ffb700] hover:text-black 
-                                   transition duration-300 ml-1"
-                            (click)="openRequestModal()">
-                            Request a material
-                        </button>
-                          </div>
+                            <h2 class="card-title text-white">
+                                Nothing match your search!
+                            </h2>
+                            <p class="text-white">
+                                Didn't find what you're looking for?
+                            </p>
+                            <div class="card-actions">
+                                <button
+                                    class="w-auto h-[3rem] 
+                                           mt-0.5 bg-white 
+                                           text-primary px-4 
+                                           rounded-xl font-medium 
+                                           hover:bg-[#ffb700] 
+                                           hover:text-black transition 
+                                           duration-300 ml-1"
+                                    (click)="openRequestModal()"
+                                >
+                                    Request a material
+                                </button>
+                            </div>
                         </div>
-                      </div>
+                    </div>
                 </div>
             }
         </div>
-      </div>
-      
-
-
+    </div>
+</div>
+  
 <div *ngIf="showModal" 
      class="fixed inset-0 flex items-center justify-center 
             bg-gray-800 bg-opacity-50">
