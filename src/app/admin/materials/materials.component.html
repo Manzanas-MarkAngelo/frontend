@@ -1,167 +1,231 @@
-<div class="flex flex-col h-[86vh] w-11/12 mx-auto mt-14 justify-start">
-    <div class="flex w-full p-4 rounded-t-xl gap-2 mt-5">
-        <div class="flex flex-row w-full">
-            <input type="text" placeholder="Search a book" 
-                   class="input input-bordered w-full rounded-l-full text-lg 
-                          font-medium text-primary slide-in-left bg-white" 
-                   [(ngModel)]="searchTerm"
-                   (input)="onSearch()"
-            />
-            <button class="btn rounded-r-full bg-white slide-in-right">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                  </svg>              
-            </button>
-        </div>
-        <div class="flex flex-row gap-2 slide-in-right">
-            <button
-            routerLink="/materials-add"
-            type="submit"
-            class="w-40 
-                   bg-secondary 
-                   text-black 
-                   px-4 
-                   py-3 
-                   rounded-full 
-                   font-medium 
-                   hover:bg-blue-500 
-                   hover:text-white 
-                   transition 
-                   duration-300 
-                   mt-0.5">
-            Add book
-          </button>
-          <button
-          routerLink="/materials-type"
-          type="submit"
-          class="w-60 
-                 bg-secondary 
-                 text-black 
-                 px-4 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-blue-500 
-                 hover:text-white 
-                 transition 
-                 duration-300 
-                 mt-0.5">
-          Material type
-        </button>
-        </div>
-    </div>
-    <div class="p-4 bg-white text-black rounded-xl w-full mb-4 slide-in-right">
-
-        <!-- <div class="flex justify-between items-center mx-3">
-          <span class="text-lg font-medium text-black"
-            >Page {{ currentPage }} / {{ totalPages }}</span>
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary items-center">
+  <div class="flex flex-col md:flex-row w-full lg:w-11/12 py-3 rounded-t-xl gap-2">
+    <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
+      <div class="flex flex-row w-full md:w-1/2 gap-1">
+        <input 
+        type="text" 
+        placeholder="Search here" 
+        class="input input-bordered w-3/4 rounded-xl text-lg font-medium 
+               text-primary slide-in-left bg-white"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()" />
       
-          <div class="flex gap-2">
-            <button
-            class="btn bg-secondary text-black hover:bg-primary-focus hover:bg-[#801E1D] hover:text-white"
-            [disabled]="currentPage === 1"
-            (click)="onPageChange(currentPage - 1)"
-          >
-            Previous
-          </button>
-      
-          <button
-            class="btn bg-secondary text-black hover:bg-primary-focus hover:bg-[#801E1D] hover:text-white"
-            [disabled]="currentPage === totalPages"
-            (click)="onPageChange(currentPage + 1)"
-          >
-            Next
-          </button>
-          </div>
-      
-        </div>
+      <button
+        type="button"
+        class="h-[3rem] w-auto bg-white text-primary rounded-xl px-4 font-medium 
+               hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
+        (click)="clearSearch()"
+      >
+        Clear
+      </button>
+      <button
+      type="button"
+      (click)="openWarningModal()"
+      [ngClass]="{
+        'bg-secondary text-black cursor-pointer': !isDisabled,
+        'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
+      }"
+      class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
+      [disabled]="isDisabled"
+    >
+      Weed out
+    </button>
     
-        <div class="divider my-0"></div> -->
-    
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <thead>
-              <tr class="text-primary text-center text-sm">
-                <th>Accession No.</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Subject</th>
-                <th>Copyright</th>
-                <th>Call number</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody class="text-start text-sm">
-              <!-- <tr *ngFor="let material of materials">
-                <td>{{ material.accnum }}</td>
-                <td>
-                  <a [routerLink]="['/borrow-info', material.accnum]" 
-                     class="text-primary font-semibold hover:text-[#ffb700] 
-                            hover:underline">
-                    {{ material.title | slice:0:48 }}{{ material.title.length > 48 ? '...' : '' }}
-                  </a>
-                </td>
-                <td>{{ material.author | slice:0:70 }}{{ material.author.length > 70 ? '...' : '' }}</td>
-                <td>{{ material.subj }}</td>
-                <td>{{ material.copyright }}</td>
-                <td>{{ material.callno | slice:0:12 }}{{ material.callno.length > 12 ? '...' : '' }}</td>
-                <td>{{ material.status }}</td>
-              </tr> -->
-              @for (material of materials; track $index) {
-                <tr>
-                  <td>{{ material.accnum }}</td>
-                  <td>
-                    <a [routerLink]="['/material-info', material.accnum]" 
-                       class="text-primary font-semibold hover:text-[#ffb700] 
-                              hover:underline">
-                      {{ material.title | slice:0:30 }}{{ material.title.length > 30 ? '...' : '' }}
-                    </a>
-                  </td>
-                  <td>{{ material.author | slice:0:50 }}{{ material.author.length > 50 ? '...' : '' }}</td>
-                  <td>{{ material.subj }}</td>
-                  <td>{{ material.copyright }}</td>
-                  <td>{{ material.callno | slice:0:8 }}{{ material.callno.length > 8 ? '...' : '' }}</td>
-                  <td>{{ material.status }}</td>
-                  <td>
-                    <button class="bg-primary 
-                                 text-white 
-                                 border-none 
-                                 shadow-none 
-                                 btn-sm 
-                                 rounded-full 
-                                 font-medium"
-                                 [routerLink]="['/materials-edit', material.accnum]">
-                        Edit
-                    </button>
-                </td>
-                </tr>
-              }
-            </tbody>
-          </table>
         </div>
         
-        <div class="flex justify-between items-center mt-4">
-          <span class="text-lg font-medium ml-3"
-            >Page {{ currentPage }} / {{ totalPages }}</span>
-    
-          <div class="flex gap-2">
-            <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === 1"
-            (click)="onPageChange(currentPage - 1)"
-          >
-            Previous
-          </button>
-    
-          <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === totalPages"
-            (click)="onPageChange(currentPage + 1)"
-          >
-            Next
-          </button>
+      <div class="flex flex-row w-auto flex-wrap gap-1">
+        <div class="flex flex-row gap-2 slide-in-right mt-1">
+          <div class="dropdown dropdown-bottom slide-in-right">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]"
+            >
+              {{ categoryPlaceholder }}
+            </div>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black"
+            >
+              <li *ngFor="let category of categories">
+                <a (click)="CategoryPlaceholder(category.mat_type)">
+                  {{ category.mat_type }}
+                </a>
+              </li>
+            </ul>
           </div>
-    
         </div>
+
+        <button
+        type="button"
+        routerLink="/materials-add"
+        class="h-[3rem] mt-1 bg-white text-primary rounded-xl px-4 font-medium 
+        hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right">
+        Add book
+      </button>
+
+      <button
+      type="button"
+        routerLink="/materials-type"
+        class="h-[3rem] mt-1 bg-white text-primary rounded-xl px-4 font-medium 
+        hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right">
+        Material type
+      </button>
+
+          <div class="flex justify-between items-center gap-5 slide-in-right">
+            <span class="text-lg font-medium ml-3 text-white">
+              Page {{ currentPage }} / {{ totalPages }}
+            </span>
+            <div class="flex gap-2">
+              <button
+                class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                [disabled]="currentPage === 1"
+                (click)="onPageChange(currentPage - 1)"
+              >
+                Previous
+              </button>
+              <button
+                class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                [disabled]="currentPage === totalPages"
+                (click)="onPageChange(currentPage + 1)"
+              >
+                Next
+              </button>
+              </div>
+          </div>
       </div>
+    </div>
+  </div>
+  @if (materials.length > 0) {
+    <div class="p-3 bg-white text-black rounded-xl w-full lg:w-11/12 mb-4 slide-in-right">
+      <div class="overflow-x-auto">
+        <table class="table w-full text-xs md:text-sm ">
+          <thead class="cursor-pointer">
+            <tr class="text-primary text-sm">
+              <th class="text-start">
+                <input 
+                  type="checkbox" 
+                  class="cursor-pointer"
+                  [(ngModel)]="selectAllChecked" 
+                  (change)="toggleAllSelection($event)" />
+              </th>
+              <th (click)="sortMaterials('accnum')">Accession Number ↕
+                  <span *ngIf="sortField === 'categoryid'" class="sort-arrow">
+                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                  </span>
+                </th>                         
+              <th (click)="sortMaterials('title')">Title ↕
+                  <span *ngIf="sortField === 'title'" class="sort-arrow">
+                      <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                      <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                  </span>
+              </th>
+              <th (click)="sortMaterials('author')">Author ↕
+                  <span *ngIf="sortField === 'author'" class="sort-arrow">
+                      <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                      <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                  </span>
+              </th>
+              <th (click)="sortMaterials('subj')">Subject ↕
+                  <span *ngIf="sortField === 'subj'" class="sort-arrow">
+                      <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                      <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                  </span>
+              </th>
+              <th (click)="sortMaterials('copyright')">Copyright ↕
+                  <span *ngIf="sortField === 'copyright'" class="sort-arrow">
+                      <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                      <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                  </span>
+              </th>
+              <th (click)="sortMaterials('callno')">Call number ↕
+                  <span *ngIf="sortField === 'callno'" class="sort-arrow">
+                      <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                      <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                  </span>
+              </th>
+              <th (click)="sortMaterials('status')">Status ↕
+                <span *ngIf="sortField === 'status'" class="sort-arrow">
+                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+            </th>
+              <th class="cursor-not-allowed">Action</th>
+          </tr>
+          </thead>
+          <tbody class="text-start text-sm">
+            @for (material of materials; track $index) {
+              <tr>
+                <td>
+                  <input 
+                    type="checkbox" 
+                    class="cursor-pointer"
+                    [(ngModel)]="material.selected" 
+                    (change)="checkIfAllSelected()" />
+                </td>
+                <td>{{ material.accnum }}</td>
+                <td>
+                  <a
+                    [routerLink]="['/material-info', material.accnum]"
+                    class="text-primary font-semibold hover:text-[#ffb700] hover:underline"
+                  >
+                    {{ material.title }}
+                  </a>
+                </td>
+                <td>{{ material.author | slice: 0:50 }}{{ material.author.length > 50 ? '...' : '' }}</td>
+                <td>{{ material.subj }}</td>
+                <td>{{ material.copyright }}</td>
+                <td>{{ material.callno | slice: 0:8 }}{{ material.callno.length > 8 ? '...' : '' }}</td>
+                <td>{{ material.status }}</td>
+                <td class="text-center">
+                  <button
+                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium"
+                    [routerLink]="['/materials-edit', material.accnum]"
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div class="flex justify-center items-center mt-20 slide-in-below">
+      <div class="card bg-primary w-96">
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"/>
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Nothing match your search!</h2>
+            <p class="text-white">Didn't find what you're looking for?</p>
+          </div>
+        </div>
+    </div>
+  }
+
 </div>
+
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+      <h3 class="text-xl font-bold text-primary text-center">
+          Are you sure to mark selected materials as "Weed-out"?
+      </h3>
+
+      <div class="modal-action justify-center items-center">
+          <button 
+              class="btn w-40 bg-red-800 text-white hover:bg-red-700"
+              (click)="closeWarningModal()">
+              Cancel
+          </button>
+          <button 
+              class="btn w-40 bg-green-600 text-white hover:bg-green-500">
+              Confirm
+          </button>
+      </div>
+  </div>
+</dialog>

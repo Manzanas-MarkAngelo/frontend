@@ -10,15 +10,16 @@ export class ExcelReportInventoryService {
   constructor(private reportsService: ReportsService, 
               private currentDateYearService: CurrentDateYearService) { }
 
-  async generateExcelReport(category: string, callback: (loading: boolean) => void, categoryDisplay) {
+  async generateExcelReport(category: string, program: string, callback: (loading: boolean) => void, categoryDisplay: string) {
     callback(true);
 
     let selectedCategory = '';
+    let selectedProgram = program;  // Add program variable
 
-    selectedCategory = categoryDisplay != 'All' ? categoryDisplay.toUpperCase() : selectedCategory;
-    categoryDisplay = categoryDisplay == '' ? 'All' : categoryDisplay;
+    selectedCategory = categoryDisplay !== 'All' ? categoryDisplay.toUpperCase() : selectedCategory;
+    categoryDisplay = categoryDisplay === '' ? 'All' : categoryDisplay;
 
-    this.reportsService.getMaterials(category).subscribe(
+    this.reportsService.getMaterials(category, program).subscribe(
       async data => {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Inventory Report');
@@ -114,11 +115,11 @@ export class ExcelReportInventoryService {
 
         // Add filter and totals
         const totalItems = data.data.length;
-        worksheet.addRow(['CATEGORY:',categoryDisplay]);
+        worksheet.addRow(['CATEGORY:', categoryDisplay]);
+        worksheet.addRow(['PROGRAM:', selectedProgram]); // Add program info
         worksheet.addRow(['MATERIALS COUNT:', totalItems.toString()]);
         worksheet.addRow(['REPORT GENERATED ON:', this.currentDateYearService
                 .getCurrentYearAndDate('get_date')]);
-
 
         // Style footer
         const footerRowNumbers = [worksheet.lastRow.number - 2, worksheet.lastRow.number - 1, worksheet.lastRow.number];

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from './environments/local-environment';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class RecordsService {
 
   constructor(private http: HttpClient) {}
 
-  getLogs(logType: string, itemsPerPage: number, page: number, startDate?: string | null, endDate?: string | null): Observable<any> {
+  getLogsReports(logType: string, itemsPerPage: number, page: number, startDate?: string | null, endDate?: string | null): Observable<any> {
     const payload = { logType, itemsPerPage, page, startDate, endDate };
     console.log('RECORDS SERVICE', payload); // To verify the correct payload is sent
     return this.http.post<any>(this.logsUrl, payload, {
@@ -24,8 +24,45 @@ export class RecordsService {
     );
   } 
 
-  getRecords(recordType: string, itemsPerPage: number, page: number): Observable<any> {
-    const payload = { recordType, itemsPerPage, page };
+  getLogs(
+    logType: string,
+    itemsPerPage: number,
+    page: number,
+    searchTerm?: string | null,
+    startDate?: string | null,
+    endDate?: string | null
+  ): Observable<any> {
+    const payload: any = { logType, itemsPerPage, page };
+  
+    // Include searchTerm only if it is provided and not an empty string.
+    if (searchTerm && searchTerm.trim() !== '' && !(startDate && endDate)) {
+      payload.searchTerm = searchTerm;
+    }
+  
+    // Always add startDate and endDate if they are provided.
+    if (startDate) {
+      payload.startDate = startDate;
+    }
+  
+    if (endDate) {
+      payload.endDate = endDate;
+    }
+  
+    console.log('RECORDS SERVICE PAYLOAD', payload); // Log the request payload
+  
+    return this.http.post<any>(this.logsUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      tap(response => console.log('RECORDS SERVICE RESPONSE', response)), // Log the response
+      catchError(this.handleError)
+    );
+  }
+  
+  
+
+  getRecords(recordType: string, itemsPerPage: number, page: number, searchTerm?: string): Observable<any> {
+    const payload = { recordType, itemsPerPage, page, searchTerm };
+    console.log('GET RECORDS PAYLOAD:', payload); // Log payload for getRecords
     return this.http.post<any>(this.recordsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(

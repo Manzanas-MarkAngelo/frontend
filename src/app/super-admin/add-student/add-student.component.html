@@ -1,5 +1,5 @@
-<div class="flex items-start justify-center mt-80">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+<div class="flex items-start justify-center pt-40 bg-primary">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Add a student
@@ -17,7 +17,7 @@
           class="flex-grow 
                  mt-1 
                  block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -40,7 +40,7 @@
                    py-3 
                    px-6 
                    pr-8 
-                   rounded-full 
+                   rounded-xl 
                    leading-tight 
                    focus:outline-none 
                    focus:bg-[#ffb700] 
@@ -86,7 +86,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -105,7 +105,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -130,7 +130,7 @@
                    py-3 
                    px-6 
                    pr-8 
-                   rounded-full 
+                   rounded-xl 
                    leading-tight 
                    focus:outline-none 
                    focus:bg-[#ffb700] 
@@ -175,7 +175,7 @@
           [(ngModel)]="contact"
           class="flex-grow 
                  mt-1 block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -185,6 +185,22 @@
           placeholder="Contact number"
           required
         />
+        <input
+        id="email"
+        name="email"
+        type="email"
+        class="flex-grow 
+               mt-1 block 
+               rounded-xl 
+               border 
+               border-gray-300 
+               px-6 
+               py-2 
+               focus:ring-opacity-50 
+               text-lg"
+        placeholder="Email"
+        required
+      />
       </div>
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
@@ -194,7 +210,7 @@
                  text-white 
                  px-6 
                  py-3 
-                 rounded-full 
+                 rounded-xl 
                  font-medium 
                  hover:bg-[#ffb700] 
                  hover:text-black
@@ -211,14 +227,14 @@
                  text-black 
                  px-6 
                  py-3 
-                 rounded-full 
+                 rounded-xl 
                  font-medium 
                  hover:bg-[#801e1d] 
                  hover:text-white 
                  transition 
                  duration-300"
         >
-          Enter
+          Continue
         </button>
       </div>
     </form>

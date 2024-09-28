@@ -1,0 +1,33 @@
+.table-container {
+  width: 100%;
+  max-width: 500px; /* Set the maximum width of the table container */
+  height: 270px; /* Fixed height for the table container */
+  overflow-y: auto; /* Add a vertical scrollbar if content overflows */
+  overflow-x: hidden; /* Hide the horizontal scrollbar */
+}
+
+.fixed-table {
+  width: 100%;
+  table-layout: fixed; /* Fixed table layout */
+}
+
+.fixed-table th, .fixed-table td {
+  padding: 12px; /* Add padding for better readability */
+  text-align: center;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+}
+
+.fixed-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.fixed-table tbody tr {
+  transition: background-color 0.3s;
+}
+
+.fixed-table tbody tr:hover {
+  background-color: #f1f1f1; /* Add a hover effect to table rows */
+}

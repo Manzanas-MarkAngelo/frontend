@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
+import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 import { ChartsService } from '../../../../services/charts.service';
 
 Chart.register(...registerables);
@@ -10,8 +10,8 @@ Chart.register(...registerables);
   styleUrls: ['./monthly-users.component.css']
 })
 export class MonthlyUsersComponent implements OnInit, AfterViewInit {
-  @ViewChild('lineChart', { static: false }) private chartRef!: ElementRef;
-  public chart: any;
+  @ViewChild('lineChart', { static: false }) private chartRef!: ElementRef<HTMLCanvasElement>;
+  public chart: Chart<'line', (number | [number, number])[], string> | undefined;
   public year: number = new Date().getFullYear();
   public years: number[] = [];
 
@@ -34,13 +34,13 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
     this.chartsService.getMonthlyData(year)
       .subscribe(data => {
         console.log('Data received for chart:', data); // Log the data to check its format
-        this.createChart(data, year);
+        this.createChart123(data, year);
       }, error => {
         console.error('Error fetching data:', error); // Log any errors
       });
   }
 
-  createChart(data: any, selectedYear: number) {
+  createChart123(data: any, selectedYear: number) {
     const ctx = this.chartRef.nativeElement.getContext('2d');
     if (!ctx) {
       console.error('Failed to get canvas context');
@@ -59,7 +59,7 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
                        'October', 'November', 'December'];
 
     let displayedMonths = allMonths;
-    let displayedUsers = Object.values(data);
+    let displayedUsers = Object.values(data).map((value: any) => Number(value)); // Ensure data is numbers
 
     if (selectedYear === currentYear) {
       // If the selected year is the current year, show only up to the current month
@@ -83,8 +83,22 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: `Monthly User Activity for ${selectedYear}`, // Title of the chart
+            font: {
+              size: 18
+            },
+            padding: {
+              top: 10,
+              bottom: 30
+            }
+          }
+        },
         scales: {
           x: {
+            type: 'category',
             beginAtZero: true,
             grid: {
               display: false
@@ -98,7 +112,7 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
             }
           }
         }
-      }
+      } as ChartOptions<'line'>
     });
   }
 
