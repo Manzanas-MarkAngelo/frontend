@@ -30,35 +30,6 @@ if ($startDate && $endDate) {
 // Set correct timezone
 date_default_timezone_set('Asia/Shanghai');
 
-// Auto Time-out Update Logic
-$currentDate = date('Y-m-d');
-$currentTime = date('H:i:s');
-
-// Auto time-out logic
-if ($currentTime >= '21:00:00') {
-    $autoTimeoutQuery = "
-        UPDATE time_log 
-        SET time_out = CONCAT(DATE(time_in), ' 21:00:00') 
-        WHERE time_out IS NULL 
-        AND DATE(time_in) = ?";
-
-    $stmtTimeout = $conn->prepare($autoTimeoutQuery);
-    if ($stmtTimeout === false) {
-        echo json_encode(['error' => 'Error preparing statement: ' . $conn->error]);
-        exit;
-    }
-
-    $stmtTimeout->bind_param("s", $currentDate);
-
-    // Execute and check for errors
-    if (!$stmtTimeout->execute()) {
-        echo json_encode(['error' => 'Error updating time-out: ' . $conn->error]);
-        exit;
-    }
-
-    $stmtTimeout->close();
-}
-
 // Escape the search term to prevent SQL injection if it's present
 $searchCondition = '';
 if ($searchTerm && trim($searchTerm) !== '') {
