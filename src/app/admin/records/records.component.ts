@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-records',
@@ -8,17 +9,31 @@ import { RecordsService } from '../../../services/records.service';
 })
 export class RecordsComponent implements OnInit {
   selectedRole: string = 'student';
-  currentLogType: string = 'default';
+  currentLogType: string = 'student';
   searchPlaceholder: string = 'Search student';
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 13;
+  itemsPerPage: number = 14;
+  searchTerm: string = '';
+  searchSubject: Subject<string> = new Subject<string>(); // For debounced search
+  isDisabled = true;
+
+  // Checkbox logic
+  selectAllChecked: boolean = false; // Header checkbox state
 
   constructor(private recordsService: RecordsService) { }
 
   ngOnInit(): void {
-    this.setLogType('default');
+    this.setLogType('student');
+    
+    // Implement debounce on search input
+    this.searchSubject.pipe(
+      debounceTime(300) // Adjust debounce time as needed
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.fetchCurrentTypeData(); // Fetch records or logs based on selected log type
+    });
   }
 
   setLogType(logType: string) {
@@ -60,7 +75,7 @@ export class RecordsComponent implements OnInit {
   }
 
   fetchLogs(logType: string) {
-    this.recordsService.getLogs(logType, this.itemsPerPage, this.currentPage).subscribe(data => {
+    this.recordsService.getLogs(logType, this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(data => {
       this.logs = data.records;
       this.totalPages = data.totalPages;
     }, error => {
@@ -69,7 +84,7 @@ export class RecordsComponent implements OnInit {
   }
 
   fetchRecords(recordType: string) {
-    this.recordsService.getRecords(recordType, this.itemsPerPage, this.currentPage).subscribe(data => {
+    this.recordsService.getRecords(recordType, this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(data => {
       this.logs = data.records;
       this.totalPages = data.totalPages;
     }, error => {
@@ -89,4 +104,27 @@ export class RecordsComponent implements OnInit {
       this.fetchRecords(this.currentLogType);
     }
   }
+
+  // Trigger search with debounce
+  onSearchChange(searchTerm: string) {
+    this.searchSubject.next(searchTerm); // Pass the search term to the debounced subject
+  }
+
+  clearLogType() {
+    this.setLogType('student');
+    this.searchTerm = ''; // Clear the search term
+  }
+
+    // Checkbox Selection Logic
+
+    toggleAllSelection(event: any) {
+      const isChecked = event.target.checked;
+      this.logs.forEach(record => {
+        record.selected = isChecked;
+      });
+    }
+      
+    checkIfAllSelected() {
+      this.selectAllChecked = this.logs.every(record => record.selected);
+    }
 }

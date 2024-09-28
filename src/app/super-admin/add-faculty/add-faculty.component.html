@@ -1,5 +1,5 @@
-<div class="flex items-start justify-center mt-80">
-  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+<div class="flex items-start justify-center pt-40 bg-primary">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Add a faculty
@@ -18,7 +18,7 @@
           class="flex-grow 
                  mt-1 
                  block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -40,7 +40,7 @@
                    py-3 
                    px-6 
                    pr-8 
-                   rounded-full 
+                   rounded-xl 
                    leading-tight 
                    focus:outline-none 
                    focus:bg-[#ffb700] 
@@ -84,7 +84,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -101,7 +101,7 @@
           class="w-2/5 
                  flex 
                  mt-1 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-3 
@@ -125,13 +125,13 @@
                   py-3 
                   px-6 
                   pr-8 
-                  rounded-full 
+                  rounded-xl 
                   leading-tight 
                   focus:outline-none 
                   focus:bg-[#ffb700] 
                   cursor-pointer 
                   text-lg">
-            <option value="" disabled selected>Division</option>
+            <option value="" disabled selected>Department</option>
             <option *ngFor="let dept of departments" [value]="dept.id">
                 {{ dept.dept_abbreviation }}
             </option>
@@ -168,7 +168,7 @@
           [(ngModel)]="contact"
           class="flex-grow 
                  mt-1 block 
-                 rounded-full 
+                 rounded-xl 
                  border 
                  border-gray-300 
                  px-6 
@@ -176,40 +176,53 @@
                  focus:ring-opacity-50 
                  text-lg"
           placeholder="Contact number"/>
+          <input
+          id="email"
+          name="email"
+          type="email"
+          class="flex-grow 
+                 mt-1 block 
+                 rounded-xl 
+                 border 
+                 border-gray-300 
+                 px-6 
+                 py-2 
+                 focus:ring-opacity-50 
+                 text-lg"
+          placeholder="Email"/>
       </div>
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
           type="button"
           class="flex-1 
-                 bg-primary 
-                 text-white 
-                 px-6 
-                 py-3 
-                 rounded-full 
-                 font-medium 
-                 hover:bg-[#ffb700] 
-                 hover:text-black
-                 transition 
-                 duration-300"
+          bg-primary 
+          text-white 
+          px-6 
+          py-3 
+          rounded-xl 
+          font-medium 
+          hover:bg-[#ffb700] 
+          hover:text-black
+          transition 
+          duration-300"
           (click)="cancelEdit()">
           Cancel
         </button>
         <button
           type="button"
-          class="w-40 
-                bg-secondary 
-                text-black 
-                px-4 
-                py-3 
-                rounded-full 
-                font-medium 
-                hover:bg-[#801e1d] 
-                hover:text-white 
-                transition 
-                duration-300 
-                mt-0.5"
+          class="flex-1
+          bg-secondary 
+          text-black 
+          px-6 
+          py-3 
+          rounded-xl 
+          font-medium 
+          hover:bg-[#801e1d] 
+          hover:text-white 
+          transition 
+          duration-300"
           (click)="openModal()">
-          Enter
+          Continue
         </button>
       </div>
     </form>
@@ -217,7 +230,7 @@
 </div>
 
 <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-  <div class="bg-white p-8 pb-0 rounded-3xl shadow-lg w-1/2 h-1/3 mb-40">
+  <div class="bg-white p-8 pb-0 rounded-xl shadow-lg w-1/2 h-[40%] mb-40">
     <h2 class="text-center text-2xl font-medium text-primary mb-3">
       Are you sure about the details?
     </h2>
@@ -230,7 +243,7 @@
                 text-white 
                 px-6 
                 py-3 
-                rounded-full 
+                rounded-xl 
                 font-medium 
                 hover:bg-[#ffb700] 
                 hover:text-black
@@ -245,7 +258,7 @@
             text-black 
             px-6 
             py-3 
-            rounded-full 
+            rounded-xl 
             font-medium 
             hover:bg-[#801e1d] 
             hover:text-white 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-student',
@@ -11,22 +12,30 @@ export class StudentComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 12;
+  itemsPerPage: number = 10;
   showModal: boolean = false;
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';
   selectedStudentId: number | null = null;
-  slectedStudentName: string ='';
+  selectedStudentName: string = '';
+  searchTerm: string = '';
+  searchSubject: Subject<string> = new Subject<string>();
 
   constructor(private recordsService: RecordsService, 
               private snackbarService: SnackbarService) {}
 
   ngOnInit(): void {
     this.fetchRecords();
+    this.searchSubject.pipe(
+      debounceTime(300)  // Adjust debounce time as needed
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.fetchRecords();
+    });
   }
 
   fetchRecords() {
-    this.recordsService.getRecords('student', this.itemsPerPage, this.currentPage).subscribe(data => {
+    this.recordsService.getRecords('student', this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(data => {
       this.logs = data.records;
       this.totalPages = data.totalPages;
     }, error => {
@@ -41,7 +50,7 @@ export class StudentComponent implements OnInit {
 
   showConfirmModal(userId: number, name: string): void {
     this.selectedStudentId = userId;
-    this.slectedStudentName = name;
+    this.selectedStudentName = name;
     this.showModal = true;
   }
 
@@ -54,7 +63,6 @@ export class StudentComponent implements OnInit {
     if (this.selectedStudentId !== null) {
       this.recordsService.deleteStudent(this.selectedStudentId).subscribe(
         response => {
-          console.log( this.selectedStudentId, response)
           this.snackbarService.showSnackbar('Student deleted successfully');
           this.fetchRecords();
         },
@@ -65,5 +73,14 @@ export class StudentComponent implements OnInit {
       );
       this.closeConfirmModal();
     }
+  }
+
+  onSearchChange(searchTerm: string) {
+    this.searchSubject.next(searchTerm);
+  }
+
+  clearLogType() {
+    this.searchTerm = ''; // Clear the search term
+    this.fetchRecords();
   }
 }

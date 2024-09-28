@@ -75,6 +75,7 @@ import { SnackbarDeleteComponent } from './super-admin/snackbar-delete/snackbar-
 import { SnackbarComponent } from './admin/snackbar/snackbar.component';
 
 //Services
+import { AnalyticsService } from '../services/analytics.service';
 import { RegisterService } from '../services/register.service';
 import { MaterialsService } from '../services/materials.service';
 import { TimeLogService } from '../services/time-log.service';
@@ -105,6 +106,7 @@ import { EditDepartmentComponent } from './super-admin/edit-department/edit-depa
 import { AddSuccessfulComponent } from './super-admin/add-successful/add-successful.component';
 import { AddDepartmentSuccessComponent } from './super-admin/add-department-success/add-department-success.component';
 import { CourseService } from '../services/course.service';
+import { ChartsService } from '../services/charts.service';
 import { DepartmentService } from '../services/department.service';
 import { LibrarianService } from '../services/librarian.service';
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
@@ -112,7 +114,14 @@ import { MostBorrowedComponent } from './admin/analytics/most-borrowed/most-borr
 import { TopUsersComponent } from './admin/analytics/top-users/top-users.component';
 import { MonthlyUsersComponent } from './admin/analytics/monthly-users/monthly-users.component';
 import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-category-donut/monthly-category-donut.component';
-
+import { TopTenUserTimeinComponent } from './admin/analytics/top-ten-user-timein/top-ten-user-timein.component';
+import { EditTypeComponent } from './admin/edit-type/edit-type.component';
+import { NavbarClientComponent } from './client/navbar-client/navbar-client.component';
+import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.component';
+import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
+import { BookRequestService } from '../services/book-request.service';
+import { ClientSnackbarComponent } from './client/client-snackbar/client-snackbar.component';
+import { RequestComponent } from './admin/request/request.component';
 
 
 @NgModule({
@@ -196,6 +205,13 @@ import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-categor
     TopUsersComponent,
     MonthlyUsersComponent,
     MonthlyCategoryDonutComponent,
+    TopTenUserTimeinComponent,
+    EditTypeComponent,
+    NavbarClientComponent,
+    NavbarAdminComponent,
+    NavbarSuperAdminComponent,
+    ClientSnackbarComponent,
+    RequestComponent,
 
   ],
   imports: [
@@ -233,6 +249,9 @@ import { MonthlyCategoryDonutComponent } from './admin/analytics/monthly-categor
     CourseService,
     DepartmentService,
     LibrarianService,
+    ChartsService,
+    BookRequestService,
+    AnalyticsService,
   ],
   bootstrap: [AppComponent]
 })

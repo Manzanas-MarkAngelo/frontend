@@ -15,6 +15,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 $material_id = $data['material_id'] ?? null;
 
 if ($material_id) {
+    $librarian_sql = "SELECT name FROM librarian ORDER BY id DESC LIMIT 1";
+    $librarian_result = $conn->query($librarian_sql);
+    $librarian_name = $librarian_result->num_rows > 0 ? $librarian_result->fetch_assoc()['name'] : 'Unknown Librarian';
+
     $sql = "SELECT b.*, m.title, m.author, u.user_type, 
             IF(u.user_type = 'student', s.first_name, f.first_name) as first_name,
             IF(u.user_type = 'student', s.surname, f.surname) as surname,
@@ -38,9 +42,9 @@ if ($material_id) {
 
         $due_date = new DateTime($row['due_date']);
         $return_date = new DateTime();
-        $days_late = max($due_date->diff($return_date)->days, 0); // Calculate days late
+        $days_late = max($due_date->diff($return_date)->days, 0);
 
-        $amount_due = $days_late * 10; // ₱10.00 per day penalty
+        $amount_due = $days_late * 10;
 
         echo json_encode([
             'status' => 'success',
@@ -53,7 +57,9 @@ if ($material_id) {
             'author' => $row['author'],
             'date_borrowed' => $row['claim_date'],
             'due_date' => $row['due_date'],
-            'course_department' => $row['course_department']
+            'course_department' => $row['course_department'],
+            'librarian_name' => $librarian_name,
+            'user_type' => $row['user_type']
         ]);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Material ID not found or not overdue.']);
