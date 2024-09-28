@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { MaterialsService } from '../../../services/materials.service';
 import { BookRequestService } from '../../../services/book-request.service';
 import { ClientSnackbarComponent } from '../client-snackbar/client-snackbar.component';
@@ -37,15 +37,21 @@ export class SearchBookComponent implements OnInit {
     author: '',
     year_published: '',
     requester_id: '',
-    requester_type: 'student'
+    requester_type: ''
   };
 
   formErrorMessage: string = '';
+  formSubmitted: boolean = false;
+  tooltipVisible: boolean = false;
+  tooltipMessage: string = '';
+  tooltipPosition = { top: '0px', left: '0px' };
+  fieldErrors: { [key: string]: boolean } = {};
 
   constructor(
     private materialsService: MaterialsService,
     private bookRequestService: BookRequestService,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
@@ -216,46 +222,96 @@ export class SearchBookComponent implements OnInit {
       author: '',
       year_published: '',
       requester_id: '',
-      requester_type: 'student'
+      requester_type: ''
     };
     this.formErrorMessage = '';
-  }  
+    this.formSubmitted = false;
+    this.fieldErrors = {}; 
+  }
 
   openRequestModal() {
-    (document.getElementById('my_modal_1') as HTMLDialogElement)
-      .showModal();
+    this.resetForm();
+    (document.getElementById('my_modal_1') as HTMLDialogElement).showModal();
   }
 
   closeRequestModal() {
     this.resetForm();
-    (document.getElementById('my_modal_1') as HTMLDialogElement)
-      .close();
+    (document.getElementById('my_modal_1') as HTMLDialogElement).close();
   }
 
   openNotRegisteredModal() {
-    (document.getElementById('not_registered_modal') as HTMLDialogElement)
-      .showModal();
+    (document.getElementById('not_registered_modal') as HTMLDialogElement).showModal();
   }
 
   closeNotRegisteredModal() {
-    (document.getElementById('not_registered_modal') as HTMLDialogElement)
-      .close();
+    (document.getElementById('not_registered_modal') as HTMLDialogElement).close();
+  }
+
+  detectRequesterType(requesterId: string): string {
+    if (/^\d{4}-\d{5}-TG-0$/.test(requesterId)) {
+      return 'student';
+    } else if (/^FA\d{4}TG\d{4}$/.test(requesterId)) {
+      return 'faculty';
+    } else {
+      return 'visitor';
+    }
+  }
+
+  onFieldInput(field: string) {
+    if (this.fieldErrors[field]) {
+      this.fieldErrors[field] = false;
+    }
+
+    if (this.allFieldsValid()) {
+      this.formErrorMessage = '';
+    }
+  }
+
+  allFieldsValid(): boolean {
+    return this.request.title.trim() !== '' &&
+           this.request.author.trim() !== '' &&
+           this.request.year_published.trim() !== '' &&
+           this.request.requester_id.trim() !== '';
+  }
+
+  showTooltip(message: string) {
+    this.tooltipVisible = true;
+    this.tooltipMessage = message;
+  }
+
+  hideTooltip() {
+    this.tooltipVisible = false;
   }
 
   submitRequest() {
-    this.formErrorMessage = '';
-  
-    if (
-      !this.request.title || 
-      !this.request.author || 
-      !this.request.year_published || 
-      !this.request.requester_id
-    ) {
-      this.formErrorMessage = 
-        'Please fill out all the fields before submitting the request.';
+    this.formSubmitted = true;
+    this.fieldErrors = {};
+
+    let isValid = true;
+    if (!this.request.title) {
+      this.fieldErrors['title'] = true;
+      isValid = false;
+    }
+    if (!this.request.author) {
+      this.fieldErrors['author'] = true;
+      isValid = false;
+    }
+    if (!this.request.year_published) {
+      this.fieldErrors['year_published'] = true;
+      isValid = false;
+    }
+    if (!this.request.requester_id) {
+      this.fieldErrors['requester_id'] = true;
+      isValid = false;
+    }
+
+    if (!isValid) {
+      this.formErrorMessage = 'Please fill out all the fields before submitting the request.';
       return;
     }
-  
+
+    this.request.requester_type = this.detectRequesterType(this.request.requester_id);
+
     this.bookRequestService.submitBookRequest(this.request).subscribe(
       response => {
         if (response.success) {
@@ -266,9 +322,7 @@ export class SearchBookComponent implements OnInit {
           if (response.message === 'Requestor not found.') {
             this.openNotRegisteredModal();
           } else {
-            this.snackbar.showMessage(
-              'Failed to submit book request: ' + response.message
-            );
+            this.snackbar.showMessage('Failed to submit book request: ' + response.message);
           }
         }
       },
@@ -277,5 +331,5 @@ export class SearchBookComponent implements OnInit {
         console.error('Error:', error);
       }
     );
-  }  
+  }
 }

@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
   }
 
   validateEmpNumber(): boolean {
-    const empNumberPattern = /^FA\d{8}$/;
+    const empNumberPattern = /^FA\d{4}TG\d{4}$/;
     if (!this.empNumber.match(empNumberPattern)) {
       this.isEmpNumberValid = false;
       this.empNumberError = 'Invalid faculty code format.';
@@ -191,7 +191,6 @@ export class RegisterComponent implements OnInit {
         this.isContactExists = false;
       });
   }
-  
   
   onSubmitForm() {
     const formData: any = {
