@@ -37,43 +37,77 @@
     <form (submit)="onSubmit()">
       <div class="mb-4 mt-4 flex items-center space-x-4">
         <ng-container *ngIf="selectedRole === 'student'">
-          <input
-            id="studentNumber"
-            name="studentNumber"
-            type="text"
-            [(ngModel)]="studentNumber"
-            placeholder="Enter your PUP ID number here"
-            class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" 
-            [ngClass]="{'border-red-500': !studentNumber && hasFormErrors}"
-            (input)="onFieldInput('studentNumber')"
-          />
+          <div class="relative flex-grow">
+            <input
+              id="studentNumber"
+              name="studentNumber"
+              type="text"
+              [(ngModel)]="studentNumber"
+              placeholder="Enter your PUP ID number here"
+              class="mt-1 block w-full rounded-xl border border-gray-300 
+                     px-6 py-2 focus:ring-opacity-50 text-lg"
+              [ngClass]="{'border-red-500': (!studentNumber && hasFormErrors) || !isStudentNumberValid || isUserExists}"
+              (input)="onFieldInput('studentNumber')"
+            />
+            <span *ngIf="(!studentNumber && hasFormErrors) || !isStudentNumberValid || isUserExists" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                           bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                           whitespace-nowrap group-hover:block hidden">
+                {{ !studentNumber && hasFormErrors ? 'Student number cannot be empty.' 
+                   : !isStudentNumberValid ? studentNumberError 
+                   : isUserExists ? userExistsError : '' }}
+              </span>
+            </span>
+          </div>
         </ng-container>
         <ng-container *ngIf="selectedRole === 'faculty'">
-          <input
-            id="employeeNumber"
-            name="employeeNumber" 
-            type="text" 
-            [(ngModel)]="empNumber" 
-            placeholder="Enter your Faculty code here"
-            class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" 
-            [ngClass]="{'border-red-500': !empNumber && hasFormErrors}"
-            (input)="onFieldInput('empNumber')"
-          />
+          <div class="relative flex-grow">
+            <input
+              id="employeeNumber"
+              name="employeeNumber" 
+              type="text" 
+              [(ngModel)]="empNumber" 
+              placeholder="Enter your Faculty code here"
+              class="mt-1 block w-full rounded-xl border border-gray-300 
+                     px-6 py-2 focus:ring-opacity-50 text-lg" 
+              [ngClass]="{'border-red-500': (!empNumber && hasFormErrors) || !isEmpNumberValid || isUserExists}"
+              (input)="onFieldInput('empNumber')"
+            />
+            <span *ngIf="(!empNumber && hasFormErrors) || !isEmpNumberValid || isUserExists" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                           bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                           whitespace-nowrap group-hover:block hidden">
+                {{ !empNumber && hasFormErrors ? 'Faculty code cannot be empty.' 
+                   : !isEmpNumberValid ? empNumberError 
+                   : isUserExists ? userExistsError : '' }}
+              </span>
+            </span>
+          </div>
         </ng-container>
         <ng-container *ngIf="selectedRole === 'visitor'">
-          <input
-            id="school" 
-            name="school" 
-            type="text" 
-            [(ngModel)]="school" 
-            placeholder="School"
-            class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" 
-            [ngClass]="{'border-red-500': !school && hasFormErrors}"
-            (input)="onFieldInput('school')"
-          />
+          <div class="relative flex-grow">
+            <input
+              id="school" 
+              name="school" 
+              type="text" 
+              [(ngModel)]="school" 
+              placeholder="School"
+              class="mt-1 block w-full rounded-xl border border-gray-300 
+                     px-6 py-2 focus:ring-opacity-50 text-lg" 
+              [ngClass]="{'border-red-500': !school && hasFormErrors}"
+              (input)="onFieldInput('school')"
+            />
+            <span *ngIf="!school && hasFormErrors" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                           bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                           whitespace-nowrap group-hover:block hidden">
+                School cannot be empty.
+              </span>
+            </span>
+          </div>
         </ng-container>
         <div class="relative mr-44">
           <select
@@ -89,6 +123,14 @@
             <option>Male</option>
             <option>Female</option>
           </select>
+          <span *ngIf="!sex && hasFormErrors" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+            <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+            <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                         bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                         whitespace-nowrap group-hover:block hidden">
+              Gender must be selected.
+            </span>
+          </span>
           <div 
             class="pointer-events-none absolute inset-y-0 top-1.5 right-2 
                    flex items-center text-gray-700">
@@ -109,40 +151,72 @@
         </div>
       </div>
       <div class="mb-4 mt-1 flex items-center space-x-2">
-        <input 
-          id="fname" 
-          name="fname" 
-          type="text" 
-          [(ngModel)]="firstName" 
-          class="flex-grow flex mt-1 rounded-xl border border-gray-300 
-                 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
-          placeholder="First name" 
-          [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
-          (input)="onFieldInput('firstName')"
-        />
-        <input 
-          id="lname" 
-          name="lname" 
-          type="text" 
-          [(ngModel)]="lastName" 
-          class="flex-grow flex mt-1 rounded-xl border border-gray-300
-                 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
-          placeholder="Last name" 
-          [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
-          (input)="onFieldInput('lastName')"
-        />
+        <div class="relative flex-grow">
+          <input 
+            id="fname" 
+            name="fname" 
+            type="text" 
+            [(ngModel)]="firstName" 
+            class="mt-1 block w-full rounded-xl border border-gray-300 
+                   px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
+            placeholder="First name" 
+            [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
+            (input)="onFieldInput('firstName')"
+          />
+          <span *ngIf="!firstName && hasFormErrors" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+            <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+            <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                         bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                         whitespace-nowrap group-hover:block hidden">
+              First name cannot be empty.
+            </span>
+          </span>
+        </div>
+        <div class="relative flex-grow">
+          <input 
+            id="lname" 
+            name="lname" 
+            type="text" 
+            [(ngModel)]="lastName" 
+            class="mt-1 block w-full rounded-xl border border-gray-300
+                   px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
+            placeholder="Last name" 
+            [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
+            (input)="onFieldInput('lastName')"
+          />
+          <span *ngIf="!lastName && hasFormErrors" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+            <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+            <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                         bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                         whitespace-nowrap group-hover:block hidden">
+              Last name cannot be empty.
+            </span>
+          </span>
+        </div>
 
-        <input 
-          id="contact" 
-          name="contact" 
-          type="text" 
-          [(ngModel)]="contact" 
-          class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                 px-6 py-2 focus:ring-opacity-50 text-lg" 
-          placeholder="Contact number" 
-          [ngClass]="{'border-red-500': !contact && hasFormErrors}"
-          (input)="onFieldInput('contact')"
-        />
+        <div class="relative flex-grow">
+          <input 
+            id="contact" 
+            name="contact" 
+            type="text" 
+            [(ngModel)]="contact" 
+            class="mt-1 block w-full rounded-xl border border-gray-300 
+                   px-6 py-2 focus:ring-opacity-50 text-lg" 
+            placeholder="Contact number" 
+            [ngClass]="{'border-red-500': (!contact && hasFormErrors) || !isContactValid || isContactExists}"
+            (input)="onFieldInput('contact')"
+          />
+          <span *ngIf="(!contact && hasFormErrors) || !isContactValid || isContactExists" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+            <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+            <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                         bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                         whitespace-nowrap group-hover:block hidden">
+                {{ !contact && hasFormErrors ? 'Contact number cannot be empty.' 
+                   : !isContactValid ? contactError 
+                   : isContactExists ? contactExistsError : '' }}
+            </span>
+          </span>
+        </div>
 
         <div class="relative mr-44">
           <ng-container *ngIf="selectedRole === 'student'">
@@ -160,23 +234,31 @@
                 {{ course.course_abbreviation }}
               </option>
             </select>
+            <span *ngIf="!courseId && hasFormErrors" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                           bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                           whitespace-nowrap group-hover:block hidden">
+                Course must be selected.
+              </span>
+            </span>
             <div 
-            class="pointer-events-none absolute inset-y-0 top-1.5 right-2 
-                   flex items-center text-gray-700">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke-width="1.5" 
-              stroke="currentColor" 
-              class="size-5">
-              <path 
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                d="m19.5 8.25-7.5 7.5-7.5-7.5" 
-              />
-            </svg>
-          </div>
+              class="pointer-events-none absolute inset-y-0 top-1.5 right-2 
+                    flex items-center text-gray-700">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke-width="1.5" 
+                stroke="currentColor" 
+                class="size-5">
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5" 
+                />
+              </svg>
+            </div>
           </ng-container>
           <ng-container *ngIf="selectedRole === 'faculty'">
             <select 
@@ -193,6 +275,14 @@
                 {{ dept.dept_abbreviation }}
               </option>
             </select>
+            <span *ngIf="!department && hasFormErrors" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                           bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                           whitespace-nowrap group-hover:block hidden">
+                Department must be selected.
+              </span>
+            </span>
             <div 
               class="pointer-events-none absolute inset-y-0 top-1.5 right-2 
                     flex items-center text-gray-700">
@@ -216,30 +306,52 @@
 
       <div class="mb-4 flex items-center space-x-4">
         <ng-container *ngIf="selectedRole !== 'visitor'">
-          <input 
-            id="email"
-            name="email" 
-            type="text" 
-            [(ngModel)]="email"
-            class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" 
-            placeholder="Email" 
-            [ngClass]="{'border-red-500': !email && hasFormErrors}"
-            (input)="onFieldInput('email')"
-          />
+          <div class="relative flex-grow">
+            <input 
+              id="email"
+              name="email" 
+              type="text" 
+              [(ngModel)]="email"
+              class="mt-1 block w-full rounded-xl border border-gray-300 
+                     px-6 py-2 focus:ring-opacity-50 text-lg" 
+              placeholder="Email" 
+              [ngClass]="{'border-red-500': (!email && hasFormErrors) || !isEmailValid }"
+              (input)="onFieldInput('email')"
+            />
+            <span *ngIf="(!email && hasFormErrors) || !isEmailValid " class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                           bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                           whitespace-nowrap group-hover:block hidden">
+                {{ !email && hasFormErrors ? 'Email cannot be empty.' 
+                   : !isEmailValid ? emailError : '' }}
+              </span>
+            </span>
+          </div>
         </ng-container> 
         <ng-container *ngIf="selectedRole === 'visitor'">
-          <input 
-            id="identifier" 
-            name="identifier" 
-            type="text" 
-            [(ngModel)]="identifier" 
-            class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" 
-            placeholder="Identifier"
-            [ngClass]="{'border-red-500': !identifier && hasFormErrors}"
-            (input)="onFieldInput('identifier')"
-          />
+          <div class="relative flex-grow">
+            <input
+              id="identifier" 
+              name="identifier" 
+              type="text" 
+              [(ngModel)]="identifier" 
+              placeholder="Enter your identifier here"
+              class="mt-1 block w-full rounded-xl border border-gray-300 
+                     px-6 py-2 focus:ring-opacity-50 text-lg" 
+              [ngClass]="{'border-red-500': (!identifier && hasFormErrors) || isUserExists}"
+              (input)="onFieldInput('identifier')"
+            />
+            <span *ngIf="(!identifier && hasFormErrors) || isUserExists" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+              <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4 mt-1"/>
+              <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
+                           bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
+                           whitespace-nowrap group-hover:block hidden">
+                {{ !identifier && hasFormErrors ? 'Identifier cannot be empty.' 
+                   : isUserExists ? userExistsError : '' }}
+              </span>
+            </span>
+          </div>
         </ng-container>       
         <button 
           type="submit" 
@@ -263,35 +375,6 @@
 
       <div *ngIf="hasFormErrors" class="text-red-500 text-center mt-2">
         Please fill out all the required fields.
-      </div>
-
-      <div *ngIf="!hasFormErrors && 
-                  (!isStudentNumberValid || 
-                  !isEmpNumberValid || 
-                  isUserExists || 
-                  !isContactValid || 
-                  isContactExists || 
-                  !isEmailValid)" 
-            class="flex flex-col items-center justify-center mt-2 
-                   space-y-2 text-center">
-        <span *ngIf="!isStudentNumberValid" class="text-red-500">
-          {{ studentNumberError }}
-        </span>
-        <span *ngIf="!isEmpNumberValid" class="text-red-500">
-          {{ empNumberError }}
-        </span>
-        <span *ngIf="isUserExists" class="text-red-500">
-          {{ userExistsError }}
-        </span>
-        <span *ngIf="!isContactValid" class="text-red-500">
-          {{ contactError }}
-        </span>
-        <span *ngIf="isContactExists" class="text-red-500">
-          {{ contactExistsError }}
-        </span>
-        <span *ngIf="!isEmailValid" class="text-red-500">
-          {{ emailError }}
-        </span>
       </div>
     </form>
   </div>
@@ -333,7 +416,7 @@
           <div><span class="text-primary font-semibold">Last name: </span>{{ lastName }}</div>
           <div><span class="text-primary font-semibold">Gender: </span>{{ sex }}</div>
           <div><span class="text-primary font-semibold">Contact number: </span>{{ contact }}</div>
-          <div><span class="text-primary font-semibold">Identifier: </span>{{ identifier }}</div> <!-- Added identifier field -->
+          <div><span class="text-primary font-semibold">Identifier: </span>{{ identifier }}</div>
         </div>
       </div>
 
@@ -352,7 +435,3 @@
       </div>
   </div>
 </dialog>
-
-
-
-<!-- // GOODSS -->

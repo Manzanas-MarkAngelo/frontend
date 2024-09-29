@@ -142,14 +142,26 @@ export class RegisterComponent implements OnInit {
   }
 
   onFieldInput(field: string) {
-    // Mark the field as valid when user starts typing
     this.fieldErrors[field] = false;
   
-    // Check all fields validity and remove errors if they are filled
-    if (this.allFieldsValid()) {
-      this.hasFormErrors = false; // Remove the error message
+    if (field === 'studentNumber') {
+      this.isStudentNumberValid = true;
+      this.isUserExists = false;
+    } else if (field === 'empNumber') {
+      this.isEmpNumberValid = true;
+      this.isUserExists = false;
+    } else if (field === 'contact') {
+      this.isContactValid = true;
+      this.isContactExists = false;
+    } else if (field === 'email') {
+      this.isEmailValid = true;
+      this.isContactExists = false;
     }
-  }  
+
+    if (this.allFieldsValid()) {
+      this.hasFormErrors = false;
+    }
+  }
 
   allFieldsValid(): boolean {
     if (this.selectedRole === 'student') {
@@ -177,24 +189,24 @@ export class RegisterComponent implements OnInit {
              this.contact.trim() !== '';
     }
     return false;
-  }  
+  }
 
   onSubmit() {
     this.isStudentNumberValid = true;
     this.isEmpNumberValid = true;
     this.isContactValid = true;
-    this.isEmailValid = true; // Reset email validation flag
+    this.isEmailValid = true;
     this.isUserExists = false;
     this.isContactExists = false;
     this.hasFormErrors = false;
-  
+
     let formIsValid = true;
-  
+
     if (!this.validateRequiredFields()) {
       this.hasFormErrors = true;
       return;
     }
-  
+
     if (this.selectedRole === 'student') {
       if (!this.validateStudentNumber()) {
         formIsValid = false;
@@ -210,15 +222,15 @@ export class RegisterComponent implements OnInit {
         formIsValid = false;
       }
     }
-  
+
     if (!this.validateContact()) {
       formIsValid = false;
     }
 
-    if (!this.validateEmail()) { // Email validation check
+    if (this.selectedRole !== 'visitor' && !this.validateEmail()) {
       formIsValid = false;
     }
-  
+
     this.checkIfUserExistsAndContact(
       this.selectedRole, 
       this.selectedRole === 'student' 
@@ -229,20 +241,20 @@ export class RegisterComponent implements OnInit {
       this.contact
     );
   }
-  
+
   checkIfUserExistsAndContact(role: string, identifier: string, contact: string) {
     const identifierCheck = this.registerService
       .checkUserExists(role, identifier, '').toPromise();
     const contactCheck = this.registerService
       .checkUserExists(role, '', contact).toPromise();
-  
+
     Promise.all([identifierCheck, contactCheck])
       .then((results) => {
         const [identifierResponse, contactResponse] = results;
-  
+
         this.isUserExists = false;
         this.isContactExists = false;
-  
+
         if (identifierResponse.registered) {
           if (identifierResponse.message.includes('identifier')) {
             this.isUserExists = true;
@@ -254,26 +266,25 @@ export class RegisterComponent implements OnInit {
                 : 'Visitor identifier is already registered.';
           }
         }
-  
+
         if (contactResponse.registered) {
           if (contactResponse.message.includes('contact')) {
             this.isContactExists = true;
             this.contactExistsError = 'Contact number is already registered.';
           }
         }
-  
+
         if (
           this.isUserExists || 
           this.isContactExists || 
-          !this.isStudentNumberValid && this.selectedRole === 'student' || 
-          !this.isEmpNumberValid && this.selectedRole === 'faculty' || 
+          (!this.isStudentNumberValid && this.selectedRole === 'student') || 
+          (!this.isEmpNumberValid && this.selectedRole === 'faculty') || 
           !this.isContactValid || 
-          !this.isEmailValid // Check for email validity
+          !this.isEmailValid
         ) {
           return;
         }
 
-        // Open modal if there are no errors
         this.openRequestModal();
       })
       .catch((error) => {
@@ -301,7 +312,7 @@ export class RegisterComponent implements OnInit {
       school: this.school,
       courseId: this.courseId,
       contact: this.contact,
-      email: this.email
+      email: this.email,
     };
 
     if (this.selectedRole === 'student') {
@@ -320,16 +331,12 @@ export class RegisterComponent implements OnInit {
   }
 
   getCourseName(courseId: string): string {
-    const course = this.courses.find(c => c.id === courseId);
+    const course = this.courses.find((c) => c.id === courseId);
     return course ? course.course_abbreviation : '';
   }
 
   getDepartmentName(departmentId: string): string {
-    const department = this.departments.find(d => d.id === departmentId);
+    const department = this.departments.find((d) => d.id === departmentId);
     return department ? department.dept_abbreviation : '';
   }
 }
-
-
-
-//GOODS

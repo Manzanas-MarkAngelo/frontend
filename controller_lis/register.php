@@ -27,7 +27,7 @@ $courseId = isset($data['courseId']) ? $data['courseId'] : null;
 $contact = isset($data['contact']) ? $data['contact'] : null;
 $empNumber = isset($data['empNumber']) ? $data['empNumber'] : null;
 $identifier = isset($data['identifier']) ? $data['identifier'] : null;
-$email = isset($data['email']) ? $data['email'] : null; // Keep email field for student and faculty
+$email = isset($data['email']) ? $data['email'] : null;
 
 if (!$selectedRole) {
     echo json_encode(['status' => 'error', 'message' => 'Role is required']);
@@ -76,3 +76,4 @@ try {
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 $conn->close();
+?>
