@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
   school: string = '';
   courseId: string = '';
   identifier: string = '';
+  email: string = '';
   courses: any[] = [];
   departments: any[] = [];
 
@@ -34,7 +35,11 @@ export class RegisterComponent implements OnInit {
   contactError: string = '';
   isContactExists: boolean = false;
   contactExistsError: string = '';
+  isEmailValid: boolean = true;
+  emailError: string = '';
   hasFormErrors: boolean = false;
+
+  fieldErrors: { [key: string]: boolean } = {};
 
   constructor(
     private registerService: RegisterService,
@@ -96,10 +101,89 @@ export class RegisterComponent implements OnInit {
     return true;
   }
 
+  validateEmail(): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.email.match(emailPattern)) {
+      this.isEmailValid = false;
+      this.emailError = 'Invalid email format.';
+      return false;
+    }
+    this.isEmailValid = true;
+    this.emailError = '';
+    return true;
+  }
+
+  validateRequiredFields(): boolean {
+    if (this.selectedRole === 'student') {
+      return !!this.studentNumber && 
+             !!this.sex && 
+             !!this.firstName && 
+             !!this.lastName && 
+             !!this.courseId && 
+             !!this.contact && 
+             !!this.email;
+    } else if (this.selectedRole === 'faculty') {
+      return !!this.empNumber && 
+             !!this.sex && 
+             !!this.firstName && 
+             !!this.lastName && 
+             !!this.department && 
+             !!this.contact && 
+             !!this.email;
+    } else if (this.selectedRole === 'visitor') {
+      return !!this.school && 
+             !!this.sex && 
+             !!this.firstName && 
+             !!this.lastName && 
+             !!this.identifier && 
+             !!this.contact;
+    }
+    return false;
+  }
+
+  onFieldInput(field: string) {
+    // Mark the field as valid when user starts typing
+    this.fieldErrors[field] = false;
+  
+    // Check all fields validity and remove errors if they are filled
+    if (this.allFieldsValid()) {
+      this.hasFormErrors = false; // Remove the error message
+    }
+  }  
+
+  allFieldsValid(): boolean {
+    if (this.selectedRole === 'student') {
+      return this.studentNumber.trim() !== '' &&
+             this.sex.trim() !== '' &&
+             this.firstName.trim() !== '' &&
+             this.lastName.trim() !== '' &&
+             this.courseId.trim() !== '' &&
+             this.contact.trim() !== '' &&
+             this.email.trim() !== '';
+    } else if (this.selectedRole === 'faculty') {
+      return this.empNumber.trim() !== '' &&
+             this.sex.trim() !== '' &&
+             this.firstName.trim() !== '' &&
+             this.lastName.trim() !== '' &&
+             this.department.trim() !== '' &&
+             this.contact.trim() !== '' &&
+             this.email.trim() !== '';
+    } else if (this.selectedRole === 'visitor') {
+      return this.school.trim() !== '' &&
+             this.sex.trim() !== '' &&
+             this.firstName.trim() !== '' &&
+             this.lastName.trim() !== '' &&
+             this.identifier.trim() !== '' &&
+             this.contact.trim() !== '';
+    }
+    return false;
+  }  
+
   onSubmit() {
     this.isStudentNumberValid = true;
     this.isEmpNumberValid = true;
     this.isContactValid = true;
+    this.isEmailValid = true; // Reset email validation flag
     this.isUserExists = false;
     this.isContactExists = false;
     this.hasFormErrors = false;
@@ -130,6 +214,10 @@ export class RegisterComponent implements OnInit {
     if (!this.validateContact()) {
       formIsValid = false;
     }
+
+    if (!this.validateEmail()) { // Email validation check
+      formIsValid = false;
+    }
   
     this.checkIfUserExistsAndContact(
       this.selectedRole, 
@@ -137,8 +225,9 @@ export class RegisterComponent implements OnInit {
         ? this.studentNumber 
         : this.selectedRole === 'faculty' 
         ? this.empNumber 
-        : this.identifier, this.contact
-      );
+        : this.identifier, 
+      this.contact
+    );
   }
   
   checkIfUserExistsAndContact(role: string, identifier: string, contact: string) {
@@ -176,14 +265,16 @@ export class RegisterComponent implements OnInit {
         if (
           this.isUserExists || 
           this.isContactExists || 
-          !this.isStudentNumberValid || 
-          !this.isEmpNumberValid || 
-          !this.isContactValid
+          !this.isStudentNumberValid && this.selectedRole === 'student' || 
+          !this.isEmpNumberValid && this.selectedRole === 'faculty' || 
+          !this.isContactValid || 
+          !this.isEmailValid // Check for email validity
         ) {
           return;
         }
-  
-        this.onSubmitForm();
+
+        // Open modal if there are no errors
+        this.openRequestModal();
       })
       .catch((error) => {
         console.error('Error checking user or contact:', error);
@@ -191,8 +282,16 @@ export class RegisterComponent implements OnInit {
         this.isContactExists = false;
       });
   }
-  
-  onSubmitForm() {
+
+  openRequestModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement).showModal();
+  }
+
+  closeRequestModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement).close();
+  }
+
+  submitForm() {
     const formData: any = {
       selectedRole: this.selectedRole,
       sex: this.sex,
@@ -202,6 +301,7 @@ export class RegisterComponent implements OnInit {
       school: this.school,
       courseId: this.courseId,
       contact: this.contact,
+      email: this.email
     };
 
     if (this.selectedRole === 'student') {
@@ -219,40 +319,17 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  validateRequiredFields(): boolean {
-    if (this.selectedRole === 'student') {
-      return !!this.studentNumber && 
-             !!this.sex && 
-             !!this.firstName && 
-             !!this.lastName && 
-             !!this.courseId && 
-             !!this.contact;
-    } else if (this.selectedRole === 'faculty') {
-      return !!this.empNumber && 
-             !!this.sex && 
-             !!this.firstName && 
-             !!this.lastName && 
-             !!this.department && 
-             !!this.contact;
-    } else if (this.selectedRole === 'visitor') {
-      return !!this.school && 
-             !!this.sex && 
-             !!this.firstName && 
-             !!this.lastName && 
-             !!this.identifier && 
-             !!this.contact;
-    }
-    return false;
+  getCourseName(courseId: string): string {
+    const course = this.courses.find(c => c.id === courseId);
+    return course ? course.course_abbreviation : '';
   }
 
-  openRequestModal() {
-    (document.getElementById('my_modal_1') as HTMLDialogElement)
-      .showModal();
+  getDepartmentName(departmentId: string): string {
+    const department = this.departments.find(d => d.id === departmentId);
+    return department ? department.dept_abbreviation : '';
   }
-
-  closeRequestModal() {
-    (document.getElementById('my_modal_1') as HTMLDialogElement)
-      .close();
-  }
-
 }
+
+
+
+//GOODS

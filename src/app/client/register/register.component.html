@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <form (submit)="openRequestModal()">
+    <form (submit)="onSubmit()">
       <div class="mb-4 mt-4 flex items-center space-x-4">
         <ng-container *ngIf="selectedRole === 'student'">
           <input
@@ -44,7 +44,10 @@
             [(ngModel)]="studentNumber"
             placeholder="Enter your PUP ID number here"
             class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" />
+                   px-6 py-2 focus:ring-opacity-50 text-lg" 
+            [ngClass]="{'border-red-500': !studentNumber && hasFormErrors}"
+            (input)="onFieldInput('studentNumber')"
+          />
         </ng-container>
         <ng-container *ngIf="selectedRole === 'faculty'">
           <input
@@ -54,7 +57,10 @@
             [(ngModel)]="empNumber" 
             placeholder="Enter your Faculty code here"
             class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" />
+                   px-6 py-2 focus:ring-opacity-50 text-lg" 
+            [ngClass]="{'border-red-500': !empNumber && hasFormErrors}"
+            (input)="onFieldInput('empNumber')"
+          />
         </ng-container>
         <ng-container *ngIf="selectedRole === 'visitor'">
           <input
@@ -64,7 +70,10 @@
             [(ngModel)]="school" 
             placeholder="School"
             class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                   px-6 py-2 focus:ring-opacity-50 text-lg" />
+                   px-6 py-2 focus:ring-opacity-50 text-lg" 
+            [ngClass]="{'border-red-500': !school && hasFormErrors}"
+            (input)="onFieldInput('school')"
+          />
         </ng-container>
         <div class="relative mr-44">
           <select
@@ -73,7 +82,9 @@
             [(ngModel)]="sex" 
             class="block appearance-none w-full bg-white text-gray-700 border border-gray-300 
                    font-medium py-3 px-6 pr-8 rounded-xl leading-tight 
-                   focus:outline-none focus:bg-white cursor-pointer text-lg mt-1">
+                   focus:outline-none focus:bg-white cursor-pointer text-lg mt-1" 
+            [ngClass]="{'border-red-500': !sex && hasFormErrors}"
+            (input)="onFieldInput('sex')">
             <option value="" disabled selected>Gender</option>
             <option>Male</option>
             <option>Female</option>
@@ -106,6 +117,8 @@
           class="flex-grow flex mt-1 rounded-xl border border-gray-300 
                  px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
           placeholder="First name" 
+          [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
+          (input)="onFieldInput('firstName')"
         />
         <input 
           id="lname" 
@@ -115,17 +128,21 @@
           class="flex-grow flex mt-1 rounded-xl border border-gray-300
                  px-3 pl-6 py-2 focus:ring-opacity-50 text-lg" 
           placeholder="Last name" 
+          [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
+          (input)="onFieldInput('lastName')"
         />
 
         <input 
-        id="contact" 
-        name="contact" 
-        type="text" 
-        [(ngModel)]="contact" 
-        class="flex-grow mt-1 block rounded-xl border border-gray-300 
-               px-6 py-2 focus:ring-opacity-50 text-lg" 
-        placeholder="Contact number" 
-      />
+          id="contact" 
+          name="contact" 
+          type="text" 
+          [(ngModel)]="contact" 
+          class="flex-grow mt-1 block rounded-xl border border-gray-300 
+                 px-6 py-2 focus:ring-opacity-50 text-lg" 
+          placeholder="Contact number" 
+          [ngClass]="{'border-red-500': !contact && hasFormErrors}"
+          (input)="onFieldInput('contact')"
+        />
 
         <div class="relative mr-44">
           <ng-container *ngIf="selectedRole === 'student'">
@@ -135,7 +152,9 @@
               [(ngModel)]="courseId" 
               class="block appearance-none w-auto bg-white border border-gray-300 text-gray-700 
                      font-medium py-3 px-6 pr-8 rounded-xl leading-tight 
-                     focus:outline-none focus:bg-white cursor-pointer text-lg mt-1">
+                     focus:outline-none focus:bg-white cursor-pointer text-lg mt-1"
+              [ngClass]="{'border-red-500': !courseId && hasFormErrors}"
+              (input)="onFieldInput('courseId')">
               <option value="" disabled selected>Course</option>
               <option *ngFor="let course of courses" [value]="course.id">
                 {{ course.course_abbreviation }}
@@ -166,52 +185,62 @@
               [(ngModel)]="department" 
               class="block appearance-none w-auto bg-white border border-gray-300 text-gray-700 
                      font-medium py-3 px-6 pr-8 rounded-xl leading-tight 
-                     focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg mt-1">
+                     focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg mt-1"
+              [ngClass]="{'border-red-500': !department && hasFormErrors}"
+              (input)="onFieldInput('department')">
               <option value="" disabled selected>Department</option>
               <option *ngFor="let dept of departments" [value]="dept.id">
                 {{ dept.dept_abbreviation }}
               </option>
             </select>
             <div 
-            class="pointer-events-none absolute inset-y-0 top-1.5 right-2 
-                   flex items-center text-gray-700">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke-width="1.5" 
-              stroke="currentColor" 
-              class="size-5">
-              <path 
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                d="m19.5 8.25-7.5 7.5-7.5-7.5" 
-              />
-            </svg>
-          </div>
+              class="pointer-events-none absolute inset-y-0 top-1.5 right-2 
+                    flex items-center text-gray-700">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke-width="1.5" 
+                stroke="currentColor" 
+                class="size-5">
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5" 
+                />
+              </svg>
+            </div>
           </ng-container>
-          <ng-container *ngIf="selectedRole === 'visitor'">
-            <input 
-              id="identifier" 
-              name="identifier" 
-              type="text" 
-              [(ngModel)]="identifier" 
-              class="w-32 mt-1 block rounded-xl border border-gray-300 
-                     px-6 py-2 focus:ring-opacity-50 text-lg" 
-              placeholder="Identifier"/>
-          </ng-container>        
         </div>
       </div>
 
       <div class="mb-4 flex items-center space-x-4">
-        <input 
-          id="email"
-          name="email" 
-          type="text" 
-          class="flex-grow mt-1 block rounded-xl border border-gray-300 
-                 px-6 py-2 focus:ring-opacity-50 text-lg" 
-          placeholder="Email" 
-        />
+        <ng-container *ngIf="selectedRole !== 'visitor'">
+          <input 
+            id="email"
+            name="email" 
+            type="text" 
+            [(ngModel)]="email"
+            class="flex-grow mt-1 block rounded-xl border border-gray-300 
+                   px-6 py-2 focus:ring-opacity-50 text-lg" 
+            placeholder="Email" 
+            [ngClass]="{'border-red-500': !email && hasFormErrors}"
+            (input)="onFieldInput('email')"
+          />
+        </ng-container> 
+        <ng-container *ngIf="selectedRole === 'visitor'">
+          <input 
+            id="identifier" 
+            name="identifier" 
+            type="text" 
+            [(ngModel)]="identifier" 
+            class="flex-grow mt-1 block rounded-xl border border-gray-300 
+                   px-6 py-2 focus:ring-opacity-50 text-lg" 
+            placeholder="Identifier"
+            [ngClass]="{'border-red-500': !identifier && hasFormErrors}"
+            (input)="onFieldInput('identifier')"
+          />
+        </ng-container>       
         <button 
           type="submit" 
           class="w-40 bg-primary text-white px-4 py-3 rounded-xl font-medium 
@@ -241,7 +270,8 @@
                   !isEmpNumberValid || 
                   isUserExists || 
                   !isContactValid || 
-                  isContactExists)" 
+                  isContactExists || 
+                  !isEmailValid)" 
             class="flex flex-col items-center justify-center mt-2 
                    space-y-2 text-center">
         <span *ngIf="!isStudentNumberValid" class="text-red-500">
@@ -259,6 +289,9 @@
         <span *ngIf="isContactExists" class="text-red-500">
           {{ contactExistsError }}
         </span>
+        <span *ngIf="!isEmailValid" class="text-red-500">
+          {{ emailError }}
+        </span>
       </div>
     </form>
   </div>
@@ -272,85 +305,37 @@
       <p class="text-black text-sm text-center my-1">
         Note: Kindly double-check your information to ensure there are no errors.
       </p>
-      @if (selectedRole === 'student') {
-        <div class="flex justify-center items-center gap-2 flex-col mt-5">
-          <div>
-            <span class="text-primary font-semibold">Role: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Student number: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">First name: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Last name: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Gender: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Course: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Contact number: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Email: </span><span>sampletestagmail.com</span>
-          </div>
+      <div class="flex justify-center items-center gap-2 flex-col mt-5">
+        <div *ngIf="selectedRole === 'student'">
+          <div><span class="text-primary font-semibold">Role: </span>{{ selectedRole }}</div>
+          <div><span class="text-primary font-semibold">Student number: </span>{{ studentNumber }}</div>
+          <div><span class="text-primary font-semibold">First name: </span>{{ firstName }}</div>
+          <div><span class="text-primary font-semibold">Last name: </span>{{ lastName }}</div>
+          <div><span class="text-primary font-semibold">Gender: </span>{{ sex }}</div>
+          <div><span class="text-primary font-semibold">Course: </span>{{ getCourseName(courseId) }}</div>
+          <div><span class="text-primary font-semibold">Contact number: </span>{{ contact }}</div>
+          <div><span class="text-primary font-semibold">Email: </span>{{ email }}</div>
         </div>
-      } @else if (selectedRole === 'faculty') {
-        <div class="flex justify-center items-center gap-2 flex-col mt-5">
-          <div>
-            <span class="text-primary font-semibold">Role: </span><span>Faculty</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Faculty code: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">First name: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Last name: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Gender: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Course: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Contact number: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Email: </span><span>sampletestagmail.com</span>
-          </div>
+        <div *ngIf="selectedRole === 'faculty'">
+          <div><span class="text-primary font-semibold">Role: </span>{{ selectedRole }}</div>
+          <div><span class="text-primary font-semibold">Faculty code: </span>{{ empNumber }}</div>
+          <div><span class="text-primary font-semibold">First name: </span>{{ firstName }}</div>
+          <div><span class="text-primary font-semibold">Last name: </span>{{ lastName }}</div>
+          <div><span class="text-primary font-semibold">Gender: </span>{{ sex }}</div>
+          <div><span class="text-primary font-semibold">Department: </span>{{ getDepartmentName(department) }}</div>
+          <div><span class="text-primary font-semibold">Contact number: </span>{{ contact }}</div>
+          <div><span class="text-primary font-semibold">Email: </span>{{ email }}</div>
         </div>
-      } @else {
-        <div class="flex justify-center items-center gap-2 flex-col mt-5">
-          <div>
-            <span class="text-primary font-semibold">Role: </span><span>Visitor</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">School: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">First name: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Last name: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Gender: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Contact number: </span><span>sampletest</span>
-          </div>
-          <div>
-            <span class="text-primary font-semibold">Email: </span><span>sampletestagmail.com</span>
-          </div>
+        <div *ngIf="selectedRole === 'visitor'">
+          <div><span class="text-primary font-semibold">Role: </span>{{ selectedRole }}</div>
+          <div><span class="text-primary font-semibold">School: </span>{{ school }}</div>
+          <div><span class="text-primary font-semibold">First name: </span>{{ firstName }}</div>
+          <div><span class="text-primary font-semibold">Last name: </span>{{ lastName }}</div>
+          <div><span class="text-primary font-semibold">Gender: </span>{{ sex }}</div>
+          <div><span class="text-primary font-semibold">Contact number: </span>{{ contact }}</div>
+          <div><span class="text-primary font-semibold">Identifier: </span>{{ identifier }}</div> <!-- Added identifier field -->
         </div>
-      }
+      </div>
 
       <div class="modal-action justify-center items-center">
           <button 
@@ -359,10 +344,15 @@
               Close
           </button>
           <button 
-              type="submit"
-              class="btn w-40 bg-secondary text-black hover:bg-[#801e1d] hover:text-white">
+              type="button"
+              class="btn w-40 bg-secondary text-black hover:bg-[#801e1d] hover:text-white"
+              (click)="submitForm()">
               Submit
           </button>
       </div>
   </div>
 </dialog>
+
+
+
+<!-- // GOODSS -->
