@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
   school: string = '';
   courseId: string = '';
   identifier: string = '';
+  email: string = '';
   courses: any[] = [];
   departments: any[] = [];
 
@@ -34,7 +35,11 @@ export class RegisterComponent implements OnInit {
   contactError: string = '';
   isContactExists: boolean = false;
   contactExistsError: string = '';
+  isEmailValid: boolean = true;
+  emailError: string = '';
   hasFormErrors: boolean = false;
+
+  fieldErrors: { [key: string]: boolean } = {};
 
   constructor(
     private registerService: RegisterService,
@@ -96,21 +101,112 @@ export class RegisterComponent implements OnInit {
     return true;
   }
 
+  validateEmail(): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.email.match(emailPattern)) {
+      this.isEmailValid = false;
+      this.emailError = 'Invalid email format.';
+      return false;
+    }
+    this.isEmailValid = true;
+    this.emailError = '';
+    return true;
+  }
+
+  validateRequiredFields(): boolean {
+    if (this.selectedRole === 'student') {
+      return !!this.studentNumber && 
+             !!this.sex && 
+             !!this.firstName && 
+             !!this.lastName && 
+             !!this.courseId && 
+             !!this.contact && 
+             !!this.email;
+    } else if (this.selectedRole === 'faculty') {
+      return !!this.empNumber && 
+             !!this.sex && 
+             !!this.firstName && 
+             !!this.lastName && 
+             !!this.department && 
+             !!this.contact && 
+             !!this.email;
+    } else if (this.selectedRole === 'visitor') {
+      return !!this.school && 
+             !!this.sex && 
+             !!this.firstName && 
+             !!this.lastName && 
+             !!this.identifier && 
+             !!this.contact;
+    }
+    return false;
+  }
+
+  onFieldInput(field: string) {
+    this.fieldErrors[field] = false;
+  
+    if (field === 'studentNumber') {
+      this.isStudentNumberValid = true;
+      this.isUserExists = false;
+    } else if (field === 'empNumber') {
+      this.isEmpNumberValid = true;
+      this.isUserExists = false;
+    } else if (field === 'contact') {
+      this.isContactValid = true;
+      this.isContactExists = false;
+    } else if (field === 'email') {
+      this.isEmailValid = true;
+      this.isContactExists = false;
+    }
+
+    if (this.allFieldsValid()) {
+      this.hasFormErrors = false;
+    }
+  }
+
+  allFieldsValid(): boolean {
+    if (this.selectedRole === 'student') {
+      return this.studentNumber.trim() !== '' &&
+             this.sex.trim() !== '' &&
+             this.firstName.trim() !== '' &&
+             this.lastName.trim() !== '' &&
+             this.courseId.trim() !== '' &&
+             this.contact.trim() !== '' &&
+             this.email.trim() !== '';
+    } else if (this.selectedRole === 'faculty') {
+      return this.empNumber.trim() !== '' &&
+             this.sex.trim() !== '' &&
+             this.firstName.trim() !== '' &&
+             this.lastName.trim() !== '' &&
+             this.department.trim() !== '' &&
+             this.contact.trim() !== '' &&
+             this.email.trim() !== '';
+    } else if (this.selectedRole === 'visitor') {
+      return this.school.trim() !== '' &&
+             this.sex.trim() !== '' &&
+             this.firstName.trim() !== '' &&
+             this.lastName.trim() !== '' &&
+             this.identifier.trim() !== '' &&
+             this.contact.trim() !== '';
+    }
+    return false;
+  }
+
   onSubmit() {
     this.isStudentNumberValid = true;
     this.isEmpNumberValid = true;
     this.isContactValid = true;
+    this.isEmailValid = true;
     this.isUserExists = false;
     this.isContactExists = false;
     this.hasFormErrors = false;
-  
+
     let formIsValid = true;
-  
+
     if (!this.validateRequiredFields()) {
       this.hasFormErrors = true;
       return;
     }
-  
+
     if (this.selectedRole === 'student') {
       if (!this.validateStudentNumber()) {
         formIsValid = false;
@@ -126,34 +222,39 @@ export class RegisterComponent implements OnInit {
         formIsValid = false;
       }
     }
-  
+
     if (!this.validateContact()) {
       formIsValid = false;
     }
-  
+
+    if (this.selectedRole !== 'visitor' && !this.validateEmail()) {
+      formIsValid = false;
+    }
+
     this.checkIfUserExistsAndContact(
       this.selectedRole, 
       this.selectedRole === 'student' 
         ? this.studentNumber 
         : this.selectedRole === 'faculty' 
         ? this.empNumber 
-        : this.identifier, this.contact
-      );
+        : this.identifier, 
+      this.contact
+    );
   }
-  
+
   checkIfUserExistsAndContact(role: string, identifier: string, contact: string) {
     const identifierCheck = this.registerService
       .checkUserExists(role, identifier, '').toPromise();
     const contactCheck = this.registerService
       .checkUserExists(role, '', contact).toPromise();
-  
+
     Promise.all([identifierCheck, contactCheck])
       .then((results) => {
         const [identifierResponse, contactResponse] = results;
-  
+
         this.isUserExists = false;
         this.isContactExists = false;
-  
+
         if (identifierResponse.registered) {
           if (identifierResponse.message.includes('identifier')) {
             this.isUserExists = true;
@@ -165,25 +266,26 @@ export class RegisterComponent implements OnInit {
                 : 'Visitor identifier is already registered.';
           }
         }
-  
+
         if (contactResponse.registered) {
           if (contactResponse.message.includes('contact')) {
             this.isContactExists = true;
             this.contactExistsError = 'Contact number is already registered.';
           }
         }
-  
+
         if (
           this.isUserExists || 
           this.isContactExists || 
-          !this.isStudentNumberValid || 
-          !this.isEmpNumberValid || 
-          !this.isContactValid
+          (!this.isStudentNumberValid && this.selectedRole === 'student') || 
+          (!this.isEmpNumberValid && this.selectedRole === 'faculty') || 
+          !this.isContactValid || 
+          !this.isEmailValid
         ) {
           return;
         }
-  
-        this.onSubmitForm();
+
+        this.openRequestModal();
       })
       .catch((error) => {
         console.error('Error checking user or contact:', error);
@@ -191,8 +293,16 @@ export class RegisterComponent implements OnInit {
         this.isContactExists = false;
       });
   }
-  
-  onSubmitForm() {
+
+  openRequestModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement).showModal();
+  }
+
+  closeRequestModal() {
+    (document.getElementById('my_modal_1') as HTMLDialogElement).close();
+  }
+
+  submitForm() {
     const formData: any = {
       selectedRole: this.selectedRole,
       sex: this.sex,
@@ -202,6 +312,7 @@ export class RegisterComponent implements OnInit {
       school: this.school,
       courseId: this.courseId,
       contact: this.contact,
+      email: this.email,
     };
 
     if (this.selectedRole === 'student') {
@@ -219,40 +330,13 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  validateRequiredFields(): boolean {
-    if (this.selectedRole === 'student') {
-      return !!this.studentNumber && 
-             !!this.sex && 
-             !!this.firstName && 
-             !!this.lastName && 
-             !!this.courseId && 
-             !!this.contact;
-    } else if (this.selectedRole === 'faculty') {
-      return !!this.empNumber && 
-             !!this.sex && 
-             !!this.firstName && 
-             !!this.lastName && 
-             !!this.department && 
-             !!this.contact;
-    } else if (this.selectedRole === 'visitor') {
-      return !!this.school && 
-             !!this.sex && 
-             !!this.firstName && 
-             !!this.lastName && 
-             !!this.identifier && 
-             !!this.contact;
-    }
-    return false;
+  getCourseName(courseId: string): string {
+    const course = this.courses.find((c) => c.id === courseId);
+    return course ? course.course_abbreviation : '';
   }
 
-  openRequestModal() {
-    (document.getElementById('my_modal_1') as HTMLDialogElement)
-      .showModal();
+  getDepartmentName(departmentId: string): string {
+    const department = this.departments.find((d) => d.id === departmentId);
+    return department ? department.dept_abbreviation : '';
   }
-
-  closeRequestModal() {
-    (document.getElementById('my_modal_1') as HTMLDialogElement)
-      .close();
-  }
-
 }

@@ -27,6 +27,7 @@ $courseId = isset($data['courseId']) ? $data['courseId'] : null;
 $contact = isset($data['contact']) ? $data['contact'] : null;
 $empNumber = isset($data['empNumber']) ? $data['empNumber'] : null;
 $identifier = isset($data['identifier']) ? $data['identifier'] : null;
+$email = isset($data['email']) ? $data['email'] : null;
 
 if (!$selectedRole) {
     echo json_encode(['status' => 'error', 'message' => 'Role is required']);
@@ -46,14 +47,14 @@ try {
         if (!$studentNumber) {
             throw new Exception('Student number is required for students');
         }
-        $stmt = $conn->prepare("INSERT INTO students (user_id, student_number, first_name, surname, gender, phone_number, course_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-        $stmt->bind_param("issssss", $userId, $studentNumber, $firstName, $lastName, $sex, $contact, $courseId);
+        $stmt = $conn->prepare("INSERT INTO students (user_id, student_number, first_name, surname, gender, phone_number, course_id, email, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        $stmt->bind_param("isssssss", $userId, $studentNumber, $firstName, $lastName, $sex, $contact, $courseId, $email);
     } elseif ($selectedRole == 'faculty') {
         if (!$empNumber) {
             throw new Exception('Employee number is required for faculty');
         }
-        $stmt = $conn->prepare("INSERT INTO faculty (user_id, emp_number, first_name, surname, gender, phone_number, dept_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-        $stmt->bind_param("issssss", $userId, $empNumber, $firstName, $lastName, $sex, $contact, $departmentId);
+        $stmt = $conn->prepare("INSERT INTO faculty (user_id, emp_number, first_name, surname, gender, phone_number, dept_id, email, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        $stmt->bind_param("isssssss", $userId, $empNumber, $firstName, $lastName, $sex, $contact, $departmentId, $email);
     } elseif ($selectedRole == 'visitor') {
         if (!$identifier) {
             throw new Exception('Identifier is required for visitors');
@@ -75,3 +76,4 @@ try {
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 $conn->close();
+?>
