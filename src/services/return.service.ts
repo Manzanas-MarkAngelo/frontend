@@ -13,13 +13,28 @@ export class ReturnService {
 
   constructor(private http: HttpClient) {}
 
-  getBorrowingData(dateFrom?: string | null, dateTo?: string | null): Observable<any> {
+  getBorrowingData(dateFrom?: string | null, dateTo?: string | null, remark: string = '', searchTerm: string = ''): Observable<any> {
     let params = new HttpParams();
+  
+    // Set date range if provided
     if (dateFrom && dateTo) {
       params = params.set('startDate', dateFrom).set('endDate', dateTo);
     }
+  
+    // Set remark if provided
+    if (remark) {
+      params = params.set('remark', remark);
+    }
+  
+    // Set search term if provided
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+  
+    // Make the GET request with the constructed params
     return this.http.get<any>(this.borrowingDataUrl, { params });
   }
+  
 
   searchBorrowingData(term: string, page: number, limit: number, dateFrom?: string | null, dateTo?: string | null): Observable<any> {
     let params = new HttpParams()

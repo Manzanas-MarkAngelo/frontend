@@ -14,7 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 $startDate = isset($_GET['startDate']) ? $_GET['startDate'] : null;
 $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
 $searchTerm = isset($_GET['searchTerm']) ? $_GET['searchTerm'] : '';
+$remarkFilter = isset($_GET['remark']) ? $_GET['remark'] : null;
 
+// Base SQL query to fetch data
 $sql = "
 SELECT 
     b.material_id,
@@ -36,20 +38,35 @@ FROM
     LEFT JOIN faculty f ON u.id = f.user_id
     LEFT JOIN courses c ON s.course_id = c.id
     LEFT JOIN departments d ON f.dept_id = d.id
-WHERE 
-    (m.title LIKE '%$searchTerm%' 
-    OR m.author LIKE '%$searchTerm%' 
-    OR b.remark LIKE '%$searchTerm%' 
-    OR s.first_name LIKE '%$searchTerm%' 
-    OR s.surname LIKE '%$searchTerm%' 
-    OR f.first_name LIKE '%$searchTerm%' 
-    OR f.surname LIKE '%$searchTerm%')
+WHERE 1 = 1  -- Always true to make adding conditions easier
 ";
 
+// Add search term filtering if a search term is provided
+if (!empty($searchTerm)) {
+    $searchTerm = $conn->real_escape_string($searchTerm); // Sanitize input
+    $sql .= " AND (
+        m.title LIKE '%$searchTerm%' 
+        OR m.author LIKE '%$searchTerm%' 
+        OR b.remark LIKE '%$searchTerm%' 
+        OR s.first_name LIKE '%$searchTerm%' 
+        OR s.surname LIKE '%$searchTerm%' 
+        OR f.first_name LIKE '%$searchTerm%' 
+        OR f.surname LIKE '%$searchTerm%'
+    )";
+}
+
+// Add remark filtering if a remark filter is provided
+if (!empty($remarkFilter)) {
+    $remarkFilter = $conn->real_escape_string($remarkFilter); // Sanitize input
+    $sql .= " AND b.remark = '$remarkFilter'";
+}
+
+// Add date range filtering if both start and end dates are provided
 if ($startDate && $endDate) {
     $sql .= " AND b.claim_date BETWEEN '$startDate' AND '$endDate'";
 }
 
+// Order by non-returned items first, then by claim date or return date
 $sql .= "
 ORDER BY 
     CASE 
@@ -71,3 +88,4 @@ while ($row = $result->fetch_assoc()) {
 echo json_encode($borrowings);
 
 $conn->close();
+?>
