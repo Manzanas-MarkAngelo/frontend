@@ -1,63 +1,128 @@
-<div class="flex flex-col pt-5 px-4 md:px-20 bg-primary">
-  <div class="flex flex-col md:flex-row w-full bg-primary rounded-t-xl mb-0 gap-2">
-    <div class="flex w-full">
-      <div class="dropdown dropdown-right slide-in-right">
-        <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
-          {{ inventoryPlaceholder }}
+<div class="flex flex-col items-center bg-primary">
+  <div class="w-3/4 flex flex-col items-center">
+    <div class="flex flex-col md:flex-row w-full bg-primary rounded-t-xl mb-0 gap-2 items-center">
+      <div>
+        <div class="dropdown dropdown-right slide-in-right">
+          <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
+            {{ inventoryPlaceholder }}
+          </div>
+          <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+            <li><a (click)="InventoryPlaceholder('Inventory')">Inventory</a></li>
+            <li><a (click)="InventoryPlaceholder('Borrowers')">Borrowers</a></li>
+            <li><a (click)="InventoryPlaceholder('Students')">Students</a></li>
+            <li><a (click)="InventoryPlaceholder('Faculty')">Faculty</a></li>
+            <li><a (click)="InventoryPlaceholder('Visitors')">Visitors</a></li>
+          </ul>
         </div>
-        <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
-          <li><a (click)="InventoryPlaceholder('Inventory')">Inventory</a></li>
-          <li><a (click)="InventoryPlaceholder('Borrowers')">Borrowers</a></li>
-          <li><a (click)="InventoryPlaceholder('Students')">Students</a></li>
-          <li><a (click)="InventoryPlaceholder('Faculty')">Faculty</a></li>
-          <li><a (click)="InventoryPlaceholder('Visitors')">Visitors</a></li>
-        </ul>
       </div>
     </div>
+    
+    <div class="divider mt-1 mb-2 text-white slide-in-left w-full"></div>
   </div>
+
   
-  <div class="divider mt-2 text-white slide-in-left"></div>
-  
-  <div class="p-4 bg-white text-black rounded-xl w-full mb-10 slide-in-right">
-    <div class="w-full h-[45rem] relative">
+  <div class="p-3 bg-white text-black rounded-xl w-3/4 mb-5 slide-in-right flex justify-center items-center">
+    <div class="w-full h-[43rem] relative">
       <div class="w-full flex flex-col md:flex-row justify-between mb-2">
         <div class="w-full md:w-1/2 flex flex-col md:flex-row">
-          
-          <div *ngIf="inventoryPlaceholder !== 'Inventory'" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 mb-1">
-            <div class="flex flex-col">
-              <label class="text-gray-700 mb-1">From:</label>
-              <input type="date" [(ngModel)]="dateFrom" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
-            </div>
-            <div class="flex flex-col">
-              <label class="text-gray-700 mb-1">To:</label>
-              <input type="date" [(ngModel)]="dateTo" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
-            </div>
-          </div>
-          
-          <div *ngIf="inventoryPlaceholder === 'Inventory'" class="flex flex-row md:flex-row space-y-0 gap-1 md:space-y-0">
-            <div class="dropdown dropdown-bottom slide-in-right">
-              <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
-                {{ categoryPlaceholder }}
-              </div>
-              <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
-                <li><a (click)="CategoryPlaceholder('All')">All</a></li>
-                <li *ngFor="let category of categories">
-                  <a (click)="CategoryPlaceholder(category.mat_type)">{{ category.mat_type }}</a>
-                </li>
-              </ul>
-            </div>
 
-            <div class="dropdown dropdown-bottom slide-in-right">
-              <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
-                {{ programPlaceholder }}
+          @if (inventoryPlaceholder === 'Borrowers') {
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 mb-1">
+              <div class="flex flex-col slide-in-top">
+                <label class="text-primary font-medium mb-1">From:</label>
+                <input type="date" [(ngModel)]="dateFrom" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
               </div>
-              <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
-                <li *ngFor="let program of programs">
-                  <a (click)="ProgramPlaceholder(program)">{{ program }}</a>
-                </li>
-              </ul>              
+              <div class="flex flex-col slide-in-top">
+                <label class="text-primary font-medium mb-1">To:</label>
+                <input type="date" [(ngModel)]="dateTo" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
+              </div>
+  
+              <div class="flex flex-col">
+                <label class="text-primary font-medium mb-0.5">Date clear:</label>
+                <button
+                type="button"
+                class="h-[3rem] w-auto bg-primary text-white rounded-xl px-4 font-medium slide-in-right">
+                Clear
+              </button>
+              </div>
+
+              <div class="flex flex-col">
+                <label class="text-primary font-medium mb-0.5">Status filter:</label>
+                <div class="flex flex-row gap-2 slide-in-right">
+                  <div class="dropdown dropdown-bottom slide-in-right">
+                    <div
+                      tabindex="0"
+                      role="button"
+                      class="btn w-auto mb-1 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">
+                      {{this.selectedRemark || 'Remarks'}}
+                    </div>
+                    <ul
+                      tabindex="0"
+                      class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+                      <li><a (click)="onRemarkSelected('')">All</a></li> <!-- For showing all items -->
+                      <li><a (click)="onRemarkSelected('In Progress')">In Progress</a></li>
+                      <li><a (click)="onRemarkSelected('Returned')">Returned</a></li>
+                      <li><a (click)="onRemarkSelected('Returned Late')">Returned Late</a></li>
+                      <li><a (click)="onRemarkSelected('Processing')">Processing</a></li>
+                      <li><a (click)="onRemarkSelected('Overdue')">Overdue</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
             </div>
-          </div>
+          } @else if (inventoryPlaceholder === 'Inventory') {
+            <div class="flex flex-row md:flex-row space-y-0 gap-1 md:space-y-0">
+              <div class="dropdown dropdown-bottom slide-in-right">
+                <div tabindex="0" role="button" class="btn mb-1 mx-1 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
+                  {{ categoryPlaceholder }}
+                </div>
+                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-60 p-0 shadow text-lg font-medium text-black">
+                  <li><a (click)="CategoryPlaceholder('All')">All</a></li>
+                  <li *ngFor="let category of categories">
+                    <a (click)="CategoryPlaceholder(category.mat_type)">{{ category.mat_type }}</a>
+                  </li>
+                </ul>
+              </div>
+  
+              <div class="dropdown dropdown-bottom slide-in-right">
+                <div tabindex="0" role="button" class="btn mb-1 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
+                  {{ programPlaceholder }}
+                </div>
+                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-80 p-2 shadow text-lg font-medium text-black">
+                  <li *ngFor="let program of programs">
+                    <a (click)="ProgramPlaceholder(program)">{{ program }}</a>
+                  </li>
+                </ul>              
+              </div>
+  
+              <button
+              type="button"
+              class="h-[3rem] w-auto bg-primary text-white rounded-xl px-4 font-medium slide-in-right">
+              Clear
+            </button>
+            </div>
+          } @else {
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 mb-1">
+              <div class="flex flex-col slide-in-top">
+                <label class="text-primary font-medium mb-1">From:</label>
+                <input type="date" [(ngModel)]="dateFrom" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
+              </div>
+              <div class="flex flex-col slide-in-top">
+                <label class="text-primary font-medium mb-1">To:</label>
+                <input type="date" [(ngModel)]="dateTo" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
+              </div>
+  
+              <div class="flex flex-col">
+                <label class="text-primary font-medium mb-0.5">Date clear:</label>
+                <button
+                type="button"
+                class="h-[3rem] w-auto bg-primary text-white rounded-xl px-4 font-medium slide-in-right">
+                Clear
+              </button>
+              </div>
+            </div>
+          }
         </div>
         
         <div class="w-full md:w-1/2 flex flex-row md:flex-row justify-end space-y-0 gap-1 md:space-y-0 md:space-x-2">
@@ -77,7 +142,7 @@
       </div>
       
       <!-- PDF preview iframe -->
-      <iframe id="pdf-preview" class="w-full h-[500px] md:h-[650px] mt-3 rounded-md bg-[#8b0000] bg-opacity-65 p-2"></iframe>
+      <iframe id="pdf-preview" class="w-full h-[500px] md:h-[600px] mt-3 rounded-md bg-[#8b0000] bg-opacity-65 p-2"></iframe>
 
       @if(showInitialDisplay) {
         <div class="flex justify-center items-center w-full h-full absolute top-0 left-0 z-0 pointer-events-none">
