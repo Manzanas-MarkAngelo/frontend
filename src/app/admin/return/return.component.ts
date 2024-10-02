@@ -24,6 +24,7 @@ export class ReturnComponent implements OnInit {
   limit: number = 10; // Adjust as needed
   dateFrom: string | null = null; // Optional date range
   dateTo: string | null = null; // Optional date range
+  selectedRemark: string = '';
 
   constructor(
     private returnService: ReturnService,
@@ -43,7 +44,10 @@ export class ReturnComponent implements OnInit {
   }
 
   fetchBorrowingData(): void {
-    this.returnService.getBorrowingData(this.dateFrom, this.dateTo).subscribe(data => {
+    this.isLoading = true;
+    
+    // Pass searchTerm along with the date range and selectedRemark
+    this.returnService.getBorrowingData(this.dateFrom, this.dateTo, this.selectedRemark, this.searchTerm).subscribe(data => {
       this.items = data.map(item => {
         return {
           ...item,
@@ -76,7 +80,18 @@ export class ReturnComponent implements OnInit {
       this.filteredItems = this.items;
       this.totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
       this.paginateItems();
+      this.isLoading = false; // Stop loading spinner after data is fetched
+    }, error => {
+      console.error('Error fetching data', error);
+      this.isLoading = false; // Stop loading spinner on error
     });
+  }
+  
+
+  // Method to handle remark selection
+  onRemarkSelected(remark: string): void {
+    this.selectedRemark = remark;
+    this.fetchBorrowingData(); // Re-fetch data based on the selected remark
   }
 
   filterItems(): void {
@@ -123,7 +138,9 @@ export class ReturnComponent implements OnInit {
 
   clearSearch(): void {
     this.searchTerm = '';
+    this.selectedRemark = '';
     this.filterItems(); // Clear the search and reset the list
+    this.fetchBorrowingData();
   }
 
   generatePenaltyReceipt(item: any): void {
