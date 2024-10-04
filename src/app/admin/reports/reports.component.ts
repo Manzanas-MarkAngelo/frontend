@@ -222,6 +222,16 @@ export class ReportsComponent implements OnInit {
     );
   }
 
+  handleClearButtonClick() {
+    console.log('Clicked');
+    this.categoryPlaceholder = 'Category';
+    this.programPlaceholder = 'Program';
+    this.selectedRemark = '';
+    this.dateFrom = null;
+    this.dateTo = null;
+
+  }
+
   //*Excel Generation
 
   selectExcelReport() {

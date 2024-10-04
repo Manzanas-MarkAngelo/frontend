@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lis";
+$dbname = "lis_req";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
