@@ -82,7 +82,7 @@ const routes: Routes = [
   { path: 'material-info/:accnum', component: MaterialInfoComponent },
   { path: 'time-in', component: TimeInComponent },
   { path: 'time-out', component: TimeOutComponent },  
-  { path: 'search', component: SearchBookComponent },
+  { path: 'search-book', component: SearchBookComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'client', component: ClientComponent },

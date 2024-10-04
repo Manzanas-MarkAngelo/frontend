@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
+import { EmailService } from '../../../services/email.service';
 import { Subject, debounceTime } from 'rxjs';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-records',
@@ -16,23 +18,23 @@ export class RecordsComponent implements OnInit {
   totalPages: number = 0;
   itemsPerPage: number = 14;
   searchTerm: string = '';
-  searchSubject: Subject<string> = new Subject<string>(); // For debounced search
-  isDisabled = true;
+  searchSubject: Subject<string> = new Subject<string>();
+  isSending = false;
 
-  // Checkbox logic
-  selectAllChecked: boolean = false; // Header checkbox state
+  selectAllChecked: boolean = false;
 
-  constructor(private recordsService: RecordsService) { }
+  @ViewChild(SnackbarComponent) snackbar: SnackbarComponent;
+
+  constructor(private recordsService: RecordsService, private emailService: EmailService) { }
 
   ngOnInit(): void {
     this.setLogType('student');
     
-    // Implement debounce on search input
     this.searchSubject.pipe(
-      debounceTime(300) // Adjust debounce time as needed
+      debounceTime(300)
     ).subscribe(term => {
       this.searchTerm = term;
-      this.fetchCurrentTypeData(); // Fetch records or logs based on selected log type
+      this.fetchCurrentTypeData();
     });
   }
 
@@ -43,30 +45,22 @@ export class RecordsComponent implements OnInit {
 
     this.currentLogType = logType;
     this.currentPage = 1;
+    this.updateSearchPlaceholder(logType);
+  }
+
+  updateSearchPlaceholder(logType: string) {
     switch (logType) {
       case 'student':
-        this.searchPlaceholder = 'Search student';
-        this.fetchRecords('student');
-        break;
       case 'faculty':
-        this.searchPlaceholder = 'Search faculty';
-        this.fetchRecords('faculty');
-        break;
       case 'visitor':
-        this.searchPlaceholder = 'Search visitor';
-        this.fetchRecords('visitor');
+        this.searchPlaceholder = 'Search ' + logType;
+        this.fetchRecords(logType);
         break;
       case 'student_log':
-        this.searchPlaceholder = 'Search student log';
-        this.fetchLogs('student');
-        break;
       case 'faculty_log':
-        this.searchPlaceholder = 'Search faculty log';
-        this.fetchLogs('faculty');
-        break;
       case 'visitor_log':
-        this.searchPlaceholder = 'Search visitor log';
-        this.fetchLogs('visitor');
+        this.searchPlaceholder = 'Search ' + logType.split('_')[0] + ' log';
+        this.fetchLogs(logType.split('_')[0]);
         break;
       default:
         this.searchPlaceholder = 'Search student';
@@ -75,21 +69,29 @@ export class RecordsComponent implements OnInit {
   }
 
   fetchLogs(logType: string) {
-    this.recordsService.getLogs(logType, this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(data => {
-      this.logs = data.records;
-      this.totalPages = data.totalPages;
-    }, error => {
-      console.error('Error fetching logs:', error);
-    });
+    this.recordsService.getLogs(logType, this.itemsPerPage, this.currentPage, this.searchTerm)
+      .subscribe({
+        next: (data) => {
+          this.logs = data.records;
+          this.totalPages = data.totalPages;
+        },
+        error: () => {
+          this.snackbar.showMessage('Error fetching logs. Please check the network or contact support.');
+        }
+      });
   }
 
   fetchRecords(recordType: string) {
-    this.recordsService.getRecords(recordType, this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(data => {
-      this.logs = data.records;
-      this.totalPages = data.totalPages;
-    }, error => {
-      console.error('Error fetching records:', error);
-    });
+    this.recordsService.getRecords(recordType, this.itemsPerPage, this.currentPage, this.searchTerm)
+      .subscribe({
+        next: (data) => {
+          this.logs = data.records;
+          this.totalPages = data.totalPages;
+        },
+        error: () => {
+          this.snackbar.showMessage('Error fetching records. Please check the network or contact support.');
+        }
+      });
   }
 
   onPageChange(page: number) {
@@ -105,26 +107,47 @@ export class RecordsComponent implements OnInit {
     }
   }
 
-  // Trigger search with debounce
   onSearchChange(searchTerm: string) {
-    this.searchSubject.next(searchTerm); // Pass the search term to the debounced subject
+    this.searchSubject.next(searchTerm);
   }
 
   clearLogType() {
     this.setLogType('student');
-    this.searchTerm = ''; // Clear the search term
+    this.searchTerm = '';
   }
 
-    // Checkbox Selection Logic
+  toggleAllSelection(event: any) {
+    this.selectAllChecked = event.target.checked;
+    this.logs.forEach(record => record.selected = this.selectAllChecked);
+  }
 
-    toggleAllSelection(event: any) {
-      const isChecked = event.target.checked;
-      this.logs.forEach(record => {
-        record.selected = isChecked;
+  checkIfAllSelected() {
+    this.selectAllChecked = this.logs.every(record => record.selected);
+  }
+
+  anySelected(): boolean {
+    return this.logs.some(log => log.selected);
+  }
+
+  sendEmailsToSelectedFaculty(): void {
+    const selectedEmails = this.logs.filter(log => log.selected).map(log => log.email);
+    if (selectedEmails.length > 0) {
+      this.isSending = true;
+      this.emailService.sendEmail(selectedEmails).subscribe({
+        next: () => {
+          this.snackbar.showMessage('Emails have been sent successfully');
+          this.logs.forEach(log => log.selected = false);
+          this.selectAllChecked = false;
+        },
+        error: () => {
+          this.snackbar.showMessage('Failed to send emails. Please try again.');
+        },
+        complete: () => {
+          this.isSending = false;
+        }
       });
+    } else {
+      this.snackbar.showMessage('No faculty members selected for email.');
     }
-      
-    checkIfAllSelected() {
-      this.selectAllChecked = this.logs.every(record => record.selected);
-    }
+  }
 }
