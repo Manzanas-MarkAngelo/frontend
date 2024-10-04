@@ -4,7 +4,7 @@ import { BookRequestService } from '../../../services/book-request.service';
 import { ClientSnackbarComponent } from '../client-snackbar/client-snackbar.component';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search-book',
@@ -51,13 +51,18 @@ export class SearchBookComponent implements OnInit {
     private materialsService: MaterialsService,
     private bookRequestService: BookRequestService,
     private router: Router,
+    private route: ActivatedRoute,
     private renderer: Renderer2
   ) {}
 
   ngOnInit() {
     this.loadMaterials();
     this.loadCategories();
-
+    this.route.queryParams.subscribe(params => {
+      if (params['openModal'] === 'true') {
+        this.openRequestModal();
+      }
+    });
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -237,6 +242,11 @@ export class SearchBookComponent implements OnInit {
   closeRequestModal() {
     this.resetForm();
     (document.getElementById('my_modal_1') as HTMLDialogElement).close();
+
+    this.router.navigate([], {
+      queryParams: { openModal: null },
+      queryParamsHandling: 'merge'
+    });
   }
 
   openNotRegisteredModal() {

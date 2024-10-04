@@ -46,7 +46,7 @@ switch ($recordType) {
 // Determine the response based on recordType and user_id
 if ($recordType === 'student' && $user_id) {
     // Fetch details for a single student
-    $query = "SELECT s.student_number, s.first_name, s.surname, s.gender, c.course_abbreviation AS course, s.phone_number
+    $query = "SELECT s.student_number, s.first_name, s.surname, s.gender, c.course_abbreviation AS course, s.phone_number, s.email
               FROM students s
               LEFT JOIN courses c ON s.course_id = c.id
               WHERE s.user_id = ?";
@@ -81,7 +81,7 @@ if ($recordType === 'student' && $user_id) {
     $stmt->close();
 } elseif ($user_id) {
     // Fetch details for a single faculty
-    $query = "SELECT f.user_id, f.emp_number, f.first_name, f.surname, f.gender, d.dept_abbreviation AS department, f.phone_number 
+    $query = "SELECT f.user_id, f.emp_number, f.first_name, f.surname, f.gender, d.dept_abbreviation AS department, f.phone_number, f.email
               FROM faculty f
               LEFT JOIN departments d ON f.dept_id = d.id
               WHERE f.user_id = ?";
@@ -104,7 +104,7 @@ if ($recordType === 'student' && $user_id) {
     // Fetch list of records based on recordType
     switch ($recordType) {
         case 'student':
-            $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number, s.user_id
+            $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number, s.email, s.user_id
                       FROM students s
                       LEFT JOIN courses c ON s.course_id = c.id
                       WHERE 1=1 $searchCondition
@@ -113,7 +113,7 @@ if ($recordType === 'student' && $user_id) {
             $countQuery = "SELECT COUNT(*) as total FROM students";
             break;
         case 'faculty':
-            $query = "SELECT f.user_id, f.emp_number, CONCAT(f.surname, ', ', f.first_name) as name, f.gender, d.dept_abbreviation AS department, f.phone_number 
+            $query = "SELECT f.user_id, f.emp_number, CONCAT(f.surname, ', ', f.first_name) as name, f.gender, d.dept_abbreviation AS department, f.phone_number, f.email 
                       FROM faculty f
                       LEFT JOIN departments d ON f.dept_id = d.id
                       WHERE 1=1 $searchCondition
@@ -130,7 +130,7 @@ if ($recordType === 'student' && $user_id) {
             $countQuery = "SELECT COUNT(*) as total FROM visitor";
             break;
         default:
-            $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number 
+            $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, s.gender, c.course_abbreviation AS course, s.phone_number, s.email 
                       FROM students s
                       LEFT JOIN courses c ON s.course_id = c.id
                       WHERE 1=1 $searchCondition
