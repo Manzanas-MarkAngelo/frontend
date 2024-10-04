@@ -1,0 +1,10 @@
+{
+    "name": "pup-taguig/library-info-system",
+    "description": "Library Information System for PUP Taguig",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

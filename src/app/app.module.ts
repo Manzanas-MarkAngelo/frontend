@@ -122,6 +122,7 @@ import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navb
 import { BookRequestService } from '../services/book-request.service';
 import { ClientSnackbarComponent } from './client/client-snackbar/client-snackbar.component';
 import { RequestComponent } from './admin/request/request.component';
+import { EmailService } from '../services/email.service';
 
 
 @NgModule({
@@ -252,6 +253,7 @@ import { RequestComponent } from './admin/request/request.component';
     ChartsService,
     BookRequestService,
     AnalyticsService,
+    EmailService,
   ],
   bootstrap: [AppComponent]
 })
