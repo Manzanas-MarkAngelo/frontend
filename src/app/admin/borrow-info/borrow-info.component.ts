@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialsService } from '../../../services/materials.service';
 import { BorrowService } from '../../../services/borrow.service';
+import { EmailService } from '../../../services/email.service';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
@@ -14,11 +15,13 @@ export class BorrowInfoComponent implements OnInit {
 
   material: any = {};
   idNumber: string = '';
+  isProcessing: boolean = false;
 
   constructor(
     private route: ActivatedRoute, 
     private materialsService: MaterialsService,
     private borrowService: BorrowService,
+    private emailService: EmailService,
     private router: Router
   ) {}
 
@@ -49,26 +52,45 @@ export class BorrowInfoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.idNumber) {
+      this.isProcessing = true;
+
       this.borrowService.borrowBook(this.idNumber, this.material.id)
         .subscribe(
           response => {
             if (response.status === 'success') {
-              this.snackbar.showMessage('Book borrowed successfully!');
-              
-              setTimeout(() => {
-                this.router.navigate(['/borrow']);
-              }, 1500);
+              this.processEmailNotification();
             } else {
+              this.isProcessing = false;
               this.snackbar.showMessage('Error borrowing book: ' + response.message);
             }
           },
           error => {
-            console.error('Error occurred:', error);
+            this.isProcessing = false; 
             this.snackbar.showMessage('Failed to borrow book.');
           }
         );
     } else {
       this.snackbar.showMessage('Please fill in the ID number.');
     }
-  }  
+  }
+
+  processEmailNotification(): void {
+    setTimeout(() => {
+      this.emailService.sendBorrowNotification(this.idNumber, this.material.id)
+        .subscribe(
+          emailResponse => {
+            this.isProcessing = false;
+            this.snackbar.showMessage('Book borrowed successfully!');
+
+            setTimeout(() => {
+              this.router.navigate(['/borrow']);
+            }, 1500);
+          },
+          emailError => {
+            this.isProcessing = false;
+            this.snackbar.showMessage('Book borrowed but failed to send email.');
+          }
+        );
+    }, 1500);
+  }
 }
