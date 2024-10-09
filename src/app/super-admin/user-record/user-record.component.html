@@ -88,6 +88,7 @@
               <tr class="text-primary text-sm">
                 <th class="text-start">Student Number</th>
                 <th class="text-start">Name</th>
+                <th class="text-start">Course</th>
                 <th class="text-start">Time In</th>
                 <th class="text-start">Time Out</th>
               </tr>
@@ -96,6 +97,7 @@
               <tr *ngFor="let log of logs">
                 <td>{{ log.student_number }}</td>
                 <td>{{ log.name }}</td>
+                <td>sample-course (BSIT)</td>
                 <td>{{ log.time_in }}</td>
                 <td>{{ log.time_out || 'await' }}</td>
               </tr>
@@ -108,6 +110,7 @@
               <tr class="text-primary text-sm">
                 <th class="text-start">Faculty Code</th>
                 <th class="text-start">Name</th>
+                <th class="text-start">Department</th>
                 <th class="text-start">Time In</th>
                 <th class="text-start">Time Out</th>
               </tr>
@@ -116,6 +119,7 @@
               <tr *ngFor="let log of logs">
                 <td>{{ log.faculty_code }}</td>
                 <td>{{ log.name }}</td>
+                <td>sample-department (IT)</td>
                 <td>{{ log.time_in }}</td>
                 <td>{{ log.time_out || 'await' }}</td>
               </tr>
