@@ -54,7 +54,10 @@ export class BorrowInfoComponent implements OnInit {
           response => {
             if (response.status === 'success') {
               this.snackbar.showMessage('Book borrowed successfully!');
-              this.router.navigate(['/borrow-success']);
+              
+              setTimeout(() => {
+                this.router.navigate(['/borrow']);
+              }, 1500);
             } else {
               this.snackbar.showMessage('Error borrowing book: ' + response.message);
             }
@@ -67,5 +70,5 @@ export class BorrowInfoComponent implements OnInit {
     } else {
       this.snackbar.showMessage('Please fill in the ID number.');
     }
-  }
+  }  
 }
