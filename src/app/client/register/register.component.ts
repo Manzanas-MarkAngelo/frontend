@@ -303,11 +303,15 @@ export class RegisterComponent implements OnInit {
   }
 
   submitForm() {
+    const formatName = (name: string) => {
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    };
+  
     const formData: any = {
       selectedRole: this.selectedRole,
       sex: this.sex,
-      firstName: this.firstName,
-      lastName: this.lastName,
+      firstName: formatName(this.firstName),
+      lastName: formatName(this.lastName),
       department: this.department,
       school: this.school,
       courseId: this.courseId,
