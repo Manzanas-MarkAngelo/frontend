@@ -22,7 +22,7 @@ try {
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
 
-    $mail->setFrom('from@example.com', 'PUP Taguig Library');
+    $mail->setFrom('libraryinformationsystemtaguig@gmail.com', 'PUP Taguig Library');
 
     $data = json_decode(file_get_contents("php://input"), true);
     foreach ($data['emails'] as $email) {
@@ -37,8 +37,10 @@ try {
             <table width="100%" style="max-width: 600px; margin: 0 auto; background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                 <thead style="background-color: #800000; padding: 20px;">
                     <tr>
-                        <th style="color: #fff; text-align: center; font-size: 24px; padding: 18px;">
-                            PUP Taguig Library System
+                        <th style="color: #fff; text-align: center; font-size: 20px; padding: 18px;">
+                            Polytechnic University of the Philippines - Taguig
+                            <br>
+                            <span style="font-size: 18px;">Library Information System</span>
                         </th>
                     </tr>
                 </thead>
