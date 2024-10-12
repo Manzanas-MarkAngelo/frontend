@@ -14,60 +14,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if (isset($_GET['fetchAllIds']) && $_GET['fetchAllIds'] === 'true') {
+    $sql = "SELECT id FROM materials";
+    $result = $conn->query($sql);
+    
+    if ($result === false) {
+        echo json_encode(['error' => 'Failed to fetch material IDs']);
+        exit;
+    }
+    
+    $materialIds = [];
+    while ($row = $result->fetch_assoc()) {
+        $materialIds[] = $row['id'];
+    }
+    
+    echo json_encode($materialIds);
+    $conn->close();
+    exit;
+}
+
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
-$program = isset($_GET['program']) ? '%' . $_GET['program'] . '%' : ''; // New program filter
-$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'm.id'; // Default to id column
-$sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'DESC'; // Default to descending order
+$program = isset($_GET['program']) ? '%' . $_GET['program'] . '%' : '';
+$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'm.id';
+$sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'DESC';
 
 $allowedSortFields = ['title', 'author', 'subj', 'copyright', 'callno', 'status', 'date_added', 'categoryid', 'm.id'];
 if (!in_array($sortField, $allowedSortFields)) {
-    $sortField = 'm.id'; // Ensure default is 'id' if no valid field is provided
+    $sortField = 'm.id';
 }
 
 $allowedSortOrders = ['ASC', 'DESC'];
 if (!in_array(strtoupper($sortOrder), $allowedSortOrders)) {
-    $sortOrder = 'DESC'; // Ensure default is 'DESC' if no valid order is provided
+    $sortOrder = 'DESC';
 }
 
-// Base SQL query
 $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn, m.date_added, c.mat_type 
         FROM materials m
         LEFT JOIN category c ON m.categoryid = c.cat_id
         WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
 
-// Add category filter if provided
 if (!empty($category)) {
     $sql .= " AND m.accnum LIKE ?";
 }
 
-// Add program filter if provided
 if (!empty($program)) {
     $sql .= " AND (m.title LIKE ? OR m.subj LIKE ?)";
 }
 
-// Add sorting logic
 if ($sortField === 'categoryid') {
-    // Sort by mat_type first, then by primary key id
     $sql .= " ORDER BY c.mat_type $sortOrder, m.id $sortOrder";
 } else {
-    // Sort by other fields or id if not specified
     $sql .= " ORDER BY $sortField $sortOrder";
 }
 
-// Add pagination
 $sql .= " LIMIT ? OFFSET ?";
 
-// Prepare and execute the query
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die('Prepare failed: ' . htmlspecialchars($conn->error));
 }
 
-// Bind parameters
 $params = [$search, $search, $search, $search, $search, $search, $search];
 if (!empty($category)) {
     $params[] = '%' . $category . '%';
@@ -93,7 +103,6 @@ while ($row = $result->fetch_assoc()) {
     $materials[] = $row;
 }
 
-// Get total count
 $total_sql = "SELECT COUNT(*) as count FROM materials m
               LEFT JOIN category c ON m.categoryid = c.cat_id
               WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";

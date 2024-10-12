@@ -65,6 +65,15 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  capitalizeFirstLetter(value: string): string {
+    if (!value) return value;
+
+    return value
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+
   validateStudentNumber(): boolean {
     const studentNumberPattern = /^\d{4}-\d{5}-TG-0$/;
     if (!this.studentNumber.match(studentNumberPattern)) {
@@ -303,10 +312,10 @@ export class RegisterComponent implements OnInit {
   }
 
   submitForm() {
-    const formatName = (name: string) => {
-      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    };
-  
+    this.firstName = this.capitalizeFirstLetter(this.firstName);
+    this.lastName = this.capitalizeFirstLetter(this.lastName);
+    this.email = this.email.toLowerCase();
+
     const formData: any = {
       selectedRole: this.selectedRole,
       sex: this.sex,

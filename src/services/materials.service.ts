@@ -13,26 +13,19 @@ export class MaterialsService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString())
-      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
-      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
-    
-    // Log the payload
-    console.log('getMaterials payload:', params.toString());
+      .set('sortField', sortField || 'date_added')
+      .set('sortOrder', sortOrder || 'DESC');
     
     return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
   
-
   searchMaterials(term: string, page: number, limit: number, sortField?: string, sortOrder?: string): Observable<any> {
     let params = new HttpParams()
       .set('search', term)
       .set('page', page.toString())
       .set('limit', limit.toString())
-      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
-      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
-    
-    // Log the payload
-    console.log('searchMaterials payload:', params.toString());
+      .set('sortField', sortField || 'date_added')
+      .set('sortOrder', sortOrder || 'DESC');
     
     return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
@@ -42,12 +35,8 @@ export class MaterialsService {
       .set('category', category)
       .set('page', page.toString())
       .set('limit', limit.toString())
-      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
-      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
-    
-    // Log the payload
-    console.log('filterMaterialsByCategory payload:', params.toString());
-    console.log('filterMaterialsByCategory payload:', params.toString());
+      .set('sortField', sortField || 'date_added')
+      .set('sortOrder', sortOrder || 'DESC');
 
     return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
@@ -58,11 +47,8 @@ export class MaterialsService {
       .set('category', category)
       .set('page', page.toString())
       .set('limit', limit.toString())
-      .set('sortField', sortField || 'date_added') // Ensure sortField defaults correctly
-      .set('sortOrder', sortOrder || 'DESC'); // Ensure sortOrder defaults correctly
-    
-    // Log the payload
-    console.log('searchMaterialsByCategory payload:', params.toString());
+      .set('sortField', sortField || 'date_added')
+      .set('sortOrder', sortOrder || 'DESC');
     
     return this.http.get<any>(`${this.apiUrl}/fetch_materials.php`, { params });
   }
@@ -72,12 +58,8 @@ export class MaterialsService {
   }
 
   updateMaterial(material: any): Observable<any> {
-    // Log the payload
-    console.log('updateMaterial payload:', material);
-  
     return this.http.post<any>(`${this.apiUrl}/update_material.php`, material);
   }
-  
 
   deleteMaterial(id: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/delete_material.php`, { id });
@@ -98,4 +80,12 @@ export class MaterialsService {
     deleteCategory(cat_id: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/delete_category.php`, { cat_id });
   }
+
+  weedOutMaterials(materialIds: number[]): Observable<any> {  
+    return this.http.post<any>(`${this.apiUrl}/weed_out_materials.php`, { materialIds });
+  }
+
+  getAllMaterialIds(): Observable<number[]> {
+    return this.http.get<number[]>(`${this.apiUrl}/fetch_materials.php?fetchAllIds=true`);
+  }  
 }
