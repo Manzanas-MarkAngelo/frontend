@@ -37,6 +37,10 @@ if (!$selectedRole) {
 $conn->begin_transaction();
 
 try {
+    $firstName = ucwords(strtolower(trim($firstName)));
+    $lastName = ucwords(strtolower(trim($lastName)));
+    $email = strtolower(trim($email));
+
     $stmt = $conn->prepare("INSERT INTO users (user_type, created_at, updated_at) VALUES (?, NOW(), NOW())");
     $stmt->bind_param("s", $selectedRole);
     $stmt->execute();

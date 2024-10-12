@@ -127,12 +127,12 @@
             <tbody class="text-start">
               <tr *ngFor="let record of logs">
                 <td>{{ record.student_number }}</td>
-                <td>{{ record.name }}</td>
+                <td>{{ capitalize(record.name) }}</td>
                 <td>{{ record.gender }}</td>
                 <td>{{ record.course }}</td>
                 <td>{{ record.phone_number }}</td>
-                <td>{{ record.email }}</td>
-                <td>sample-date</td>
+                <td>{{ record.email.toLowerCase() }}</td>
+                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
               </tr>
             </tbody>
           </table>
@@ -167,12 +167,12 @@
                     (change)="checkIfAllSelected()" />
                 </td>
                 <td>{{ record.emp_number }}</td>
-                <td>{{ record.name }}</td>
+                <td>{{ capitalize(record.name) }}</td>
                 <td>{{ record.gender }}</td>
                 <td>{{ record.department }}</td>
                 <td>{{ record.phone_number }}</td>
-                <td>{{ record.email }}</td>
-                <td>sample-date</td>
+                <td>{{ record.email.toLowerCase() }}</td>
+                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
               </tr>
             </tbody>
           </table>
@@ -190,11 +190,11 @@
             </thead>
             <tbody class="text-start">
               <tr *ngFor="let record of logs">
-                <td>{{ record.name }}</td>
+                <td>{{ capitalize(record.name) }}</td>
                 <td>{{ record.gender }}</td>
                 <td>{{ record.phone_number }}</td>
                 <td>{{ record.school }}</td>
-                <td>sample-date</td>
+                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
               </tr>
             </tbody>
           </table>
