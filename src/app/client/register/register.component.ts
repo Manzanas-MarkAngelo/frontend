@@ -319,8 +319,8 @@ export class RegisterComponent implements OnInit {
     const formData: any = {
       selectedRole: this.selectedRole,
       sex: this.sex,
-      firstName: formatName(this.firstName),
-      lastName: formatName(this.lastName),
+      firstName: this.firstName,
+      lastName: this.lastName,
       department: this.department,
       school: this.school,
       courseId: this.courseId,
