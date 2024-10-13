@@ -3,7 +3,7 @@
         'name' => 'pup-taguig/library-info-system',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0eada832690791f97b8fba3d1de472e0730f6c39',
+        'reference' => '4941f4d0de29eb3e38a714f56bb2c2f4841ddcdb',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'pup-taguig/library-info-system' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0eada832690791f97b8fba3d1de472e0730f6c39',
+            'reference' => '4941f4d0de29eb3e38a714f56bb2c2f4841ddcdb',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
