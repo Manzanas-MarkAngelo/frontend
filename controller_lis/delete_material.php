@@ -19,7 +19,46 @@ include 'db_connection.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (isset($data['id'])) {
+if (isset($data['ids']) && is_array($data['ids'])) {
+    $ids = $data['ids'];
+    $idPlaceholders = implode(',', array_fill(0, count($ids), '?'));
+
+    $sql = "SELECT categoryid FROM materials WHERE id IN ($idPlaceholders)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param(str_repeat('i', count($ids)), ...$ids);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $categoryUpdates = [];
+        while ($row = $result->fetch_assoc()) {
+            $categoryUpdates[$row['categoryid']] = isset($categoryUpdates[$row['categoryid']]) ? $categoryUpdates[$row['categoryid']] + 1 : 1;
+        }
+
+        foreach ($categoryUpdates as $categoryid => $count) {
+            $sql_category = "UPDATE category SET counter = counter - ? WHERE cat_id = ?";
+            $stmt_category = $conn->prepare($sql_category);
+            $stmt_category->bind_param("ii", $count, $categoryid);
+            $stmt_category->execute();
+            $stmt_category->close();
+        }
+
+        $sql_delete = "DELETE FROM materials WHERE id IN ($idPlaceholders)";
+        $stmt_delete = $conn->prepare($sql_delete);
+        $stmt_delete->bind_param(str_repeat('i', count($ids)), ...$ids);
+
+        if ($stmt_delete->execute()) {
+            echo json_encode(["status" => "success", "message" => "Materials deleted successfully"]);
+        } else {
+            echo json_encode(["status" => "error", "message" => "Failed to delete materials"]);
+        }
+        $stmt_delete->close();
+    } else {
+        echo json_encode(["status" => "error", "message" => "Materials not found"]);
+    }
+
+    $stmt->close();
+} else if (isset($data['id'])) {
     $id = $data['id'];
     
     // Step 1: Find the material by its ID
