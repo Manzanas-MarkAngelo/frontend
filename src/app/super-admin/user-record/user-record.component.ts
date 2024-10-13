@@ -15,19 +15,18 @@ export class UserRecordComponent implements OnInit {
   totalPages: number = 0;
   itemsPerPage: number = 14;
   searchTerm: string = '';
-  searchSubject: Subject<string> = new Subject<string>(); // For debounced search
+  searchSubject: Subject<string> = new Subject<string>();
 
   constructor(private recordsService: RecordsService) { }
 
   ngOnInit(): void {
     this.setLogType('student_log');
     
-    // Implement debounce on search input
     this.searchSubject.pipe(
-      debounceTime(300) // Adjust debounce time as needed
+      debounceTime(300)
     ).subscribe(term => {
       this.searchTerm = term;
-      this.fetchLogs(this.currentLogType.replace('_log', '')); // Fetch logs based on the current log type
+      this.fetchLogs(this.currentLogType.replace('_log', ''));
     });
   }
 
@@ -54,7 +53,12 @@ export class UserRecordComponent implements OnInit {
   }
 
   fetchLogs(logType: string) {
-    this.recordsService.getLogs(logType, this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(data => {
+    this.recordsService.getLogs(
+      logType, 
+      this.itemsPerPage, 
+      this.currentPage, 
+      this.searchTerm
+    ).subscribe(data => {
       this.logs = data.records;
       this.totalPages = data.totalPages;
     }, error => {
@@ -69,13 +73,11 @@ export class UserRecordComponent implements OnInit {
 
   clearLogType() {
     this.setLogType('student_log');
-    this.searchTerm = ''; // Clear the search term
-    this.fetchLogs(this.currentLogType.replace('_log', '')); // Fetch logs based on the current log type
+    this.searchTerm = '';
+    this.fetchLogs(this.currentLogType.replace('_log', ''));
   }
   
-
-  // Trigger search with debounce
   onSearchChange(searchTerm: string) {
-    this.searchSubject.next(searchTerm); // Pass the search term to the debounced subject
+    this.searchSubject.next(searchTerm);
   }
 }
