@@ -258,25 +258,80 @@
   }
 </div>
 
-<dialog id="my_modal_1" class="modal">
-  <div class="modal-box">
-      <h3 class="text-xl font-bold text-primary text-center">
-          Are you sure you want to mark 
-          <span class="text-red-600">{{ selectedMaterialIds.length }}</span> 
-          materials as "Weed-out"?
-      </h3>
+<dialog id="my_modal_1" class="modal modal-lg">
+  <div class="modal-box w-full max-w-2.5xl">
+    <h3 class="text-xl font-bold text-primary text-center">
+      Are you sure you want to mark 
+      <span class="text-red-600">{{ selectedMaterialIds.length }}</span> 
+      materials as "Weed-out"?
+    </h3>
 
-      <div class="modal-action justify-center items-center">
-          <button 
-              class="btn w-40 bg-red-800 text-white hover:bg-red-700"
-              (click)="closeWarningModal()">
-              Cancel
-          </button>
-          <button 
-              class="btn w-40 bg-green-600 text-white hover:bg-green-500"
-              (click)="confirmWeedOut()">
-              Confirm
-          </button>
+    <div *ngIf="paginatedTitles.length > 0" class="grid grid-cols-2 gap-10">
+      <div class="text-left mt-4 mb-7">
+        <ul>
+          <li *ngFor="let title of paginatedTitles[0]; let i = index" 
+              class="flex justify-start">
+            <span class="font-semibold w-6 text-grey-500">
+              {{ i + 1 + (currentTitlePage - 1) * 10 }}.
+            </span> 
+            <span class="ml-2 text-yellow-600">
+              {{ title }}
+            </span>
+          </li>
+        </ul>
       </div>
+
+      <div class="text-left mt-4 mb-7">
+        <ul>
+          <li *ngFor="let title of paginatedTitles[1]; let i = index" 
+              class="flex justify-start">
+            <span class="font-semibold w-6 text-grey-500">
+              {{ i + 6 + (currentTitlePage - 1) * 10 }}.
+            </span> 
+            <span class="ml-2 text-yellow-600">
+              {{ title }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngIf="totalTitlePages > 1" 
+          class="modal-action justify-center items-center">
+      <button 
+        class="btn btn-sm w-20 bg-gray-600 text-white hover:bg-gray-500"
+        [disabled]="currentTitlePage === 1"
+        (click)="previousTitlePage()">
+        Previous
+      </button>
+      <button 
+        class="btn btn-sm w-20 bg-gray-600 text-white hover:bg-gray-500"
+        [disabled]="currentTitlePage === totalTitlePages"
+        (click)="nextTitlePage()">
+        Next
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center justify-between h-full">
+      <img 
+        src="../../../assets/return.jpg" 
+        alt="success" 
+        class="w-4/5 h-auto mb-4" 
+      />
+      <div class="modal-action justify-center items-center">
+        <button 
+          class="btn w-40 bg-red-800 text-white hover:bg-red-700"
+          (click)="closeWarningModal()">
+          Cancel
+        </button>
+        <button 
+          class="btn w-40 bg-green-600 text-white hover:bg-green-500"
+          (click)="confirmWeedOut()">
+          Confirm
+        </button>
+      </div>
+    </div>
   </div>
 </dialog>
+
+<app-snackbar/>

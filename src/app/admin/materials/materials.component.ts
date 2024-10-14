@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MaterialsService } from '../../../services/materials.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-materials',
   templateUrl: './materials.component.html',
   styleUrl: './materials.component.css'
 })
-export class MaterialsComponent {
+export class MaterialsComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+
   materials: any[] = [];
   totalItems: number = 0;
   totalPages: number = 0;
@@ -34,7 +37,11 @@ export class MaterialsComponent {
   sortOrder: string = 'DESC';
 
   selectedMaterialIds: number[] = [];
+  selectedMaterialTitles: string[] = [];
   selectAllChecked: boolean = false;
+  paginatedTitles: string[][] = [];
+  currentTitlePage: number = 1;
+  totalTitlePages: number = 1;
 
   constructor(
     private materialsService: MaterialsService, 
@@ -68,44 +75,68 @@ export class MaterialsComponent {
     }
   
     if (this.selectedMaterialIds.includes(material.id)) {
-      this.selectedMaterialIds = this.selectedMaterialIds
-        .filter(id => id !== material.id);
+      this.selectedMaterialIds = this.selectedMaterialIds.filter(id => id !== material.id);
+      this.selectedMaterialTitles = this.selectedMaterialTitles.filter(title => title !== material.title);
     } else {
       this.selectedMaterialIds.push(material.id);
+      this.selectedMaterialTitles.push(material.title);
     }
   
     this.checkIfAllSelected();
     this.checkIfAnySelected();
-  }  
-
+  
+    this.currentTitlePage = 1;
+    this.paginateSelectedTitles();
+  }
+  
   toggleAllSelection(event: any) {
     const isChecked = event.target.checked;
   
     if (isChecked) {
       this.materials.forEach(material => {
-        if (
-          material.status !== 'Weed Out' && 
-          material.status !== 'Charged' && 
-          !this.selectedMaterialIds.includes(material.id)
-        ) {
+        if (material.status !== 'Weed Out' && material.status !== 'Charged' && !this.selectedMaterialIds.includes(material.id)) {
           this.selectedMaterialIds.push(material.id);
-        }
-        if (material.status !== 'Weed Out' && material.status !== 'Charged') {
-          material.selected = true;
+          this.selectedMaterialTitles.push(material.title);
         }
       });
     } else {
-      this.materials.forEach(material => {
-        if (material.status !== 'Weed Out' && material.status !== 'Charged') {
-          this.selectedMaterialIds = this.selectedMaterialIds
-            .filter(id => id !== material.id);
-          material.selected = false;
-        }
-      });
+      this.selectedMaterialIds = [];
+      this.selectedMaterialTitles = [];
     }
   
     this.checkIfAllSelected();
     this.checkIfAnySelected();
+  
+    this.currentTitlePage = 1;
+    this.paginateSelectedTitles();
+  }  
+
+  paginateSelectedTitles() {
+    const titlesPerPage = 10;
+    const startIndex = (this.currentTitlePage - 1) * titlesPerPage;
+    const endIndex = startIndex + titlesPerPage;
+  
+    const titlesOnPage = this.selectedMaterialTitles.slice(startIndex, endIndex);
+  
+    const column1 = titlesOnPage.slice(0, 5);
+    const column2 = titlesOnPage.slice(5, 10);
+  
+    this.paginatedTitles = [column1, column2];
+    this.totalTitlePages = Math.ceil(this.selectedMaterialTitles.length / titlesPerPage);
+  }
+
+  nextTitlePage() {
+    if (this.currentTitlePage < this.totalTitlePages) {
+      this.currentTitlePage++;
+      this.paginateSelectedTitles();
+    }
+  }
+  
+  previousTitlePage() {
+    if (this.currentTitlePage > 1) {
+      this.currentTitlePage--;
+      this.paginateSelectedTitles();
+    }
   }  
 
   restoreSelectedCheckboxes() {
@@ -135,12 +166,11 @@ export class MaterialsComponent {
     );
   
     if (availableMaterialsToWeedOut.length > 0) {
-      const materialIdsToWeedOut = availableMaterialsToWeedOut
-        .map(material => material.id);
-      
+      const materialIdsToWeedOut = availableMaterialsToWeedOut.map(material => material.id);
+  
       this.materialsService.weedOutMaterials(materialIdsToWeedOut).subscribe(() => {
         this.loadMaterials();
-        
+
         this.selectedMaterialIds = [];
         this.selectAllChecked = false;
   
@@ -150,6 +180,10 @@ export class MaterialsComponent {
   
         this.isDisabled = true;
         this.closeWarningModal();
+  
+        this.snackbar.showMessage('Selected materials marked as "Weed Out" successfully');
+      }, () => {
+        this.snackbar.showMessage('Failed to mark materials as "Weed Out"');
       });
     }
   }  

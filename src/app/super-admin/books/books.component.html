@@ -1,79 +1,28 @@
 <div class="flex flex-col w-full bg-primary items-center pt-2">
-    <div class="flex flex-row flex-wrap w-[95%] lg:w-11/12 mt-1 justify-between gap-1 mb-3 mx-5">
-        <div class="flex flex-row w-full md:w-1/2 gap-1">
-          <input 
-          type="text" 
-          placeholder="Search here" 
-          class="input input-bordered w-1/2 rounded-xl text-lg font-medium 
-                 text-primary slide-in-left bg-white"
-          [(ngModel)]="searchTerm"
-          (input)="onSearch()" />
+  <div class="flex flex-row flex-wrap w-[95%] lg:w-11/12 mt-1 justify-between 
+              gap-1 mb-3 mx-5">
+    <div class="flex flex-row w-full md:w-1/2 gap-1">
+      <input 
+        type="text" 
+        placeholder="Search here" 
+        class="input input-bordered w-1/2 rounded-xl text-lg font-medium 
+               text-primary slide-in-left bg-white"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()" 
+      />
         
-          <button
-          type="button"
-          class="h-[3rem] w-auto bg-white text-primary rounded-xl px-4 font-medium 
-                 hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
-          (click)="clearSearch()"
-        >
-          Clear
-        </button>
       <button
-      type="button"
-      (click)="openWarningDeleteModal()"
-      [ngClass]="{
-        'bg-secondary text-black cursor-pointer': !isDisabled,
-        'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
-      }"
-      class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
-      [disabled]="isDisabled"
-    >
-      Delete material
-    </button>
-
-          </div>
-          
-        <div class="flex flex-row w-auto flex-wrap gap-1">
-          <div class="flex flex-row gap-2 slide-in-right">
-            <div class="dropdown dropdown-bottom slide-in-right">
-              <div
-                tabindex="0"
-                role="button"
-                class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]"
-              >
-                {{ categoryPlaceholder }}
-              </div>
-              <ul
-                tabindex="0"
-                class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black"
-              >
-                <li *ngFor="let category of categories">
-                  <a (click)="CategoryPlaceholder(category.mat_type)">
-                    {{ category.mat_type }}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-  
-          <button
-          type="button"
-          routerLink="/materials-add"
-          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
-          hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right">
-          Add book
-        </button>
-  
-        <button
         type="button"
-          routerLink="/materials-type"
-          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
-          hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right">
-          Material type
-        </button>
-
-        <button
+        class="h-[3rem] w-auto bg-white text-primary rounded-xl px-4 
+               font-medium hover:bg-[#ffb700] hover:text-black transition 
+               duration-300 slide-in-right"
+        (click)="clearSearch()"
+      >
+        Clear
+      </button>  
+      <button
         type="button"
-        (click)="openWarningModal()"
+        (click)="openWarningDeleteModal()"
         [ngClass]="{
           'bg-secondary text-black cursor-pointer': !isDisabled,
           'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
@@ -81,255 +30,397 @@
         class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
         [disabled]="isDisabled"
       >
-        Weed out
+        Delete material
       </button>
+    </div>
+          
+    <div class="flex flex-row w-auto flex-wrap gap-1">
+      <div class="flex flex-row gap-2 slide-in-right">
+        <div class="dropdown dropdown-bottom slide-in-right">
+          <div
+            tabindex="0"
+            role="button"
+            class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black 
+                   text-lg hover:bg-[#ffb700]">
+            {{ categoryPlaceholder }}
+          </div>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 
+                   p-2 shadow text-lg font-medium text-black">
+            <li *ngFor="let category of categories">
+              <a (click)="CategoryPlaceholder(category.mat_type)">
+                {{ category.mat_type }}
+              </a>
+            </li>
+          </ul>
+        </div>
   
-            <div class="flex justify-between items-center gap-5 slide-in-right mb-1">
-              <span class="text-lg font-medium ml-3 text-white">
-                Page {{ currentPage }} / {{ totalPages }}
-              </span>
-              <div class="flex gap-2">
-                <button
-                  class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
-                  [disabled]="currentPage === 1"
-                  (click)="onPageChange(currentPage - 1)"
-                >
-                  Previous
-                </button>
-                <button
-                  class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
-                  [disabled]="currentPage === totalPages"
-                  (click)="onPageChange(currentPage + 1)"
-                >
-                  Next
-                </button>
-                </div>
-            </div>
+        <button
+          type="button"
+          routerLink="/materials-add"
+          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300 
+                 slide-in-right"
+        >
+          Add book
+        </button>
+        <button
+          type="button"
+          routerLink="/materials-type"
+          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300 
+                 slide-in-right"
+        >
+          Material type
+        </button>
+        <button
+          type="button"
+          (click)="openWarningModal()"
+          [ngClass]="{
+            'bg-secondary text-black cursor-pointer': !isDisabled,
+            'bg-gray-400 text-gray-500 cursor-not-allowed': isDisabled
+          }"
+          class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
+          [disabled]="isDisabled"
+        >
+          Weed out
+        </button>
+  
+        <div class="flex justify-between items-center gap-5 slide-in-right mb-1">
+          <span class="text-lg font-medium ml-3 text-white">
+            Page {{ currentPage }} / {{ totalPages }}
+          </span>
+          <div class="flex gap-2">
+            <button
+              class="btn border-none bg-secondary text-black 
+                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+              [disabled]="currentPage === 1"
+              (click)="onPageChange(currentPage - 1)"
+            >
+              Previous
+            </button>
+            <button
+              class="btn border-none bg-secondary text-black 
+                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+              [disabled]="currentPage === totalPages"
+              (click)="onPageChange(currentPage + 1)"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
-    @if (materials.length > 0 ) {
-        <div class="p-4 bg-white text-black rounded-xl w-[95%] lg:w-11/12 slide-in-right mb-5">
-            <div class="overflow-x-auto">
-                <table class="table w-full">
-                    <thead class="cursor-pointer">
-                        <tr class="text-primary text-sm">
-                          <th class="text-start">
-                            <input 
-                              type="checkbox" 
-                              class="cursor-pointer"
-                              [(ngModel)]="selectAllChecked" 
-                              (change)="toggleAllSelection($event)" />
-                          </th>
-                            <th (click)="sortMaterials('status')">Status ↕
-                                <span *ngIf="sortField === 'status'" class="sort-arrow">
-                                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-                                </span>
-                            </th>
-                            <th (click)="sortMaterials('accnum')">Accession Number ↕
-                                <span *ngIf="sortField === 'categoryid'" class="sort-arrow">
-                                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-                                </span>
-                              </th>                         
-                            <th (click)="sortMaterials('title')">Title ↕
-                                <span *ngIf="sortField === 'title'" class="sort-arrow">
-                                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-                                </span>
-                            </th>
-                            <th (click)="sortMaterials('author')">Author ↕
-                                <span *ngIf="sortField === 'author'" class="sort-arrow">
-                                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-                                </span>
-                            </th>
-                            <th (click)="sortMaterials('subj')">Subject ↕
-                                <span *ngIf="sortField === 'subj'" class="sort-arrow">
-                                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-                                </span>
-                            </th>
-                            <th (click)="sortMaterials('copyright')">Copyright ↕
-                                <span *ngIf="sortField === 'copyright'" class="sort-arrow">
-                                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-                                </span>
-                            </th>
-                            <th (click)="sortMaterials('callno')">Call number ↕
-                                <span *ngIf="sortField === 'callno'" class="sort-arrow">
-                                    <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
-                                    <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
-                                </span>
-                            </th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-start">
-                    <tr *ngFor="let material of materials">
-                        <td>
-                          <input 
-                            type="checkbox" 
-                            class="cursor-pointer"
-                            [(ngModel)]="material.selected" 
-                            (change)="checkIfAllSelected()" />
-                        </td>
-                        <td>{{ material.status }}</td>
-                        <td>{{ material.accnum }}</td>
-                        <td>
-                            <a [routerLink]="['/material-info', material.accnum]" 
-                               class="text-primary font-semibold hover:text-[#ffb700] 
-                                      hover:underline">
-                                {{ material.title }}
-                            </a>
-                        </td>
-                        <td>{{ material.author | slice:0:30 }}{{ material.author.length > 30 ? '...' : '' }}</td>
-                        <td>{{ material.subj }}</td>
-                        <td>{{ material.copyright }}</td>
-                        <td>{{ material.callno | slice:0:8 }}{{ material.callno.length > 8 ? '...' : '' }}</td>
-                        <td class="flex justify-center" >
-                            <button class="bg-secondary 
-                                          text-black 
-                                          border-none 
-                                          shadow-none 
-                                          btn-sm 
-                                          rounded-xl 
-                                          font-medium
-                                          mr-1"
-                                    [routerLink]="['/materials-edit', material.accnum]">
-                                Edit
-                            </button>
-                            <button class="bg-primary 
-                                          text-white 
-                                          border-none 
-                                          shadow-none 
-                                          btn-sm 
-                                          rounded-xl 
-                                          font-medium"
-                                    (click)="showConfirmModal(material.id, material.title)">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    } @else {
-        <div class="flex justify-center items-center mt-20 slide-in-below">
-            <div class="card bg-primary w-96">
-                <figure class="px-10 pt-10">
-                  <img
-                    src="../../../assets/no-match1.svg"
-                    alt="no-match"/>
-                </figure>
-                <div class="card-body items-center text-center">
-                  <h2 class="card-title text-white">Nothing match your search!</h2>
-                  <p class="text-white">Didn't find what you're looking for?</p>
-                </div>
-              </div>
-          </div>
-    }
-</div>
-
-<!-- Confirmation Modal -->
-<div *ngIf="showModal" 
-     class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-4/5 max-w-md">
-        <h2 class="text-center text-xl font-medium text-primary mb-3">
-            Do you really want to delete this material? It cannot be undone!
-            <div class="text-yellow-500 mt-4 mb-7">
-                <span class="text-primary">Title:</span> {{ selectedMaterialTitle }}
-            </div>
-        </h2>
-        <div class="flex flex-col items-center justify-between h-full">
-            <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
-            <div class="flex flex-row gap-4 w-full">
-                <button
-                    (click)="closeConfirmModal()"
-                    class="flex-1
-                        bg-primary 
-                        text-white 
-                        px-6 
-                        py-3 
-                        rounded-xl 
-                        font-medium 
-                        hover:bg-[#ffb700] 
-                        hover:text-black 
-                        transition 
-                        duration-300">
-                    Back
-                </button>
-                <button
-                    (click)="deleteMaterial()"
-                    class="flex-1
-                        bg-secondary 
-                        text-black 
-                        px-6 
-                        py-3 
-                        rounded-xl 
-                        font-medium 
-                        hover:bg-[#801e1d] 
-                        hover:text-white 
-                        transition 
-                        duration-300">
-                    Delete Material
-                </button>
-            </div>
-        </div>
     </div>
+  </div>
+  @if (materials.length > 0 ) {
+    <div class="p-4 bg-white text-black rounded-xl w-[95%] lg:w-11/12 
+                slide-in-right mb-5">
+      <div class="overflow-x-auto">
+        <table class="table w-full">
+          <thead class="cursor-pointer">
+            <tr class="text-primary text-sm">
+              <th class="text-start">
+                <input 
+                  type="checkbox" 
+                  class="cursor-pointer"
+                  [(ngModel)]="selectAllChecked" 
+                  (change)="toggleAllSelection($event)" 
+                />
+              </th>
+              <th (click)="sortMaterials('status')">Status ↕
+                <span *ngIf="sortField === 'status'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>
+              <th (click)="sortMaterials('accnum')">Accession Number ↕
+                <span *ngIf="sortField === 'categoryid'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>                         
+              <th (click)="sortMaterials('title')">Title ↕
+                <span *ngIf="sortField === 'title'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>
+              <th (click)="sortMaterials('author')">Author ↕
+                <span *ngIf="sortField === 'author'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>
+              <th (click)="sortMaterials('subj')">Subject ↕
+                <span *ngIf="sortField === 'subj'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>
+              <th (click)="sortMaterials('copyright')">Copyright ↕
+                <span *ngIf="sortField === 'copyright'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>
+              <th (click)="sortMaterials('callno')">Call number ↕
+                <span *ngIf="sortField === 'callno'" class="sort-arrow">
+                  <ng-container *ngIf="sortOrder === 'ASC'">↑</ng-container>
+                  <ng-container *ngIf="sortOrder === 'DESC'">↓</ng-container>
+                </span>
+              </th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody class="text-start">
+            <tr *ngFor="let material of materials">
+              <td>
+                <input 
+                  type="checkbox" 
+                  [ngClass]="{
+                    'cursor-pointer': material.status !== 'Weed Out' 
+                    && material.status !== 'Charged'
+                  }"
+                  [checked]="selectedMaterialIds.includes(material.id)"
+                  [disabled]="material.status === 'Weed Out' || 
+                              material.status === 'Charged'"
+                  (change)="toggleMaterialSelection(material)" 
+                />
+              </td>
+              <td>{{ material.status }}</td>
+              <td>{{ material.accnum }}</td>
+              <td>
+                <a [routerLink]="['/material-info', material.accnum]" 
+                   class="text-primary font-semibold hover:text-[#ffb700] 
+                          hover:underline"
+                >
+                  {{ material.title }}
+                </a>
+              </td>
+              <td>
+                {{ material.author | slice:0:30 }}
+                {{ material.author.length > 30 ? '...' : '' }}
+              </td>
+              <td>{{ material.subj }}</td>
+              <td>{{ material.copyright }}</td>
+              <td>
+                {{ material.callno | slice:0:8 }}
+                {{ material.callno.length > 8 ? '...' : '' }}
+              </td>
+              <td class="flex justify-center" >
+                <button class="bg-secondary text-black border-none shadow-none 
+                               btn-sm rounded-xl font-medium mr-1"
+                        [routerLink]="['/materials-edit', material.accnum]"
+                >
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="100%" class="text-center">
+                <label for="itemsPerPage" 
+                       class="text-primary text-lg font-medium mr-2">
+                  Show items:
+                </label>
+                <select 
+                  id="itemsPerPage" 
+                  [(ngModel)]="itemsPerPage" 
+                  (change)="onItemsPerPageChange($event)" 
+                  class="bg-secondary text-black border-none shadow-none 
+                         btn-sm rounded-xl font-medium cursor-pointer">
+                  <option 
+                    *ngFor="let option of itemsPerPageOptions" 
+                    [value]="option"
+                  >
+                    {{ option }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  } @else {
+      <div class="flex justify-center items-center mt-20 slide-in-below">
+        <div class="card bg-primary w-96">
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"
+            />
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Nothing match your search!</h2>
+            <p class="text-white">Didn't find what you're looking for?</p>
+          </div>
+        </div>
+      </div>
+  }
 </div>
 
-<!-- Snackbar -->
 <div *ngIf="snackBarVisible" 
      class="fixed bottom-0 left-1/2 transform -translate-x-1/2 
             mb-4 bg-yellow-500 text-white p-4 
             rounded-lg shadow-lg flex items-center">
-    <span>{{ snackBarMessage }}</span>
-    <button (click)="closeSnackBar()" class="ml-4 text-white">
-        <span class="text-xl font-bold">×</span>
-    </button>
+  <span>{{ snackBarMessage }}</span>
+  <button (click)="closeSnackBar()" class="ml-4 text-white">
+    <span class="text-xl font-bold">×</span>
+  </button>
 </div>
 
-<dialog id="my_modal_1" class="modal">
-  <div class="modal-box">
-      <h3 class="text-xl font-bold text-primary text-center">
-          Are you sure to mark selected materials as "Weed-out"?
-      </h3>
+<dialog id="my_modal_1" class="modal modal-lg">
+  <div class="modal-box w-full max-w-2.5xl">
+    <h3 class="text-xl font-bold text-primary text-center">
+      Are you sure you want to mark 
+      <span class="text-red-600">{{ selectedMaterialIds.length }}</span> 
+      materials as "Weed-out"?
+    </h3>
 
-      <div class="modal-action justify-center items-center">
-          <button 
-              class="btn w-40 bg-red-800 text-white hover:bg-red-700"
-              (click)="closeWarningModal()">
-              Cancel
-          </button>
-          <button 
-              class="btn w-40 bg-green-600 text-white hover:bg-green-500">
-              Confirm
-          </button>
+    <div *ngIf="paginatedTitles.length > 0" class="grid grid-cols-2 gap-10">
+      <div class="text-left mt-4 mb-7">
+        <ul>
+          <li *ngFor="let title of paginatedTitles[0]; let i = index" 
+              class="flex justify-start">
+            <span class="font-semibold w-6 text-grey-500">
+              {{ i + 1 + (currentTitlePage - 1) * 10 }}.
+            </span> 
+            <span class="ml-2 text-yellow-600">{{ title }}</span>
+          </li>
+        </ul>
       </div>
+
+      <div class="text-left mt-4 mb-7">
+        <ul>
+          <li *ngFor="let title of paginatedTitles[1]; let i = index" 
+              class="flex justify-start">
+            <span class="font-semibold w-6 text-grey-500">
+              {{ i + 6 + (currentTitlePage - 1) * 10 }}.
+            </span> 
+            <span class="ml-2 text-yellow-600">{{ title }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngIf="totalTitlePages > 1" 
+         class="modal-action justify-center items-center">
+      <button 
+        class="btn btn-sm w-20 bg-gray-600 text-white hover:bg-gray-500"
+        [disabled]="currentTitlePage === 1"
+        (click)="previousTitlePage()"
+      >
+        Previous
+      </button>
+      <button 
+        class="btn btn-sm w-20 bg-gray-600 text-white hover:bg-gray-500"
+        [disabled]="currentTitlePage === totalTitlePages"
+        (click)="nextTitlePage()"
+      >
+        Next
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center justify-between h-full">
+      <img 
+        src="../../../assets/return.jpg" 
+        alt="success" 
+        class="w-4/5 h-auto mb-4" 
+      />
+      <div class="modal-action justify-center items-center">
+        <button 
+          class="btn w-40 bg-red-800 text-white hover:bg-red-700"
+          (click)="closeWarningModal()"
+        >
+          Cancel
+        </button>
+        <button 
+          class="btn w-40 bg-green-600 text-white hover:bg-green-500"
+          (click)="confirmWeedOut()"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
   </div>
 </dialog>
 
 <dialog id="my_modal_2" class="modal">
   <div class="modal-box">
-      <h3 class="text-xl font-bold text-primary text-center">
-          Do you really want to DELETE selected materials forever?
-      </h3>
-      <p class="text-red-600 text-base text-center my-1">
-        Note: this CANNOT be UNDONE!
-      </p>
+    <h3 class="text-xl font-bold text-primary text-center">
+      Do you really want to DELETE selected materials forever?
+    </h3>
+    <p class="text-red-700 font-bold text-center my-3 p-2 border border-red-700 
+              bg-red-100 rounded-lg">
+      ⚠️ Note: This CANNOT be UNDONE!
+    </p>
 
-      <div class="modal-action justify-center items-center">
-          <button 
-              class="btn w-40 bg-red-800 text-white hover:bg-red-700"
-              (click)="closeWarningDeleteModal()">
-              Cancel
-          </button>
-          <button 
-              class="btn w-40 bg-green-600 text-white hover:bg-green-500">
-              Confirm
-          </button>
+    <div *ngIf="paginatedTitles.length > 0" class="grid grid-cols-2 gap-10">
+      <div class="text-left mt-4 mb-7">
+        <ul>
+          <li *ngFor="let title of paginatedTitles[0]; let i = index" 
+              class="flex justify-start">
+            <span class="font-semibold w-6 text-grey-500">
+              {{ i + 1 + (currentTitlePage - 1) * 10 }}.
+            </span> 
+            <span class="ml-2 text-yellow-600">{{ title }}</span>
+          </li>
+        </ul>
       </div>
+
+      <div class="text-left mt-4 mb-7">
+        <ul>
+          <li *ngFor="let title of paginatedTitles[1]; let i = index" 
+              class="flex justify-start">
+            <span class="font-semibold w-6 text-grey-500">
+              {{ i + 6 + (currentTitlePage - 1) * 10 }}.
+            </span> 
+            <span class="ml-2 text-yellow-600">{{ title }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngIf="totalTitlePages > 1" class="modal-action justify-center items-center">
+      <button 
+        class="btn btn-sm w-20 bg-gray-600 text-white hover:bg-gray-500"
+        [disabled]="currentTitlePage === 1"
+        (click)="previousTitlePage()"
+      >
+        Previous
+      </button>
+      <button 
+        class="btn btn-sm w-20 bg-gray-600 text-white hover:bg-gray-500"
+        [disabled]="currentTitlePage === totalTitlePages"
+        (click)="nextTitlePage()"
+      >
+        Next
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center justify-between h-full">
+      <img 
+        src="../../../assets/return.jpg" 
+        alt="success" 
+        class="w-4/5 h-auto mb-4" 
+      />
+      <div class="modal-action justify-center items-center">
+        <button 
+          class="btn w-40 bg-red-800 text-white hover:bg-red-700"
+          (click)="closeWarningDeleteModal()"
+        >
+          Cancel
+        </button>
+        <button 
+          class="btn w-40 bg-green-600 text-white hover:bg-green-500"
+          (click)="deleteMaterial()"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
   </div>
 </dialog>
