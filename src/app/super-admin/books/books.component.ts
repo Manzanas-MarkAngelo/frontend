@@ -14,7 +14,8 @@ export class BooksComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 11;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
@@ -29,13 +30,20 @@ export class BooksComponent implements OnInit {
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';
 
-  sortField: string = 'date_added'; // Default sort field
-  sortOrder: string = 'DESC'; // Default sort order
+  sortField: string = 'date_added';
+  sortOrder: string = 'DESC';
 
-    // Checkbox logic
-    selectAllChecked: boolean = false; // Header checkbox state
+  selectedMaterialIds: number[] = [];
+  selectedMaterialTitles: string[] = [];
+  selectAllChecked: boolean = false;
+  paginatedTitles: string[][] = [];
+  currentTitlePage: number = 1;
+  totalTitlePages: number = 1;
 
-  constructor(private materialsService: MaterialsService, private router: Router) {}
+  constructor(
+    private materialsService: MaterialsService, 
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadMaterials(); 
@@ -52,18 +60,146 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  // Checkbox Selection Logic
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.loadMaterials();
+  }
 
-  toggleAllSelection(event: any) {
-    const isChecked = event.target.checked;
-    this.materials.forEach(material => {
-      material.selected = isChecked;
-    });
+  toggleMaterialSelection(material: any) {
+    if (material.status === 'Weed Out' || material.status === 'Charged') {
+      return;
+    }
+  
+    if (this.selectedMaterialIds.includes(material.id)) {
+      this.selectedMaterialIds = this.selectedMaterialIds
+        .filter(id => id !== material.id);
+      this.selectedMaterialTitles = this.selectedMaterialTitles
+        .filter(title => title !== material.title);
+    } else {
+      this.selectedMaterialIds.push(material.id);
+      this.selectedMaterialTitles.push(material.title);
+    }
+  
+    this.checkIfAllSelected();
+    this.checkIfAnySelected();
+  
+    this.currentTitlePage = 1;
+    this.paginateSelectedTitles();
   }
   
-  checkIfAllSelected() {
-    this.selectAllChecked = this.materials.every(material => material.selected);
+  toggleAllSelection(event: any) {
+    const isChecked = event.target.checked;
+  
+    if (isChecked) {
+      this.materials.forEach(material => {
+        if (
+          material.status !== 'Weed Out' && 
+          material.status !== 'Charged' && 
+          !this.selectedMaterialIds.includes(material.id)
+        ) {
+          this.selectedMaterialIds.push(material.id);
+          this.selectedMaterialTitles.push(material.title);
+        }
+      });
+    } else {
+      this.selectedMaterialIds = [];
+      this.selectedMaterialTitles = [];
+    }
+  
+    this.checkIfAllSelected();
+    this.checkIfAnySelected();
+  
+    this.currentTitlePage = 1;
+    this.paginateSelectedTitles();
+  }  
+
+  paginateSelectedTitles() {
+    const titlesPerPage = 10;
+    const startIndex = (this.currentTitlePage - 1) * titlesPerPage;
+    const endIndex = startIndex + titlesPerPage;
+  
+    const titlesOnPage = this.selectedMaterialTitles.slice(startIndex, endIndex);
+  
+    const column1 = titlesOnPage.slice(0, 5);
+    const column2 = titlesOnPage.slice(5, 10);
+  
+    this.paginatedTitles = [column1, column2];
+    this.totalTitlePages = Math.ceil(this.selectedMaterialTitles.length / titlesPerPage);
   }
+
+  nextTitlePage() {
+    if (this.currentTitlePage < this.totalTitlePages) {
+      this.currentTitlePage++;
+      this.paginateSelectedTitles();
+    }
+  }
+  
+  previousTitlePage() {
+    if (this.currentTitlePage > 1) {
+      this.currentTitlePage--;
+      this.paginateSelectedTitles();
+    }
+  }  
+
+  restoreSelectedCheckboxes() {
+    this.materials.forEach(material => {
+      material.selected = this.selectedMaterialIds.includes(material.id);
+    });
+  }  
+
+  checkIfAllSelected() {
+    const allSelected = this.materials.every(material => 
+      material.status === 'Weed Out' || 
+      material.status === 'Charged' || 
+      this.selectedMaterialIds.includes(material.id)
+    );
+    this.selectAllChecked = allSelected;
+  }
+  
+  checkIfAnySelected() {
+    this.isDisabled = this.selectedMaterialIds.length === 0;
+  }  
+
+  confirmWeedOut() {
+    const availableMaterialsToWeedOut = this.materials.filter(
+      material => 
+        this.selectedMaterialIds.includes(material.id) && 
+        material.status === 'Available'
+    );
+  
+    if (availableMaterialsToWeedOut.length > 0) {
+      const materialIdsToWeedOut = availableMaterialsToWeedOut.map(material => material.id);
+  
+      this.materialsService.weedOutMaterials(materialIdsToWeedOut).subscribe(() => {
+        this.loadMaterials();
+  
+        this.selectedMaterialIds = [];
+        this.selectAllChecked = false;
+  
+        this.materials.forEach(material => {
+          material.selected = false;
+        });
+  
+        this.isDisabled = true;
+        this.closeWarningModal();
+  
+        this.snackBarMessage = `Selected materials marked as "Weed Out" successfully`;
+        this.snackBarVisible = true;
+  
+        setTimeout(() => {
+          this.snackBarVisible = false;
+        }, 5000);
+      }, () => {
+        this.snackBarMessage = 'Failed to mark materials as "Weed Out"';
+        this.snackBarVisible = true;
+        
+        setTimeout(() => {
+          this.snackBarVisible = false;
+        }, 5000);
+      });
+    }
+  }  
 
   loadMaterials() {
     if (this.searchTerm) {
@@ -79,6 +215,9 @@ export class BooksComponent implements OnInit {
           this.materials = response.data;
           this.totalItems = response.totalItems;
           this.totalPages = response.totalPages;
+
+          this.restoreSelectedCheckboxes();
+          this.checkIfAllSelected();
         });
       } else {
         this.materialsService.searchMaterials(
@@ -91,10 +230,12 @@ export class BooksComponent implements OnInit {
           this.materials = response.data;
           this.totalItems = response.totalItems;
           this.totalPages = response.totalPages;
+
+          this.restoreSelectedCheckboxes();
+          this.checkIfAllSelected();
         });
       }
     } else if (this.category) {
-      // Ensure you are filtering by category and sorting by categoryid
       this.materialsService.filterMaterialsByCategory(
         this.category, 
         this.currentPage, 
@@ -105,6 +246,9 @@ export class BooksComponent implements OnInit {
         this.materials = response.data;
         this.totalItems = response.totalItems;
         this.totalPages = response.totalPages;
+
+        this.restoreSelectedCheckboxes(); 
+        this.checkIfAllSelected();
       });
     } else {
       this.materialsService.getMaterials(
@@ -116,6 +260,9 @@ export class BooksComponent implements OnInit {
         this.materials = response.data;
         this.totalItems = response.totalItems;
         this.totalPages = response.totalPages;
+
+        this.restoreSelectedCheckboxes();
+        this.checkIfAllSelected();
       });
     }
   }  
@@ -175,39 +322,59 @@ export class BooksComponent implements OnInit {
     this.router.navigate(['/borrow-info', accnum]);
   }
 
-  showConfirmModal(id: number, title: string): void {
-    this.selectedMaterialId = id;
-    this.selectedMaterialTitle = title;
-    this.showModal = true;
-  }
-
-  closeConfirmModal(): void {
-    this.showModal = false;
-    this.selectedMaterialId = null;
-  }
-
   deleteMaterial(): void {
-    if (this.selectedMaterialId !== null) {
+    if (this.selectedMaterialIds.length > 0) {
+      // Delete multiple materials
+      this.materialsService.deleteMultipleMaterials(this.selectedMaterialIds)
+        .subscribe(response => {
+          if (response.status === 'success') {
+            this.snackBarMessage = `Selected materials deleted successfully`;
+            this.snackBarVisible = true;
+  
+            setTimeout(() => {
+              this.snackBarVisible = false;
+            }, 5000);
+  
+            this.loadMaterials();
+  
+            this.selectedMaterialIds = [];
+            this.selectedMaterialTitles = [];
+            this.closeWarningDeleteModal();
+          } else {
+            this.snackBarMessage = 'Failed to delete materials';
+            this.snackBarVisible = true;
+  
+            setTimeout(() => {
+              this.snackBarVisible = false;
+            }, 3000);
+          }
+        });
+    } else if (this.selectedMaterialId !== null) {
+      // Delete single material
       this.materialsService.deleteMaterial(this.selectedMaterialId)
         .subscribe(response => {
           if (response.status === 'success') {
-            this.materials = this.materials.filter(material => material.id !== this.selectedMaterialId);
             this.snackBarMessage = `Material ${this.selectedMaterialTitle} deleted successfully`;
             this.snackBarVisible = true;
+  
             setTimeout(() => {
               this.snackBarVisible = false;
-            }, 5000); // Snackbar visible for 5 seconds
-            this.closeConfirmModal();
+            }, 5000);
+  
+            this.loadMaterials();
+  
+            this.closeWarningDeleteModal();
           } else {
             this.snackBarMessage = 'Failed to delete material';
             this.snackBarVisible = true;
+  
             setTimeout(() => {
               this.snackBarVisible = false;
             }, 3000);
           }
         });
     }
-  }
+  }  
 
   closeSnackBar() {
     this.snackBarVisible = false;
@@ -217,33 +384,29 @@ export class BooksComponent implements OnInit {
     this.searchTerm = '';
     this.category = '';
     this.currentPage = 1;
+    this.selectedMaterialIds = [];
     this.categoryPlaceholder = 'Choose category';
-    this.sortField = 'date_added'; // Reset to default sort field
-    this.sortOrder = 'DESC'; // Reset to default sort order
+    this.sortField = 'date_added';
+    this.sortOrder = 'DESC';
+    this.selectAllChecked = false;
+    this.isDisabled = true;
+    this.materials.forEach(material => material.selected = false);
     this.loadMaterials();
   }
 
   sortMaterials(field: string) {
-    // Special case for sorting by 'Acc No.'
     if (field === 'accnum') {
-      // Toggle the sorting order for 'categoryid'
       this.sortField = 'categoryid';
       this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
     } else {
-      // Toggle the sorting order for the same field
       if (this.sortField === field) {
         this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
       } else {
-        // Set the new sorting field and default to 'DESC'
         this.sortField = field;
         this.sortOrder = 'DESC';
       }
     }
     
-    // Log current sortField and sortOrder for debugging
-    console.log(`Sorting by ${this.sortField} ${this.sortOrder}`);
-    
-    // Reload materials with the updated sorting
     this.loadMaterials();
   }
   
