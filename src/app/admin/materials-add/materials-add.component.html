@@ -133,49 +133,43 @@
               </span>
           </div>
 
-          <!-- Subject Heading -->
-          <div class="w-1/2 flex mt-1">
-            <input id="heading" name="heading" type="hidden" 
-                   [(ngModel)]="bookDetails.heading" 
-                   #headingInput="ngModel" required />
-            <div class="flex-1 relative">
-              <div class="dropdown dropdown-bottom w-full">
-                <div tabindex="0" role="button"
-                     class="btn w-full 
-                            bg-secondary 
-                            border-none 
-                            text-black 
-                            text-lg 
-                            hover:bg-[#ffb700] 
-                            rounded-box 
-                            flex items-center 
-                            justify-between"
-                     (click)="toggleSubjectDropdown()"
-                     (blur)="headingInput.control.markAsTouched()">
-                  <span>{{ selectedSubject?.subject_name || 'Select subject heading' }}</span>
-              
-                  <!-- Exclamation icon shown if subject heading is invalid -->
-                  <span *ngIf="headingInput.invalid && headingInput.touched" class="flex items-center">
-                    <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4"/>
-                    <span class="tooltip" id="heading_tooltip">Please select a subject heading.</span>
-                  </span>
-                </div>
-          
-                <!-- Updated dropdown with vertical stacking and scrolling -->
-                <ul tabindex="0" *ngIf="isSubjectDropdownOpen"
-                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
-                           w-full text-base font-medium text-black 
-                           max-h-56 overflow-y-auto overflow-x-hidden block">
-                  <li *ngFor="let subject of subjects" class="w-full">
-                    <a (click)="selectSubjectHeading(subject.id, subject.subject_name)" 
-                       class="block w-full px-4 py-2 hover:bg-[#801e1d] hover:text-white">
-                      {{ subject.subject_name }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+ <!-- Subject Heading -->
+<div class="w-1/2 flex mt-1">
+  <input id="heading" name="heading" type="hidden" [(ngModel)]="bookDetails.heading" #headingInput="ngModel" required />
+  <div class="flex-1 relative">
+    <div class="dropdown dropdown-bottom w-full">
+      <div tabindex="0" role="button"
+           class="btn w-full bg-secondary border-none text-black text-lg hover:bg-[#ffb700] rounded-box flex items-center justify-between"
+           (click)="toggleSubjectDropdown()"
+           (blur)="headingInput.control.markAsTouched()">
+        <span>{{ selectedSubject?.subject_name || 'Select subject heading' }}</span>
+
+        <!-- Exclamation icon shown if subject heading is invalid -->
+        <span *ngIf="headingInput.invalid && headingInput.touched" class="flex items-center">
+          <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4"/>
+          <span class="tooltip" id="heading_tooltip">Please select a subject heading.</span>
+        </span>
+      </div>
+
+      <!-- Dropdown with search input -->
+      <div *ngIf="isSubjectDropdownOpen" class="dropdown-content menu bg-secondary rounded-box z-[1] w-full text-base font-medium text-black max-h-56 overflow-y-auto overflow-x-hidden block">
+        <!-- Search input -->
+        <input type="text" placeholder="Search subject..." class="input input-bordered w-full mb-2"
+        name="subjectSearch"[(ngModel)]="subjectSearchTerm" (ngModelChange)="onSubjectSearch($event)" />
+
+        <!-- Subject list -->
+        <ul tabindex="0">
+          <li *ngFor="let subject of filteredSubjects" class="w-full">
+            <a (click)="selectSubjectHeading(subject.id, subject.subject_name)" class="block w-full px-4 py-2 hover:bg-[#801e1d] hover:text-white">
+              {{ subject.subject_name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
                     
         </div>
 

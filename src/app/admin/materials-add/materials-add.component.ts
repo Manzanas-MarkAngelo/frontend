@@ -45,6 +45,8 @@ export class MaterialsAddComponent {
   isSubjectDropdownOpen = false; 
   selectedSubject: { id: number, subject_name: string } | null = null;  // To display subject heading in dropdown
   subjects: { id: number, subject_name: string }[] = [];  // Holds subject ids and headings
+  filteredSubjects: { id: number, subject_name: string }[] = [];
+  subjectSearchTerm: string = ''; // To hold the search term
 
 
   ngOnInit(): void {
@@ -59,15 +61,18 @@ export class MaterialsAddComponent {
       this.selectedCategory = { cat_id: 0, mat_type: 'Select Category' };
     });
 
-        // Fetch subject headings from the database
-        this.addMaterialService.getSubjectHeadings().subscribe(data => {
-          this.subjects = data.map((subject: any) => ({
-            id: subject.id,
-            subject_name: subject.subject_name
-          }));
-    
-          this.selectedSubject = { id: 0, subject_name: 'Select Subject' };
-        });
+    this.fetchSubjects();
+  }
+
+  // Fetch subjects from the service
+  fetchSubjects(searchTerm: string = ''): void {
+    this.addMaterialService.getSubjectHeadings(searchTerm).subscribe(data => {
+      this.subjects = data.map((subject: any) => ({
+        id: subject.id,
+        subject_name: subject.subject_name
+      }));
+      this.filteredSubjects = [...this.subjects]; // Initially show all subjects
+    });
   }
 
   openConfirmModal() {
@@ -158,5 +163,10 @@ export class MaterialsAddComponent {
     this.bookDetails.heading = subject_name;  // Set the subject heading in bookDetails
     this.selectedSubject = { id, subject_name };  // Display selected heading in dropdown
     this.isSubjectDropdownOpen = false;
+  }
+  
+  // Search for subjects based on the input term
+  onSubjectSearch(term: string): void {
+    this.fetchSubjects(term); // Fetch subjects based on search term
   }
 }
