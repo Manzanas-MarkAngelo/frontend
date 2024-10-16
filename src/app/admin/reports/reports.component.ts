@@ -21,6 +21,7 @@ export class ReportsComponent implements OnInit {
   inventoryPlaceholder: string = 'Inventory';
   categoryPlaceholder: string = 'Category';
   programPlaceholder: string = 'Program';
+  selectedRemark: string = '';
   category: string = '';
   programs: string[] = [];  // For storing fetched programs
   isLoading: boolean = false;
@@ -136,6 +137,12 @@ export class ReportsComponent implements OnInit {
           .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
     }
 
+  // Method to handle remark selection
+  onRemarkSelected(remark: string): void {
+    this.selectedRemark = remark;
+    // then pass the remark to generatePdfBorrowersReport() as an added filter
+  }
+
   //*PDF Generation
 
   selectPdfReport() {
@@ -177,7 +184,8 @@ export class ReportsComponent implements OnInit {
       this.formatDate(this.dateFrom),
       this.formatDate(this.dateTo),
       (loading) => this.isLoading = loading,
-      (show) => this.showInitialDisplay = show
+      (show) => this.showInitialDisplay = show,
+      this.selectedRemark
     );
   }
 
@@ -212,6 +220,16 @@ export class ReportsComponent implements OnInit {
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show
     );
+  }
+
+  handleClearButtonClick() {
+    console.log('Clicked');
+    this.categoryPlaceholder = 'Category';
+    this.programPlaceholder = 'Program';
+    this.selectedRemark = '';
+    this.dateFrom = null;
+    this.dateTo = null;
+
   }
 
   //*Excel Generation
