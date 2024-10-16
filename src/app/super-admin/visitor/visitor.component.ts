@@ -14,7 +14,8 @@ export class VisitorComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 12;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   showModal: boolean = false;
   selectedVisitor: any = null;
   selectedVisitorName: string = '';
@@ -56,6 +57,12 @@ export class VisitorComponent implements OnInit {
 
   onSearchChange(searchTerm: string) {
     this.searchSubject.next(searchTerm);
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.fetchRecords();
   }
 
   onPageChange(page: number) {
