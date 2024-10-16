@@ -545,39 +545,23 @@
 </div>
 
 <dialog id="my_modal_1" class="modal">
-  <div class="modal-box">
-    <h3 class="text-xl font-bold text-primary text-center">
-      Are you sure the details are correct?
-    </h3>
-    <p class="text-black text-sm text-center my-1">
-      Note: Kindly double-check your information to ensure there are no errors.
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Are the details correct?
+    </h2>
+    <p class="text-red-500 text-sm text-center my-1">
+      Note: Please review the details carefully
     </p>
-    <div class="flex justify-center items-center gap-2 flex-col mt-5">
-      <div>
-        <span class="text-primary font-semibold">Student number: </span>
-        {{ studentNumber }}
-      </div>
-      <div>
-        <span class="text-primary font-semibold">First name: </span>
-        {{ firstName }}
-      </div>
-      <div>
-        <span class="text-primary font-semibold">Last name: </span>
-        {{ lastName }}
-      </div>
-      <div>
-        <span class="text-primary font-semibold">Gender: </span> {{ sex }}
-      </div>
-      <div>
-        <span class="text-primary font-semibold">Course: </span>
-        {{ getCourseName(courseId) }}
-      </div>
-      <div>
-        <span class="text-primary font-semibold">Contact number: </span>
-        {{ contact }}
-      </div>
-      <div>
-        <span class="text-primary font-semibold">Email: </span>{{ email }}
+    <div class="flex flex-col items-center justify-between h-full">
+      <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
+      <div class="flex flex-col space-y-2">
+        <div><strong>Student Number:</strong> {{ studentNumber }}</div>
+        <div><strong>First Name:</strong> {{ firstName }}</div>
+        <div><strong>Last Name:</strong> {{ lastName }}</div>
+        <div><strong>Gender:</strong> {{ sex }}</div>
+        <div><strong>Course:</strong> {{ getCourseName(courseId) }}</div>
+        <div><strong>Phone Number:</strong> {{ contact }}</div>
+        <div><strong>Email:</strong> {{ email }}</div>
       </div>
     </div>
 
