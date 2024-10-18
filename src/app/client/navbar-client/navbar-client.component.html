@@ -4,17 +4,17 @@
         src="assets/pup.png"
         alt="Logo"
         class="m-1 md:m-0 md:ml-8 logo sm:size-20 size-14 cursor-pointer slide-in-left"
-        routerLink="/time-in"/>
+        routerLink="/search-book"/>
         <div class="flex flex-col"> 
           <a
           class="text-xs sm:text-lg font-normal text-white ml-3 mb-2 sm:mb-0 pup-font slide-in-top"
-          routerLink="/time-in">
+          routerLink="/search-book">
           Polytechnic University of the Philippines - Taguig
         </a>
         <div class="h-0.5 w-auto ml-3 bg-secondary slide-in-right"></div>
         <a
         class="text-xl sm:text-3xl font-medium text-white md:mb-1 ml-3 slide-in-below"
-        routerLink="/time-in">
+        routerLink="/search-book">
         Library Information System
       </a>
         </div>
@@ -22,22 +22,6 @@
     <div class="container flex justify-end items-center w-full mr-auto">
       <div class="flex">
         <div class="hidden lg:flex space-x-0.5 slide-in-top">
-          <div class="tooltip tooltip-bottom" data-tip="Time-in">
-            <a
-              routerLink="/time-in"
-              routerLinkActive="active-link"
-              class="btn btn-ghost rounded-none">
-              <a class="text-lg text-white">Time-in</a>
-            </a>
-          </div>
-          <div class="tooltip tooltip-bottom" data-tip="Time-out">
-            <a
-              routerLink="/time-out"
-              routerLinkActive="active-link"
-              class="btn btn-ghost rounded-none">
-              <a class="text-lg text-white">Time-out</a>
-            </a>
-          </div>
           <div class="tooltip tooltip-bottom" data-tip="Services">
             <a
               routerLink="/services"
@@ -55,7 +39,7 @@
             </a>
           </div>
         </div>
-        <div class="flex slide-in-right">
+        <div class="flex lg:hidden slide-in-right">
           <div class="dropdown dropdown-end">
             <div class="mr-2.5 md:mr-10 md:ml-4">
               <div
@@ -82,13 +66,6 @@
               tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-20 p-2 shadow 
               bg-white rounded-box w-36">
-              <li><a class="font-bold" routerLink="/administrator">Administrator</a></li>
-              <li class="block lg:hidden">
-                <a class="font-bold" routerLink="/time-in">Time-in</a>
-              </li>
-              <li class="block lg:hidden">
-                <a class="font-bold" routerLink="/time-out">Time-out</a>
-              </li>
               <li class="block lg:hidden">
                 <a class="font-bold" routerLink="/search-book">Search material</a>
               </li>
