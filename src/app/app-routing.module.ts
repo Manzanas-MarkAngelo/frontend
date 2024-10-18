@@ -77,7 +77,7 @@ import { RequestComponent } from './admin/request/request.component';
 import { FeedbackComponent } from './client/feedback/feedback.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/time-in', pathMatch: 'full' },
+  { path: '', redirectTo: '/search-book', pathMatch: 'full' },
   { path: 'administrator', component: AdministratorComponent },
   { path: 'borrow-info/:accnum', component: BorrowInfoComponent },
   { path: 'material-info/:accnum', component: MaterialInfoComponent },
