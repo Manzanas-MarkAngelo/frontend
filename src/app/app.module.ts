@@ -123,6 +123,7 @@ import { BookRequestService } from '../services/book-request.service';
 import { ClientSnackbarComponent } from './client/client-snackbar/client-snackbar.component';
 import { RequestComponent } from './admin/request/request.component';
 import { EmailService } from '../services/email.service';
+import { FeedbackComponent } from './client/feedback/feedback.component';
 
 
 @NgModule({
@@ -213,6 +214,7 @@ import { EmailService } from '../services/email.service';
     NavbarSuperAdminComponent,
     ClientSnackbarComponent,
     RequestComponent,
+    FeedbackComponent,
 
   ],
   imports: [
