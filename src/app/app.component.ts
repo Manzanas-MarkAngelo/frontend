@@ -21,8 +21,4 @@ export class AppComponent implements OnInit {
   clearRole() {
     this.adminService.setRole(null);
   }
-
-  toggleFilter() {
-    this.filter = !this.filter;
-  }
 }

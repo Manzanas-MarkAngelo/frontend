@@ -31,62 +31,118 @@
                    mb-11">
           Enter your ID number to time-in!
         </h1>
-      <img src="../../../assets/book.png" 
-           alt="Book" 
+      <!-- <img src="../../../assets/feedback_qr.png" 
+           alt="feedback-qr" 
            class="w-24 
                   h-16 
-                  md:w-32 
-                  md:h-20 
+                  md:w-28 
+                  md:h-28 
                   hidden 
-                  2xl:flex"/>
-      <span class="text-sm 
+                  2xl:flex"/> -->
+      <img src="../../../assets/book.png" 
+      alt="Book" 
+      class="w-24 
+             h-16 
+             md:w-32 
+             md:h-20 
+             hidden 
+             2xl:flex"/>
+      <span class="text-base 
                  text-black 
                  font-semibold 
                  mt-1">
-        Note* Always Time-out when leaving library
+        <span class="text-primary 
+                     font-bold">Note*
+        </span> Always 
+          <span class="underline 
+                       italic 
+                       text-primary 
+                       font-bold 
+                       cursor-pointer"
+                routerLink="/time-out">Time-out
+          </span> when leaving the library! 
       </span>
+      <!-- <p>Scan the QR code at the right to submit feedback on the library services</p> -->
     </div>
     <form (ngSubmit)="onSubmit()">
-      <div class="mb-4">
-        <div class="relative">
-          <select id="role" 
-                  name="role" 
-                  class="block 
-                         appearance-none 
-                         w-full 
-                         bg-secondary 
-                         text-gray-700 
-                         font-medium 
-                         py-3 
-                         px-4 
-                         pr-8 
-                         rounded-xl 
-                         leading-tight 
-                         focus:outline-none 
-                         focus:bg-[#ffb700] 
-                         cursor-pointer 
-                         text-base 
-                         md:text-lg"
-                  [(ngModel)]="selectedRole"
-                  (change)="updatePlaceholder()" required>
-            <option value="" disabled selected>Select your Role</option>
-            <option value="Student">Student</option>
-            <option value="Faculty">Faculty</option>
-            <option value="Visitor">Visitor</option>
-          </select>
-          <div class="pointer-events-none 
-                      absolute 
-                      inset-y-0 
-                      right-4 flex 
-                      items-center 
-                      text-gray-700">
-            <svg class="fill-current h-6 w-6 md:h-10 md:w-10" 
-                 xmlns="http://www.w3.org/2000/svg" 
-                 viewBox="0 0 20 20">
-              <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
-            </svg>
+      <div class="mb-2">
+        <div class="flex flex-col md:flex-row justify-between w-full gap-1 md:gap-0">
+          <!-- <div class="relative w-full md:w-1/2">
+            <select class="block 
+                           appearance-none 
+                           w-full 
+                           bg-secondary 
+                           text-gray-700 
+                           font-medium 
+                           py-3 
+                           px-4 
+                           rounded-xl 
+                           leading-tight 
+                           focus:outline-none 
+                           focus:bg-[#ffb700] 
+                           cursor-pointer 
+                           text-base 
+                           md:text-lg"
+                    (change)="updatePlaceholder()" required>
+              <option value="" disabled selected>Purpose of visit</option>
+              <option value="Study">Study</option>
+              <option value="Research">Research</option>
+              <option value="Homework">Homework</option>
+              <option value="Vacant">Vacant</option>
+            </select>
+            <div class="pointer-events-none 
+                        absolute 
+                        inset-y-0 
+                        right-4 flex 
+                        items-center 
+                        text-gray-700">
+              <svg class="fill-current h-6 w-6 md:h-10 md:w-10" 
+                   xmlns="http://www.w3.org/2000/svg" 
+                   viewBox="0 0 20 20">
+                <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
+              </svg>
+            </div>
+          </div> -->
+          <div class="relative w-full md:w-2/5">
+            <select id="role" 
+                    name="role" 
+                    class="block 
+                           appearance-none 
+                           w-full 
+                           bg-secondary 
+                           text-gray-700 
+                           font-medium 
+                           py-3 
+                           px-4 
+                           rounded-xl 
+                           leading-tight 
+                           focus:outline-none 
+                           focus:bg-[#ffb700] 
+                           cursor-pointer 
+                           text-base 
+                           md:text-lg"
+                    [(ngModel)]="selectedRole"
+                    (change)="updatePlaceholder()" required>
+              <option value="" disabled selected>Select your Role</option>
+              <option value="Student">Student</option>
+              <option value="Faculty">Faculty</option>
+              <option value="Visitor">Visitor</option>
+            </select>
+            <div class="pointer-events-none 
+                        absolute 
+                        inset-y-0 
+                        right-4 flex 
+                        items-center 
+                        text-gray-700">
+              <svg class="fill-current h-6 w-6 md:h-10 md:w-10" 
+                   xmlns="http://www.w3.org/2000/svg" 
+                   viewBox="0 0 20 20">
+                <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
+              </svg>
+            </div>
           </div>
         </div>
+
       </div>
       <div class="mb-4 
                   flex 
