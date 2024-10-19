@@ -67,11 +67,12 @@
             <option value="student">Student</option>
             <option value="faculty">Faculty</option>
             <option value="visitor">Visitor</option>
+            <option value="PUPT-Employee">Employees</option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 
                       flex items-center text-gray-700">
             <svg 
-              class="fill-current h-10 w-20" 
+              class="fill-current h-10 w-10" 
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 20 20">
               <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
@@ -111,7 +112,7 @@
     <div class="p-4 bg-white text-black rounded-xl w-full lg:w-[70%] 
                 slide-in-right mb-4">
       <div class="overflow-x-auto">
-        <ng-container *ngIf="currentLogType === 'student'">
+        <!-- <ng-container *ngIf="currentLogType === 'student'">
           <table class="table w-full">
             <thead class="text-sm" >
               <tr class="text-primary text-start">
@@ -199,66 +200,6 @@
             </tbody>
           </table>
         </ng-container>
-        <ng-container *ngIf="currentLogType === 'student_log'">
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">Student Number</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Time In</th>
-                <th class="text-start">Time Out</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let log of logs">
-                <td>{{ log.student_number }}</td>
-                <td>{{ log.name }}</td>
-                <td>{{ log.time_in }}</td>
-                <td>{{ log.time_out || 'await' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
-        <ng-container *ngIf="currentLogType === 'faculty_log'">
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">Faculty Code</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Time In</th>
-                <th class="text-start">Time Out</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let log of logs">
-                <td>{{ log.faculty_code }}</td>
-                <td>{{ log.name }}</td>
-                <td>{{ log.time_in }}</td>
-                <td>{{ log.time_out || 'await' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
-        <ng-container *ngIf="currentLogType === 'visitor_log'">
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">Name</th>
-                <th class="text-start">School</th>
-                <th class="text-start">Time In</th>
-                <th class="text-start">Time Out</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let log of logs">
-                <td>{{ log.name }}</td>
-                <td>{{ log.school }}</td>
-                <td>{{ log.time_in }}</td>
-                <td>{{ log.time_out || 'await' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
         <ng-container *ngIf="currentLogType === 'default'">
           <table class="table w-full">
             <thead class="text-sm" >
@@ -280,7 +221,137 @@
               </tr>
             </tbody>
           </table>
-        </ng-container>
+        </ng-container> -->
+        @if (currentLogType === 'student') {
+          <table class="table w-full">
+            <thead class="text-sm" >
+              <tr class="text-primary text-start">
+                <th class="text-start">Student Number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Gender</th>
+                <th class="text-start">Course</th>
+                <th class="text-start">Phone Number</th>
+                <th class="text-start">Email</th>
+                <th class="text-start">Date of Registration</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let record of logs">
+                <td>{{ record.student_number }}</td>
+                <td>{{ capitalize(record.name) }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.course }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.email.toLowerCase() }}</td>
+                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else if (currentLogType === 'faculty') {
+          <table class="table w-full">
+            <thead class="text-sm" >
+              <tr class="text-primary text-start">
+                <th class="text-start">
+                  <input 
+                    type="checkbox" 
+                    class="cursor-pointer"
+                    [(ngModel)]="selectAllChecked" 
+                    (change)="toggleAllSelection($event)" />
+                </th>
+                <th class="text-start">Faculty Code</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Gender</th>
+                <th class="text-start">Department</th>
+                <th class="text-start">Phone Number</th>
+                <th class="text-start">Email</th>
+                <th class="text-start">Date of Registration</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let record of logs">
+                <td>
+                  <input 
+                    type="checkbox" 
+                    class="cursor-pointer"
+                    [(ngModel)]="record.selected" 
+                    (change)="checkIfAllSelected()" />
+                </td>
+                <td>{{ record.emp_number }}</td>
+                <td>{{ capitalize(record.name) }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.department }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.email.toLowerCase() }}</td>
+                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else if (currentLogType === 'visitor') {
+          <table class="table w-full">
+            <thead class="text-sm" >
+              <tr class="text-primary text-start">
+                <th class="text-start">Name</th>
+                <th class="text-start">Gender</th>
+                <th class="text-start">Phone Number</th>
+                <th class="text-start">School</th>
+                <th class="text-start">Date of Registration</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let record of logs">
+                <td>{{ capitalize(record.name) }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.school }}</td>
+                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else if (currentLogType === 'PUPT-Employee') {
+          <table class="table w-full">
+            <thead class="text-sm" >
+              <tr class="text-primary text-start">
+                <th class="text-start">Employee number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Gender</th>
+                <th class="text-start">Phone Number</th>
+                <th class="text-start">Email</th>
+                <th class="text-start">Date of Registration</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let record of logs">
+                <td>sample123</td>
+                <td>sample123</td>
+                <td>sample123</td>
+                <td>sample123</td>
+                <td>sample123</td>
+                <td>sample123</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else {
+          <table class="table w-full">
+            <thead class="text-sm" >
+              <tr class="text-primary text-start">
+                <th class="text-start">Student Number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Gender</th>
+                <th class="text-start">Course</th>
+                <th class="text-start">Phone Number</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let record of logs">
+                <td>{{ record.student_number }}</td>
+                <td>{{ record.name }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.course }}</td>
+                <td>{{ record.phone_number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        }
       </div>
     </div>
   } @else {
