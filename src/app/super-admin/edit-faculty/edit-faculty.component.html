@@ -6,7 +6,7 @@
       </h1>
     </div>
 
-    <form (ngSubmit)="confirmEdit()">
+    <form (ngSubmit)="showConfirmModal()">
       <div class="mb-4 mt-4 flex items-center space-x-4">
         <input
           id="employeeNumber"
@@ -14,15 +14,17 @@
           type="text"
           [(ngModel)]="faculty.emp_number"
           placeholder="Enter your Faculty code here"
-          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
-          required
-        />
+          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 
+                 py-2 focus:ring-opacity-50 text-lg"
+          required />
         <div class="relative mr-44">
           <select
             id="gender"
             name="gender"
             [(ngModel)]="faculty.gender"
-            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
+            class="block appearance-none w-full bg-secondary text-gray-700 
+                   font-medium py-3 px-6 pr-8 rounded-xl leading-tight 
+                   focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
             required
           >
             <option value="" disabled>Gender</option>
@@ -30,7 +32,8 @@
             <option value="Female">Female</option>
             <option value="Prefer not to say">Prefer not to say</option>
           </select>
-          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 
+                      flex items-center text-gray-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -39,7 +42,11 @@
               stroke="currentColor"
               class="size-5"
             >
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                d="m19.5 8.25-7.5 7.5-7.5-7.5" 
+              />
             </svg>
           </div>
         </div>
@@ -50,7 +57,8 @@
           name="firstName"
           type="text"
           [(ngModel)]="faculty.first_name"
-          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 
+                 py-2 focus:ring-opacity-50 text-lg"
           placeholder="First name"
           required
         />
@@ -59,7 +67,8 @@
           name="surname"
           type="text"
           [(ngModel)]="faculty.surname"
-          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 text-lg"
+          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 
+                 py-2 focus:ring-opacity-50 text-lg"
           placeholder="Surname"
           required
         />
@@ -69,14 +78,17 @@
             id="department"
             name="department"
             [(ngModel)]="faculty.dept_id"
-            class="block appearance-none w-full bg-secondary text-gray-700 font-medium py-3 px-6 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
+            class="block appearance-none w-full bg-secondary text-gray-700 
+                   font-medium py-3 px-6 pr-8 rounded-xl leading-tight 
+                   focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
             required>
             <option value="" disabled>Division</option>
             <option *ngFor="let dept of departments" [value]="dept.id">
               {{ dept.dept_abbreviation }}
             </option>
           </select>
-          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
+          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 
+                      flex items-center text-gray-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -85,7 +97,11 @@
               stroke="currentColor"
               class="size-5"
             >
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                d="m19.5 8.25-7.5 7.5-7.5-7.5" 
+              />
             </svg>
           </div>
         </div>        
@@ -96,39 +112,36 @@
           name="contact"
           type="number"
           [(ngModel)]="faculty.phone_number"
-          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
+          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 
+                 py-2 focus:ring-opacity-50 text-lg"
           placeholder="Contact number"
+          required
+        />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          [(ngModel)]="faculty.email"
+          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 
+                py-2 focus:ring-opacity-50 text-lg"
+          placeholder="Email"
           required
         />
       </div>
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
           type="button"
-          class="flex-1 
-                 bg-red-800 
-                 text-white 
-                 px-6 
-                 py-3 
-                 rounded-xl 
-                 font-medium 
-                 hover:bg-red-700 
-                 transition 
-                 duration-300"
-          (click)="cancelEdit()">
+          class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-red-700 transition duration-300"
+          (click)="cancelEdit()"
+        >
           Cancel
         </button>
         <button
           type="submit"
-          class="flex-1
-                 bg-green-600 
-                 text-white
-                 px-6 
-                 py-3 
-                 rounded-xl 
-                 font-medium 
-                 hover:bg-green-500
-                 transition 
-                 duration-300">
+          class="flex-1 bg-green-600 text-whitepx-6 py-3 rounded-xl font-medium 
+                 hover:bg-green-500transition duration-300"
+        >
           Save Changes
         </button>
       </div>
@@ -137,44 +150,49 @@
 </div>
 
 @if(showModal){
-  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 
+              bg-opacity-50">
     <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
       <h2 class="text-center text-2xl font-medium text-primary mb-3">
         Do you want to save these changes?
       </h2>
       <div class="flex flex-col items-center justify-between h-full">
-        <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
+        <img 
+          src="../../../assets/return.jpg" 
+          alt="success" 
+          class="w-4/5 h-auto mb-4" 
+        />
+        <div class="flex flex-col space-y-2">
+          <div><strong>Faculty Code:</strong> {{ faculty.emp_number }}</div>
+          <div><strong>First Name:</strong> {{ faculty.first_name }}</div>
+          <div><strong>Last Name:</strong> {{ faculty.surname }}</div>
+          <div><strong>Gender:</strong> {{ faculty.gender }}</div>
+          <div><strong>Department:</strong> 
+            {{ getDepartmentName(faculty.dept_id) }}
+          </div>
+          <div><strong>Phone Number:</strong> {{ faculty.phone_number }}</div>
+          <div><strong>Email:</strong> {{ faculty.email }}</div>
+        </div>
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="closeConfirmModal()"
-            class="flex-1 
-            bg-red-800 
-            text-white 
-            px-6 
-            py-3 
-            rounded-xl 
-            font-medium 
-            hover:bg-red-700 
-            transition 
-            duration-300">
-            Cancel
+            class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+                  hover:bg-[#ffb700] hover:text-black transition duration-300"
+          >
+            Back
           </button>
           <button
-          (click)="continueEdit()"
-            class="flex-1
-            bg-green-600 
-            text-white
-            px-6 
-            py-3 
-            rounded-xl 
-            font-medium 
-            hover:bg-green-500
-            transition 
-            duration-300">
-            Save changes
+            (click)="saveChanges()"
+            class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl 
+                   font-medium hover:bg-[#801e1d] hover:text-white transition 
+                   duration-300"
+          >
+            Save
           </button>
         </div>
       </div>
     </div>
   </div>
 }
+
+<app-snackbar></app-snackbar>

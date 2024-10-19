@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
 import { DepartmentService } from '../../../services/department.service';
+import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-edit-faculty',
@@ -9,6 +10,8 @@ import { DepartmentService } from '../../../services/department.service';
   styleUrls: ['./edit-faculty.component.css']
 })
 export class EditFacultyComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+
   faculty: any = {};
   showModal: boolean = false;
   departments: any[] = [];
@@ -45,10 +48,6 @@ export class EditFacultyComponent implements OnInit {
     });
   }  
 
-  confirmEdit() {
-    this.showModal = true;
-  }
-
   showConfirmModal(): void {
     this.showModal = true;
   }
@@ -57,15 +56,24 @@ export class EditFacultyComponent implements OnInit {
     this.showModal = false;
   }
 
-  continueEdit() {
+  saveChanges() {
     this.recordsService.updateFaculty(this.faculty).subscribe(() => {
-      this.router.navigate(['/edit-faculty-success']);
-    }, error => {
+      this.closeConfirmModal();
+      this.snackbar.showMessage('Faculty details updated successfully!');
+      
+      setTimeout(() => {
+        this.cancelEdit();
+      }, 3000);    }, error => {
       console.error('Error updating faculty:', error);
     });
   }
 
   cancelEdit() {
     this.router.navigate(['/faculty']);
+  }
+
+  getDepartmentName(departmentId: string): string {
+    const department = this.departments.find((d) => d.id === departmentId);
+    return department ? department.dept_abbreviation : '';
   }
 }
