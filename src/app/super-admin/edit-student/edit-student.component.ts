@@ -14,7 +14,6 @@ import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 export class EditStudentComponent implements OnInit {
   @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
 
-
   student: any = {};
   showModal: boolean = false;
   userId: string | null = null;
@@ -38,7 +37,9 @@ export class EditStudentComponent implements OnInit {
           this.courseService.getCourses().subscribe(coursesData => {
             this.courses = coursesData;
 
-            const course = this.courses.find(c => c.course_abbreviation === this.student.course);
+            const course = this.courses.find(
+              c => c.course_abbreviation === this.student.course
+            );
             if (course) {
               this.student.course_id = course.id;
             }
@@ -79,12 +80,9 @@ export class EditStudentComponent implements OnInit {
       phone_number: this.student.phone_number,
       email: this.student.email
     };
-  
-    console.log('Submitting student data:', payload);
-  
+    
     this.recordsService.updateStudent(payload).subscribe(
       response => {
-        console.log('Update response:', response);
         if (response.status === 'success') {
           this.closeConfirmModal();
           this.snackbar.showMessage('Student details updated successfully!');
