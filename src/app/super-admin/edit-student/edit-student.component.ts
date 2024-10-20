@@ -89,7 +89,7 @@ export class EditStudentComponent implements OnInit {
           
           setTimeout(() => {
             this.goBack();
-          }, 3000);
+          }, 1000);
         } else {
           console.error('Update failed:', response.message || response);
         }

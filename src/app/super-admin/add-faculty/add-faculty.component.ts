@@ -247,7 +247,7 @@ export class AddFacultyComponent implements OnInit {
 
         setTimeout(() => {
           this.goBack();
-        }, 3000);
+        }, 1000);
       }
     });
   }

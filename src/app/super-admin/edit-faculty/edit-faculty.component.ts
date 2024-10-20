@@ -63,7 +63,7 @@ export class EditFacultyComponent implements OnInit {
       
       setTimeout(() => {
         this.cancelEdit();
-      }, 3000);    }, error => {
+      }, 1000);    }, error => {
       console.error('Error updating faculty:', error);
     });
   }
