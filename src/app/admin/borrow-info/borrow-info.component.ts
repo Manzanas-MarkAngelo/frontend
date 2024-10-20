@@ -45,7 +45,7 @@ export class BorrowInfoComponent implements OnInit {
   populateForm(): void {
     console.log('CAT ID:', this.material.categoryid);
     this.material.title = this.material.title || 'unknown/empty';
-    this.material.subj = this.material.subj || 'unknown/empty';
+    this.material.subj = this.material.subject_name || 'unknown/empty';
     this.material.accnum = this.material.accnum || 'unknown/empty';
     this.material.author = this.material.author || 'unknown/empty';
     this.material.callno = this.material.callno || 'unknown/empty';
