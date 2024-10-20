@@ -13,7 +13,8 @@ export class UserRecordComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 14;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
   searchSubject: Subject<string> = new Subject<string>();
 
@@ -64,6 +65,12 @@ export class UserRecordComponent implements OnInit {
     }, error => {
       console.error('Error fetching logs:', error);
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.fetchLogs(this.currentLogType.replace('_log', ''));
   }
 
   onPageChange(page: number) {

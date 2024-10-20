@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CourseService } from '../../../services/course.service';
+import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-edit-student',
@@ -11,6 +12,8 @@ import { CourseService } from '../../../services/course.service';
   styleUrls: ['./edit-student.component.css']
 })
 export class EditStudentComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+
   student: any = {};
   showModal: boolean = false;
   userId: string | null = null;
@@ -34,7 +37,9 @@ export class EditStudentComponent implements OnInit {
           this.courseService.getCourses().subscribe(coursesData => {
             this.courses = coursesData;
 
-            const course = this.courses.find(c => c.course_abbreviation === this.student.course);
+            const course = this.courses.find(
+              c => c.course_abbreviation === this.student.course
+            );
             if (course) {
               this.student.course_id = course.id;
             }
@@ -72,16 +77,19 @@ export class EditStudentComponent implements OnInit {
       first_name: this.student.first_name,
       surname: this.student.surname,
       course_id: this.student.course_id,
-      phone_number: this.student.phone_number
+      phone_number: this.student.phone_number,
+      email: this.student.email
     };
-  
-    console.log('Submitting student data:', payload);
-  
+    
     this.recordsService.updateStudent(payload).subscribe(
       response => {
-        console.log('Update response:', response);
         if (response.status === 'success') {
-          this.router.navigate(['/edit-success']);
+          this.closeConfirmModal();
+          this.snackbar.showMessage('Student details updated successfully!');
+          
+          setTimeout(() => {
+            this.goBack();
+          }, 1000);
         } else {
           console.error('Update failed:', response.message || response);
         }
@@ -90,5 +98,10 @@ export class EditStudentComponent implements OnInit {
         console.error('Request failed:', error.message);
       }
     );
+  }
+
+  getCourseName(courseId: string): string {
+    const course = this.courses.find((c) => c.id === courseId);
+    return course ? course.course_abbreviation : '';
   }
 }

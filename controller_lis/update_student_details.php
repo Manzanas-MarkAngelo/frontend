@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $surname = $data['surname'];
     $course_id = $data['course_id'];
     $phone_number = $data['phone_number'];
+    $email = $data['email'];
 
     $query = "UPDATE students SET 
               student_number = '$student_number',
@@ -29,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               first_name = '$first_name',
               surname = '$surname',
               course_id = '$course_id',
-              phone_number = '$phone_number'
+              phone_number = '$phone_number',
+              email = '$email'
               WHERE user_id = '$user_id'";
 
     if (mysqli_query($conn, $query)) {

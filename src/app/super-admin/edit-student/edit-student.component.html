@@ -6,7 +6,7 @@
       </h1>
     </div>
 
-    <form (ngSubmit)="saveChanges()">
+    <form (ngSubmit)="showConfirmModal()">
       <div class="mb-4 mt-4 flex items-center space-x-4">
         <input
           name="studentNumber"
@@ -138,9 +138,25 @@
               {{ course.course_abbreviation }}
             </option>
           </select>        
-          <div class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex items-center text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          <div class="pointer-events-none 
+                      absolute 
+                      inset-y-0 
+                      top-0.5 
+                      right-2 
+                      flex items-center 
+                      text-gray-700">
+            <svg
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke-width="1.5" 
+              stroke="currentColor" 
+              class="size-5"
+            >
+              <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" 
+              />
             </svg>
           </div>
         </div>
@@ -176,6 +192,7 @@
                focus:ring-opacity-50 
                text-lg"
         placeholder="Email"
+        [(ngModel)]="student.email"
         required
       />
       </div>
@@ -221,7 +238,19 @@
         Do you want to save these changes?
       </h2>
       <div class="flex flex-col items-center justify-between h-full">
-        <img src="../../../assets/return.jpg" alt="success" class="w-4/5 h-auto mb-4" />
+        <img 
+          src="../../../assets/return.jpg" 
+          alt="success" 
+          class="w-4/5 h-auto mb-4" />
+        <div class="flex flex-col space-y-2">
+          <div><strong>Student Number:</strong> {{ student.student_number }}</div>
+          <div><strong>First Name:</strong> {{ student.first_name }}</div>
+          <div><strong>Last Name:</strong> {{ student.surname }}</div>
+          <div><strong>Gender:</strong> {{ student.gender }}</div>
+          <div><strong>Course:</strong> {{ getCourseName(student.course_id) }}</div>
+          <div><strong>Phone Number:</strong> {{ student.phone_number }}</div>
+          <div><strong>Email:</strong> {{ student.email }}</div>
+        </div>
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="closeConfirmModal()"
@@ -251,10 +280,12 @@
                   hover:text-white 
                   transition 
                   duration-300">
-            Save changes
+            Save
           </button>
         </div>
       </div>
     </div>
   </div>
 }
+
+<app-snackbar></app-snackbar>
