@@ -16,7 +16,7 @@ $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
 $searchTerm = isset($_GET['searchTerm']) ? $_GET['searchTerm'] : '';
 $remarkFilter = isset($_GET['remark']) ? $_GET['remark'] : null;
 
-// Base SQL query to fetch data
+// Base SQL query to fetch data including subject name (subj)
 $sql = "
 SELECT 
     b.material_id,
@@ -26,6 +26,7 @@ SELECT
     b.remark,
     m.title,
     m.author,
+    m.subj as subject_name,  -- Adding subject_name
     u.user_type,
     IF(u.user_type = 'student', s.first_name, f.first_name) as first_name,
     IF(u.user_type = 'student', s.surname, f.surname) as surname,
@@ -47,6 +48,7 @@ if (!empty($searchTerm)) {
     $sql .= " AND (
         m.title LIKE '%$searchTerm%' 
         OR m.author LIKE '%$searchTerm%' 
+        OR m.subj LIKE '%$searchTerm%'  -- Add subject_name to the search filter
         OR b.remark LIKE '%$searchTerm%' 
         OR s.first_name LIKE '%$searchTerm%' 
         OR s.surname LIKE '%$searchTerm%' 
@@ -85,6 +87,7 @@ while ($row = $result->fetch_assoc()) {
     $borrowings[] = $row;
 }
 
+// Return the results as JSON including subject_name
 echo json_encode($borrowings);
 
 $conn->close();
