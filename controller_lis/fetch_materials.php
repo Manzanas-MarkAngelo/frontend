@@ -52,9 +52,12 @@ if (!in_array(strtoupper($sortOrder), $allowedSortOrders)) {
     $sortOrder = 'DESC';
 }
 
-$sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn, m.date_added, c.mat_type 
+// Update the SQL query to include a join with the subjects table to get subject_name
+$sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn, m.date_added, c.mat_type, 
+               s.subject_name 
         FROM materials m
         LEFT JOIN category c ON m.categoryid = c.cat_id
+        LEFT JOIN subjects s ON m.subject_id = s.id 
         WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
 
 if (!empty($category)) {
@@ -100,13 +103,13 @@ if (!$result) {
 
 $materials = array();
 while ($row = $result->fetch_assoc()) {
-    $materials[] = $row;
+    $materials[] = $row; // Now includes subject_name
 }
 
 $total_sql = "SELECT COUNT(*) as count FROM materials m
               LEFT JOIN category c ON m.categoryid = c.cat_id
               WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
-
+              
 $total_params = [$search, $search, $search, $search, $search, $search, $search];
 if (!empty($category)) {
     $total_sql .= " AND m.accnum LIKE ?";

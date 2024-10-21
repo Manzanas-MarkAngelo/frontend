@@ -20,6 +20,8 @@ export class TimeInComponent {
       this.placeholderText = 'Enter your Faculty code here';
     } else if (this.selectedRole === 'Visitor') {
       this.placeholderText = 'Enter your identifier here';
+    } else if (this.selectedRole === 'PUPT-Employee') {
+      this.placeholderText = 'Enter your Employee number here';
     } else {
       this.placeholderText = 'Enter your Student number here';
     }

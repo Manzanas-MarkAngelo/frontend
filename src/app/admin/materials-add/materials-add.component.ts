@@ -15,7 +15,7 @@ export class MaterialsAddComponent {
 
   bookDetails = {
     title: '',
-    heading: '',
+    heading: 0,
     accnum: '',  // This will be updated with the last number for accession number
     category: '',
     author: '',
@@ -47,6 +47,7 @@ export class MaterialsAddComponent {
   subjects: { id: number, subject_name: string }[] = [];  // Holds subject ids and headings
   filteredSubjects: { id: number, subject_name: string }[] = [];
   subjectSearchTerm: string = ''; // To hold the search term
+  subject_id: number ;
 
 
   ngOnInit(): void {
@@ -160,7 +161,9 @@ export class MaterialsAddComponent {
   }
 
   selectSubjectHeading(id: number, subject_name: string): void {
-    this.bookDetails.heading = subject_name;  // Set the subject heading in bookDetails
+    this.subject_id = id;
+    console.log(`Name: ${subject_name} ID: ${this.subject_id}`)
+    this.bookDetails.heading = id;  // Set the subject heading in bookDetails
     this.selectedSubject = { id, subject_name };  // Display selected heading in dropdown
     this.isSubjectDropdownOpen = false;
   }

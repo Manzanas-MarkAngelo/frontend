@@ -1,5 +1,5 @@
 <div class="flex flex-col w-full px-10 bg-primary justify-center items-center">
-  <div class="flex flex-col md:flex-row w-full lg:w-[70%] pb-4 gap-2">
+  <div class="flex flex-col md:flex-row w-full lg:w-11/12 pb-4 gap-2">
     <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
       <div class="flex flex-row w-full md:w-1/2 gap-2 mt-1">
         <input 
@@ -8,15 +8,13 @@
           class="input input-bordered w-full rounded-xl text-lg font-medium 
                  slide-in-left bg-white"
           [(ngModel)]="searchTerm"
-          (input)="onSearchChange($event.target.value)"
-        />
+          (input)="onSearchChange($event.target.value)"/>
         <button
           type="button"
           class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
                  hover:bg-[#ffb700] hover:text-black transition duration-300 
                  slide-in-right"
-          (click)="clearLogType()"
-        >
+          (click)="clearLogType()">
           Clear
         </button>
       </div>
@@ -31,10 +29,10 @@
           }"
           class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
-                 duration-300 slide-in-right"
-        >
+                 duration-300 slide-in-right">
           Student log
         </button>
+
         <button
           type="button"
           (click)="setLogType('faculty_log')"
@@ -44,10 +42,10 @@
           }"
           class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
-                 duration-300 slide-in-right"
-        >
+                 duration-300 slide-in-right">
           Faculty log
         </button>
+
         <button
           type="button"
           (click)="setLogType('visitor_log')"
@@ -57,10 +55,22 @@
           }"
           class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
-                 duration-300 slide-in-right"
-        >
+                 duration-300 slide-in-right">
           Visitor log
         </button>
+
+        <button
+        type="button"
+        (click)="setLogType('PUPT-Employee')"
+        [ngClass]="{
+          'bg-blue-500 text-white': currentLogType === 'PUPT-Employee',
+          'bg-secondary text-black': currentLogType !== 'PUPT-Employee'
+        }"
+        class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
+               font-medium hover:bg-blue-500 hover:text-white transition 
+               duration-300 slide-in-right">
+        Employees log
+      </button>
 
         <div class="flex justify-between items-center gap-5 slide-in-right">
           <span class="text-lg font-medium ml-3 text-white">
@@ -89,10 +99,10 @@
     </div>
   </div>
   @if (logs.length > 0) {
-    <div class="p-4 bg-white text-black rounded-xl w-full lg:w-[70%] 
+    <div class="p-4 bg-white text-black rounded-xl w-full lg:w-11/12 
                 slide-in-right mb-4">
       <div class="overflow-x-auto">
-        <ng-container *ngIf="currentLogType === 'student_log'">
+        <!-- <ng-container *ngIf="currentLogType === 'student_log'">
           <table class="table w-full">
             <thead>
               <tr class="text-primary text-sm">
@@ -224,7 +234,109 @@
               </tr>
             </tfoot>
           </table>
-        </ng-container>
+        </ng-container> -->
+        @if (currentLogType === 'student_log') {
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Student Number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Course</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.student_number }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.course || 'N/A' }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else if (currentLogType === 'faculty_log') {
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Faculty Code</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Department</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.faculty_code }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.department || 'N/A' }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else if (currentLogType === 'visitor_log') {
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Name</th>
+                <th class="text-start">School</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.name }}</td>
+                <td>{{ log.school }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else if (currentLogType === 'PUPT-Employee') {
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Employee number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>sample123</td>
+                <td>sample123</td>
+                <td>sample123</td>
+                <td>sample123</td>
+              </tr>
+            </tbody>
+          </table>
+        } @else {
+          <table class="table w-full">
+            <thead>
+              <tr class="text-primary text-sm">
+                <th class="text-start">Student Number</th>
+                <th class="text-start">Name</th>
+                <th class="text-start">Course</th>
+                <th class="text-start">Time In</th>
+                <th class="text-start">Time Out</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <tr *ngFor="let log of logs">
+                <td>{{ log.student_number }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.course || 'N/A' }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        }
       </div>
     </div>
   } @else {
