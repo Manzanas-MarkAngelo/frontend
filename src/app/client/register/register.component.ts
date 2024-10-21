@@ -167,6 +167,11 @@ export class RegisterComponent implements OnInit {
       this.isContactExists = false;
     }
 
+    if (field === 'identifier') {
+      this.isUserExists = false;
+      this.userExistsError = '';
+    }
+
     if (this.allFieldsValid()) {
       this.hasFormErrors = false;
     }
