@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   selectedRole: string = 'student';
   studentNumber: string = '';
   empNumber: string = '';
+  empNum: string = '';
   contact: string = '';
   sex: string = '';
   firstName: string = '';
@@ -32,6 +33,8 @@ export class RegisterComponent implements OnInit {
   studentNumberError: string = '';
   isEmpNumberValid: boolean = true;
   empNumberError: string = '';
+  isEmpNumValid: boolean = true;
+  empNumError: string = '';
   isUserExists: boolean = false;
   userExistsError: string = '';
   isContactValid: boolean = true;
@@ -101,6 +104,18 @@ export class RegisterComponent implements OnInit {
     return true;
   }
 
+  validateEmpNum(): boolean {
+    const empNumPattern = /^\d{5}$/;
+    if (!this.empNum.match(empNumPattern)) {
+      this.isEmpNumValid = false;
+      this.empNumError = 'Invalid PUPT Employee number format.';
+      return false;
+    }
+    this.isEmpNumValid = true;
+    this.empNumError = '';
+    return true;
+  }
+
   validateContact(): boolean {
     const contactPattern = /^09\d{9}$/;
     if (!this.contact.match(contactPattern)) {
@@ -142,6 +157,13 @@ export class RegisterComponent implements OnInit {
              !!this.department && 
              !!this.contact && 
              !!this.email;
+    } else if (this.selectedRole === 'pupt-employee') {
+      return !!this.empNum && 
+             !!this.sex && 
+             !!this.firstName && 
+             !!this.lastName && 
+             !!this.contact && 
+             !!this.email;
     } else if (this.selectedRole === 'visitor') {
       return !!this.school && 
              !!this.sex && 
@@ -161,6 +183,9 @@ export class RegisterComponent implements OnInit {
       this.isUserExists = false;
     } else if (field === 'empNumber') {
       this.isEmpNumberValid = true;
+      this.isUserExists = false;
+    } else if (field === 'empNum') {
+      this.isEmpNumValid = true;
       this.isUserExists = false;
     } else if (field === 'contact') {
       this.isContactValid = true;
@@ -197,6 +222,13 @@ export class RegisterComponent implements OnInit {
              this.department.trim() !== '' &&
              this.contact.trim() !== '' &&
              this.email.trim() !== '';
+    } else if (this.selectedRole === 'pupt-employee') {
+      return this.empNum.trim() !== '' &&
+             this.sex.trim() !== '' &&
+             this.firstName.trim() !== '' &&
+             this.lastName.trim() !== '' &&
+             this.contact.trim() !== '' &&
+             this.email.trim() !== '';
     } else if (this.selectedRole === 'visitor') {
       return this.school.trim() !== '' &&
              this.sex.trim() !== '' &&
@@ -211,6 +243,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.isStudentNumberValid = true;
     this.isEmpNumberValid = true;
+    this.isEmpNumValid = true;
     this.isContactValid = true;
     this.isEmailValid = true;
     this.isUserExists = false;
@@ -230,6 +263,10 @@ export class RegisterComponent implements OnInit {
       }
     } else if (this.selectedRole === 'faculty') {
       if (!this.validateEmpNumber()) {
+        formIsValid = false;
+      }
+    } else if (this.selectedRole === 'pupt-employee') {
+      if (!this.validateEmpNum()) {
         formIsValid = false;
       }
     } else if (this.selectedRole === 'visitor') {
@@ -254,6 +291,8 @@ export class RegisterComponent implements OnInit {
         ? this.studentNumber 
         : this.selectedRole === 'faculty' 
         ? this.empNumber 
+        : this.selectedRole === 'pupt-employee'
+        ? this.empNum
         : this.identifier, 
       this.contact
     );
@@ -280,6 +319,8 @@ export class RegisterComponent implements OnInit {
                 ? 'Student number is already registered.'
                 : role === 'faculty'
                 ? 'Faculty code is already registered.'
+                : role === 'pupt-employee'
+                ? 'PUPT Employee number is already registered.'
                 : 'Visitor identifier is already registered.';
           }
         }
@@ -296,6 +337,7 @@ export class RegisterComponent implements OnInit {
           this.isContactExists || 
           (!this.isStudentNumberValid && this.selectedRole === 'student') || 
           (!this.isEmpNumberValid && this.selectedRole === 'faculty') || 
+          (!this.isEmpNumValid && this.selectedRole === 'pupt-employee') ||
           !this.isContactValid || 
           !this.isEmailValid
         ) {
@@ -340,6 +382,8 @@ export class RegisterComponent implements OnInit {
       formData.studentNumber = this.studentNumber;
     } else if (this.selectedRole === 'faculty') {
       formData.empNumber = this.empNumber;
+    } else if (this.selectedRole === 'pupt-employee') {
+      formData.empNum = this.empNum;
     } else if (this.selectedRole === 'visitor') {
       formData.identifier = this.identifier;
     }
