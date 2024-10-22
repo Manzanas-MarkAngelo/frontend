@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
 import { Location } from '@angular/common';
+import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
+
 @Component({
   selector: 'app-edit-visitor',
   templateUrl: './edit-visitor.component.html',
   styleUrls: ['./edit-visitor.component.css']
 })
 export class EditVisitorComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+
   visitor: any = {
     user_id: '',
     school: '',
@@ -47,18 +51,17 @@ export class EditVisitorComponent implements OnInit {
     this.showModal = false;
   }
 
-  continueEdit() {
-    this.showModal = false;
-    this.onSubmit();
-  }
-
-  onSubmit() {
+  saveChanges() {
     this.recordsService.updateVisitor(this.visitor).subscribe(response => {
-      console.log('Response from server:', response);
       if (response.status === 'success') {
-        this.router.navigate(['/edit-success']);
+        this.closeConfirmModal();
+        this.snackbar.showMessage('Visitor details updated successfully!');
+        
+        setTimeout(() => {
+          this.goBack();
+        }, 1000);
       } else {
-        // TODO: Handle error here
+        console.error('Update failed:', response.message || response);
       }
     });
   }
