@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../../services/register.service';
 import { CourseService } from '../../../services/course.service';
 import { DepartmentService } from '../../../services/department.service';
+import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +11,8 @@ import { DepartmentService } from '../../../services/department.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+
   selectedRole: string = 'student';
   studentNumber: string = '';
   empNumber: string = '';
@@ -343,7 +346,12 @@ export class RegisterComponent implements OnInit {
 
     this.registerService.registerUser(formData).subscribe((response) => {
       if (response.status === 'success') {
-        this.router.navigate(['/register-success']);
+        this.closeRequestModal();
+        this.snackbar.showMessage('Registration successful!');
+
+        setTimeout(() => {
+          this.router.navigate(['/time-in']);
+        }, 1000);
       }
     });
   }
