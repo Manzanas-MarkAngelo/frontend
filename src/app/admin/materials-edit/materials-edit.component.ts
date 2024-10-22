@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialsService } from '../../../services/materials.service';
+import { AddMaterialService } from '../../../services/add-material.service';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-materials-edit',
+  selector: 'app-materials-edit',  
   templateUrl: './materials-edit.component.html',
   styleUrls: ['./materials-edit.component.css']
 })
@@ -14,10 +15,16 @@ export class MaterialsEditComponent implements OnInit {
   selectedCategory: { cat_id: number, mat_type: string } | null = null; // To display mat_type in dropdown
   isDropdownOpen: boolean = false;
   showModal: boolean = false;
+  isSubjectDropdownOpen = false; 
+  selectedSubject: any;
+  subjectSearchTerm = '';
+  filteredSubjects: any[] = []; // Populate this list with your subjects
+  subjects: { id: number, subject_name: string }[] = [];  // Holds subject ids and headings
 
   constructor(
     private route: ActivatedRoute,
     private materialsService: MaterialsService,
+    private addMaterialService: AddMaterialService,
     private router: Router,
     private location: Location
   ) {}
@@ -38,6 +45,23 @@ export class MaterialsEditComponent implements OnInit {
         });
       }
     });
+    this.fetchSubjects();
+  }
+
+    // Fetch subjects from the service
+    fetchSubjects(searchTerm: string = ''): void {
+      this.addMaterialService.getSubjectHeadings(searchTerm).subscribe(data => {
+        this.subjects = data.map((subject: any) => ({
+          id: subject.id,
+          subject_name: subject.subject_name
+        }));
+        this.filteredSubjects = [...this.subjects]; // Initially show all subjects
+      });
+    }
+
+  // Search for subjects based on the input term
+  onSubjectSearch(term: string): void {
+    this.fetchSubjects(term); // Fetch subjects based on search term
   }
 
   goBack(): void {
@@ -56,6 +80,7 @@ export class MaterialsEditComponent implements OnInit {
     this.material.edition = this.material.edition || 'unknown/empty';
     this.material.isbn = this.material.isbn || 'unknown/empty';
     this.material.status = this.material.status || 'unknown/empty';
+    this.setSubject();
 
     // Find the selected category based on category ID
     const selectedCategory = this.categories.find(c => c.cat_id === this.material.category);
@@ -66,8 +91,25 @@ export class MaterialsEditComponent implements OnInit {
     }
   }
 
+  setSubject() {
+    let id, subject_name;
+    id = this.material.subject_id;
+    subject_name = this.material.subject_name;
+    this.selectedSubject = { id, subject_name };  // Display selected heading in dropdown
+    this.isSubjectDropdownOpen = false;
+  }
+
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  selectSubjectHeading(id: number, subject_name: string): void {
+    //this.subject_id = id;
+    //console.log(`Name: ${subject_name} ID: ${this.subject_id}`)
+    //this.bookDetails.heading = id;  // Set the subject heading in bookDetails
+    this.selectedSubject = { id, subject_name };  // Display selected heading in dropdown
+    this.isSubjectDropdownOpen = false;
+    this.material.subject_id = id;
   }
 
   selectCategory(cat_id: number, mat_type: string): void {
@@ -100,5 +142,9 @@ export class MaterialsEditComponent implements OnInit {
         this.showModal = false;
       }
     );
+  }
+
+  toggleSubjectDropdown() {
+    this.isSubjectDropdownOpen = !this.isSubjectDropdownOpen;
   }
 }
