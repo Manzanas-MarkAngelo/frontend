@@ -36,10 +36,11 @@ if ($accnum) {
 
     // Check if material is charged and fetch borrower details
     if ($material && $material['status'] === 'Charged') {
-        $sql = "SELECT b.user_id, s.student_number, f.emp_number
+        $sql = "SELECT b.user_id, s.student_number, f.emp_number, e.emp_num
                 FROM borrowing b
                 LEFT JOIN students s ON b.user_id = s.user_id
                 LEFT JOIN faculty f ON b.user_id = f.user_id
+                LEFT JOIN pupt_employees e ON b.user_id = e.user_id
                 WHERE b.material_id = ? AND b.remark = 'In Progress'";
         
         $stmt = $conn->prepare($sql);
@@ -59,6 +60,8 @@ if ($accnum) {
                 $material['borrower_id'] = $borrower['student_number'];
             } elseif ($borrower['emp_number']) {
                 $material['borrower_id'] = $borrower['emp_number'];
+            } elseif ($borrower['emp_num']) {
+                $material['borrower_id'] = $borrower['emp_num'];
             }
         }
     }
