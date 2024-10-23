@@ -148,7 +148,8 @@ export class ReturnComponent implements OnInit {
     this.returnService.generatePenalty(item.material_id).subscribe(response => {
       if (response.status === 'success') {
         const isStudent = response.user_type === 'student';
-        const pdfUrl = this.pdfPenaltyReceiptService.generateReceipt(response, isStudent);
+        const isEmployee = response.user_type === 'pupt-employee';
+        const pdfUrl = this.pdfPenaltyReceiptService.generateReceipt(response, isStudent, isEmployee);
 
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
