@@ -61,6 +61,7 @@ export class RecordsComponent implements OnInit {
       case 'student':
       case 'faculty':
       case 'visitor':
+      case 'pupt-employee': 
         this.searchPlaceholder = 'Search ' + logType;
         this.fetchRecords(logType);
         break;
@@ -120,6 +121,7 @@ export class RecordsComponent implements OnInit {
   }
 
   clearLogType() {
+    this.selectedRole = 'student';
     this.setLogType('student');
     this.searchTerm = '';
   }
