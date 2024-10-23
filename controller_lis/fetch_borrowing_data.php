@@ -24,6 +24,8 @@ SELECT
     b.due_date,
     b.return_date,
     b.remark,
+    b.last_notified_at,
+    u.id AS user_id,
     m.title,
     m.author,
     m.subj as subject_name,
