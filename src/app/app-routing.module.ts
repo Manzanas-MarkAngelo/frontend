@@ -79,6 +79,7 @@ import { LoginLispuptComponent } from './client/login-lispupt/login-lispupt.comp
 import { EmployeesComponent } from './super-admin/employees/employees.component';
 import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.component';
 import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
+import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -162,6 +163,7 @@ const routes: Routes = [
   { path: 'employee', component: EmployeesComponent },
   { path: 'add-employee', component: AddEmployeeComponent },
   { path: 'edit-employee', component: EditEmployeeComponent },
+  { path: 'courses-pie-chart', component: CoursesTimedInComponent},
 ];
 
 @NgModule({

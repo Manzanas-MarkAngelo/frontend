@@ -3,11 +3,12 @@
     <div class="chart-container">
       <div class="dropdown-container">
         <label for="year" class="sr-only">Select Year:</label>
-        <select id="year" (change)="onYearChange($event)" class="dropdown" [value]="year">
+        <select id="year" [(ngModel)]="year" (change)="onYearChange($event)" class="dropdown">
           <option *ngFor="let year of years" [value]="year">{{ year }}</option>
         </select>
+
         <label for="month" class="sr-only">Select Month:</label>
-        <select id="month" (change)="onMonthChange($event)" class="dropdown" [value]="month">
+        <select id="month" [(ngModel)]="month" (change)="onMonthChange($event)" class="dropdown">
           <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
         </select>
       </div>

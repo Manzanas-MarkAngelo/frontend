@@ -128,6 +128,7 @@ import { LoginLispuptComponent } from './client/login-lispupt/login-lispupt.comp
 import { EmployeesComponent } from './super-admin/employees/employees.component';
 import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.component';
 import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
+import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 
 
 @NgModule({
@@ -223,6 +224,7 @@ import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee
     EmployeesComponent,
     AddEmployeeComponent,
     EditEmployeeComponent,
+    CoursesTimedInComponent,
 
   ],
   imports: [
