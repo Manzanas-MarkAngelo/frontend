@@ -86,6 +86,7 @@
                     <h3 class="text-xl font-bold text-primary text-center">
                         Enter details of the book you want to request
                     </h3>
+
                     <p class="text-red-500 text-xs text-center my-1">
                         Note* Only registered users are allowed to make a request
                     </p>
@@ -181,6 +182,15 @@
                     
                         <p *ngIf="formErrorMessage" class="text-red-500 text-sm mt-2">
                             {{ formErrorMessage }}
+                        </p>
+                        <p class="text-black text-sm text-start my-1">
+                            <span class="font-bold">Note:</span> This feature 
+                            is for requesting new books or materials that are 
+                            not currently available in the library. It is 
+                            <span class="font-bold">NOT</span> for borrowing 
+                            existing materials. For borrowing available 
+                            materials, please see the librarian or the 
+                            designated library staff. Thank you!
                         </p>
                     </div>
               
