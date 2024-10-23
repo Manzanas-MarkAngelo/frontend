@@ -124,6 +124,10 @@ import { ClientSnackbarComponent } from './client/client-snackbar/client-snackba
 import { RequestComponent } from './admin/request/request.component';
 import { EmailService } from '../services/email.service';
 import { FeedbackComponent } from './client/feedback/feedback.component';
+import { LoginLispuptComponent } from './client/login-lispupt/login-lispupt.component';
+import { EmployeesComponent } from './super-admin/employees/employees.component';
+import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.component';
+import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 
 
@@ -216,6 +220,10 @@ import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/cour
     ClientSnackbarComponent,
     RequestComponent,
     FeedbackComponent,
+    LoginLispuptComponent,
+    EmployeesComponent,
+    AddEmployeeComponent,
+    EditEmployeeComponent,
     CoursesTimedInComponent,
 
   ],
