@@ -124,6 +124,7 @@ import { ClientSnackbarComponent } from './client/client-snackbar/client-snackba
 import { RequestComponent } from './admin/request/request.component';
 import { EmailService } from '../services/email.service';
 import { FeedbackComponent } from './client/feedback/feedback.component';
+import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 
 
 @NgModule({
@@ -215,6 +216,7 @@ import { FeedbackComponent } from './client/feedback/feedback.component';
     ClientSnackbarComponent,
     RequestComponent,
     FeedbackComponent,
+    CoursesTimedInComponent,
 
   ],
   imports: [

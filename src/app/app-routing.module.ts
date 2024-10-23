@@ -75,6 +75,7 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
 import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
 import { RequestComponent } from './admin/request/request.component';
 import { FeedbackComponent } from './client/feedback/feedback.component';
+import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -154,6 +155,7 @@ const routes: Routes = [
   { path: 'navbar-superadmin', component: NavbarSuperAdminComponent },
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
+  { path: 'courses-pie-chart', component: CoursesTimedInComponent},
 ];
 
 @NgModule({
