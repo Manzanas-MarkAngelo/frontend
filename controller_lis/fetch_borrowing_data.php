@@ -26,7 +26,7 @@ SELECT
     b.remark,
     m.title,
     m.author,
-    m.subj as subject_name,  -- Adding subject_name
+    m.subj as subject_name,
     u.user_type,
     IF(u.user_type = 'student', s.first_name, IF(u.user_type = 'faculty', f.first_name, e.first_name)) as first_name,
     IF(u.user_type = 'student', s.surname, IF(u.user_type = 'faculty', f.surname, e.surname)) as surname,
@@ -37,7 +37,7 @@ FROM
     JOIN users u ON b.user_id = u.id
     LEFT JOIN students s ON u.id = s.user_id
     LEFT JOIN faculty f ON u.id = f.user_id
-    LEFT JOIN pupt_employees e ON u.id = e.user_id  -- Added join for pupt_employees
+    LEFT JOIN pupt_employees e ON u.id = e.user_id  
     LEFT JOIN courses c ON s.course_id = c.id
     LEFT JOIN departments d ON f.dept_id = d.id
 WHERE 1 = 1  -- Always true to make adding conditions easier

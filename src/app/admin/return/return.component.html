@@ -77,6 +77,7 @@
               <th>Author</th>
               <th>Date borrowed</th>
               <th>Due Date</th>
+              <th>Return Date</th>
               <th>Remarks</th>
               <th class="text-center">Action</th>
             </tr>
@@ -90,6 +91,7 @@
                 <td>{{ item.author }}</td>
                 <td>{{ item.dateBorrowed | date: 'MM/dd/yyyy' }}</td>
                 <td>{{ item.dueDate | date: 'MM/dd/yyyy' }}</td>
+                <td>{{ item.returnDate ? (item.returnDate | date: 'MM/dd/yyyy') : '—' }}</td>
                 <td>{{ item.remarks }}</td>
                 <td class="text-center">
                   @if (item.remarks === 'In Progress') {
