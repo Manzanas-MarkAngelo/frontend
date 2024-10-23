@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReturnService } from '../../../services/return.service';
 import { PdfPenaltyReceiptService } from '../../../services/pdf-penalty-receipt.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { EmailService } from '../../../services/email.service';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-return',
@@ -10,6 +12,8 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
   styleUrls: ['./return.component.css']
 })
 export class ReturnComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar: SnackbarComponent;
+
   items: any[] = []; // All items fetched from the API
   filteredItems: any[] = []; // Filtered items after search
   paginatedItems: any[] = []; // Items to be displayed on the current page
@@ -25,10 +29,12 @@ export class ReturnComponent implements OnInit {
   dateFrom: string | null = null; // Optional date range
   dateTo: string | null = null; // Optional date range
   selectedRemark: string = '';
+  isSending: boolean = false;
 
   constructor(
     private returnService: ReturnService,
-    private pdfPenaltyReceiptService: PdfPenaltyReceiptService
+    private pdfPenaltyReceiptService: PdfPenaltyReceiptService,
+    private emailService: EmailService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +54,8 @@ export class ReturnComponent implements OnInit {
     
     // Pass searchTerm along with the date range and selectedRemark
     this.returnService.getBorrowingData(this.dateFrom, this.dateTo, this.selectedRemark, this.searchTerm).subscribe(data => {
+      const today = new Date().toISOString().split('T')[0];
+
       this.items = data.map(item => {
         return {
           ...item,
@@ -57,7 +65,9 @@ export class ReturnComponent implements OnInit {
           dueDate: item.due_date,
           dateBorrowed: item.claim_date,
           returnDate: item.return_date,
-          material_id: item.material_id
+          material_id: item.material_id,
+          user_id: item.user_id,
+          isNotifiedToday: item.last_notified_at === today
         };
       }).sort((a, b) => {
         if (a.remarks !== 'Returned' && a.remarks !== 'Returned Late') {
@@ -148,7 +158,8 @@ export class ReturnComponent implements OnInit {
     this.returnService.generatePenalty(item.material_id).subscribe(response => {
       if (response.status === 'success') {
         const isStudent = response.user_type === 'student';
-        const pdfUrl = this.pdfPenaltyReceiptService.generateReceipt(response, isStudent);
+        const isEmployee = response.user_type === 'pupt-employee';
+        const pdfUrl = this.pdfPenaltyReceiptService.generateReceipt(response, isStudent, isEmployee);
 
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
@@ -178,7 +189,7 @@ export class ReturnComponent implements OnInit {
           }
         };
       } else {
-        alert('Error generating penalty receipt: ' + response.message);
+        this.snackbar.showMessage('Error generating penalty receipt. Please try again.');
       }
     });
   }
@@ -188,8 +199,29 @@ export class ReturnComponent implements OnInit {
       if (response.status === 'success') {
         this.fetchBorrowingData();
       } else {
-        alert('Error confirming penalty: ' + response.message);
+        this.snackbar.showMessage('Error confirming penalty. Please try again.');
       }
     });
+  }
+
+  sendNotification(item: any): void {
+    if (!item.isNotifiedToday) {
+      this.isSending = true; // Show loading spinner while sending email
+      this.emailService.sendPenaltyNotification(item.user_id, item.material_id).subscribe({
+        next: (response) => {
+          this.isSending = false;
+          if (response.status === 'success') {
+            this.snackbar.showMessage('Notification sent successfully.');
+            item.isNotifiedToday = true;
+          } else {
+            this.snackbar.showMessage('Failed to send notification.');
+          }
+        },
+        error: (err) => {
+          this.isSending = false;
+          this.snackbar.showMessage('Error sending notification. Please try again.');
+        }
+      });
+    }
   }
 }

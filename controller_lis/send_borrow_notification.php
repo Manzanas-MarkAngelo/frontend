@@ -20,7 +20,7 @@ if (!isset($data['user_id']) || !isset($data['material_id'])) {
 $userId = mysqli_real_escape_string($conn, $data['user_id']);
 $materialId = mysqli_real_escape_string($conn, $data['material_id']);
 
-$maxAttempts = 5;
+$maxAttempts = 3;
 $attempt = 0;
 $borrowing = null;
 
@@ -33,7 +33,7 @@ while ($attempt < $maxAttempts) {
         break;
     }
 
-    usleep(500000);
+    usleep(300000);
     $attempt++;
 }
 
@@ -55,6 +55,7 @@ $material = mysqli_fetch_assoc($materialResult);
 $borrower = null;
 $studentQuery = "SELECT email, first_name, surname FROM students WHERE user_id = '$userId'";
 $facultyQuery = "SELECT email, first_name, surname FROM faculty WHERE user_id = '$userId'";
+$employeeQuery = "SELECT email, first_name, surname FROM pupt_employees WHERE user_id = '$userId'";
 
 $studentResult = mysqli_query($conn, $studentQuery);
 if (mysqli_num_rows($studentResult) > 0) {
@@ -63,6 +64,11 @@ if (mysqli_num_rows($studentResult) > 0) {
     $facultyResult = mysqli_query($conn, $facultyQuery);
     if (mysqli_num_rows($facultyResult) > 0) {
         $borrower = mysqli_fetch_assoc($facultyResult);
+    } else {
+        $employeeResult = mysqli_query($conn, $employeeQuery);
+        if (mysqli_num_rows($employeeResult) > 0) {
+            $borrower = mysqli_fetch_assoc($employeeResult);
+        }
     }
 }
 

@@ -22,4 +22,10 @@ export class EmailService {
       headers: { 'Content-Type': 'application/json' }
     });
   }  
+
+  sendPenaltyNotification(userId: string, materialId: string): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/send_penalty_notification.php`, { user_id: userId, material_id: materialId }, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 }

@@ -24,13 +24,17 @@ if ($identifier === null) {
     exit();
 }
 
+// Include PUPT-Employee check here
 $query = "SELECT user_id FROM students WHERE student_number = ? 
           UNION 
           SELECT user_id FROM faculty WHERE emp_number = ?
           UNION
-          SELECT user_id FROM visitor WHERE identifier = ?";
+          SELECT user_id FROM visitor WHERE identifier = ?
+          UNION
+          SELECT user_id FROM pupt_employees WHERE emp_num = ?";
+
 $stmt = $conn->prepare($query);
-$stmt->bind_param("sss", $identifier, $identifier, $identifier);
+$stmt->bind_param("ssss", $identifier, $identifier, $identifier, $identifier);
 $stmt->execute();
 $stmt->store_result();
 

@@ -67,7 +67,7 @@
             <option value="student">Student</option>
             <option value="faculty">Faculty</option>
             <option value="visitor">Visitor</option>
-            <option value="PUPT-Employee">Employees</option>
+            <option value="pupt-employee">Employees</option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 
                       flex items-center text-gray-700">
@@ -307,7 +307,7 @@
               </tr>
             </tbody>
           </table>
-        } @else if (currentLogType === 'PUPT-Employee') {
+        } @else if (currentLogType === 'pupt-employee') {
           <table class="table w-full">
             <thead class="text-sm" >
               <tr class="text-primary text-start">
@@ -321,12 +321,12 @@
             </thead>
             <tbody class="text-start">
               <tr *ngFor="let record of logs">
-                <td>sample123</td>
-                <td>sample123</td>
-                <td>sample123</td>
-                <td>sample123</td>
-                <td>sample123</td>
-                <td>sample123</td>
+                <td>{{ record.emp_num }}</td>
+                <td>{{ capitalize(record.name) }}</td>
+                <td>{{ record.gender }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.email.toLowerCase() }}</td>
+                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
               </tr>
             </tbody>
           </table>
