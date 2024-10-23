@@ -31,6 +31,8 @@ if ($role === 'Student') {
     $query = "SELECT user_id FROM faculty WHERE emp_number = ?";
 } elseif ($role === 'Visitor') {
     $query = "SELECT user_id FROM visitor WHERE identifier = ?";
+} elseif ($role === 'PUPT-Employee') {
+    $query = "SELECT user_id FROM pupt_employees WHERE emp_num = ?";
 } else {
     echo json_encode(['registered' => false, 'error' => 'Invalid role']);
     exit();

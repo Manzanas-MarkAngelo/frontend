@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TimeLogService } from '../../../services/time-log.service';
+import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-time-in',
@@ -8,10 +9,12 @@ import { TimeLogService } from '../../../services/time-log.service';
   styleUrl: './time-in.component.css'
 })
 export class TimeInComponent {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+
   selectedRole: string = 'Student';
   placeholderText: string = 'Enter your Student number here';
   identifier: string = '';
-  isSubmitting: boolean = false;  // Flag to prevent double submission
+  isSubmitting: boolean = false;
 
   constructor(private timeLogService: TimeLogService, private router: Router) { }
 
@@ -28,8 +31,8 @@ export class TimeInComponent {
   }
 
   onSubmit() {
-  if (this.isSubmitting) return;  // Prevent double submission
-     this.isSubmitting = true;  // Set flag to true before submitting
+  if (this.isSubmitting) return;
+     this.isSubmitting = true;
     
      this.timeLogService.checkUser(this.selectedRole, this.identifier).subscribe({
        next: (response) => {
@@ -38,19 +41,24 @@ export class TimeInComponent {
              this.router.navigate(['/timein-already']);
            } else {
              this.timeLogService.logTimeIn(response.user_id).subscribe(() => {
-               this.router.navigate(['/timein-success']);
-               this.isSubmitting = false;  // Reset flag after success
-             }, () => {
-               this.isSubmitting = false;  // Reset flag if error occurs
-             });
+              this.snackbar.showMessage('Time-in successful!');
+            
+              this.identifier = '';
+              
+              setTimeout(() => {
+                this.isSubmitting = false;
+              }, 500);
+            }, () => {
+              this.isSubmitting = false;
+            });
            }
          } else {
            this.router.navigate(['/unregistered']);
-           this.isSubmitting = false;  // Reset flag after navigation
+           this.isSubmitting = false;
          }
        },
        error: () => {
-         this.isSubmitting = false;  // Reset flag on error
+         this.isSubmitting = false;
        }
      });
    }

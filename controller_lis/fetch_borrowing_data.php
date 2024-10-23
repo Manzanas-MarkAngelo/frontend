@@ -24,19 +24,22 @@ SELECT
     b.due_date,
     b.return_date,
     b.remark,
+    b.last_notified_at,
+    u.id AS user_id,
     m.title,
     m.author,
-    m.subj as subject_name,  -- Adding subject_name
+    m.subj as subject_name,
     u.user_type,
-    IF(u.user_type = 'student', s.first_name, f.first_name) as first_name,
-    IF(u.user_type = 'student', s.surname, f.surname) as surname,
-    IF(u.user_type = 'student', c.course_abbreviation, d.dept_abbreviation) as course_department
+    IF(u.user_type = 'student', s.first_name, IF(u.user_type = 'faculty', f.first_name, e.first_name)) as first_name,
+    IF(u.user_type = 'student', s.surname, IF(u.user_type = 'faculty', f.surname, e.surname)) as surname,
+    IF(u.user_type = 'student', c.course_abbreviation, IF(u.user_type = 'faculty', d.dept_abbreviation, 'Employee')) as course_department
 FROM 
     borrowing b
     JOIN materials m ON b.material_id = m.id
     JOIN users u ON b.user_id = u.id
     LEFT JOIN students s ON u.id = s.user_id
     LEFT JOIN faculty f ON u.id = f.user_id
+    LEFT JOIN pupt_employees e ON u.id = e.user_id  
     LEFT JOIN courses c ON s.course_id = c.id
     LEFT JOIN departments d ON f.dept_id = d.id
 WHERE 1 = 1  -- Always true to make adding conditions easier
@@ -54,6 +57,8 @@ if (!empty($searchTerm)) {
         OR s.surname LIKE '%$searchTerm%' 
         OR f.first_name LIKE '%$searchTerm%' 
         OR f.surname LIKE '%$searchTerm%'
+        OR e.first_name LIKE '%$searchTerm%'
+        OR e.surname LIKE '%$searchTerm%'
     )";
 }
 

@@ -36,6 +36,9 @@ switch ($recordType) {
     case 'faculty':
         $searchCondition = $searchTerm ? " AND (f.surname LIKE '%$searchTerm%' OR f.first_name LIKE '%$searchTerm%' OR f.emp_number LIKE '%$searchTerm%')" : '';
         break;
+    case 'pupt-employee':
+        $searchCondition = $searchTerm ? " AND (e.surname LIKE '%$searchTerm%' OR e.first_name LIKE '%$searchTerm%' OR e.emp_num LIKE '%$searchTerm%')" : '';
+        break;
     case 'visitor':
         $searchCondition = $searchTerm ? " AND (surname LIKE '%$searchTerm%' OR first_name LIKE '%$searchTerm%' OR identifier LIKE '%$searchTerm%')" : '';
         break;
@@ -76,6 +79,23 @@ if ($recordType === 'student' && $user_id) {
         echo json_encode($result->fetch_assoc());
     } else {
         echo json_encode(['error' => 'Visitor not found']);
+    }
+    
+    $stmt->close();
+} elseif ($recordType === 'pupt-employee' && $user_id) {
+    // Fetch details for a single PUPT-Employee
+    $query = "SELECT e.emp_num, e.first_name, e.surname, e.gender, e.phone_number, e.email
+              FROM pupt_employees e
+              WHERE e.user_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        echo json_encode($result->fetch_assoc());
+    } else {
+        echo json_encode(['error' => 'PUPT-Employee not found']);
     }
     
     $stmt->close();
@@ -120,6 +140,14 @@ if ($recordType === 'student' && $user_id) {
                       ORDER BY f.created_at DESC
                       LIMIT ? OFFSET ?";
             $countQuery = "SELECT COUNT(*) as total FROM faculty";
+            break;
+        case 'pupt-employee':
+            $query = "SELECT e.emp_num, CONCAT(e.surname, ', ', e.first_name) as name, e.gender, e.phone_number, e.email, e.created_at, e.user_id
+                    FROM pupt_employees e
+                    WHERE 1=1 $searchCondition
+                    ORDER BY e.created_at DESC
+                    LIMIT ? OFFSET ?";
+            $countQuery = "SELECT COUNT(*) as total FROM pupt_employees";
             break;
         case 'visitor':
             $query = "SELECT CONCAT(surname, ', ', first_name) as name, gender, phone_number, school, identifier, user_id, created_at

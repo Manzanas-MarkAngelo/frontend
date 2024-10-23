@@ -42,7 +42,7 @@
           <option value="student">Student</option>
           <option value="faculty">Faculty</option>
           <option value="visitor">Visitor</option>
-          <option value="PUPT-Employee">PUPT-Employee</option>
+          <option value="pupt-employee">PUPT-Employee</option>
         </select>
         <div
           class="pointer-events-none 
@@ -204,12 +204,13 @@
           </span>
           }
         </div>
-        } @else if (selectedRole === 'PUPT-Employee') {
+        } @else if (selectedRole === 'pupt-employee') {
           <div class="relative flex-grow">
             <input
-              id="emp_num"
-              name="emp_num"
+              id="empNum"
+              name="empNum"
               type="text"
+              [(ngModel)]="empNum"
               placeholder="Enter your Employee number here"
               class="mt-1 
                      block 
@@ -220,7 +221,52 @@
                      px-6 
                      py-2 
                      focus:ring-opacity-50 
-                     text-lg"/>
+                     text-lg"
+              [ngClass]="{'border-red-500': 
+                (!empNum && hasFormErrors) || 
+                !isEmpNumValid || isUserExists}"
+              (input)="onFieldInput('empNum')"/>
+            @if ((!empNum && hasFormErrors) || !isEmpNumValid || isUserExists) {
+              <span
+                class="absolute 
+                      right-2 
+                      top-1/2 
+                      transform 
+                      -translate-y-1/2 
+                      text-red-500 
+                      cursor-pointer 
+                      group">
+                <img
+                  src="../../../assets/Exclamation_flat_icon.svg.png"
+                  alt="Exclamation Mark"
+                  class="h-4 
+                        w-4 
+                        mt-1"/>
+                <span
+                  class="absolute 
+                        right-6 
+                        top-1/2 
+                        transform 
+                        -translate-y-1/2 
+                        mr-1 
+                        w-max 
+                        bg-red-500 
+                        text-white 
+                        text-xs 
+                        rounded 
+                        py-1 
+                        px-2 
+                        shadow-lg 
+                        z-10 
+                        whitespace-nowrap 
+                        group-hover:block 
+                        hidden">
+                  {{ !empNum && hasFormErrors ? 'Employee number cannot be empty.' 
+                        : !isEmpNumValid ? empNumError 
+                        : isUserExists ? userExistsError : '' }}
+                </span>
+              </span>
+            }
           </div>
         } @else {
         <div class="relative flex-grow">
@@ -1020,6 +1066,33 @@
           <div>
             <span class="text-primary font-semibold">Email: </span>{{ email }}
           </div>
+        } @else if (selectedRole === 'pupt-employee') {
+          <div>
+            <span class="text-primary font-semibold">Role: </span>
+            {{ selectedRole }}
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Employee Number: </span>
+            {{ empNum }}
+          </div>
+          <div>
+            <span class="text-primary font-semibold">First name: </span>
+            {{ firstName }}
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Last name: </span>
+            {{ lastName }}
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Gender: </span> {{ sex }}
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Contact number: </span>
+            {{ contact }}
+          </div>
+          <div>
+            <span class="text-primary font-semibold">Email: </span>{{ email }}
+          </div>
         } @else {
           <div>
             <span class="text-primary font-semibold">Role: </span>
@@ -1184,3 +1257,5 @@
     </div>
   </div>
 </dialog>
+
+<app-snackbar></app-snackbar>

@@ -16,9 +16,12 @@ $id_number = $data['id_number'];
 $material_id = $data['material_id'];
 
 $sql = "SELECT user_id FROM students WHERE student_number = ? 
-        UNION SELECT user_id FROM faculty WHERE emp_number = ?";
+        UNION 
+        SELECT user_id FROM faculty WHERE emp_number = ?
+        UNION 
+        SELECT user_id FROM pupt_employees WHERE emp_num = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $id_number, $id_number);
+$stmt->bind_param("sss", $id_number, $id_number, $id_number);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();

@@ -26,6 +26,7 @@ $school = isset($data['school']) ? $data['school'] : null;
 $courseId = isset($data['courseId']) ? $data['courseId'] : null;
 $contact = isset($data['contact']) ? $data['contact'] : null;
 $empNumber = isset($data['empNumber']) ? $data['empNumber'] : null;
+$empNum = isset($data['empNum']) ? $data['empNum'] : null;
 $identifier = isset($data['identifier']) ? $data['identifier'] : null;
 $email = isset($data['email']) ? $data['email'] : null;
 
@@ -77,6 +78,19 @@ try {
         $stmt->bind_param(
             "isssssss", $userId, $empNumber, $firstName, $lastName, $sex, 
             $contact, $departmentId, $email
+        );
+    } elseif ($selectedRole == 'pupt-employee') {
+        if (!$empNum) {
+            throw new Exception('Employee number is required for PUPT Employee');
+        }
+        $stmt = $conn->prepare(
+            "INSERT INTO pupt_employees (
+                user_id, emp_num, first_name, surname, gender, phone_number, 
+                email, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"
+        );
+        $stmt->bind_param(
+            "issssss", $userId, $empNum, $firstName, $lastName, $sex, $contact, $email
         );
     } elseif ($selectedRole == 'visitor') {
         if (!$identifier) {
