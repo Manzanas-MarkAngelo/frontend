@@ -1,0 +1,276 @@
+<div class="flex items-start justify-center pt-40 bg-primary">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+      <div class="flex items-end justify-between">
+        <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
+          Add employee
+        </h1>
+      </div>
+  
+      <form>
+        <div class="mb-4 mt-4 flex items-center space-x-4">
+          <div class="relative flex-grow">
+            <input
+              type="text"
+              placeholder="Enter your Employee number here"
+              class="mt-1 block 
+                     w-full 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"/>
+          </div>
+          <div class="relative mr-44">
+            <select
+              id="sex"
+              name="sex"
+
+              class="block 
+                     appearance-none 
+                     w-full 
+                     bg-white 
+                     text-gray-700 
+                     border 
+                     border-gray-300 
+                     font-medium 
+                     py-3 
+                     px-6 
+                     pr-8 
+                     rounded-xl 
+                     leading-tight 
+                     focus:outline-none 
+                     focus:bg-white 
+                     cursor-pointer 
+                     text-lg 
+                     mt-1">
+              <option value="" disabled selected>Gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+            <!-- @if (!sex && hasFormErrors) {
+              <span
+                class="absolute 
+                       right-2 
+                       top-1/2 
+                       transform 
+                       -translate-y-1/2 
+                       text-red-500 
+                       cursor-pointer 
+                       group">
+              <img
+                src="../../../assets/Exclamation_flat_icon.svg.png"
+                alt="Exclamation Mark"
+                class="h-4 
+                       w-4 
+                       mt-1"/>
+              <span
+                class="absolute 
+                       right-6 
+                       top-1/2 
+                       transform 
+                       -translate-y-1/2 
+                       mr-1 
+                       w-max 
+                       bg-red-500 
+                       text-white 
+                       text-xs 
+                       rounded 
+                       py-1 
+                       px-2 
+                       shadow-lg 
+                       z-10 
+                       whitespace-nowrap 
+                       group-hover:block 
+                       hidden">
+                Gender must be selected.
+              </span>
+            </span>
+            } -->
+            <div
+              class="pointer-events-none 
+                     absolute 
+                     inset-y-0 
+                     top-1.5 
+                     right-2 
+                     flex 
+                     items-center 
+                     text-gray-700">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-5">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <div class="relative flex-grow">
+            <input
+              id="fname"
+              name="fname"
+              type="text"
+              class="mt-1 
+                     block 
+                     w-full 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-3 
+                     pl-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"
+              placeholder="First name"/>
+          </div>
+          <div class="relative flex-grow">
+            <input
+              id="lname"
+              name="lname"
+              type="text"
+              class="mt-1 
+                     block 
+                     w-full 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-3 
+                     pl-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"
+              placeholder="Last name"/>
+          </div>
+        </div>
+        <div class="mb-4 flex items-center space-x-4">
+          <div class="relative flex-grow">
+            <input
+              id="contact"
+              name="contact"
+              type="text"
+              class="mt-1 
+                     block 
+                     w-full 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"
+              placeholder="Contact number"/>
+          </div>
+          <div class="relative flex-grow">
+            <input
+              id="email"
+              name="email"
+              type="text"
+              class="mt-1 
+                     block 
+                     w-full 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"
+              placeholder="Email"/>
+          </div>
+        </div>
+        <div class="flex flex-row gap-4 w-full mt-4">
+          <button
+            type="button"
+            class="flex-1 
+                   bg-primary 
+                   text-white 
+                   px-6 
+                   py-3 
+                   rounded-xl 
+                   font-medium 
+                   hover:bg-[#ffb700] 
+                   hover:text-black
+                   transition 
+                   duration-300">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1
+                   bg-secondary 
+                   text-black 
+                   px-6 
+                   py-3 
+                   rounded-xl 
+                   font-medium 
+                   hover:bg-[#801e1d] 
+                   hover:text-white 
+                   transition 
+                   duration-300">
+            Continue
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <dialog id="my_modal_1" class="modal">
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+        Are the details correct?
+      </h2>
+      <p class="text-red-500 text-sm text-center my-1">
+        Note: Please review the details carefully
+      </p>
+      <div class="flex flex-col items-center justify-between h-full">
+        <img 
+          src="../../../assets/return.jpg" 
+          alt="success" 
+          class="w-4/5 h-auto mb-4" 
+        />
+        <div class="flex flex-col space-y-2">
+          <div><strong>Employee number:</strong> 12345</div>
+          <div><strong>First Name:</strong> sample</div>
+          <div><strong>Last Name:</strong> sample</div>
+          <div><strong>Gender:</strong> sample</div>
+          <div><strong>Phone Number:</strong> sample</div>
+          <div><strong>Email:</strong> sample</div>
+        </div>
+      </div>
+  
+      <div class="modal-action justify-center items-center">
+        <button
+          class="btn 
+                 w-40 
+                 bg-primary 
+                 text-white 
+                 hover:bg-[#ffb700] 
+                 hover:text-black">
+          Close
+        </button>
+  
+        <button
+          type="button"
+          class="btn 
+                 w-40 
+                 bg-secondary 
+                 text-black 
+                 hover:bg-[#801e1d] 
+                 hover:text-white">
+          Submit
+        </button>
+      </div>
+  
+    </div>
+  </dialog>
+  
+  <app-snackbar></app-snackbar>
