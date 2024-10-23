@@ -47,4 +47,14 @@ export class ChartsService {
       })
     );
   }
+
+  // Inside ChartsService
+  getCourseCounts(year: number, month: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/count_courses.php?year=${year}&month=${month}`).pipe(
+      catchError(error => {
+        console.error('Error fetching monthly course data:', error);
+        return throwError(() => new Error('Error fetching monthly course data'));
+      })
+    );
+  }
 }

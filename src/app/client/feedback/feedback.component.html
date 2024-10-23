@@ -159,18 +159,17 @@
           </div>
         </div>
         <div class="divider my-0"></div>
-        <label class="form-control w-full max-w-sm">
+        <label class="form-control w-full">
           <div class="label">
             <span class="label-text text-primary font-medium">Only registered users can submit a feedback</span>
           </div>
-          <input type="text" placeholder="Type here (Student ID/Faculty code/Identifier)" class="input input-bordered w-full"/>
+          <div class="w-full flex flex-col md:flex-row justify-between gap-1">
+            <input type="text" placeholder="Type here (Student ID/Faculty code/Identifier)" class="input input-bordered w-full"/>
+            <button type="submit" 
+            class="btn bg-primary text-white hover:bg-[#ffb700] hover:text-black"
+            onclick="feedback_success.showModal()">Submit Feedback</button>
+          </div>
         </label>
-  
-        <div class="text-center">
-          <button type="submit" 
-                  class="btn bg-primary text-white hover:bg-[#ffb700] hover:text-black mt-4"
-                  onclick="feedback_success.showModal()">Submit Feedback</button>
-        </div>
       </form>
     </div>
   </div>
