@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../../../services/department.service';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-departments',
@@ -14,11 +15,16 @@ export class DepartmentsComponent implements OnInit {
 
   constructor(
     private departmentService: DepartmentService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
     this.loadDepartments();
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   loadDepartments(): void {

@@ -136,7 +136,7 @@ try {
     }
 
     // Total number of rows in the PROGRAMS
-    $sql_total_departments = "SELECT COUNT(*) as total_programs FROM departments";
+    $sql_total_departments = "SELECT COUNT(*) as total_programs FROM courses";
     $result_total_departments = $conn->query($sql_total_departments);   
     if ($result_total_departments) {
         $response['total_programs'] = $result_total_departments->fetch_assoc()['total_programs'];
