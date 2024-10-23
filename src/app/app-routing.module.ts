@@ -75,6 +75,10 @@ import { NavbarAdminComponent } from './admin/navbar-admin/navbar-admin.componen
 import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navbar-super-admin.component';
 import { RequestComponent } from './admin/request/request.component';
 import { FeedbackComponent } from './client/feedback/feedback.component';
+import { LoginLispuptComponent } from './client/login-lispupt/login-lispupt.component';
+import { EmployeesComponent } from './super-admin/employees/employees.component';
+import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.component';
+import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -154,6 +158,10 @@ const routes: Routes = [
   { path: 'navbar-superadmin', component: NavbarSuperAdminComponent },
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
+  { path: 'login-lispupt', component: LoginLispuptComponent },
+  { path: 'employee', component: EmployeesComponent },
+  { path: 'add-employee', component: AddEmployeeComponent },
+  { path: 'edit-employee', component: EditEmployeeComponent },
 ];
 
 @NgModule({
