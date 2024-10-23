@@ -31,7 +31,7 @@
   </div>
 </div> -->
 
-<div class="w-full flex flex-col h-screen">
+<!-- <div class="w-full flex flex-col h-screen">
   <div>
     @if (!userRole) {
         <app-navbar-client/>
@@ -44,6 +44,27 @@
   <div class="flex-grow bg-primary">
     <router-outlet/>
   </div>
+</div> -->
+
+<div class="w-full flex flex-col h-screen">
+  @if (showNavbar) {
+    @if (!userRole) {
+      <app-navbar-client></app-navbar-client>
+    } @else if (userRole === 'librarian') {
+      <app-navbar-admin></app-navbar-admin>
+    } @else if (userRole === 'admin') {
+      <app-navbar-super-admin></app-navbar-super-admin>
+    } @else {
+      <span>Unknown state</span>
+    }
+    <div class="flex-grow bg-primary w-full h-full">
+      <router-outlet></router-outlet>
+    </div>
+  } @else {
+    <div class="w-full h-full">
+      <router-outlet></router-outlet>
+    </div>
+  }
 </div>
 
 
