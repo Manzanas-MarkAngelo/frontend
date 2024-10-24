@@ -17,40 +17,50 @@ $startDate = $data['startDate'] ?? '';
 $endDate = $data['endDate'] ?? '';
 $searchTerm = $data['searchTerm'] ?? null;
 
-// Prepare the date range
 $startDate = $startDate ? date('Y-m-d 00:00:00', strtotime($startDate)) : '';
 $endDate = $endDate ? date('Y-m-d 23:59:59', strtotime($endDate)) : '';
 
-// Initialize the where clause for date filtering
 $whereClause = '';
 if ($startDate && $endDate) {
     $whereClause .= " AND t.time_in BETWEEN '$startDate' AND '$endDate'";
 }
 
-// Set correct timezone
 date_default_timezone_set('Asia/Shanghai');
 
-// Escape the search term to prevent SQL injection if it's present
 $searchCondition = '';
 if ($searchTerm && trim($searchTerm) !== '') {
     $searchTerm = $conn->real_escape_string($searchTerm);
     switch ($logType) {
         case 'student':
-            $searchCondition = " AND (s.surname LIKE '%$searchTerm%' OR s.first_name LIKE '%$searchTerm%' OR s.student_number LIKE '%$searchTerm%')";
+            $searchCondition = " AND (s.surname LIKE '%$searchTerm%' 
+                OR s.first_name LIKE '%$searchTerm%' 
+                OR s.student_number LIKE '%$searchTerm%')";
             break;
         case 'faculty':
-            $searchCondition = " AND (f.surname LIKE '%$searchTerm%' OR f.first_name LIKE '%$searchTerm%' OR f.emp_number LIKE '%$searchTerm%')";
+            $searchCondition = " AND (f.surname LIKE '%$searchTerm%' 
+                OR f.first_name LIKE '%$searchTerm%' 
+                OR f.emp_number LIKE '%$searchTerm%')";
             break;
         case 'visitor':
-            $searchCondition = " AND (v.surname LIKE '%$searchTerm%' OR v.first_name LIKE '%$searchTerm%' OR v.identifier LIKE '%$searchTerm%')";
+            $searchCondition = " AND (v.surname LIKE '%$searchTerm%' 
+                OR v.first_name LIKE '%$searchTerm%' 
+                OR v.identifier LIKE '%$searchTerm%')";
+            break;
+        case 'pupt-employee':
+            $searchCondition = " AND (e.surname LIKE '%$searchTerm%' 
+                OR e.first_name LIKE '%$searchTerm%' 
+                OR e.emp_num LIKE '%$searchTerm%')";
             break;
     }
 }
 
-// Add search condition to queries if needed
 switch ($logType) {
     case 'student':
-        $query = "SELECT s.student_number, CONCAT(s.surname, ', ', s.first_name) as name, t.time_in, t.time_out, c.course_abbreviation AS course 
+        $query = "SELECT s.student_number, 
+                         CONCAT(s.surname, ', ', s.first_name) as name, 
+                         t.time_in, 
+                         t.time_out, 
+                         c.course_abbreviation AS course 
                   FROM students s 
                   JOIN time_log t ON s.user_id = t.user_id 
                   LEFT JOIN courses c ON s.course_id = c.id
@@ -64,7 +74,11 @@ switch ($logType) {
                        WHERE 1=1 $whereClause $searchCondition";
         break;
     case 'faculty':
-        $query = "SELECT f.emp_number as faculty_code, CONCAT(f.surname, ', ', f.first_name) as name, t.time_in, t.time_out, d.dept_abbreviation AS department
+        $query = "SELECT f.emp_number as faculty_code, 
+                         CONCAT(f.surname, ', ', f.first_name) as name, 
+                         t.time_in, 
+                         t.time_out, 
+                         d.dept_abbreviation AS department
                   FROM faculty f 
                   JOIN time_log t ON f.user_id = t.user_id 
                   LEFT JOIN departments d ON f.dept_id = d.id
@@ -78,7 +92,10 @@ switch ($logType) {
                        WHERE 1=1 $whereClause $searchCondition";
         break;
     case 'visitor':
-        $query = "SELECT CONCAT(v.surname, ', ', v.first_name) as name, v.school, t.time_in, t.time_out 
+        $query = "SELECT CONCAT(v.surname, ', ', v.first_name) as name, 
+                         v.school, 
+                         t.time_in, 
+                         t.time_out 
                   FROM visitor v 
                   JOIN time_log t ON v.user_id = t.user_id 
                   WHERE 1=1 $whereClause $searchCondition
@@ -89,12 +106,26 @@ switch ($logType) {
                        JOIN time_log t ON v.user_id = t.user_id
                        WHERE 1=1 $whereClause $searchCondition";
         break;
+    case 'pupt-employee':
+        $query = "SELECT e.emp_num AS employee_number, 
+                         CONCAT(e.surname, ', ', e.first_name) as name, 
+                         t.time_in, 
+                         t.time_out 
+                  FROM pupt_employees e 
+                  JOIN time_log t ON e.user_id = t.user_id 
+                  WHERE 1=1 $whereClause $searchCondition
+                  ORDER BY t.time_in DESC
+                  LIMIT ? OFFSET ?";
+        $countQuery = "SELECT COUNT(*) as total 
+                       FROM pupt_employees e 
+                       JOIN time_log t ON e.user_id = t.user_id
+                       WHERE 1=1 $whereClause $searchCondition";
+        break;
     default:
         echo json_encode(['records' => [], 'totalPages' => 0]);
         exit;
 }
 
-// Execute the query and fetch results
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     echo json_encode(['error' => 'Error preparing statement: ' . $conn->error]);
@@ -115,7 +146,6 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Fetch total records for pagination
 $totalResult = $conn->query($countQuery);
 if ($totalResult === false) {
     echo json_encode(['error' => 'Error executing count query: ' . $conn->error]);

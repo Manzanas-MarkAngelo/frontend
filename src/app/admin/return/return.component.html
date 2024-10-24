@@ -1,20 +1,25 @@
-<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary mx-auto justify-start">
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary mx-auto 
+            justify-start">
   <div class="flex w-full p-4 rounded-t-xl gap-2">
     <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
       <div class="flex flex-row w-full md:w-1/2 gap-2">
-        <input type="text"
-        placeholder="Search here (name, course/department, title, author)"
-        class="input input-bordered w-full rounded-xl text-lg font-medium text-primary slide-in-left bg-white"
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="onSearch()"/>
+        <input 
+          type="text"
+          placeholder="Search here (name, course/department, title, author)"
+          class="input input-bordered w-full rounded-xl text-lg font-medium 
+                 text-primary slide-in-left bg-white"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearch()"
+        />
         <button
-        type="button"
-        class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
-               hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
-        (click)="clearSearch()"
-      >
-        Clear
-      </button>
+          type="button"
+          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+                hover:bg-[#ffb700] hover:text-black transition duration-300 
+                slide-in-right"
+          (click)="clearSearch()"
+        >
+          Clear
+        </button>
       </div>
 
       <div class="flex flex-row flex-wrap">
@@ -23,50 +28,66 @@
             <div
               tabindex="0"
               role="button"
-              class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">
+              class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black 
+                     text-lg hover:bg-[#ffb700]">
               {{this.selectedRemark || 'Remark'}}
             </div>
             <ul
               tabindex="0"
-              class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
-              <li><a (click)="onRemarkSelected('In Progress')">In Progress</a></li>
-              <li><a (click)="onRemarkSelected('Returned')">Returned</a></li>
-              <li><a (click)="onRemarkSelected('Returned Late')">Returned Late</a></li>
-              <li><a (click)="onRemarkSelected('Processing')">Processing</a></li>
-              <li><a (click)="onRemarkSelected('Overdue')">Overdue</a></li>
-              <li><a (click)="onRemarkSelected('')">All</a></li> <!-- For showing all items -->
+              class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 
+                     p-2 shadow text-lg font-medium text-black">
+              <li>
+                <a (click)="onRemarkSelected('In Progress')">In Progress</a>
+              </li>
+              <li>
+                <a (click)="onRemarkSelected('Returned')">Returned</a>
+              </li>
+              <li>
+                <a (click)="onRemarkSelected('Returned Late')">Returned Late</a>
+              </li>
+              <li>
+                <a (click)="onRemarkSelected('Processing')">Processing</a>
+              </li>
+              <li>
+                <a (click)="onRemarkSelected('Overdue')">Overdue</a>
+              </li>
+              <li>
+                <a (click)="onRemarkSelected('')">All</a>
+              </li>
             </ul>
           </div>
         </div>
-      
 
         <div class="flex items-center gap-5 slide-in-right">
-          <span class="text-lg font-medium ml-3 text-white">Page {{ currentPage }} / {{ totalPages }}</span>
+          <span class="text-lg font-medium ml-3 text-white">
+            Page {{ currentPage }} / {{ totalPages }}
+          </span>
           <div class="flex gap-2">
-              <button
-                  class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
-                  (click)="previousPage()"
-                  [disabled]="currentPage === 1"
-              >
-                  Previous
-              </button>
-              <button
-                  class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
-                  (click)="nextPage()"
-                  [disabled]="currentPage === totalPages"
-              >
-                  Next
-              </button>
+            <button
+              class="btn border-none bg-secondary text-black 
+                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+              (click)="previousPage()"
+              [disabled]="currentPage === 1"
+            >
+              Previous
+            </button>
+            <button
+              class="btn border-none bg-secondary text-black 
+                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+              (click)="nextPage()"
+              [disabled]="currentPage === totalPages"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
 
   @if (paginatedItems.length > 0) {
-    <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto slide-in-right mb-1">
+    <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto 
+                slide-in-right mb-1">
       <div class="overflow-x-auto">
         <table class="table w-full text-xs md:text-sm">
           <thead>
@@ -91,61 +112,94 @@
                 <td>{{ item.author }}</td>
                 <td>{{ item.dateBorrowed | date: 'MM/dd/yyyy' }}</td>
                 <td>{{ item.dueDate | date: 'MM/dd/yyyy' }}</td>
-                <td>{{ item.returnDate ? (item.returnDate | date: 'MM/dd/yyyy') : '—' }}</td>
+                <td>
+                  {{ item.returnDate 
+                    ? (item.returnDate | date: 'MM/dd/yyyy') 
+                    : '—' 
+                  }}
+                </td>
                 <td>{{ item.remarks }}</td>
                 <td class="text-center">
                   @if (item.remarks === 'In Progress') {
                     <button
-                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium w-28 mx-auto">
+                      class="bg-secondary text-black border-none shadow-none 
+                             btn-sm rounded-xl font-medium w-28 mx-auto"
+                      (click)="openConfirmationModal(item)">
                       Return
                     </button>             
                   } @else if (item.remarks === 'Overdue') {
-                    <!-- Flex container to align Penalty and notification icon horizontally -->
-                    <div class="flex items-center justify-center w-28 mx-auto space-x-2"> 
+                    <div class="flex items-center justify-center w-28 mx-auto 
+                                space-x-2"> 
                       <button 
-                        class="bg-primary text-white border-none shadow-none btn-sm rounded-xl font-medium w-full"
-                        (click)="generatePenaltyReceipt(item)">
+                        class="bg-primary text-white border-none shadow-none 
+                               btn-sm rounded-xl font-medium w-full"
+                        (click)="generatePenaltyReceipt(item)"
+                      >
                         Penalty
                       </button>
                 
-                      <!-- Notification icon with tooltip, side by side with Penalty button -->
                       <div class="relative group">
                         <button 
                           class="ml-1" 
                           [ngClass]="{
                             'text-red-600 cursor-pointer': !item.isNotifiedToday,
-                            'text-gray-400 cursor-not-allowed': item.isNotifiedToday
+                            'text-gray-400 cursor-default': item.isNotifiedToday
                           }"
                           [disabled]="item.isNotifiedToday"
                           (click)="!item.isNotifiedToday && sendNotification(item)">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                          <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke-width="1.5"
+                            stroke="currentColor" 
+                            class="w-6 h-6"
+                          >
+                            <path 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round"
+                              d="M14.857 17.082a23.848 23.848 0 0 0 
+                                 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 
+                                 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 
+                                 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 
+                                 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 
+                                 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 
+                                 8.969 0 0 1 2.168 4.5" 
+                            />
                           </svg>
                         </button>
                 
-                        <!-- Tooltip for Notification -->
                         <div 
-                          class="absolute bottom-full left-0 transform translate-x-[-70%] mb-2 w-max px-2 py-1 rounded-md bg-gray-700 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          {{ item.isNotifiedToday ? 'Borrower Notified' : 'Notify Borrower' }}
+                          class="absolute bottom-full left-0 transform 
+                                 translate-x-[-70%] mb-2 w-max px-2 py-1 
+                                 rounded-md bg-gray-700 text-white text-xs 
+                                 opacity-0 group-hover:opacity-100 
+                                 transition-opacity duration-300">
+                          {{ item.isNotifiedToday 
+                            ? 'Borrower Notified' 
+                            : 'Notify Borrower' 
+                          }}
                         </div>
                       </div>
                     </div>
                   } @else if (item.remarks === 'Processing') {
                     <button 
-                      class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium w-28 mx-auto">
+                      class="bg-secondary text-black border-none shadow-none 
+                             btn-sm rounded-xl font-medium w-28 mx-auto"
+                      (click)="openConfirmationModal(item)">
                       Return
                     </button>
                   } @else if (item.remarks === 'Returned') {
                     <button 
-                      class="bg-gray-400 text-white border-none shadow-none btn-sm rounded-xl font-medium w-28 mx-auto" 
+                      class="bg-gray-400 text-white border-none shadow-none 
+                             btn-sm rounded-xl font-medium w-28 mx-auto" 
                       disabled>
                       Returned
                     </button>
                   } @else if (item.remarks === 'Returned Late') {
                     <button 
-                      class="bg-gray-600 text-white border-none shadow-none btn-sm rounded-xl font-medium w-28 mx-auto" 
+                      class="bg-gray-600 text-white border-none shadow-none 
+                             btn-sm rounded-xl font-medium w-28 mx-auto" 
                       disabled>
                       Returned
                     </button>
@@ -154,6 +208,30 @@
               </tr>
             }
           </tbody>        
+          <tfoot>
+            <tr>
+              <td colspan="100%" class="text-center">
+                <label for="itemsPerPage" 
+                       class="text-primary text-lg font-medium mr-2"
+                >
+                  Show items:
+                </label>
+                <select 
+                  id="itemsPerPage" 
+                  [(ngModel)]="itemsPerPage" 
+                  (change)="onItemsPerPageChange($event)" 
+                  class="bg-secondary text-black border-none shadow-none btn-sm 
+                         rounded-xl font-medium cursor-pointer">
+                  <option 
+                    *ngFor="let option of itemsPerPageOptions" 
+                    [value]="option"
+                  >
+                    {{ option }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -174,11 +252,65 @@
   }
 </div>
 
-<div *ngIf="isSending" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+<div *ngIf="isSending" 
+     class="fixed inset-0 flex items-center justify-center bg-black 
+            bg-opacity-50 z-50">
   <div class="flex flex-col items-center">
-    <img src="../../../assets/spinning-dots.svg" alt="Loading" class="w-16 h-16 animate-spin" />
+    <img 
+      src="../../../assets/spinning-dots.svg" 
+      alt="Loading" 
+      class="w-16 h-16 animate-spin" 
+    />
     <p class="text-white text-lg mt-4">Processing, please wait...</p>
   </div>
 </div>
+
+@if(showConfirmationModal){
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 
+              bg-opacity-50 z-50">
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+        Confirm Book Return
+      </h2>
+      <div class="flex flex-col items-center justify-between h-full">
+        <img 
+          src="../../../assets/return.jpg" 
+          alt="Book Return" 
+          class="w-4/5 h-auto mb-4" />
+        <div class="flex flex-col space-y-4 text-center">
+          <div class="text-yellow-500 italic text-lg">
+            {{ selectedItem?.title }}
+          </div>
+
+          <div class="flex flex-col items-center">
+            <div class="relative">
+              <span class="text-lg font-medium">{{ selectedItem?.name }}</span>
+              <div 
+                class="absolute left-[-10px] right-[-10px] bottom-[-4px] 
+                       h-[2px] bg-black">
+              </div>
+            </div>
+            <div class="text-sm italic mt-1">Borrower</div>
+          </div>
+        </div>
+        <div class="flex flex-row gap-4 w-full mt-4">
+          <button
+            (click)="closeConfirmationModal()"
+            class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+                  hover:bg-[#ffb700] hover:text-black transition duration-300">
+            Back
+          </button>
+          <button
+            (click)="confirmReturn()"
+            class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl 
+                   font-medium hover:bg-[#801e1d] hover:text-white transition 
+                   duration-300">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
 
 <app-snackbar></app-snackbar>

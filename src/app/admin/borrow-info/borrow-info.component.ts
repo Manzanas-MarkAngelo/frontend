@@ -17,6 +17,7 @@ export class BorrowInfoComponent implements OnInit {
   idNumber: string = '';
   isProcessing: boolean = false;
   categories: { cat_id: number, mat_type: string }[] = [];
+  showConfirmationModal: boolean = false;
 
   constructor(
     private route: ActivatedRoute, 
@@ -35,7 +36,6 @@ export class BorrowInfoComponent implements OnInit {
         this.populateForm();
       });
       
-      // Fetch categories (assuming you have a method to fetch categories)
       this.materialsService.getCategories().subscribe(cats => {
         this.categories = cats;
       });
@@ -43,7 +43,6 @@ export class BorrowInfoComponent implements OnInit {
   }
 
   populateForm(): void {
-    console.log('CAT ID:', this.material.categoryid);
     this.material.title = this.material.title || 'unknown/empty';
     this.material.subj = this.material.subject_name || 'unknown/empty';
     this.material.accnum = this.material.accnum || 'unknown/empty';
@@ -55,7 +54,6 @@ export class BorrowInfoComponent implements OnInit {
     this.material.isbn = this.material.isbn || 'unknown/empty';
     this.material.status = this.material.status || 'unknown/empty';
 
-    // Find the matching category by categoryid and assign the mat_type
     const matchingCategory = this.categories.find(cat => cat.cat_id === this.material.categoryid);
     if (matchingCategory) {
       this.material.category = matchingCategory.mat_type;
@@ -66,26 +64,35 @@ export class BorrowInfoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.idNumber) {
-      this.isProcessing = true;
-
-      this.borrowService.borrowBook(this.idNumber, this.material.id)
-        .subscribe(
-          response => {
-            if (response.status === 'success') {
-              this.processEmailNotification();
-            } else {
-              this.isProcessing = false;
-              this.snackbar.showMessage('Error borrowing book: ' + response.message);
-            }
-          },
-          error => {
-            this.isProcessing = false; 
-            this.snackbar.showMessage('Failed to borrow book.');
-          }
-        );
+      this.showConfirmationModal = true;
     } else {
       this.snackbar.showMessage('Please fill in the ID number.');
     }
+  }
+
+  confirmBorrowing(): void {
+    this.isProcessing = true;
+    this.showConfirmationModal = false;
+
+    this.borrowService.borrowBook(this.idNumber, this.material.id)
+      .subscribe(
+        response => {
+          if (response.status === 'success') {
+            this.processEmailNotification();
+          } else {
+            this.isProcessing = false;
+            this.snackbar.showMessage('Error borrowing book: ' + response.message);
+          }
+        },
+        error => {
+          this.isProcessing = false;
+          this.snackbar.showMessage('Failed to borrow book.');
+        }
+      );
+  }
+
+  closeConfirmationModal(): void {
+    this.showConfirmationModal = false;
   }
 
   processEmailNotification(): void {

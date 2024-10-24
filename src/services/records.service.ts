@@ -11,6 +11,7 @@ export class RecordsService {
   private updateFacultyUrl = `${environment.apiUrl}/update_faculty.php`;
   private deleteFacultyUrl = `${environment.apiUrl}/delete_faculty.php`;
   private deleteVisitorUrl = `${environment.apiUrl}/delete_visitor.php`;
+  private deleteEmployeeUrl = `${environment.apiUrl}/delete_employee.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -58,8 +59,6 @@ export class RecordsService {
     );
   }
   
-  
-
   getRecords(recordType: string, itemsPerPage: number, page: number, searchTerm?: string): Observable<any> {
     const payload = { recordType, itemsPerPage, page, searchTerm };
     console.log('GET RECORDS PAYLOAD:', payload); // Log payload for getRecords
@@ -160,6 +159,24 @@ export class RecordsService {
   deleteStudent(userId: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_student.php`;
     return this.http.post<any>(url, { user_id: userId }, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateEmployee(employee: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_employee.php`;
+    return this.http.post<any>(url, employee, {
+        headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+        catchError(this.handleError)
+    );
+  }
+
+  deleteEmployee(user_id: number): Observable<any> {
+    const payload = { user_id };
+    return this.http.post<any>(`${this.deleteEmployeeUrl}`, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
       catchError(this.handleError)
