@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../../../services/course.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-courses',
@@ -18,7 +19,8 @@ export class CoursesComponent implements OnInit {
     private courseService: CourseService,
     private snackbarService: SnackbarService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -32,16 +34,7 @@ export class CoursesComponent implements OnInit {
   }
 
   goBack(): void {
-    console.log('GoBack called');
-    
-    // Navigate to the previous page if available
-    if (this.previousPage) {
-      console.log('Navigating back to:', this.previousPage);
-      this.router.navigate([this.previousPage]); // Navigate to the previous page
-    } else {
-      console.log('No previous page found, navigating to /courses');
-      this.router.navigate(['/courses']); // Fallback to the courses page
-    }
+    this.location.back();
   }
 
   loadCourses(): void {
