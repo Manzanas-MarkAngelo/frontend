@@ -18,7 +18,8 @@ export class ReturnComponent implements OnInit {
   filteredItems: any[] = []; // Filtered items after search
   paginatedItems: any[] = []; // Items to be displayed on the current page
   selectedItem: any;
-  itemsPerPage: number = 11;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   currentPage: number = 1;
   totalPages: number = 1;
   searchTerm: string = '';
@@ -47,6 +48,12 @@ export class ReturnComponent implements OnInit {
       this.searchTerm = term;
       this.filterItems(); // Filter the items based on the search term
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.fetchBorrowingData();
   }
 
   fetchBorrowingData(): void {
