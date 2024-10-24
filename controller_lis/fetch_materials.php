@@ -38,7 +38,7 @@ $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
-$program = isset($_GET['program']) ? '%' . $_GET['program'] . '%' : '';
+$program = isset($_GET['program']) ? $_GET['program'] : '';
 $sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'm.id';
 $sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'DESC';
 
@@ -52,7 +52,25 @@ if (!in_array(strtoupper($sortOrder), $allowedSortOrders)) {
     $sortOrder = 'DESC';
 }
 
-// Update the SQL query to include a join with the subjects table to get subject_name
+// Step 1: If a program is provided, find the subject id from the subjects table
+$subjectId = null;
+if (!empty($program)) {
+    $programSearch = '%' . $program . '%';
+    $subjectSql = "SELECT id FROM subjects WHERE subject_name LIKE ?";
+    $subjectStmt = $conn->prepare($subjectSql);
+    if ($subjectStmt) {
+        $subjectStmt->bind_param('s', $programSearch);
+        $subjectStmt->execute();
+        $subjectResult = $subjectStmt->get_result();
+        $subjectRow = $subjectResult->fetch_assoc();
+        if ($subjectRow) {
+            $subjectId = $subjectRow['id'];
+        }
+        $subjectStmt->close();
+    }
+}
+
+// Step 2: Update the SQL query to include filters
 $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn, m.date_added, c.mat_type, 
                s.subject_name 
         FROM materials m
@@ -64,8 +82,9 @@ if (!empty($category)) {
     $sql .= " AND m.accnum LIKE ?";
 }
 
-if (!empty($program)) {
-    $sql .= " AND (m.title LIKE ? OR m.subj LIKE ?)";
+if (!empty($subjectId)) {
+    // Step 3: Apply the subject_id filter based on the program
+    $sql .= " AND m.subject_id = ?";
 }
 
 if ($sortField === 'categoryid') {
@@ -81,13 +100,13 @@ if (!$stmt) {
     die('Prepare failed: ' . htmlspecialchars($conn->error));
 }
 
+// Step 4: Bind the parameters for the filters
 $params = [$search, $search, $search, $search, $search, $search, $search];
 if (!empty($category)) {
     $params[] = '%' . $category . '%';
 }
-if (!empty($program)) {
-    $params[] = $program;
-    $params[] = $program;
+if (!empty($subjectId)) {
+    $params[] = $subjectId;  // Use the subject ID instead of the program name
 }
 $types = str_repeat('s', count($params));
 $bindParams = array_merge($params, [$limit, $offset]);
@@ -106,6 +125,7 @@ while ($row = $result->fetch_assoc()) {
     $materials[] = $row; // Now includes subject_name
 }
 
+// Count total items for pagination
 $total_sql = "SELECT COUNT(*) as count FROM materials m
               LEFT JOIN category c ON m.categoryid = c.cat_id
               WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
@@ -115,10 +135,9 @@ if (!empty($category)) {
     $total_sql .= " AND m.accnum LIKE ?";
     $total_params[] = '%' . $category . '%';
 }
-if (!empty($program)) {
-    $total_sql .= " AND (m.title LIKE ? OR m.subj LIKE ?)";
-    $total_params[] = $program;
-    $total_params[] = $program;
+if (!empty($subjectId)) {
+    $total_sql .= " AND m.subject_id = ?";
+    $total_params[] = $subjectId;  // Use the subject ID
 }
 $total_types = str_repeat('s', count($total_params));
 

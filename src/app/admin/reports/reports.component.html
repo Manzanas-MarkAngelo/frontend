@@ -88,15 +88,36 @@
               </div>
   
               <div class="dropdown dropdown-bottom slide-in-right">
-                <div tabindex="0" role="button" class="btn mb-1 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
-                  {{ programPlaceholder }}
+                <div tabindex="0" role="button"
+                     class="btn bg-secondary border-none text-black text-lg hover:bg-[#ffca45] flex items-center justify-center w-[250px]" 
+                     (click)="toggleProgramDropdown()">
+                  <span>{{ programPlaceholder || 'Select a Program' }}</span>
                 </div>
-                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-80 p-2 shadow text-lg font-medium text-black">
-                  <li *ngFor="let program of programs">
-                    <a (click)="ProgramPlaceholder(program)">{{ program }}</a>
-                  </li>
-                </ul>              
+              
+                <!-- Dropdown menu with search -->
+                <div *ngIf="isProgramDropdownOpen" 
+                     class="dropdown-content menu bg-secondary rounded-box 
+                            z-[1] w-full text-base font-medium text-black 
+                            max-h-56 overflow-y-auto overflow-x-hidden block">
+                  <!-- Search input -->
+                  <input type="text" placeholder="Search Program..." 
+                         class="input input-bordered w-full mb-2"
+                         [(ngModel)]="programSearchTerm" 
+                        (ngModelChange)="onProgramSearch($event)" />
+              
+                  <!-- Program list -->
+                  <ul tabindex="0">
+                    <li *ngFor="let program of filteredPrograms" class="w-full">
+                      <a (click)="selectProgram(program)" 
+                          class="block w-full px-4 py-2 hover:bg-[#801e1d] 
+                                 hover:text-white">
+                        {{ program }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
+              
   
               <button
               type="button"

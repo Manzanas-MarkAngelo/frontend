@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../../../services/course.service';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-courses',
@@ -11,14 +13,28 @@ export class CoursesComponent implements OnInit {
   courses: any[] = [];
   showModal: boolean = false;
   selectedCourse: any;
+  private previousPage: string | null = null; // Store the previous page based on query param
 
   constructor(
     private courseService: CourseService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
+    // Get the query parameter 'from'
+    this.route.queryParams.subscribe(params => {
+      this.previousPage = params['from'] || null; // Store the previous page if it exists
+      console.log('Came from:', this.previousPage);
+    });
+
     this.loadCourses();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   loadCourses(): void {

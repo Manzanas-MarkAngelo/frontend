@@ -55,7 +55,8 @@
                 </div>
               </div>
               <div class="card bg-base-100 w-60 h-36 shadow-xl m-5 slide-in-top cursor-pointer"
-              routerLink="/courses">
+              [routerLink]="['/courses']" [queryParams]="{ from: 'analytics' }">
+
                 <div class="card-body">
                   <h2 class="card-title text-black">Total Programs:</h2>
                   <p class="font-bold text-4xl text-gray-950">
