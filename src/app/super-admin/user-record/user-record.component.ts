@@ -47,6 +47,10 @@ export class UserRecordComponent implements OnInit {
         this.searchPlaceholder = 'Search visitor log';
         this.fetchLogs('visitor');
         break;
+      case 'pupt-employee_log':
+        this.searchPlaceholder = 'Search employee log';
+        this.fetchLogs('pupt-employee');
+        break;
       default:
         this.searchPlaceholder = 'Search student log';
         this.fetchLogs('student');
