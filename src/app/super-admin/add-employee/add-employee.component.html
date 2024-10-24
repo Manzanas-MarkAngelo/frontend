@@ -1,5 +1,6 @@
 <div class="flex items-start justify-center pt-40 bg-primary">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full 
+                slide-in-right">
       <div class="flex items-end justify-between">
         <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
           Add employee
@@ -15,55 +16,27 @@
               type="text"
               [(ngModel)]="empNum"
               placeholder="Enter Employee number here"
-              class="mt-1 
-                     block 
-                     w-full 
-                     rounded-xl 
-                     border 
-                     border-gray-300 
-                     px-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
+              class="mt-1 block w-full rounded-xl border border-gray-300 px-6 
+                     py-2 focus:ring-opacity-50 text-lg"
               [ngClass]="{'border-red-500': 
                 (!empNum && hasFormErrors) || 
                 !isEmpNumValid || isUserExists}"
-              (input)="onFieldInput('empNum')"/>
+              (input)="onFieldInput('empNum')"
+            />
             @if ((!empNum && hasFormErrors) || !isEmpNumValid || isUserExists) {
               <span
-                class="absolute 
-                      right-2 
-                      top-1/2 
-                      transform 
-                      -translate-y-1/2 
-                      text-red-500 
-                      cursor-pointer 
-                      group">
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                      text-red-500 cursor-pointer group">
                 <img
                   src="../../../assets/Exclamation_flat_icon.svg.png"
                   alt="Exclamation Mark"
-                  class="h-4 
-                        w-4 
-                        mt-1"/>
+                  class="h-4 w-4 mt-1"
+                />
                 <span
-                  class="absolute 
-                        right-6 
-                        top-1/2 
-                        transform 
-                        -translate-y-1/2 
-                        mr-1 
-                        w-max 
-                        bg-red-500 
-                        text-white 
-                        text-xs 
-                        rounded 
-                        py-1 
-                        px-2 
-                        shadow-lg 
-                        z-10 
-                        whitespace-nowrap 
-                        group-hover:block 
-                        hidden">
+                  class="absolute right-6 top-1/2 transform -translate-y-1/2
+                         mr-1 w-max bg-red-500 text-white text-xs rounded py-1 
+                         px-2 shadow-lg z-10 whitespace-nowrap group-hover:block 
+                         hidden">
                   {{ !empNum && hasFormErrors ? 'Employee number cannot be empty.' 
                         : !isEmpNumValid ? empNumError 
                         : isUserExists ? userExistsError : '' }}
@@ -76,24 +49,10 @@
               id="sex"
               name="sex"
               [(ngModel)]="sex"
-              class="block 
-                     appearance-none 
-                     w-full 
-                     bg-white 
-                     text-gray-700 
-                     border 
-                     border-gray-300 
-                     font-medium 
-                     py-3 
-                     px-6 
-                     pr-8 
-                     rounded-xl 
-                     leading-tight 
-                     focus:outline-none 
-                     focus:bg-white 
-                     cursor-pointer 
-                     text-lg 
-                     mt-1"
+              class="block appearance-none w-full bg-white text-gray-700 border 
+                     border-gray-300 font-medium py-3 px-6 pr-8 rounded-xl 
+                     leading-tight focus:outline-none focus:bg-white 
+                     cursor-pointer text-lg mt-1"
               [ngClass]="{'border-red-500': !sex && hasFormErrors}"
               (input)="onFieldInput('sex')">
               <option value="" disabled selected>Gender</option>
@@ -103,52 +62,25 @@
             </select>
             @if (!sex && hasFormErrors) {
               <span
-                class="absolute 
-                       right-2 
-                       top-1/2 
-                       transform 
-                       -translate-y-1/2 
-                       text-red-500 
-                       cursor-pointer 
-                       group">
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                       text-red-500 cursor-pointer group">
                 <img
                   src="../../../assets/Exclamation_flat_icon.svg.png"
                   alt="Exclamation Mark"
-                  class="h-4 
-                        w-4 
-                        mt-1"/>
+                  class="h-4 w-4 mt-1"
+                />
                 <span
-                  class="absolute 
-                        right-6 
-                        top-1/2 
-                        transform 
-                        -translate-y-1/2 
-                        mr-1 
-                        w-max 
-                        bg-red-500 
-                        text-white 
-                        text-xs 
-                        rounded 
-                        py-1 
-                        px-2 
-                        shadow-lg 
-                        z-10 
-                        whitespace-nowrap 
-                        group-hover:block 
+                  class="absolute right-6 top-1/2 transform -translate-y-1/2 
+                        mr-1 w-max bg-red-500 text-white text-xs rounded py-1 
+                        px-2 shadow-lg z-10 whitespace-nowrap group-hover:block 
                         hidden">
                   Gender must be selected.
                 </span>
               </span>
             }
             <div
-              class="pointer-events-none 
-                     absolute 
-                     inset-y-0 
-                     top-1.5 
-                     right-2 
-                     flex 
-                     items-center 
-                     text-gray-700">
+              class="pointer-events-none absolute inset-y-0 top-1.5 right-2 flex 
+                     items-center text-gray-700">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -171,54 +103,25 @@
               name="fname"
               type="text"
               [(ngModel)]="firstName"
-              class="mt-1 
-                     block 
-                     w-full 
-                     rounded-xl 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
+              class="mt-1 block w-full rounded-xl border border-gray-300 px-3 
+                     pl-6 py-2 focus:ring-opacity-50 text-lg"
               placeholder="First name"
               [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
-              (input)="onFieldInput('firstName')"/>
+              (input)="onFieldInput('firstName')"
+            />
             @if (!firstName && hasFormErrors) {
               <span
-                class="absolute 
-                       right-2 
-                       top-1/2 
-                       transform 
-                       -translate-y-1/2 
-                       text-red-500 
-                       cursor-pointer 
-                       group">
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                       text-red-500 cursor-pointer group">
               <img
                 src="../../../assets/Exclamation_flat_icon.svg.png"
                 alt="Exclamation Mark"
-                class="h-4 
-                       w-4 
-                       mt-1"/>
+                class="h-4 w-4 mt-1"
+              />
               <span
-                class="absolute 
-                       right-6 
-                       top-1/2 
-                       transform 
-                       -translate-y-1/2 
-                       mr-1 
-                       w-max 
-                       bg-red-500 
-                       text-white 
-                       text-xs 
-                       rounded 
-                       py-1 
-                       px-2 
-                       shadow-lg 
-                       z-10 
-                       whitespace-nowrap 
-                       group-hover:block 
+                class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block 
                        hidden">
                 First name cannot be empty.
               </span>
@@ -231,54 +134,25 @@
               name="lname"
               type="text"
               [(ngModel)]="lastName"
-              class="mt-1 
-                     block 
-                     w-full 
-                     rounded-xl 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
+              class="mt-1 block w-full rounded-xl border border-gray-300 px-3 
+                     pl-6 py-2 focus:ring-opacity-50 text-lg"
               placeholder="Last name"
               [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
-              (input)="onFieldInput('lastName')"/>
+              (input)="onFieldInput('lastName')"
+            />
             @if (!lastName && hasFormErrors) {
               <span
-                class="absolute 
-                       right-2 
-                       top-1/2 
-                       transform 
-                       -translate-y-1/2 
-                       text-red-500 
-                       cursor-pointer 
-                       group">
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                       text-red-500 cursor-pointer group">
               <img
                 src="../../../assets/Exclamation_flat_icon.svg.png"
                 alt="Exclamation Mark"
-                class="h-4 
-                       w-4 
-                       mt-1"/>
+                class="h-4 w-4 mt-1"
+              />
               <span
-                class="absolute 
-                       right-6 
-                       top-1/2 
-                       transform 
-                       -translate-y-1/2 
-                       mr-1 
-                       w-max 
-                       bg-red-500 
-                       text-white 
-                       text-xs 
-                       rounded 
-                       py-1 
-                       px-2 
-                       shadow-lg 
-                       z-10 
-                       whitespace-nowrap
-                       group-hover:block 
+                class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrapgroup-hover:block 
                        hidden">
                 Last name cannot be empty.
               </span>
@@ -293,56 +167,28 @@
               name="contact"
               type="text"
               [(ngModel)]="contact"
-              class="mt-1 
-                     block 
-                     w-full 
-                     rounded-xl 
-                     border 
-                     border-gray-300 
-                     px-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
+              class="mt-1 block w-full rounded-xl border border-gray-300 px-6 
+                     py-2 focus:ring-opacity-50 text-lg"
               placeholder="Contact number"
               [ngClass]="{'border-red-500': 
               (!contact && hasFormErrors) || !isContactValid || isContactExists}"
-              (input)="onFieldInput('contact')"/>
+              (input)="onFieldInput('contact')"
+            />
             @if ((!contact && hasFormErrors) || !isContactValid 
             || isContactExists) {
             <span
-              class="absolute 
-                     right-2 
-                     top-1/2 
-                     transform 
-                     -translate-y-1/2 
-                     text-red-500 
-                     cursor-pointer 
-                     group">
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                     text-red-500 cursor-pointer group">
               <img
                 src="../../../assets/Exclamation_flat_icon.svg.png"
                 alt="Exclamation Mark"
-                class="h-4 
-                       w-4 
-                       mt-1"/>
-  
+                class="h-4 w-4 mt-1"
+              />
               <span
-                class="absolute 
-                       right-6 
-                       top-1/2 
-                       transform 
-                       -translate-y-1/2 
-                       mr-1 
-                       w-max 
-                       bg-red-500 
-                       text-white 
-                       text-xs 
-                       rounded 
-                       py-1 
-                       px-2 
-                       shadow-lg 
-                       z-10 
-                       whitespace-nowrap 
-                       group-hover:block hidden">
+                class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block 
+                       hidden">
                 {{ !contact && hasFormErrors ? 'Contact number cannot be empty.' 
                        : !isContactValid ? contactError 
                        : isContactExists ? contactExistsError : '' }}
@@ -356,53 +202,25 @@
               name="email"
               type="text"
               [(ngModel)]="email"
-              class="mt-1 
-                     block 
-                     w-full 
-                     rounded-xl 
-                     border 
-                     border-gray-300 
-                     px-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
+              class="mt-1 block w-full rounded-xl border border-gray-300 px-6 
+                     py-2 focus:ring-opacity-50 text-lg"
               placeholder="Email"
               [ngClass]="{'border-red-500': 
                 (!email && hasFormErrors) || !isEmailValid }"
               (input)="onFieldInput('email')"/>
             @if ((!email && hasFormErrors) || !isEmailValid ) {
             <span
-              class="absolute 
-                     right-2 
-                     top-1/2 
-                     transform 
-                     -translate-y-1/2 
-                     text-red-500 
-                     cursor-pointer 
-                     group">
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                     text-red-500 cursor-pointer group">
               <img
                 src="../../../assets/Exclamation_flat_icon.svg.png"
                 alt="Exclamation Mark"
-                class="h-4 
-                       w-4 
-                       mt-1"/>
+                class="h-4 w-4 mt-1"
+              />
               <span
-                class="absolute 
-                       right-6 
-                       top-1/2 
-                       transform 
-                       -translate-y-1/2 
-                       mr-1 
-                       w-max 
-                       bg-red-500 
-                       text-white 
-                       text-xs rounded 
-                       py-1 
-                       px-2 
-                       shadow-lg 
-                       z-10 
-                       whitespace-nowrap 
-                       group-hover:block 
+                class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block 
                        hidden">
                 {{ !email && hasFormErrors ? 'Email cannot be empty.' 
                        : !isEmailValid ? emailError : '' }}
@@ -414,33 +232,16 @@
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             type="button"
-            class="flex-1 
-                   bg-primary 
-                   text-white 
-                   px-6 
-                   py-3 
-                   rounded-xl 
-                   font-medium 
-                   hover:bg-[#ffb700] 
-                   hover:text-black
-                   transition 
-                   duration-300"
+            class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+                   hover:bg-[#ffb700] hover:text-blacktransition duration-300"
             (click)="goBack()"
           >
             Cancel
           </button>
           <button
             type="submit"
-            class="flex-1
-                   bg-secondary 
-                   text-black 
-                   px-6 
-                   py-3 
-                   rounded-xl 
-                   font-medium 
-                   hover:bg-[#801e1d] 
-                   hover:text-white 
-                   transition 
+            class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl 
+                   font-medium hover:bg-[#801e1d] hover:text-white transition 
                    duration-300">
             Continue
           </button>
@@ -472,34 +273,23 @@
           <div><strong>Email:</strong> {{ email }}</div>
         </div>
       </div>
-  
       <div class="modal-action justify-center items-center">
         <button
-          class="btn 
-                 w-40 
-                 bg-primary 
-                 text-white 
-                 hover:bg-[#ffb700] 
+          class="btn w-40 bg-primary text-white hover:bg-[#ffb700] 
                  hover:text-black"
           (click)="closeConfirmationModal()"
         >
           Close
         </button>
-  
         <button
           type="button"
-          class="btn 
-                 w-40 
-                 bg-secondary 
-                 text-black 
-                 hover:bg-[#801e1d] 
+          class="btn w-40 bg-secondary text-black hover:bg-[#801e1d] 
                  hover:text-white"
           (click)="submitForm()"
         >
           Submit
         </button>
       </div>
-  
     </div>
   </dialog>
   
