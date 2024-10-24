@@ -11,6 +11,7 @@ export class RecordsService {
   private updateFacultyUrl = `${environment.apiUrl}/update_faculty.php`;
   private deleteFacultyUrl = `${environment.apiUrl}/delete_faculty.php`;
   private deleteVisitorUrl = `${environment.apiUrl}/delete_visitor.php`;
+  private deleteEmployeeUrl = `${environment.apiUrl}/delete_employee.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -160,6 +161,15 @@ export class RecordsService {
   deleteStudent(userId: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_student.php`;
     return this.http.post<any>(url, { user_id: userId }, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteEmployee(user_id: number): Observable<any> {
+    const payload = { user_id };
+    return this.http.post<any>(`${this.deleteEmployeeUrl}`, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
       catchError(this.handleError)

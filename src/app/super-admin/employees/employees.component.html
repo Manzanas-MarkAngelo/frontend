@@ -1,162 +1,153 @@
-
 <div class="flex flex-col w-full bg-primary items-center pt-2">
-    <div class="flex flex-row flex-wrap w-11/12 lg:w-2/3 mt-1 justify-between gap-1 mb-3">
-      <div class="flex flex-row w-full md:w-1/2 gap-2">
-        <input 
+  <div class="flex flex-row flex-wrap w-11/12 lg:w-2/3 mt-1 justify-between 
+              gap-1 mb-3">
+    <div class="flex flex-row w-full md:w-1/2 gap-2">
+      <input 
         type="text" 
-        placeholder="Search student" 
+        placeholder="Search employee" 
         class="input input-bordered w-full rounded-xl text-lg font-medium 
-               text-primary slide-in-left bg-white"/>
-        <button
+               text-primary slide-in-left bg-white"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange($event)" 
+      />
+      <button
         type="button"
         class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
-               hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right">
+               hover:bg-[#ffb700] hover:text-black transition duration-300 
+               slide-in-right"
+        (click)="clearLogType()"
+      >
         Clear
       </button>
-      </div>
+    </div>
 
-      <div class="flex flex-row w-auto flex-wrap gap-1">
-        <button
+    <div class="flex flex-row w-auto flex-wrap gap-1">
+      <button
         routerLink="/add-employee"
         type="submit"
         class="h-[3rem] bg-secondary text-black rounded-xl px-4 font-medium 
-        hover:bg-white hover:text-[#801e1d] transition duration-300 slide-in-right">
-        Add employee
+               hover:bg-white hover:text-[#801e1d] transition duration-300 
+               slide-in-right"
+      >
+        Add Employee
       </button>
-
-          <div class="flex justify-between items-center gap-5 slide-in-right mb-1">
-            <span class="text-lg font-medium ml-3 text-white">
-              Page 1 / 
-            </span>
-            <div class="flex gap-2">
-              <button
-                class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]">
-                Previous
-              </button>
-              <button
-                class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]">
-                Next
-              </button>
-              </div>
-          </div>
-      </div>
-    </div>
-
-    <!-- @if (logs.length > 0) { -->
-      <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-2/3 slide-in-right mb-5">
-        <div class="overflow-x-auto">
-            <table class="table w-full">
-                <thead class="text-sm" >
-                  <tr class="text-primary text-start">
-                    <th class="text-start">Employee number</th>
-                    <th class="text-start">Name</th>
-                    <th class="text-start">Gender</th>
-                    <th class="text-start">Phone Number</th>
-                    <th class="text-start">Email</th>
-                    <th class="text-start">Date of Registration</th>
-                    <th class="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody class="text-start">
-                  <tr>
-                    <td>sample123</td>
-                    <td>sample123</td>
-                    <td>sample123</td>
-                    <td>sample123</td>
-                    <td>sample123</td>
-                    <td>sample123</td>
-                    <td class="text-center"> 
-                        <button class="bg-secondary 
-                                    text-black 
-                                    border-none 
-                                    shadow-none 
-                                    btn-sm 
-                                    rounded-xl 
-                                    font-medium
-                                    mr-1
-                                    mb-0.5">
-                            Edit
-                        </button>
-                        <button class="bg-primary 
-                                    text-white 
-                                    border-none 
-                                    shadow-none 
-                                    btn-sm 
-                                    rounded-xl 
-                                    font-medium">
-                            Delete
-                        </button>
-                      </td>
-                  </tr>
-                </tbody>
-              </table>
+      
+      <div class="flex justify-between items-center gap-5 slide-in-right mb-1">
+        <span class="text-lg font-medium ml-3 text-white">
+          Page {{ currentPage }} / {{ totalPages }}
+        </span>
+        <div class="flex gap-2">
+          <button
+            class="btn border-none bg-secondary text-black hover:bg-primary-focus 
+                   hover:bg-white hover:text-[#801e1d]"
+            [disabled]="currentPage === 1"
+            (click)="onPageChange(currentPage - 1)"
+          >
+            Previous
+          </button>
+          <button
+            class="btn border-none bg-secondary text-black hover:bg-primary-focus 
+                   hover:bg-white hover:text-[#801e1d]"
+            [disabled]="currentPage === totalPages"
+            (click)="onPageChange(currentPage + 1)"
+          >
+            Next
+          </button>
         </div>
       </div>
-    <!-- } @else {
-      <div class="flex justify-center items-center mt-20 slide-in-below">
-        <div class="card bg-primary w-96">
-            <figure class="px-10 pt-10">
-              <img
-                src="../../../assets/no-match1.svg"
-                alt="no-match"/>
-            </figure>
-            <div class="card-body items-center text-center">
-              <h2 class="card-title text-white">Nothing match your search!</h2>
-              <p class="text-white">Didn't find what you're looking for?</p>
-            </div>
-          </div>
+    </div>
+  </div>
+
+  @if (logs.length > 0) {
+    <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-2/3 
+                slide-in-right mb-5">
+      <div class="overflow-x-auto">
+        <table class="table w-full">
+          <thead class="text-primary text-sm">
+            <tr>
+              <th>Employee Number</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Phone Number</th>
+              <th>Email</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let log of logs">
+              <td>{{ log.emp_num }}</td>
+              <td>{{ log.name }}</td>
+              <td>{{ log.gender }}</td>
+              <td>{{ log.phone_number }}</td>
+              <td>{{ log.email }}</td>
+              <td class="text-center">
+                <button 
+                  class="bg-secondary text-black border-none shadow-none btn-sm 
+                         rounded-xl font-medium mr-1 mb-0.5"
+                  [routerLink]="['/edit-employee', log.user_id]"
+                >
+                  Edit
+                </button>
+                <button 
+                  class="bg-primary text-white border-none shadow-none btn-sm 
+                         rounded-xl font-medium"
+                  (click)="openDeleteModal(log.user_id, log.name)"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    } -->
+    </div>
+  } @else {
+    <div class="flex justify-center items-center mt-20 slide-in-below">
+      <div class="card bg-primary w-96">
+        <figure class="px-10 pt-10">
+          <img src="../../../assets/no-match1.svg" alt="no-match"/>
+        </figure>
+        <div class="card-body items-center text-center">
+          <h2 class="card-title text-white">Nothing matches your search!</h2>
+          <p class="text-white">Didn't find what you're looking for?</p>
+        </div>
+      </div>
+    </div>
+  }
 
 </div>
 
-<!-- @if(showModal) {
-  <div 
-      class="fixed inset-0 flex items-center 
-             justify-center bg-gray-800 bg-opacity-50">
-      <div class="bg-white p-8 rounded-xl shadow-lg w-2/3 max-w-md">
-      <h2 class="text-center text-xl font-medium text-primary mb-3">
-          Do you really want to delete this employee? 
-          <div class="text-yellow-500 mt-4 italic">
-            {{selectedStudentName}}
-          </div>
-      </h2>
-      <div class="flex flex-col items-center justify-between h-full">
-          <div class="flex flex-row gap-4 w-full mt-4">
-          <button
-              
-              class="flex-1
-                  bg-red-800 
-                  text-white 
-                  px-6 
-                  py-3 
-                  rounded-xl 
-                  font-medium 
-                  hover:bg-red-700
-                  transition 
-                  duration-300">
-              Cancel
-          </button>
-          <button
-              
-              class="flex-1
-                  bg-green-600 
-                  text-white 
-                  px-6 
-                  py-3 
-                  rounded-xl 
-                  font-medium 
-                  hover:bg-green-500 
-                  transition 
-                  duration-300">
-              Confirm
-          </button>
-          </div>
+@if(showModal) {
+<div 
+    class="fixed inset-0 flex items-center 
+           justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-xl font-medium text-primary mb-3">
+        Do you really want to delete this employee? 
+        <div class="text-yellow-500 mt-4 italic">
+          {{ selectedEmployeeName }}
+        </div>
+    </h2>
+    <div class="flex flex-col items-center justify-between h-full">
+      <div class="flex flex-row gap-4 w-full mt-4">
+        <button
+          (click)="hideModal()"
+          class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-red-700 transition duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          (click)="deleteEmployee()"
+          class="flex-1 bg-green-600 text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-green-500 transition duration-300"
+        >
+          Confirm
+        </button>
       </div>
-      </div>
+    </div>
   </div>
+</div>
+}
 
-} -->
-
-<!-- Snackbar for feedback -->
-<app-snackbar-delete/>
+<app-snackbar></app-snackbar>
