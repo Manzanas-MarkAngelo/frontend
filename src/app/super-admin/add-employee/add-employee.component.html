@@ -6,13 +6,17 @@
         </h1>
       </div>
   
-      <form>
+      <form (ngSubmit)="onSubmit()">
         <div class="mb-4 mt-4 flex items-center space-x-4">
           <div class="relative flex-grow">
             <input
+              id="empNum"
+              name="empNum"
               type="text"
-              placeholder="Enter your Employee number here"
-              class="mt-1 block 
+              [(ngModel)]="empNum"
+              placeholder="Enter Employee number here"
+              class="mt-1 
+                     block 
                      w-full 
                      rounded-xl 
                      border 
@@ -20,13 +24,58 @@
                      px-6 
                      py-2 
                      focus:ring-opacity-50 
-                     text-lg"/>
+                     text-lg"
+              [ngClass]="{'border-red-500': 
+                (!empNum && hasFormErrors) || 
+                !isEmpNumValid || isUserExists}"
+              (input)="onFieldInput('empNum')"/>
+            @if ((!empNum && hasFormErrors) || !isEmpNumValid || isUserExists) {
+              <span
+                class="absolute 
+                      right-2 
+                      top-1/2 
+                      transform 
+                      -translate-y-1/2 
+                      text-red-500 
+                      cursor-pointer 
+                      group">
+                <img
+                  src="../../../assets/Exclamation_flat_icon.svg.png"
+                  alt="Exclamation Mark"
+                  class="h-4 
+                        w-4 
+                        mt-1"/>
+                <span
+                  class="absolute 
+                        right-6 
+                        top-1/2 
+                        transform 
+                        -translate-y-1/2 
+                        mr-1 
+                        w-max 
+                        bg-red-500 
+                        text-white 
+                        text-xs 
+                        rounded 
+                        py-1 
+                        px-2 
+                        shadow-lg 
+                        z-10 
+                        whitespace-nowrap 
+                        group-hover:block 
+                        hidden">
+                  {{ !empNum && hasFormErrors ? 'Employee number cannot be empty.' 
+                        : !isEmpNumValid ? empNumError 
+                        : isUserExists ? userExistsError : '' }}
+                </span>
+              </span>
+            }
           </div>
           <div class="relative mr-44">
             <select
               id="sex"
               name="sex"
-
+              [(ngModel)]="sex"
               class="block 
                      appearance-none 
                      w-full 
@@ -44,13 +93,99 @@
                      focus:bg-white 
                      cursor-pointer 
                      text-lg 
-                     mt-1">
+                     mt-1"
+              [ngClass]="{'border-red-500': !sex && hasFormErrors}"
+              (input)="onFieldInput('sex')">
               <option value="" disabled selected>Gender</option>
               <option>Male</option>
               <option>Female</option>
-              <option value="Prefer not to say">Prefer not to say</option>
+              <option>Prefer not to say</option>
             </select>
-            <!-- @if (!sex && hasFormErrors) {
+            @if (!sex && hasFormErrors) {
+              <span
+                class="absolute 
+                       right-2 
+                       top-1/2 
+                       transform 
+                       -translate-y-1/2 
+                       text-red-500 
+                       cursor-pointer 
+                       group">
+                <img
+                  src="../../../assets/Exclamation_flat_icon.svg.png"
+                  alt="Exclamation Mark"
+                  class="h-4 
+                        w-4 
+                        mt-1"/>
+                <span
+                  class="absolute 
+                        right-6 
+                        top-1/2 
+                        transform 
+                        -translate-y-1/2 
+                        mr-1 
+                        w-max 
+                        bg-red-500 
+                        text-white 
+                        text-xs 
+                        rounded 
+                        py-1 
+                        px-2 
+                        shadow-lg 
+                        z-10 
+                        whitespace-nowrap 
+                        group-hover:block 
+                        hidden">
+                  Gender must be selected.
+                </span>
+              </span>
+            }
+            <div
+              class="pointer-events-none 
+                     absolute 
+                     inset-y-0 
+                     top-1.5 
+                     right-2 
+                     flex 
+                     items-center 
+                     text-gray-700">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-5">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center space-x-4">
+          <div class="relative flex-grow">
+            <input
+              id="fname"
+              name="fname"
+              type="text"
+              [(ngModel)]="firstName"
+              class="mt-1 
+                     block 
+                     w-full 
+                     rounded-xl 
+                     border 
+                     border-gray-300 
+                     px-3 
+                     pl-6 
+                     py-2 
+                     focus:ring-opacity-50 
+                     text-lg"
+              placeholder="First name"
+              [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
+              (input)="onFieldInput('firstName')"/>
+            @if (!firstName && hasFormErrors) {
               <span
                 class="absolute 
                        right-2 
@@ -85,58 +220,17 @@
                        whitespace-nowrap 
                        group-hover:block 
                        hidden">
-                Gender must be selected.
+                First name cannot be empty.
               </span>
             </span>
-            } -->
-            <div
-              class="pointer-events-none 
-                     absolute 
-                     inset-y-0 
-                     top-1.5 
-                     right-2 
-                     flex 
-                     items-center 
-                     text-gray-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-5">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="mb-4 mt-1 flex items-center space-x-4">
-          <div class="relative flex-grow">
-            <input
-              id="fname"
-              name="fname"
-              type="text"
-              class="mt-1 
-                     block 
-                     w-full 
-                     rounded-xl 
-                     border 
-                     border-gray-300 
-                     px-3 
-                     pl-6 
-                     py-2 
-                     focus:ring-opacity-50 
-                     text-lg"
-              placeholder="First name"/>
+            }
           </div>
           <div class="relative flex-grow">
             <input
               id="lname"
               name="lname"
               type="text"
+              [(ngModel)]="lastName"
               class="mt-1 
                      block 
                      w-full 
@@ -148,7 +242,48 @@
                      py-2 
                      focus:ring-opacity-50 
                      text-lg"
-              placeholder="Last name"/>
+              placeholder="Last name"
+              [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
+              (input)="onFieldInput('lastName')"/>
+            @if (!lastName && hasFormErrors) {
+              <span
+                class="absolute 
+                       right-2 
+                       top-1/2 
+                       transform 
+                       -translate-y-1/2 
+                       text-red-500 
+                       cursor-pointer 
+                       group">
+              <img
+                src="../../../assets/Exclamation_flat_icon.svg.png"
+                alt="Exclamation Mark"
+                class="h-4 
+                       w-4 
+                       mt-1"/>
+              <span
+                class="absolute 
+                       right-6 
+                       top-1/2 
+                       transform 
+                       -translate-y-1/2 
+                       mr-1 
+                       w-max 
+                       bg-red-500 
+                       text-white 
+                       text-xs 
+                       rounded 
+                       py-1 
+                       px-2 
+                       shadow-lg 
+                       z-10 
+                       whitespace-nowrap
+                       group-hover:block 
+                       hidden">
+                Last name cannot be empty.
+              </span>
+            </span>
+            }
           </div>
         </div>
         <div class="mb-4 flex items-center space-x-4">
@@ -157,6 +292,7 @@
               id="contact"
               name="contact"
               type="text"
+              [(ngModel)]="contact"
               class="mt-1 
                      block 
                      w-full 
@@ -167,13 +303,59 @@
                      py-2 
                      focus:ring-opacity-50 
                      text-lg"
-              placeholder="Contact number"/>
+              placeholder="Contact number"
+              [ngClass]="{'border-red-500': 
+              (!contact && hasFormErrors) || !isContactValid || isContactExists}"
+              (input)="onFieldInput('contact')"/>
+            @if ((!contact && hasFormErrors) || !isContactValid 
+            || isContactExists) {
+            <span
+              class="absolute 
+                     right-2 
+                     top-1/2 
+                     transform 
+                     -translate-y-1/2 
+                     text-red-500 
+                     cursor-pointer 
+                     group">
+              <img
+                src="../../../assets/Exclamation_flat_icon.svg.png"
+                alt="Exclamation Mark"
+                class="h-4 
+                       w-4 
+                       mt-1"/>
+  
+              <span
+                class="absolute 
+                       right-6 
+                       top-1/2 
+                       transform 
+                       -translate-y-1/2 
+                       mr-1 
+                       w-max 
+                       bg-red-500 
+                       text-white 
+                       text-xs 
+                       rounded 
+                       py-1 
+                       px-2 
+                       shadow-lg 
+                       z-10 
+                       whitespace-nowrap 
+                       group-hover:block hidden">
+                {{ !contact && hasFormErrors ? 'Contact number cannot be empty.' 
+                       : !isContactValid ? contactError 
+                       : isContactExists ? contactExistsError : '' }}
+              </span>
+            </span>
+            }
           </div>
           <div class="relative flex-grow">
             <input
               id="email"
               name="email"
               type="text"
+              [(ngModel)]="email"
               class="mt-1 
                      block 
                      w-full 
@@ -184,7 +366,49 @@
                      py-2 
                      focus:ring-opacity-50 
                      text-lg"
-              placeholder="Email"/>
+              placeholder="Email"
+              [ngClass]="{'border-red-500': 
+                (!email && hasFormErrors) || !isEmailValid }"
+              (input)="onFieldInput('email')"/>
+            @if ((!email && hasFormErrors) || !isEmailValid ) {
+            <span
+              class="absolute 
+                     right-2 
+                     top-1/2 
+                     transform 
+                     -translate-y-1/2 
+                     text-red-500 
+                     cursor-pointer 
+                     group">
+              <img
+                src="../../../assets/Exclamation_flat_icon.svg.png"
+                alt="Exclamation Mark"
+                class="h-4 
+                       w-4 
+                       mt-1"/>
+              <span
+                class="absolute 
+                       right-6 
+                       top-1/2 
+                       transform 
+                       -translate-y-1/2 
+                       mr-1 
+                       w-max 
+                       bg-red-500 
+                       text-white 
+                       text-xs rounded 
+                       py-1 
+                       px-2 
+                       shadow-lg 
+                       z-10 
+                       whitespace-nowrap 
+                       group-hover:block 
+                       hidden">
+                {{ !email && hasFormErrors ? 'Email cannot be empty.' 
+                       : !isEmailValid ? emailError : '' }}
+              </span>
+            </span>
+            }
           </div>
         </div>
         <div class="flex flex-row gap-4 w-full mt-4">
@@ -200,7 +424,9 @@
                    hover:bg-[#ffb700] 
                    hover:text-black
                    transition 
-                   duration-300">
+                   duration-300"
+            (click)="goBack()"
+          >
             Cancel
           </button>
           <button
@@ -238,12 +464,12 @@
           class="w-4/5 h-auto mb-4" 
         />
         <div class="flex flex-col space-y-2">
-          <div><strong>Employee number:</strong> 12345</div>
-          <div><strong>First Name:</strong> sample</div>
-          <div><strong>Last Name:</strong> sample</div>
-          <div><strong>Gender:</strong> sample</div>
-          <div><strong>Phone Number:</strong> sample</div>
-          <div><strong>Email:</strong> sample</div>
+          <div><strong>Employee number:</strong> {{ empNum }}</div>
+          <div><strong>First Name:</strong> {{ firstName }}</div>
+          <div><strong>Last Name:</strong> {{ lastName }}</div>
+          <div><strong>Gender:</strong> {{ sex }}</div>
+          <div><strong>Phone Number:</strong> {{ contact }}</div>
+          <div><strong>Email:</strong> {{ email }}</div>
         </div>
       </div>
   
@@ -254,7 +480,9 @@
                  bg-primary 
                  text-white 
                  hover:bg-[#ffb700] 
-                 hover:text-black">
+                 hover:text-black"
+          (click)="closeConfirmationModal()"
+        >
           Close
         </button>
   
@@ -265,7 +493,9 @@
                  bg-secondary 
                  text-black 
                  hover:bg-[#801e1d] 
-                 hover:text-white">
+                 hover:text-white"
+          (click)="submitForm()"
+        >
           Submit
         </button>
       </div>
