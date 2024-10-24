@@ -59,8 +59,6 @@ export class RecordsService {
     );
   }
   
-  
-
   getRecords(recordType: string, itemsPerPage: number, page: number, searchTerm?: string): Observable<any> {
     const payload = { recordType, itemsPerPage, page, searchTerm };
     console.log('GET RECORDS PAYLOAD:', payload); // Log payload for getRecords
@@ -164,6 +162,15 @@ export class RecordsService {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
       catchError(this.handleError)
+    );
+  }
+
+  updateEmployee(employee: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_employee.php`;
+    return this.http.post<any>(url, employee, {
+        headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+        catchError(this.handleError)
     );
   }
 

@@ -74,24 +74,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let log of logs">
-              <td>{{ log.emp_num }}</td>
-              <td>{{ log.name }}</td>
-              <td>{{ log.gender }}</td>
-              <td>{{ log.phone_number }}</td>
-              <td>{{ log.email }}</td>
+            <tr *ngFor="let record of logs">
+              <td>{{ record.emp_num }}</td>
+              <td>{{ record.name }}</td>
+              <td>{{ record.gender }}</td>
+              <td>{{ record.phone_number }}</td>
+              <td>{{ record.email }}</td>
               <td class="text-center">
                 <button 
                   class="bg-secondary text-black border-none shadow-none btn-sm 
                          rounded-xl font-medium mr-1 mb-0.5"
-                  [routerLink]="['/edit-employee', log.user_id]"
+                  [routerLink]="['/edit-employee', record.user_id]"
                 >
                   Edit
                 </button>
                 <button 
                   class="bg-primary text-white border-none shadow-none btn-sm 
                          rounded-xl font-medium"
-                  (click)="openDeleteModal(log.user_id, log.name)"
+                  (click)="openDeleteModal(record.user_id, record.name)"
                 >
                   Delete
                 </button>
