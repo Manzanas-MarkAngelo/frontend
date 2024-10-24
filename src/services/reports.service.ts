@@ -7,7 +7,7 @@ import { environment } from './environments/local-environment';
 export class ReportsService {
 
   private apiUrl = `${environment.apiUrl}/fetch_materials.php`;
-  private departmentsApiUrl = `${environment.apiUrl}/fetch_departments.php`; // Add this line
+  private departmentsApiUrl = `${environment.apiUrl}/fetch_subjects.php`; // Add this line
 
   constructor(private http: HttpClient) { }
 

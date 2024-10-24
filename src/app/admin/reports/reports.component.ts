@@ -20,7 +20,7 @@ import { ReportsService } from '../../../services/reports.service';
 export class ReportsComponent implements OnInit {
   inventoryPlaceholder: string = 'Inventory';
   categoryPlaceholder: string = 'Category';
-  programPlaceholder: string = 'Program';
+  programPlaceholder: string = 'Select a Program';
   selectedRemark: string = '';
   category: string = '';
   programs: string[] = [];  // For storing fetched programs
@@ -31,7 +31,11 @@ export class ReportsComponent implements OnInit {
   dateFrom: string | null = null;
   dateTo: string | null = null;
   categoryPDFDIsplay = '';
-  programValue;
+  programValue = 'Select a Program';
+  filteredPrograms: string[] = [];  // Filtered programs based on search
+  isProgramDropdownOpen: boolean = false;
+  programSearchTerm: string = '';  // Search term for the dropdown
+  selectedProgram: string = '';  // Stores the selected program
 
   constructor(
     private pdfReportFacultyService: PdfReportFacultyService,
@@ -67,15 +71,36 @@ export class ReportsComponent implements OnInit {
     );
   }
 
-    // New method to fetch programs from the backend
-    fetchPrograms() {
-      this.reportsService.getDepartments().subscribe(
-        data => {
-          this.programs = data.map((department: any) => department.dept_program);  // Extract program names
-        },
-        error => {
-          console.error('Error fetching programs:', error);
-        }
+  // Fetch programs from the service
+  fetchPrograms() {
+    this.reportsService.getDepartments().subscribe(
+      data => {
+        this.programs = data.map((program: any) => program.subject_name);
+        this.filteredPrograms = [...this.programs];  // Initially show all programs
+      },
+      error => {
+        console.error('Error fetching programs:', error);
+      }
+    );
+  }
+
+    // Toggle the dropdown visibility
+    toggleProgramDropdown() {
+      this.isProgramDropdownOpen = !this.isProgramDropdownOpen;
+    }
+  
+    // Handle program selection
+    selectProgram(program: string) {
+      this.programPlaceholder = program;
+      this.isProgramDropdownOpen = false;
+      this.programValue = program;
+      
+    }
+  
+    // Filter programs based on the search input
+    onProgramSearch(term: string) {
+      this.filteredPrograms = this.programs.filter(program =>
+        program.toLowerCase().includes(term.toLowerCase())
       );
     }
 
@@ -174,8 +199,9 @@ export class ReportsComponent implements OnInit {
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show,
       this.categoryPDFDIsplay,
-      this.programPlaceholder === 'Program' ? '' : this.programValue  // Pass program
+      this.programPlaceholder === 'Select a Program' ? '' : this.programValue  // Pass program
     );
+    console.log('hello ' + this.programValue);
   }
 
   generatePdfBorrowersReport() {
@@ -225,7 +251,7 @@ export class ReportsComponent implements OnInit {
   handleClearButtonClick() {
     console.log('Clicked');
     this.categoryPlaceholder = 'Category';
-    this.programPlaceholder = 'Program';
+    this.programPlaceholder = 'Select a Program';
     this.selectedRemark = '';
     this.dateFrom = null;
     this.dateTo = null;
@@ -258,7 +284,7 @@ export class ReportsComponent implements OnInit {
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
-      this.programPlaceholder === 'Program' ? '' : this.programPlaceholder, // Pass program filter
+      this.programPlaceholder === 'Select a Program' ? '' : this.programPlaceholder, // Pass program filter
       (loading) => this.isLoading = loading,  
       this.categoryPDFDIsplay
     );
