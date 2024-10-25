@@ -20,7 +20,7 @@ import { ReportsService } from '../../../services/reports.service';
 export class ReportsComponent implements OnInit {
   inventoryPlaceholder: string = 'Inventory';
   categoryPlaceholder: string = 'Category';
-  programPlaceholder: string = 'Select a Program';
+  programPlaceholder: string = 'Select a Subject';
   selectedRemark: string = '';
   category: string = '';
   programs: string[] = [];  // For storing fetched programs
@@ -31,7 +31,7 @@ export class ReportsComponent implements OnInit {
   dateFrom: string | null = null;
   dateTo: string | null = null;
   categoryPDFDIsplay = '';
-  programValue = 'Select a Program';
+  programValue = 'Select a Subject';
   filteredPrograms: string[] = [];  // Filtered programs based on search
   isProgramDropdownOpen: boolean = false;
   programSearchTerm: string = '';  // Search term for the dropdown
@@ -251,7 +251,7 @@ export class ReportsComponent implements OnInit {
   handleClearButtonClick() {
     console.log('Clicked');
     this.categoryPlaceholder = 'Category';
-    this.programPlaceholder = 'Select a Program';
+    this.programPlaceholder = 'Select a Subject';
     this.selectedRemark = '';
     this.dateFrom = null;
     this.dateTo = null;
