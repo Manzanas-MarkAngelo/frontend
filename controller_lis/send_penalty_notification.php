@@ -28,12 +28,20 @@ $userId = mysqli_real_escape_string($conn, $data['user_id']);
 $materialId = mysqli_real_escape_string($conn, $data['material_id']);
 
 // Fetch borrowing record
-$borrowingQuery = "SELECT claim_date, due_date, return_date FROM borrowing WHERE user_id = '$userId' AND material_id = '$materialId'";
+$borrowingQuery = "
+    SELECT claim_date, due_date, return_date 
+    FROM borrowing 
+    WHERE user_id = '$userId' 
+      AND material_id = '$materialId' 
+      AND return_date IS NULL
+    ORDER BY claim_date DESC 
+    LIMIT 1
+";
 $borrowingResult = mysqli_query($conn, $borrowingQuery);
 
 if (!$borrowingResult || mysqli_num_rows($borrowingResult) === 0) {
-    error_log("No borrowing record found for user_id $userId and material_id $materialId");
-    echo json_encode(['status' => 'error', 'message' => 'No borrowing record found']);
+    error_log("No active borrowing record found for user_id $userId and material_id $materialId");
+    echo json_encode(['status' => 'error', 'message' => 'No active borrowing record found']);
     exit;
 }
 
