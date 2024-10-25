@@ -199,7 +199,7 @@ export class ReportsComponent implements OnInit {
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show,
       this.categoryPDFDIsplay,
-      this.programPlaceholder === 'Select a Program' ? '' : this.programValue  // Pass program
+      this.programPlaceholder === 'Select a Subject' ? '' : this.programValue  // Pass program
     );
     console.log('hello ' + this.programValue);
   }
@@ -284,7 +284,7 @@ export class ReportsComponent implements OnInit {
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
-      this.programPlaceholder === 'Select a Program' ? '' : this.programPlaceholder, // Pass program filter
+      this.programPlaceholder === 'Select a Subject' ? '' : this.programPlaceholder, // Pass program filter
       (loading) => this.isLoading = loading,  
       this.categoryPDFDIsplay
     );
