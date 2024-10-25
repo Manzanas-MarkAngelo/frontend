@@ -89,18 +89,18 @@
   
               <div class="dropdown dropdown-bottom slide-in-right">
                 <div tabindex="0" role="button"
-                     class="btn bg-secondary border-none text-black text-lg hover:bg-[#ffca45] flex items-center justify-center w-[250px]" 
+                     class="btn bg-secondary border-none text-black text-lg hover:bg-[#ffca45] flex items-center justify-center w-auto" 
                      (click)="toggleProgramDropdown()">
-                  <span>{{ programPlaceholder || 'Select a Program' }}</span>
+                  <span>{{ programPlaceholder || 'Select a Subject' }}</span>
                 </div>
               
                 <!-- Dropdown menu with search -->
                 <div *ngIf="isProgramDropdownOpen" 
                      class="dropdown-content menu bg-secondary rounded-box 
-                            z-[1] w-full text-base font-medium text-black 
+                            z-[1] w-72 text-base font-medium text-black 
                             max-h-56 overflow-y-auto overflow-x-hidden block">
                   <!-- Search input -->
-                  <input type="text" placeholder="Search Program..." 
+                  <input type="text" placeholder="Search..." 
                          class="input input-bordered w-full mb-2"
                          [(ngModel)]="programSearchTerm" 
                         (ngModelChange)="onProgramSearch($event)" />
