@@ -215,34 +215,51 @@
           }
         </div>
       </div>
-      <div class="flex flex-row gap-4 w-full mt-4">
-        <button
-          type="button"
-          class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
-                 hover:bg-[#ffb700] hover:text-blacktransition duration-300"
-          (click)="goBack()"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl font-medium 
-                 hover:bg-[#801e1d] hover:text-white transition duration-300"
-        >
-          Continue
-        </button>
-      </div>
-      <div class="mt-5">
-        <span class="text-red-500 font-medium">Please read carefully*</span>
-        <p class="text-primary">
-          Be sure to save or take note of your identifier. It could be your 
-          favorite color, pet's name, or favorite food. You'll need it to log 
-          in and out of the library information system. Thank you!
-        </p>
-      </div>
-    </form>
-  </div>
 </div>
+<div class="flex flex-row gap-4 w-full mt-4">
+  <button
+    type="button"
+    class="flex-1 
+    bg-primary 
+    text-white 
+    px-6 
+    py-3 
+    rounded-xl 
+    font-medium 
+    hover:bg-[#ffb700] 
+    hover:text-black
+    transition 
+    duration-300"
+    (click)="goBack()">
+    Cancel
+  </button>
+  <button
+    type="submit"
+    class="flex-1 
+    bg-secondary 
+    text-black 
+    px-6 
+    py-3 
+    rounded-xl 
+    font-medium 
+    hover:bg-[#801e1d] 
+    hover:text-white 
+    transition 
+    duration-300">
+    Continue
+  </button>
+</div>
+<div class="mt-5">
+  <span class="text-red-500 font-medium">Please read carefully*</span>
+  <p class="text-primary">
+    Be sure to save or take note of your identifier. It could be your 
+    favorite color, pet's name, or favorite food. You'll need it to log 
+    in and out of the library information system. Thank you!
+  </p>
+</div>
+</form>
+</div>
+
 
 <dialog id="my_modal_1" class="modal">
   <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
