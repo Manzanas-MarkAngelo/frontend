@@ -61,10 +61,10 @@
 
         <button
         type="button"
-        (click)="setLogType('PUPT-Employee')"
+        (click)="setLogType('pupt-employee_log')"
         [ngClass]="{
-          'bg-blue-500 text-white': currentLogType === 'PUPT-Employee',
-          'bg-secondary text-black': currentLogType !== 'PUPT-Employee'
+          'bg-blue-500 text-white': currentLogType === 'pupt-employee_log',
+          'bg-secondary text-black': currentLogType !== 'pupt-employee_log'
         }"
         class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
                font-medium hover:bg-blue-500 hover:text-white transition 
@@ -102,139 +102,6 @@
     <div class="p-4 bg-white text-black rounded-xl w-full lg:w-11/12 
                 slide-in-right mb-4">
       <div class="overflow-x-auto">
-        <!-- <ng-container *ngIf="currentLogType === 'student_log'">
-          <table class="table w-full">
-            <thead>
-              <tr class="text-primary text-sm">
-                <th class="text-start">Student Number</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Course</th>
-                <th class="text-start">Time In</th>
-                <th class="text-start">Time Out</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let log of logs">
-                <td>{{ log.student_number }}</td>
-                <td>{{ log.name }}</td>
-                <td>{{ log.course || 'N/A' }}</td>
-                <td>{{ log.time_in }}</td>
-                <td>{{ log.time_out || 'await' }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-center">
-                  <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </ng-container>
-        <ng-container *ngIf="currentLogType === 'faculty_log'">
-          <table class="table w-full">
-            <thead>
-              <tr class="text-primary text-sm">
-                <th class="text-start">Faculty Code</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Department</th>
-                <th class="text-start">Time In</th>
-                <th class="text-start">Time Out</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let log of logs">
-                <td>{{ log.faculty_code }}</td>
-                <td>{{ log.name }}</td>
-                <td>{{ log.department || 'N/A' }}</td>
-                <td>{{ log.time_in }}</td>
-                <td>{{ log.time_out || 'await' }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-center">
-                  <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </ng-container>
-        <ng-container *ngIf="currentLogType === 'visitor_log'">
-          <table class="table w-full">
-            <thead>
-              <tr class="text-primary text-sm">
-                <th class="text-start">Name</th>
-                <th class="text-start">School</th>
-                <th class="text-start">Time In</th>
-                <th class="text-start">Time Out</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let log of logs">
-                <td>{{ log.name }}</td>
-                <td>{{ log.school }}</td>
-                <td>{{ log.time_in }}</td>
-                <td>{{ log.time_out || 'await' }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-center">
-                  <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </ng-container> -->
         @if (currentLogType === 'student_log') {
           <table class="table w-full">
             <thead>
@@ -296,7 +163,7 @@
               </tr>
             </tbody>
           </table>
-        } @else if (currentLogType === 'PUPT-Employee') {
+        } @else if (currentLogType === 'pupt-employee_log') {
           <table class="table w-full">
             <thead>
               <tr class="text-primary text-sm">
@@ -308,10 +175,10 @@
             </thead>
             <tbody class="text-start">
               <tr *ngFor="let log of logs">
-                <td>sample123</td>
-                <td>sample123</td>
-                <td>sample123</td>
-                <td>sample123</td>
+                <td>{{ log.employee_number }}</td>
+                <td>{{ log.name }}</td>
+                <td>{{ log.time_in }}</td>
+                <td>{{ log.time_out || 'await' }}</td>
               </tr>
             </tbody>
           </table>

@@ -162,7 +162,7 @@ const routes: Routes = [
   { path: 'login-lispupt', component: LoginLispuptComponent },
   { path: 'employee', component: EmployeesComponent },
   { path: 'add-employee', component: AddEmployeeComponent },
-  { path: 'edit-employee', component: EditEmployeeComponent },
+  { path: 'edit-employee/:user_id', component: EditEmployeeComponent },
   { path: 'courses-pie-chart', component: CoursesTimedInComponent},
 ];
 
