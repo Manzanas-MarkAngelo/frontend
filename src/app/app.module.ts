@@ -83,6 +83,7 @@ import { RecordsService } from '../services/records.service';
 import { SnackbarService } from '../services/snackbar.service';
 import { ReportsService } from '../services/reports.service';
 import { AdminLoginService } from '../services/admin-login.service';
+import { AuthGuardService } from '../services/auth-guard.service';
 import { AdminService } from '../services/admin.service';
 import { AddMaterialService } from '../services/add-material.service';
 import { BorrowService } from '../services/borrow.service';
@@ -266,6 +267,7 @@ import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/cour
     BookRequestService,
     AnalyticsService,
     EmailService,
+    AuthGuardService,
   ],
   bootstrap: [AppComponent]
 })
