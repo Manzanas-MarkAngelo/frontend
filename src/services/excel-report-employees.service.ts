@@ -49,12 +49,12 @@ export class ExcelReportEmployeesService {
       worksheet.addRow(['Faculty Code', 'Name', 'Time In', 'Time Out']);
 
       // Populate data rows
-      allFacultyData.forEach((faculty: any) => {
+      allFacultyData.forEach((employee: any) => {
         worksheet.addRow([
-          faculty.employee_number,
-          faculty.name,
-          faculty.time_in,
-          faculty.time_out ? faculty.time_out : 'await'
+          employee.employee_number,
+          employee.name,
+          employee.time_in,
+          employee.time_out ? employee.time_out : 'await'
         ]);
       });
 

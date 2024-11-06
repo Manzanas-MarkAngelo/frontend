@@ -67,11 +67,11 @@ export class PdfReportEmployeesService {
             fetchAllPages();
           } else {
             // Once all pages are fetched, generate the PDF
-            const tableData = allFacultyData.map((faculty: any) => [
-              faculty.employee_number,
-              faculty.name,
-              faculty.time_in,
-              faculty.time_out ? faculty.time_out : 'await'
+            const tableData = allFacultyData.map((employee: any) => [
+              employee.employee_number,
+              employee.name,
+              employee.time_in,
+              employee.time_out ? employee.time_out : 'await'
             ]);
 
             autoTable(doc, {
