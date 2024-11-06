@@ -16,7 +16,8 @@ export class SearchBookComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 17;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
@@ -75,6 +76,12 @@ export class SearchBookComponent implements OnInit {
       this.totalItems = response.totalItems;
       this.totalPages = response.totalPages;
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.loadMaterials();
   }
 
   loadMaterials() {
