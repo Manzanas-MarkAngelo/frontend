@@ -11,6 +11,7 @@ export class RequestComponent implements OnInit {
   requests: any[] = [];
   paginatedRequests: any[] = [];
   itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   currentPage: number = 1;
   totalPages: number = 1;
   analyticsData: any = {}
@@ -22,6 +23,12 @@ export class RequestComponent implements OnInit {
   ngOnInit(): void {
     this.loadRequests();
     this.loadAnalytics();
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.loadRequests();
   }
 
   loadRequests() {

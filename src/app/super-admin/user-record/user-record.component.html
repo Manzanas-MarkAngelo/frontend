@@ -122,6 +122,29 @@
                 <td>{{ log.time_out || 'await' }}</td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="100%" class="text-center">
+                  <label for="itemsPerPage" 
+                         class="text-primary text-lg font-medium mr-2">
+                    Show items:
+                  </label>
+                  <select 
+                    id="itemsPerPage" 
+                    [(ngModel)]="itemsPerPage" 
+                    (change)="onItemsPerPageChange($event)" 
+                    class="bg-secondary text-black border-none shadow-none btn-sm 
+                           rounded-xl font-medium cursor-pointer">
+                    <option 
+                      *ngFor="let option of itemsPerPageOptions" 
+                      [value]="option"
+                    >
+                      {{ option }}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         } @else if (currentLogType === 'faculty_log') {
           <table class="table w-full">
@@ -143,6 +166,29 @@
                 <td>{{ log.time_out || 'await' }}</td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="100%" class="text-center">
+                  <label for="itemsPerPage" 
+                         class="text-primary text-lg font-medium mr-2">
+                    Show items:
+                  </label>
+                  <select 
+                    id="itemsPerPage" 
+                    [(ngModel)]="itemsPerPage" 
+                    (change)="onItemsPerPageChange($event)" 
+                    class="bg-secondary text-black border-none shadow-none btn-sm 
+                           rounded-xl font-medium cursor-pointer">
+                    <option 
+                      *ngFor="let option of itemsPerPageOptions" 
+                      [value]="option"
+                    >
+                      {{ option }}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         } @else if (currentLogType === 'visitor_log') {
           <table class="table w-full">
@@ -162,6 +208,29 @@
                 <td>{{ log.time_out || 'await' }}</td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="100%" class="text-center">
+                  <label for="itemsPerPage" 
+                         class="text-primary text-lg font-medium mr-2">
+                    Show items:
+                  </label>
+                  <select 
+                    id="itemsPerPage" 
+                    [(ngModel)]="itemsPerPage" 
+                    (change)="onItemsPerPageChange($event)" 
+                    class="bg-secondary text-black border-none shadow-none btn-sm 
+                           rounded-xl font-medium cursor-pointer">
+                    <option 
+                      *ngFor="let option of itemsPerPageOptions" 
+                      [value]="option"
+                    >
+                      {{ option }}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         } @else if (currentLogType === 'pupt-employee_log') {
           <table class="table w-full">
@@ -181,6 +250,29 @@
                 <td>{{ log.time_out || 'await' }}</td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="100%" class="text-center">
+                  <label for="itemsPerPage" 
+                         class="text-primary text-lg font-medium mr-2">
+                    Show items:
+                  </label>
+                  <select 
+                    id="itemsPerPage" 
+                    [(ngModel)]="itemsPerPage" 
+                    (change)="onItemsPerPageChange($event)" 
+                    class="bg-secondary text-black border-none shadow-none btn-sm 
+                           rounded-xl font-medium cursor-pointer">
+                    <option 
+                      *ngFor="let option of itemsPerPageOptions" 
+                      [value]="option"
+                    >
+                      {{ option }}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         } @else {
           <table class="table w-full">
@@ -202,6 +294,29 @@
                 <td>{{ log.time_out || 'await' }}</td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="100%" class="text-center">
+                  <label for="itemsPerPage" 
+                         class="text-primary text-lg font-medium mr-2">
+                    Show items:
+                  </label>
+                  <select 
+                    id="itemsPerPage" 
+                    [(ngModel)]="itemsPerPage" 
+                    (change)="onItemsPerPageChange($event)" 
+                    class="bg-secondary text-black border-none shadow-none btn-sm 
+                           rounded-xl font-medium cursor-pointer">
+                    <option 
+                      *ngFor="let option of itemsPerPageOptions" 
+                      [value]="option"
+                    >
+                      {{ option }}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         }
       </div>
