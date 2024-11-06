@@ -4,9 +4,11 @@ import { PdfReportInventoryService } from '../../../services/pdf-report-inventor
 import { PdfReportStudentsService } from '../../../services/pdf-report-students.service';
 import { PdfReportVisitorsService } from '../../../services/pdf-report-visitors.service';
 import { PdfReportBorrowersService } from '../../../services/pdf-report-borrowers.service';
+import { PdfReportEmployeesService } from '../../../services/pdf-report-employees.service';
 import { ExcelReportInventoryService } from '../../../services/excel-report-inventory.service';
 import { ExcelReportFacultyService } from '../../../services/excel-report-faculty.service';
 import { ExcelReportStudentsService } from '../../../services/excel-report-students.service';
+import { ExcelReportEmployeesService } from '../../../services/excel-report-employees.service';
 import { ExcelReportVisitorsService } from '../../../services/excel-report-visitors.service';
 import { ExcelReportBorrowersService } from '../../../services/excel-report-borrowers.service';
 import { MaterialsService } from '../../../services/materials.service';
@@ -45,10 +47,12 @@ export class ReportsComponent implements OnInit {
     private materialService: MaterialsService,
     private pdfReportVisitorsService: PdfReportVisitorsService,
     private pdfReportBorrowersService: PdfReportBorrowersService,
+    private pdfReportEmployeesService: PdfReportEmployeesService,
     private excelReportFacultyService: ExcelReportFacultyService,
     private excelReportBorrowersService: ExcelReportBorrowersService,
     private excelReportStudentsService: ExcelReportStudentsService,
     private excelReportVisitorsService: ExcelReportVisitorsService,
+    private excelReportEmployeesService: ExcelReportEmployeesService,
     private reportsService: ReportsService,
   ) {}
 
@@ -184,7 +188,10 @@ export class ReportsComponent implements OnInit {
             break;
       case 'Faculty':
             this.generatePdfFacultyReport();
-            break;      
+            break;  
+      case 'Employee':
+            this.generatePdfEmployeeReport();
+            break;    
       case 'Visitors':
             this.generatePdfVisitorsReport()
             break;              
@@ -220,6 +227,19 @@ export class ReportsComponent implements OnInit {
     console.log('Formatted dateTo:', this.formatDate(this.dateTo));
   
     this.pdfReportFacultyService.generatePDF(
+      'pdf-preview',
+      this.formatDate(this.dateFrom),
+      this.formatDate(this.dateTo),
+      (loading) => this.isLoading = loading,
+      (show) => this.showInitialDisplay = show
+    );
+  }
+
+  generatePdfEmployeeReport() {
+    console.log('Formatted dateFrom:', this.formatDate(this.dateFrom));
+    console.log('Formatted dateTo:', this.formatDate(this.dateTo));
+  
+    this.pdfReportEmployeesService.generatePDF(
       'pdf-preview',
       this.formatDate(this.dateFrom),
       this.formatDate(this.dateTo),
@@ -274,6 +294,8 @@ export class ReportsComponent implements OnInit {
             break;
       case 'Faculty':
             this.generateExcelFacultyReport();
+      case 'Employee':
+            this.generateExcelEmployeeReport();
             break;      
       case 'Visitors':
             this.generateExcelVisitorsReport();
@@ -309,6 +331,14 @@ export class ReportsComponent implements OnInit {
 
   generateExcelFacultyReport() {
     this.excelReportFacultyService.generateExcelReport(
+        this.formatDate(this.dateFrom),
+        this.formatDate(this.dateTo),
+        (loading) => this.isLoading = loading
+    );
+  }
+
+  generateExcelEmployeeReport() {
+    this.excelReportEmployeesService.generateExcelReport(
         this.formatDate(this.dateFrom),
         this.formatDate(this.dateTo),
         (loading) => this.isLoading = loading
