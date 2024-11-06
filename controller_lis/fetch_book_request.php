@@ -8,6 +8,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 $query = "
     SELECT 
+        r.id,
         r.title, 
         r.author, 
         r.year_published, 
