@@ -35,7 +35,7 @@ function getRequesterName($conn, $requester_type, $requester_id) {
         $query = "SELECT CONCAT(first_name, ' ', surname) as full_name FROM faculty WHERE emp_number = ?";
     } elseif ($requester_type === 'visitor') {
         $query = "SELECT CONCAT(first_name, ' ', surname) as full_name FROM visitor WHERE identifier = ?";
-    } elseif ($requester_type === 'pupt_employee') {
+    } elseif ($requester_type === 'employee') {
         $query = "SELECT CONCAT(first_name, ' ', surname) as full_name FROM pupt_employees WHERE emp_num = ?";
     } else {
         return null;

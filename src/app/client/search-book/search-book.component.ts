@@ -268,7 +268,7 @@ export class SearchBookComponent implements OnInit {
       return 'faculty';
     } else if (/^\d{5}$/.test(requesterId)) {
       this.requesterIdLabel = 'Employee Number';
-      return 'pupt_employee';
+      return 'employee';
     } else {
       this.requesterIdLabel = 'Identifier';
       return 'visitor';
