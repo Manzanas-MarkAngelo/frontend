@@ -16,13 +16,17 @@ export class SearchBookComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 17;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
   showModal: boolean = false;
   selectedMaterialId: number | null = null;
   selectedMaterialTitle = '';
+  requesterIdLabel: string = 'Identifier';
+  showSnackbar: boolean = false;
+  snackbarMessage: string = '';
 
   categoryPlaceholder: string = 'Choose category';
   categories: { mat_type: string, accession_no: string }[] = [];
@@ -72,6 +76,12 @@ export class SearchBookComponent implements OnInit {
       this.totalItems = response.totalItems;
       this.totalPages = response.totalPages;
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.loadMaterials();
   }
 
   loadMaterials() {
@@ -249,20 +259,18 @@ export class SearchBookComponent implements OnInit {
     });
   }
 
-  openNotRegisteredModal() {
-    (document.getElementById('not_registered_modal') as HTMLDialogElement).showModal();
-  }
-
-  closeNotRegisteredModal() {
-    (document.getElementById('not_registered_modal') as HTMLDialogElement).close();
-  }
-
   detectRequesterType(requesterId: string): string {
     if (/^\d{4}-\d{5}-TG-0$/.test(requesterId)) {
+      this.requesterIdLabel = 'Student Number';
       return 'student';
     } else if (/^FA\d{4}TG\d{4}$/.test(requesterId)) {
+      this.requesterIdLabel = 'Faculty Code';
       return 'faculty';
+    } else if (/^\d{5}$/.test(requesterId)) {
+      this.requesterIdLabel = 'Employee Number';
+      return 'employee';
     } else {
+      this.requesterIdLabel = 'Identifier';
       return 'visitor';
     }
   }
@@ -322,15 +330,29 @@ export class SearchBookComponent implements OnInit {
 
     this.request.requester_type = this.detectRequesterType(this.request.requester_id);
 
+    this.openConfirmationModal();
+  }
+
+  openConfirmationModal() {
+    (document.getElementById('confirmation_modal') as HTMLDialogElement).showModal();
+  }
+
+  closeConfirmationModal() {
+    (document.getElementById('confirmation_modal') as HTMLDialogElement).close();
+  }
+
+  confirmSubmit() {
     this.bookRequestService.submitBookRequest(this.request).subscribe(
       response => {
         if (response.success) {
           this.snackbar.showMessage('Book request submitted successfully.');
           this.resetForm();
+          this.closeConfirmationModal();
           this.closeRequestModal();
         } else {
           if (response.message === 'Requestor not found.') {
-            this.openNotRegisteredModal();
+            this.closeConfirmationModal();
+            this.showTemporarySnackbar('You are not registered. Please register before requesting a book.');
           } else {
             this.snackbar.showMessage('Failed to submit book request: ' + response.message);
           }
@@ -341,5 +363,14 @@ export class SearchBookComponent implements OnInit {
         console.error('Error:', error);
       }
     );
+  }
+
+  showTemporarySnackbar(message: string) {
+    this.snackbarMessage = message;
+    this.showSnackbar = true;
+
+    setTimeout(() => {
+      this.showSnackbar = false;
+    }, 3000);
   }
 }
