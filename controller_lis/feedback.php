@@ -67,20 +67,45 @@ $stmt->close();
 $conn->begin_transaction();
 
 try {
+    $updateCount = 0;
+
     foreach ($responses as $questionNumber => $responseValue) {
         $questionId = intval(substr($questionNumber, 1));
-        
+
         $stmt = $conn->prepare(
-            "INSERT INTO feedback_responses (user_id, user_type, question_id, response, created_at, updated_at)
-            VALUES (?, ?, ?, ?, NOW(), NOW())"
+            "SELECT id FROM feedback_responses WHERE user_id = ? AND user_type = ? AND question_id = ?"
         );
-        $stmt->bind_param("ssii", $userId, $userType, $questionId, $responseValue);
+        $stmt->bind_param("ssi", $userId, $userType, $questionId);
         $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->close();
+            $stmt = $conn->prepare(
+                "UPDATE feedback_responses SET response = ?, updated_at = NOW() WHERE user_id = ? AND user_type = ? AND question_id = ?"
+            );
+            $stmt->bind_param("issi", $responseValue, $userId, $userType, $questionId);
+            $stmt->execute();
+            $updateCount++;
+        } else {
+            $stmt->close();
+            $stmt = $conn->prepare(
+                "INSERT INTO feedback_responses (user_id, user_type, question_id, response, created_at, updated_at)
+                VALUES (?, ?, ?, ?, NOW(), NOW())"
+            );
+            $stmt->bind_param("ssii", $userId, $userType, $questionId, $responseValue);
+            $stmt->execute();
+        }
         $stmt->close();
     }    
 
     $conn->commit();
-    echo json_encode(['status' => 'success', 'message' => 'Feedback submitted successfully']);
+
+    if ($updateCount > 0) {
+        echo json_encode(['status' => 'updated', 'message' => 'Your feedback has been updated']);
+    } else {
+        echo json_encode(['status' => 'success', 'message' => 'Feedback submitted successfully']);
+    }
 } catch (Exception $e) {
     $conn->rollback();
     echo json_encode(['status' => 'error', 'message' => 'Failed to submit feedback']);

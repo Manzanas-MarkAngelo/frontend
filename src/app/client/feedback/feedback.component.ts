@@ -86,27 +86,30 @@ export class FeedbackComponent implements OnInit {
 
   submitFeedback() {
     this.formSubmitted = true;
-
+  
     if (!this.validateForm()) {
       return;
     }
-
+  
     this.feedback.userType = this.detectUserType(this.feedback.userId);
-
+  
     this.feedbackService.submitFeedback(this.feedback).subscribe(
       (response) => {
         if (response.status === 'success') {
           this.snackbar.showMessage('Feedback submitted successfully');
-          this.formSubmitted = false;
-          this.feedback = { userId: '', userType: '', responses: { q1: 0, q2: 0, q3: 0, q4: 0, q5: 0, q6: 0, q7: 0, q8: 0, q9: 0, q10: 0 }};
+        } else if (response.status === 'updated') {
+          this.snackbar.showMessage('Your feedback has been updated');
         } else {
           this.snackbar.showMessage(response.message);
         }
+        
+        this.formSubmitted = false;
+        this.feedback = { userId: '', userType: '', responses: { q1: 0, q2: 0, q3: 0, q4: 0, q5: 0, q6: 0, q7: 0, q8: 0, q9: 0, q10: 0 }};
       },
       (error) => {
         console.error('Error submitting feedback', error);
         this.snackbar.showMessage('Error submitting feedback');
       }
     );
-  }
+  }  
 }
