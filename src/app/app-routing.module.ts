@@ -81,28 +81,30 @@ import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.co
 import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 import { AuthGuardService } from '../services/auth-guard.service';
+import { ClientLoginService } from '../services/client-login.service';
 
 const routes: Routes = [
-  //*Client
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
-  { path: 'administrator', component: AdministratorComponent },
-  { path: 'borrow-info/:accnum', component: BorrowInfoComponent },
-  { path: 'material-info/:accnum', component: MaterialInfoComponent },
-  { path: 'time-in', component: TimeInComponent },
-  { path: 'time-out', component: TimeOutComponent },  
-  { path: 'search-book', component: SearchBookComponent },
-  { path: 'services', component: ServicesComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'client', component: ClientComponent },
-  { path: 'landing', component: LandingComponent },
-  { path: 'register-success', component: RegSuccessComponent },
-  { path: 'timeout-success', component: TimeoutSuccessComponent },
-  { path: 'timein-success', component: TimeinSuccessComponent },
-  { path: 'unregistered', component: UnregisteredComponent },
-  { path: 'no-timein', component: NoTimeinComponent },
+  { path: 'login-lispupt', component: LoginLispuptComponent },
+
+    //*Client
+  { path: 'administrator', component: AdministratorComponent, canActivate: [ClientLoginService] },
+  { path: 'borrow-info/:accnum', component: BorrowInfoComponent, canActivate: [ClientLoginService] },
+  { path: 'material-info/:accnum', component: MaterialInfoComponent, canActivate: [ClientLoginService] },
+  { path: 'time-in', component: TimeInComponent, canActivate: [ClientLoginService] },
+  { path: 'time-out', component: TimeOutComponent, canActivate: [ClientLoginService] },  
+  { path: 'search-book', component: SearchBookComponent, canActivate: [ClientLoginService] },
+  { path: 'services', component: ServicesComponent, canActivate: [ClientLoginService] },
+  { path: 'register', component: RegisterComponent, canActivate: [ClientLoginService] },
+  { path: 'client', component: ClientComponent, canActivate: [ClientLoginService] },
+  { path: 'landing', component: LandingComponent, canActivate: [ClientLoginService] },
+  { path: 'register-success', component: RegSuccessComponent, canActivate: [ClientLoginService] },
+  { path: 'timeout-success', component: TimeoutSuccessComponent, canActivate: [ClientLoginService] },
+  { path: 'timein-success', component: TimeinSuccessComponent, canActivate: [ClientLoginService] },
+  { path: 'unregistered', component: UnregisteredComponent, canActivate: [ClientLoginService] },
+  { path: 'no-timein', component: NoTimeinComponent, canActivate: [ClientLoginService] },
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
-  { path: 'login-lispupt', component: LoginLispuptComponent },
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },
