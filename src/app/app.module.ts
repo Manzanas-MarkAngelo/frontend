@@ -132,6 +132,17 @@ import { EmployeesComponent } from './super-admin/employees/employees.component'
 import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.component';
 import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
+import { FeedbackQuestion1Component } from './admin/analytics/feedback-question-1/feedback-question-1.component';
+import { FeedbackQuestion2Component } from './admin/analytics/feedback-question-2/feedback-question-2.component';
+import { FeedbackQuestion3Component } from './admin/analytics/feedback-question-3/feedback-question-3.component';
+import { FeedbackQuestion4Component } from './admin/analytics/feedback-question-4/feedback-question-4.component';
+import { FeedbackQuestion5Component } from './admin/analytics/feedback-question-5/feedback-question-5.component';
+import { FeedbackQuestion6Component } from './admin/analytics/feedback-question-6/feedback-question-6.component';
+import { FeedbackQuestion7Component } from './admin/analytics/feedback-question-7/feedback-question-7.component';
+import { FeedbackQuestion8Component } from './admin/analytics/feedback-question-8/feedback-question-8.component';
+import { FeedbackQuestion9Component } from './admin/analytics/feedback-question-9/feedback-question-9.component';
+import { FeedbackQuestion10Component } from './admin/analytics/feedback-question-10/feedback-question-10.component';
+import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
 
 
 @NgModule({
@@ -228,6 +239,17 @@ import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/cour
     AddEmployeeComponent,
     EditEmployeeComponent,
     CoursesTimedInComponent,
+    FeedbackQuestion1Component,
+    FeedbackQuestion2Component,
+    FeedbackQuestion3Component,
+    FeedbackQuestion4Component,
+    FeedbackQuestion5Component,
+    FeedbackQuestion6Component,
+    FeedbackQuestion7Component,
+    FeedbackQuestion8Component,
+    FeedbackQuestion9Component,
+    FeedbackQuestion10Component,
+    PasswordRecoveryComponent,
 
   ],
   imports: [

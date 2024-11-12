@@ -81,28 +81,42 @@ import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.co
 import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 import { AuthGuardService } from '../services/auth-guard.service';
+import { ClientLoginService } from '../services/client-login.service';
+import { FeedbackQuestion1Component } from './admin/analytics/feedback-question-1/feedback-question-1.component';
+import { FeedbackQuestion2Component } from './admin/analytics/feedback-question-2/feedback-question-2.component';
+import { FeedbackQuestion3Component } from './admin/analytics/feedback-question-3/feedback-question-3.component';
+import { FeedbackQuestion4Component } from './admin/analytics/feedback-question-4/feedback-question-4.component';
+import { FeedbackQuestion5Component } from './admin/analytics/feedback-question-5/feedback-question-5.component';
+import { FeedbackQuestion6Component } from './admin/analytics/feedback-question-6/feedback-question-6.component';
+import { FeedbackQuestion7Component } from './admin/analytics/feedback-question-7/feedback-question-7.component';
+import { FeedbackQuestion8Component } from './admin/analytics/feedback-question-8/feedback-question-8.component';
+import { FeedbackQuestion9Component } from './admin/analytics/feedback-question-9/feedback-question-9.component';
+import { FeedbackQuestion10Component } from './admin/analytics/feedback-question-10/feedback-question-10.component';
+import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
 
 const routes: Routes = [
-  //*Client
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
-  { path: 'administrator', component: AdministratorComponent },
-  { path: 'borrow-info/:accnum', component: BorrowInfoComponent },
-  { path: 'material-info/:accnum', component: MaterialInfoComponent },
-  { path: 'time-in', component: TimeInComponent },
-  { path: 'time-out', component: TimeOutComponent },  
-  { path: 'search-book', component: SearchBookComponent },
-  { path: 'services', component: ServicesComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'client', component: ClientComponent },
-  { path: 'landing', component: LandingComponent },
-  { path: 'register-success', component: RegSuccessComponent },
-  { path: 'timeout-success', component: TimeoutSuccessComponent },
-  { path: 'timein-success', component: TimeinSuccessComponent },
-  { path: 'unregistered', component: UnregisteredComponent },
-  { path: 'no-timein', component: NoTimeinComponent },
+  { path: 'login-lispupt', component: LoginLispuptComponent },
+
+    //*Client
+  { path: 'administrator', component: AdministratorComponent, canActivate: [ClientLoginService] },
+  { path: 'borrow-info/:accnum', component: BorrowInfoComponent, canActivate: [ClientLoginService] },
+  { path: 'material-info/:accnum', component: MaterialInfoComponent, canActivate: [ClientLoginService] },
+  { path: 'time-in', component: TimeInComponent, canActivate: [ClientLoginService] },
+  { path: 'time-out', component: TimeOutComponent, canActivate: [ClientLoginService] },  
+  { path: 'search-book', component: SearchBookComponent, canActivate: [ClientLoginService] },
+  { path: 'services', component: ServicesComponent, canActivate: [ClientLoginService] },
+  { path: 'register', component: RegisterComponent, canActivate: [ClientLoginService] },
+  { path: 'client', component: ClientComponent, canActivate: [ClientLoginService] },
+  { path: 'landing', component: LandingComponent, canActivate: [ClientLoginService] },
+  { path: 'register-success', component: RegSuccessComponent, canActivate: [ClientLoginService] },
+  { path: 'timeout-success', component: TimeoutSuccessComponent, canActivate: [ClientLoginService] },
+  { path: 'timein-success', component: TimeinSuccessComponent, canActivate: [ClientLoginService] },
+  { path: 'unregistered', component: UnregisteredComponent, canActivate: [ClientLoginService] },
+  { path: 'no-timein', component: NoTimeinComponent, canActivate: [ClientLoginService] },
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
-  { path: 'login-lispupt', component: LoginLispuptComponent },
+  { path: 'password-recovery', component: PasswordRecoveryComponent },
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },
@@ -183,6 +197,17 @@ const routes: Routes = [
   { path: 'add-employee', component: AddEmployeeComponent, canActivate: [AuthGuardService] },
   { path: 'edit-employee', component: EditEmployeeComponent, canActivate: [AuthGuardService] },
   { path: 'courses-pie-chart', component: CoursesTimedInComponent, canActivate: [AuthGuardService] },
+  { path: 'feedback-question-1', component: FeedbackQuestion1Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-2', component: FeedbackQuestion2Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-3', component: FeedbackQuestion3Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-4', component: FeedbackQuestion4Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-5', component: FeedbackQuestion5Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-6', component: FeedbackQuestion6Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-7', component: FeedbackQuestion7Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-8', component: FeedbackQuestion8Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-9', component: FeedbackQuestion9Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-10', component: FeedbackQuestion10Component, canActivate: [AuthGuardService]},
+
 ];
 
 @NgModule({

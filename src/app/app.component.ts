@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   filter = false;
   
   // Define routes where the navbar should be hidden
-  excludedRoutes: string[] = ['/login-lispupt', '/feedback']; 
+  excludedRoutes: string[] = ['/feedback', '/password-recovery']; 
 
   constructor(private adminService: AdminService, private router: Router) {}
 
