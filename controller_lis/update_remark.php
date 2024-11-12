@@ -16,7 +16,12 @@ $material_id = $data['material_id'] ?? null;
 $remark = $data['remark'] ?? null;
 
 if ($material_id && $remark) {
-    $sql = "UPDATE borrowing SET remark = ? WHERE material_id = ?";
+    $sql = "UPDATE borrowing 
+            SET remark = ? 
+            WHERE material_id = ?
+            AND return_date IS NULL
+            ORDER BY claim_date DESC 
+            LIMIT 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('si', $remark, $material_id);
     
