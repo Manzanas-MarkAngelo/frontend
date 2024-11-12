@@ -82,6 +82,7 @@ import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { ClientLoginService } from '../services/client-login.service';
+import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -105,6 +106,7 @@ const routes: Routes = [
   { path: 'no-timein', component: NoTimeinComponent, canActivate: [ClientLoginService] },
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
+  { path: 'password-recovery', component: PasswordRecoveryComponent },
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },

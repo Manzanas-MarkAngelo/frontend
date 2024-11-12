@@ -13,6 +13,7 @@ export class AdministratorComponent {
   password: string = '';
   loginError: string | null = null;
   passwordVisible: boolean = false;
+  recoverySent = false;
 
   constructor(
     private adminLoginService: AdminLoginService,
@@ -45,5 +46,9 @@ export class AdministratorComponent {
     }, error => {
       this.loginError = 'An error occurred. Please try again later.';
     });
+  }
+
+  sendRecovery() {
+    this.recoverySent = true;
   }
 }

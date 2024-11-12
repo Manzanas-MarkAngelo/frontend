@@ -132,6 +132,7 @@ import { EmployeesComponent } from './super-admin/employees/employees.component'
 import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.component';
 import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
+import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
 
 
 @NgModule({
@@ -228,6 +229,7 @@ import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/cour
     AddEmployeeComponent,
     EditEmployeeComponent,
     CoursesTimedInComponent,
+    PasswordRecoveryComponent,
 
   ],
   imports: [
