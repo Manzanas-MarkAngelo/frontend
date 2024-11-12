@@ -6,6 +6,7 @@ import { environment } from './environments/local-environment';
 @Injectable()
 export class AdminLoginService {
   private apiUrl = `${environment.apiUrl}/admin_login.php`;
+  private clientLoginUrl = `${environment.apiUrl}/client_access.php`;
 
   constructor(private http: HttpClient) { }
 
@@ -42,5 +43,10 @@ export class AdminLoginService {
   // Check if the current user has a librarian role
   isLibrarian(): boolean {
     return this.getRole() === 'librarian';
+  }
+
+  // CLIENT LOGIN
+  loginClient(username: string, password: string): Observable<any> {
+    return this.http.post<any>(this.clientLoginUrl, { username, password });
   }
 }
