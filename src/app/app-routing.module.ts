@@ -82,6 +82,16 @@ import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { ClientLoginService } from '../services/client-login.service';
+import { FeedbackQuestion1Component } from './admin/analytics/feedback-question-1/feedback-question-1.component';
+import { FeedbackQuestion2Component } from './admin/analytics/feedback-question-2/feedback-question-2.component';
+import { FeedbackQuestion3Component } from './admin/analytics/feedback-question-3/feedback-question-3.component';
+import { FeedbackQuestion4Component } from './admin/analytics/feedback-question-4/feedback-question-4.component';
+import { FeedbackQuestion5Component } from './admin/analytics/feedback-question-5/feedback-question-5.component';
+import { FeedbackQuestion6Component } from './admin/analytics/feedback-question-6/feedback-question-6.component';
+import { FeedbackQuestion7Component } from './admin/analytics/feedback-question-7/feedback-question-7.component';
+import { FeedbackQuestion8Component } from './admin/analytics/feedback-question-8/feedback-question-8.component';
+import { FeedbackQuestion9Component } from './admin/analytics/feedback-question-9/feedback-question-9.component';
+import { FeedbackQuestion10Component } from './admin/analytics/feedback-question-10/feedback-question-10.component';
 import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
 
 const routes: Routes = [
@@ -187,6 +197,17 @@ const routes: Routes = [
   { path: 'add-employee', component: AddEmployeeComponent, canActivate: [AuthGuardService] },
   { path: 'edit-employee', component: EditEmployeeComponent, canActivate: [AuthGuardService] },
   { path: 'courses-pie-chart', component: CoursesTimedInComponent, canActivate: [AuthGuardService] },
+  { path: 'feedback-question-1', component: FeedbackQuestion1Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-2', component: FeedbackQuestion2Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-3', component: FeedbackQuestion3Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-4', component: FeedbackQuestion4Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-5', component: FeedbackQuestion5Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-6', component: FeedbackQuestion6Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-7', component: FeedbackQuestion7Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-8', component: FeedbackQuestion8Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-9', component: FeedbackQuestion9Component, canActivate: [AuthGuardService]},
+  { path: 'feedback-question-10', component: FeedbackQuestion10Component, canActivate: [AuthGuardService]},
+
 ];
 
 @NgModule({

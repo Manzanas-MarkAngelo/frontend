@@ -114,72 +114,53 @@
 </div>
 </div>
 
-
-<!-- <div class="flex flex-col lg:flex-row items-center justify-evenly bg-primary pb-10">
-    <app-most-borrowed/>
-    <app-top-users/>
-</div> -->
+<!-- Top Section (not scrollable) -->
 <div class="grid grid-cols-2 gap-1 bg-primary pb-[13px]">
-    <app-monthly-category-donut></app-monthly-category-donut>
-    <app-monthly-users></app-monthly-users>
-    <app-courses-timed-in/>
-    <app-most-borrowed/>
+  <app-monthly-category-donut></app-monthly-category-donut>
+  <app-monthly-users></app-monthly-users>
+  <app-courses-timed-in></app-courses-timed-in>
+  <app-most-borrowed></app-most-borrowed>
 </div>
-<!-- <div class="grid grid-cols-1 gap-1 bg-primary pb-[13px]">
-    <app-top-ten-user-timein class="mt-4"/>
-</div> -->
 
-<!-- 
-<p class="text-white text-4xl bg-primary text-center pb-5">Material Requests</p>
-<div class="w-full bg-primary pb-5">
-  <div class="p-4 bg-base-100 text-black rounded-3xl w-2/3 slide-in-left h-auto md:h-1/4 mx-auto slide-in-below">
-    <div class="flex justify-between items-center gap-5 slide-in-right">
-      <span class="text-lg font-medium ml-3 text-black">Page {{ currentPage }} / {{ totalPages }}</span>
-      <div class="flex gap-2">
-        <button
-          class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-base-100 hover:text-[#801e1d]"
-          (click)="previousPage()"
-          [disabled]="currentPage === 1"
-        >
-          Previous
-        </button>
-        <button
-          class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-base-100 hover:text-[#801e1d]"
-          (click)="nextPage()"
-          [disabled]="currentPage === totalPages"
-        >
-          Next
-        </button>
-      </div>
+<!-- Scrollable Bottom Section with Container, Consistent Border/Background Color, and Box Shadow -->
+<div class="relative bg-primary p-4 pt-10">
+  <p class="text-center text-black"></p>
+  
+  <!-- Toggle Button for Scrolling -->
+  <button (click)="toggleScroll()" 
+          class="absolute top -right-4 transform -translate-y-1/2 
+                 text-primary p-3 rounded-full shadow-lg text-2xl mr-5"
+          [style.backgroundColor]="'#099ad9'"
+          [ngClass]="{'hover:bg-blue-600': scrollDirection === 'right'}">
+    {{ scrollDirection === 'right' ? '➡️' : '⬅️' }}
+  </button>
+
+  <!-- Scrollable Content -->
+  <div #scrollContainer (scroll)="onScroll()" class="flex overflow-x-auto pb-[13px] gap-4 text-white">
+    <div class="grid grid-cols-2 gap-1 min-w-full bg-primary p-2">
+      <app-feedback-question-1></app-feedback-question-1>
+      <app-feedback-question-2></app-feedback-question-2>
     </div>
-
-    <div class="overflow-x-auto">
-      <table class="table w-full mx-auto">
-        <thead>
-          <tr class="text-primary">
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year Published</th>
-            <th>Requestor Type</th>
-            <th>Requestor Name</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody class="text-start">
-          <tr *ngFor="let request of paginatedRequests" class="text-black text-start">
-            <td>{{ request.title }}</td>
-            <td>{{ request.author }}</td>
-            <td>{{ request.year_published }}</td>
-            <td>{{ request.requester_type | titlecase }}</td>
-            <td>{{ request.requester_name }}</td>
-            <td>
-              <button class="bg-primary text-white shadow-none btn-sm rounded-full font-medium">
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>   
+    <div class="grid grid-cols-2 gap-1 min-w-full bg-primary p-2 rounded-md">
+      <app-feedback-question-3></app-feedback-question-3>
+      <app-feedback-question-4></app-feedback-question-4>
+    </div>
+    <div class="grid grid-cols-2 gap-1 min-w-full bg-primary p-2 rounded-md">
+      <app-feedback-question-5></app-feedback-question-5>
+      <app-feedback-question-6></app-feedback-question-6>
+    </div>
+    <div class="grid grid-cols-2 gap-1 min-w-full bg-primary p-2 rounded-md">
+      <app-feedback-question-7></app-feedback-question-7>
+      <app-feedback-question-8></app-feedback-question-8>
+    </div>
+    <div class="grid grid-cols-2 gap-1 min-w-full bg-primary p-2 rounded-md">
+      <app-feedback-question-9></app-feedback-question-9>
+      <app-feedback-question-10></app-feedback-question-10>
+    </div>
   </div>
-</div> -->
+</div>
+
+
+
+
+

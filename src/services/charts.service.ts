@@ -10,6 +10,7 @@ import { environment } from './environments/local-environment'; // Adjust path i
 })
 export class ChartsService {
   private baseUrl = `${environment.apiUrl}/fetch_monthly_users.php`;
+  private feedbackUrl = `${environment.apiUrl}/fetch_feedback_responses.php`;
 
   constructor(private http: HttpClient) { }
 
@@ -54,6 +55,17 @@ export class ChartsService {
       catchError(error => {
         console.error('Error fetching monthly course data:', error);
         return throwError(() => new Error('Error fetching monthly course data'));
+      })
+    );
+  }
+
+  // Fetch feedback responses for a specific question number
+  getFeedbackResponses(questionNumber: number): Observable<any> {
+    const url = `${this.feedbackUrl}?questionNumber=${questionNumber}`;
+    return this.http.get<any>(url).pipe(
+      catchError(error => {
+        console.error('Error fetching feedback responses:', error);
+        return throwError(() => new Error('Error fetching feedback responses'));
       })
     );
   }
