@@ -81,6 +81,7 @@ import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.co
 import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
 import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
 import { AuthGuardService } from '../services/auth-guard.service';
+import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
 
 const routes: Routes = [
   //*Client
@@ -103,6 +104,7 @@ const routes: Routes = [
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'login-lispupt', component: LoginLispuptComponent },
+  { path: 'password-recovery', component: PasswordRecoveryComponent },
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },
