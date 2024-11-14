@@ -8,6 +8,7 @@ import { environment } from './environments/local-environment';
 })
 export class EmailService {
   private emailUrl = `${environment.apiUrl}/send_book_request.php`;
+  private recoveryEmailUrl = `${environment.apiUrl}/send_recovery_email.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -27,5 +28,9 @@ export class EmailService {
     return this.http.post<any>(`${environment.apiUrl}/send_penalty_notification.php`, { user_id: userId, material_id: materialId }, {
       headers: { 'Content-Type': 'application/json' }
     });
+  }
+
+  sendRecoveryEmail(email: string): Observable<any> {
+    return this.http.post<any>(this.recoveryEmailUrl, { email });
   }
 }
