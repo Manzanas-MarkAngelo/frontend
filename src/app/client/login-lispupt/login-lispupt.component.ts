@@ -30,7 +30,7 @@ export class LoginLispuptComponent {
     this.adminLoginService.loginClient(this.username, this.password).subscribe({
       next: (response) => {
         if (response.status === 'success') {
-          this.clientLoginService.setClientAccess(true); // Set client access to true
+          this.clientLoginService.setClientAccess(true);
           this.router.navigate(['/time-in']);
         } else {
           this.loginError = response.message || 'Login failed';

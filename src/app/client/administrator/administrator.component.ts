@@ -17,7 +17,7 @@ export class AdministratorComponent {
   passwordVisible: boolean = false;
   recoverySent = false;
   emailInput: string = '';
-  showSnackbar: boolean = false; // Variable to control snackbar visibility
+  showSnackbar: boolean = false;
   snackbarMessage: string = '';
   isProcessing: boolean = false;
 
@@ -31,7 +31,6 @@ export class AdministratorComponent {
     private router: Router
   ) {}
 
-  // Toggle the visibility of the password
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
   }
@@ -42,7 +41,7 @@ export class AdministratorComponent {
 
   closeForgotPasswordModal() {
     this.forgotPasswordModal.nativeElement.close();
-    this.emailInput = ''; // Reset the email input field when modal closes
+    this.emailInput = '';
   }
 
   showSnackbarMessage(message: string) {
@@ -50,7 +49,7 @@ export class AdministratorComponent {
     this.showSnackbar = true;
     setTimeout(() => {
       this.showSnackbar = false;
-    }, 3000); // Hide after 3 seconds
+    }, 3000);
   }
 
   checkEmail() {
@@ -69,16 +68,16 @@ export class AdministratorComponent {
   }  
 
   sendRecovery() {
-    this.isProcessing = true; // Start loading only when sending recovery email
+    this.isProcessing = true;
     this.emailService.sendRecoveryEmail(this.emailInput).subscribe(
       response => {
-        this.isProcessing = false; // Stop loading
+        this.isProcessing = false;
         this.recoverySent = true;
         this.snackbar.showMessage("Recovery email sent successfully!");
         this.closeForgotPasswordModal();
       },
       error => {
-        this.isProcessing = false; // Stop loading
+        this.isProcessing = false;
         this.snackbar.showMessage("Failed to send recovery email. Please try again.");
       }
     );
@@ -87,10 +86,8 @@ export class AdministratorComponent {
   onSubmit() {
     this.adminLoginService.login(this.username, this.password).subscribe(response => {
       if (response.success) {
-        // Set the session based on the role
         this.adminLoginService.setSession(response.role);
 
-        // Navigate to the appropriate page based on role
         if (response.role === 'admin') {
           this.adminService.setRole('admin');
           this.router.navigate(['/analytics']);  

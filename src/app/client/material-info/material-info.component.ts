@@ -19,13 +19,11 @@ export class MaterialInfoComponent {
   ngOnInit(): void {
     const accnum = this.route.snapshot.paramMap.get('accnum');
     if (accnum) {
-      // Fetch material details
       this.materialsService.getMaterialDetails(accnum).subscribe(data => {
         this.material = data;
         this.populateForm();
       });
 
-      // Fetch categories (assuming you have a method to fetch categories)
       this.materialsService.getCategories().subscribe(cats => {
         this.categories = cats;
       });
@@ -37,9 +35,6 @@ export class MaterialInfoComponent {
   }
 
   populateForm(): void {
-    console.log('CAT ID:', this.material.categoryid);
-
-    // Populate form fields with material data
     this.material.title = this.material.title || 'unknown/empty';
     this.material.subj = this.material.subject_name || 'unknown/empty';
     this.material.accnum = this.material.accnum || 'unknown/empty';
@@ -51,7 +46,6 @@ export class MaterialInfoComponent {
     this.material.isbn = this.material.isbn || 'unknown/empty';
     this.material.status = this.material.status || 'unknown/empty';
 
-    // Find the matching category by categoryid and assign the mat_type
     const matchingCategory = this.categories.find(cat => cat.cat_id === this.material.categoryid);
     if (matchingCategory) {
       this.material.category = matchingCategory.mat_type;
