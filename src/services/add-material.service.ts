@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './environments/local-environment';
 
@@ -10,6 +10,7 @@ export class AddMaterialService {
   private addBookUrl = `${environment.apiUrl}/add_material.php`;
   private getAccessionNumberUrl = `${environment.apiUrl}/fetch_accession_no.php`;
   private getSubjectHeadingsUrl = `${environment.apiUrl}/fetch_subjects.php`;
+  private getpPginatedSubjectsUrl = `${environment.apiUrl}/fetch_paginated_subj.php`; // use this
 
   constructor(private http: HttpClient) { }
 
@@ -35,4 +36,21 @@ export class AddMaterialService {
                 : this.getSubjectHeadingsUrl;
     return this.http.get<any>(url);
   }
+
+  getPaginatedSubjects(page: number, searchTerm: string = ''): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('searchTerm', searchTerm);
+
+    return this.http.get<any>(this.getpPginatedSubjectsUrl, { params });
+  }
+
+  deleteSubject(subjectId: number): Observable<any> {
+    const deleteUrl = `${environment.apiUrl}/delete_subject.php?id=${subjectId}`;
+    console.log('Payload for deleteSubject:', { url: deleteUrl, subjectId });
+
+    return this.http.delete<any>(deleteUrl);
+}
+
+  
 }

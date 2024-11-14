@@ -14,33 +14,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Fetch the search term from the query parameter, if provided
+// Fetch parameters from the query
 $searchTerm = isset($_GET['searchTerm']) ? $_GET['searchTerm'] : '';
+$page = isset($_GET['page']) ? intval($_GET['page']) : null;
+$limit = 7;  // Set the number of items per page for pagination
 
-// Modify the SQL query to filter by the search term if it exists
-if (!empty($searchTerm)) {
-    $sql = "SELECT * FROM subjects WHERE subject_name LIKE ?";
-    $stmt = $conn->prepare($sql);
-    $searchTerm = '%' . $searchTerm . '%'; // Add wildcards for partial matching
-    $stmt->bind_param("s", $searchTerm);
+// If page parameter is set, apply pagination
+if ($page !== null) {
+    $offset = ($page - 1) * $limit; // Calculate the offset for the SQL query
+
+    if (!empty($searchTerm)) {
+        // Pagination with search term
+        $sql = "SELECT * FROM subjects WHERE subject_name LIKE ? LIMIT ? OFFSET ?";
+        $stmt = $conn->prepare($sql);
+        $searchTermWildcard = '%' . $searchTerm . '%';
+        $stmt->bind_param("sii", $searchTermWildcard, $limit, $offset);
+    } else {
+        // Pagination without search term
+        $sql = "SELECT * FROM subjects LIMIT ? OFFSET ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $limit, $offset);
+    }
 } else {
-    $sql = "SELECT * FROM subjects";
-    $stmt = $conn->prepare($sql);
+    // No pagination, fetch all subjects
+    if (!empty($searchTerm)) {
+        $sql = "SELECT * FROM subjects WHERE subject_name LIKE ?";
+        $stmt = $conn->prepare($sql);
+        $searchTermWildcard = '%' . $searchTerm . '%';
+        $stmt->bind_param("s", $searchTermWildcard);
+    } else {
+        $sql = "SELECT * FROM subjects";
+        $stmt = $conn->prepare($sql);
+    }
 }
 
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Check if any rows were fetched
+$subjects = [];
 if ($result->num_rows > 0) {
-    $subjects = [];
-
-    // Fetch all rows and add them to the subjects array
+    // Fetch and add each row to the subjects array
     while ($row = $result->fetch_assoc()) {
         $subjects[] = $row;
     }
-
-    // Return the subjects as a JSON response
     echo json_encode($subjects);
 } else {
     echo json_encode(['error' => 'No subjects found']);
