@@ -69,8 +69,8 @@ export class MaterialsAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
-    this.fetchSubjects(); // for dropdown
-    this.fetchSubjectsPaginated(); // for table
+    this.fetchSubjects();
+    this.fetchSubjectsPaginated();
 
     
     this.subjectSearchSubject.pipe(
@@ -84,9 +84,8 @@ export class MaterialsAddComponent implements OnInit {
     });
   }
 
-  // Update the search term and trigger the debounce logic
   onSubjectSearch(term: string): void {
-    this.fetchSubjects(term); // Fetch subjects based on search term
+    this.fetchSubjects(term);
   }
 
   editSubject(subjectId: number): void {
@@ -103,7 +102,6 @@ export class MaterialsAddComponent implements OnInit {
     });
   }
 
-  // Fetch subjects for the dropdown, not paginated
   fetchSubjects(searchTerm: string = ''): void {
     this.addMaterialService.getSubjectHeadings(searchTerm).subscribe(data => {
       this.dropdownSubjects = data.map((subject: any) => ({
@@ -114,7 +112,6 @@ export class MaterialsAddComponent implements OnInit {
     });
   }
 
-  // Fetch paginated subjects for the table
   fetchSubjectsPaginated(searchTerm: string = ''): void {
     this.addMaterialService.getPaginatedSubjects(this.currentPage, searchTerm).subscribe(data => {
       this.subjects = data.subjects;
@@ -139,7 +136,6 @@ export class MaterialsAddComponent implements OnInit {
 
   addSubject(): void {
     if (!this.newSubjectName.trim()) {
-      console.log('Subject name is required');
       return;
     }
     this.librarianService.addSubject(this.newSubjectName).subscribe({
@@ -176,7 +172,6 @@ export class MaterialsAddComponent implements OnInit {
     this.subjectToDelete = null;  
   }
 
-  // Method to confirm deletion
   confirmDeleteSubject(): void {
     if (this.subjectToDelete && this.subjectToDelete.id) {
       this.addMaterialService.deleteSubject(this.subjectToDelete.id).subscribe({

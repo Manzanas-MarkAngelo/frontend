@@ -49,7 +49,6 @@ export class MostBorrowedComponent implements OnInit {
   fetchData(year: number, month: number) {
     this.chartsService.getTopTenBorrowedBooks(year, month)
       .subscribe(data => {
-        console.log('Data received:', data); 
         if (data && data.data) {
           this.createHorizontalBarChart(data.data, month, year);
         } else {
@@ -74,7 +73,6 @@ export class MostBorrowedComponent implements OnInit {
     const labels = data.map(item => item.title);
     const values = data.map(item => item.times_borrowed);
   
-    // Generate unique colors for each bar
     const backgroundColors = this.generateUniqueColors(data.length, 0.2);
     const borderColors = this.generateUniqueColors(data.length, 1);        
   
@@ -91,7 +89,7 @@ export class MostBorrowedComponent implements OnInit {
         }]
       },
       options: {
-        indexAxis: 'y', // Makes the chart horizontal
+        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -103,7 +101,7 @@ export class MostBorrowedComponent implements OnInit {
               size: 18
             },
             padding: {
-              top: 40,  // Adds padding at the top (acts like margin)
+              top: 40,
               bottom: 10
             }
           },
@@ -139,36 +137,34 @@ export class MostBorrowedComponent implements OnInit {
     });
   }
   
-// Helper function to generate unique colors
-generateUniqueColors(count: number, opacity: number): string[] {
-  const colors = [];
-  const baseColors = [
-    'rgba(200, 0, 0, OPACITY)',      // Dark Red
-    'rgba(0, 200, 0, OPACITY)',      // Dark Green
-    'rgba(0, 0, 200, OPACITY)',      // Dark Blue
-    'rgba(200, 130, 0, OPACITY)',    // Dark Orange
-    'rgba(100, 100, 100, OPACITY)',  // Dark Gray
-    'rgba(100, 0, 100, OPACITY)',    // Dark Purple
-    'rgba(200, 200, 0, OPACITY)',    // Dark Yellow
-    'rgba(0, 200, 200, OPACITY)',    // Dark Cyan
-    'rgba(100, 100, 0, OPACITY)',    // Dark Olive
-    'rgba(0, 100, 100, OPACITY)',    // Dark Teal
-    'rgba(160, 160, 160, OPACITY)',  // Dark Silver
-    'rgba(200, 160, 180, OPACITY)',  // Light Pink
-    'rgba(200, 85, 140, OPACITY)',   // Light Hot Pink
-    'rgba(0, 0, 100, OPACITY)',      // Darker Blue
-    'rgba(200, 70, 0, OPACITY)',     // Darker Orange
-  ];
+  generateUniqueColors(count: number, opacity: number): string[] {
+    const colors = [];
+    const baseColors = [
+      'rgba(200, 0, 0, OPACITY)',
+      'rgba(0, 200, 0, OPACITY)',
+      'rgba(0, 0, 200, OPACITY)',
+      'rgba(200, 130, 0, OPACITY)',
+      'rgba(100, 100, 100, OPACITY)',
+      'rgba(100, 0, 100, OPACITY)',
+      'rgba(200, 200, 0, OPACITY)',
+      'rgba(0, 200, 200, OPACITY)',
+      'rgba(100, 100, 0, OPACITY)',
+      'rgba(0, 100, 100, OPACITY)',
+      'rgba(160, 160, 160, OPACITY)',
+      'rgba(200, 160, 180, OPACITY)',
+      'rgba(200, 85, 140, OPACITY)',
+      'rgba(0, 0, 100, OPACITY)',
+      'rgba(200, 70, 0, OPACITY)',
+    ];
 
-  for (let i = 0; i < count; i++) {
-    const color = baseColors[i % baseColors.length].replace('OPACITY', 
-          opacity.toString());
-    colors.push(color);
+    for (let i = 0; i < count; i++) {
+      const color = baseColors[i % baseColors.length].replace('OPACITY', 
+            opacity.toString());
+      colors.push(color);
+    }
+
+    return colors;
   }
-
-  return colors;
-}
-
 
   onYearChange(event: any) {
     this.year = +event.target.value;

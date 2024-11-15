@@ -17,9 +17,8 @@ export class MaterialsTypeComponent implements OnInit {
   selectedCategoryId: string = '';
   selectedMaterialTitle: string = '';
 
-  // Pagination properties
   currentPage: number = 1;
-  limit: number = 7; // Items per page
+  limit: number = 7;
   totalCategories: number = 0;
   totalMaterials = 0;
   totalPages: number = 0;
@@ -79,7 +78,7 @@ export class MaterialsTypeComponent implements OnInit {
         } else {
           this.snackBarMessage = response.success;
           this.snackBarVisible = true;
-          this.getCategories(); // Refresh the categories list
+          this.getCategories();
         }
         this.closeConfirmModal();
       },
@@ -96,7 +95,6 @@ export class MaterialsTypeComponent implements OnInit {
     this.snackBarVisible = false;
   }
 
-  // Pagination controls
   goToPreviousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;

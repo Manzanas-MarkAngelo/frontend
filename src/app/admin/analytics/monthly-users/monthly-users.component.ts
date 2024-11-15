@@ -33,10 +33,9 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
   fetchData(year: number) {
     this.chartsService.getMonthlyData(year)
       .subscribe(data => {
-        console.log('Data received for chart:', data); // Log the data to check its format
         this.createChart123(data, year);
       }, error => {
-        console.error('Error fetching data:', error); // Log any errors
+        console.error('Error fetching data:', error);
       });
   }
 
@@ -51,7 +50,7 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
       this.chart.destroy();
     }
 
-    const currentMonth = new Date().getMonth(); // Get the current month (0-based index)
+    const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     const allMonths = ['January', 'February', 'March', 
                        'April', 'May', 'June', 
@@ -59,10 +58,9 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
                        'October', 'November', 'December'];
 
     let displayedMonths = allMonths;
-    let displayedUsers = Object.values(data).map((value: any) => Number(value)); // Ensure data is numbers
+    let displayedUsers = Object.values(data).map((value: any) => Number(value));
 
     if (selectedYear === currentYear) {
-      // If the selected year is the current year, show only up to the current month
       displayedMonths = allMonths.slice(0, currentMonth + 1);
       displayedUsers = displayedUsers.slice(0, currentMonth + 1);
     }
@@ -70,10 +68,10 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
     this.chart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: displayedMonths, // Use filtered month names as labels
+        labels: displayedMonths,
         datasets: [{
           label: 'Number of Users',
-          data: displayedUsers, // Filtered user counts for each month
+          data: displayedUsers,
           borderColor: '#FF5733',
           backgroundColor: 'rgba(255, 87, 51, 0.2)',
           borderWidth: 2,
@@ -86,7 +84,7 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: `Monthly User Activity for ${selectedYear}`, // Title of the chart
+            text: `Monthly User Activity for ${selectedYear}`,
             font: {
               size: 18
             },
@@ -117,7 +115,7 @@ export class MonthlyUsersComponent implements OnInit, AfterViewInit {
   }
 
   onYearChange(event: any) {
-    const selectedYear = +event.target.value; // Ensure selectedYear is treated as a number
+    const selectedYear = +event.target.value;
     this.fetchData(selectedYear);
   }
 }

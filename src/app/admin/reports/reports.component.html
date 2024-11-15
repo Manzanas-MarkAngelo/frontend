@@ -1,12 +1,18 @@
 <div class="flex flex-col items-center bg-primary">
   <div class="w-3/4 flex flex-col items-center">
-    <div class="flex flex-col md:flex-row w-full bg-primary rounded-t-xl mb-0 gap-2 items-center">
+    <div class="flex flex-col md:flex-row w-full bg-primary rounded-t-xl mb-0 
+                gap-2 items-center">
       <div>
         <div class="dropdown dropdown-right slide-in-right">
-          <div tabindex="0" role="button" class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
+          <div tabindex="0" 
+               role="button" 
+               class="btn mb-1 mx-2 bg-secondary border-none text-black text-lg 
+                      hover:bg-[#ffca45]">
             {{ inventoryPlaceholder }}
           </div>
-          <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
+          <ul tabindex="0" 
+              class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 
+                     p-2 shadow text-lg font-medium text-black">
             <li><a (click)="InventoryPlaceholder('Inventory')">Inventory</a></li>
             <li><a (click)="InventoryPlaceholder('Borrowers')">Borrowers</a></li>
             <li><a (click)="InventoryPlaceholder('Students')">Students</a></li>
@@ -21,53 +27,90 @@
     <div class="divider mt-1 mb-2 text-white slide-in-left w-full"></div>
   </div>
 
-  
-  <div class="p-3 bg-white text-black rounded-xl w-3/4 mb-5 slide-in-right flex justify-center items-center">
+  <div class="p-3 bg-white text-black rounded-xl w-3/4 mb-5 slide-in-right flex 
+              justify-center items-center">
     <div class="w-full h-[43rem] relative">
       <div class="w-full flex flex-col md:flex-row justify-between mb-2">
         <div class="w-full md:w-1/2 flex flex-col md:flex-row">
 
           @if (inventoryPlaceholder === 'Borrowers') {
-            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 mb-1">
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 
+                        md:space-x-3 mb-1">
               <div class="flex flex-col slide-in-top">
                 <label class="text-primary font-medium mb-1">From:</label>
-                <input type="date" [(ngModel)]="dateFrom" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
+                <input 
+                  type="date" 
+                  [(ngModel)]="dateFrom" 
+                  class="input input-bordered border-gray-300 rounded-md p-3 
+                         cursor-pointer" 
+                />
               </div>
               <div class="flex flex-col slide-in-top">
                 <label class="text-primary font-medium mb-1">To:</label>
-                <input type="date" [(ngModel)]="dateTo" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
+                <input 
+                  type="date" 
+                  [(ngModel)]="dateTo" 
+                  class="input input-bordered border-gray-300 rounded-md p-3 
+                         cursor-pointer" 
+                />
               </div>
   
               <div class="flex flex-col">
-                <label class="text-primary font-medium mb-0.5">Date clear:</label>
+                <label class="text-primary font-medium mb-0.5">
+                  Date clear:
+                </label>
                 <button
-                type="button"
-                class="h-[3rem] w-auto bg-primary text-white rounded-xl px-4 
-                       font-medium slide-in-right"
-                       (click)="handleClearButtonClick()">
-                Clear
-              </button>
+                  type="button"
+                  class="h-[3rem] w-auto bg-primary text-white rounded-xl px-4 
+                        font-medium slide-in-right"
+                  (click)="handleClearButtonClick()"
+                >
+                  Clear
+                </button>
               </div>
 
               <div class="flex flex-col">
-                <label class="text-primary font-medium mb-0.5">Status filter:</label>
+                <label class="text-primary font-medium mb-0.5">
+                  Status filter:
+                </label>
                 <div class="flex flex-row gap-2 slide-in-right">
                   <div class="dropdown dropdown-bottom slide-in-right">
                     <div
                       tabindex="0"
                       role="button"
-                      class="btn w-auto mb-1 bg-secondary border-none text-black text-lg hover:bg-[#ffb700]">
+                      class="btn w-auto mb-1 bg-secondary border-none text-black 
+                             text-lg hover:bg-[#ffb700]"
+                    >
                       {{this.selectedRemark || 'Remarks'}}
                     </div>
                     <ul
                       tabindex="0"
-                      class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow text-lg font-medium text-black">
-                      <li><a (click)="onRemarkSelected('')">All</a></li> <!-- For showing all items -->
-                      <li><a (click)="onRemarkSelected('In Progress')">In Progress</a></li>
-                      <li><a (click)="onRemarkSelected('Returned')">Returned</a></li>
-                      <li><a (click)="onRemarkSelected('Returned Late')">Returned Late</a></li>
-                      <li><a (click)="onRemarkSelected('Processing')">Processing</a></li>
-                      <li><a (click)="onRemarkSelected('Overdue')">Overdue</a></li>
+                      class="dropdown-content menu bg-secondary rounded-box 
+                             z-[1] w-52 p-2 shadow text-lg font-medium 
+                             text-black"
+                    >
+                      <li><a (click)="onRemarkSelected('')">All</a></li>
+                      <li>
+                        <a (click)="onRemarkSelected('In Progress')">
+                          In Progress
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="onRemarkSelected('Returned')">Returned</a>
+                      </li>
+                      <li>
+                        <a (click)="onRemarkSelected('Returned Late')">
+                          Returned Late
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="onRemarkSelected('Processing')">
+                          Processing
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="onRemarkSelected('Overdue')">Overdue</a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -77,36 +120,43 @@
           } @else if (inventoryPlaceholder === 'Inventory') {
             <div class="flex flex-row md:flex-row space-y-0 gap-1 md:space-y-0">
               <div class="dropdown dropdown-bottom slide-in-right">
-                <div tabindex="0" role="button" class="btn mb-1 mx-1 bg-secondary border-none text-black text-lg hover:bg-[#ffca45]">
+                <div tabindex="0" 
+                     role="button" 
+                     class="btn mb-1 mx-1 bg-secondary border-none text-black 
+                            text-lg hover:bg-[#ffca45]"
+                >
                   {{ categoryPlaceholder }}
                 </div>
-                <ul tabindex="0" class="dropdown-content menu bg-secondary rounded-box z-[1] w-60 p-0 shadow text-lg font-medium text-black">
+                <ul tabindex="0" 
+                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
+                           w-60 p-0 shadow text-lg font-medium text-black">
                   <li><a (click)="CategoryPlaceholder('All')">All</a></li>
                   <li *ngFor="let category of categories">
-                    <a (click)="CategoryPlaceholder(category.mat_type)">{{ category.mat_type }}</a>
+                    <a (click)="CategoryPlaceholder(category.mat_type)">
+                      {{ category.mat_type }}
+                    </a>
                   </li>
                 </ul>
               </div>
   
               <div class="dropdown dropdown-bottom slide-in-right">
                 <div tabindex="0" role="button"
-                     class="btn bg-secondary border-none text-black text-lg hover:bg-[#ffca45] flex items-center justify-center w-auto" 
+                     class="btn bg-secondary border-none text-black text-lg 
+                            hover:bg-[#ffca45] flex items-center justify-center 
+                            w-auto" 
                      (click)="toggleProgramDropdown()">
                   <span>{{ programPlaceholder || 'Select a Subject' }}</span>
                 </div>
               
-                <!-- Dropdown menu with search -->
                 <div *ngIf="isProgramDropdownOpen" 
                      class="dropdown-content menu bg-secondary rounded-box 
                             z-[1] w-72 text-base font-medium text-black 
                             max-h-56 overflow-y-auto overflow-x-hidden block">
-                  <!-- Search input -->
                   <input type="text" placeholder="Search..." 
                          class="input input-bordered w-full mb-2"
                          [(ngModel)]="programSearchTerm" 
-                        (ngModelChange)="onProgramSearch($event)" />
-              
-                  <!-- Program list -->
+                        (ngModelChange)="onProgramSearch($event)" 
+                  />
                   <ul tabindex="0">
                     <li *ngFor="let program of filteredPrograms" class="w-full">
                       <a (click)="selectProgram(program)" 
@@ -118,69 +168,101 @@
                   </ul>
                 </div>
               </div>
-              
-  
+
               <button
-              type="button"
-              class="h-[3rem] w-auto bg-primary text-white rounded-xl 
-                     px-4 font-medium slide-in-right"
-                     (click)="handleClearButtonClick()">
-              Clear
-            </button>
+                type="button"
+                class="h-[3rem] w-auto bg-primary text-white rounded-xl 
+                       px-4 font-medium slide-in-right"
+                (click)="handleClearButtonClick()"
+              >
+                Clear
+              </button>
             </div>
           } @else {
-            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 mb-1">
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 
+                        md:space-x-3 mb-1">
               <div class="flex flex-col slide-in-top">
                 <label class="text-primary font-medium mb-1">From:</label>
-                <input type="date" [(ngModel)]="dateFrom" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
+                <input 
+                  type="date" 
+                  [(ngModel)]="dateFrom" 
+                  class="input input-bordered border-gray-300 rounded-md p-3 
+                         cursor-pointer" 
+                />
               </div>
               <div class="flex flex-col slide-in-top">
                 <label class="text-primary font-medium mb-1">To:</label>
-                <input type="date" [(ngModel)]="dateTo" class="input input-bordered border-gray-300 rounded-md p-3 cursor-pointer" />
+                <input 
+                  type="date" 
+                  [(ngModel)]="dateTo" 
+                  class="input input-bordered border-gray-300 rounded-md p-3 
+                         cursor-pointer" 
+                />
               </div>
   
               <div class="flex flex-col">
-                <label class="text-primary font-medium mb-0.5">Date clear:</label>
+                <label class="text-primary font-medium mb-0.5">
+                  Date clear:
+                </label>
                 <button
-                type="button"
-                class="h-[3rem] w-auto bg-primary text-white rounded-xl px-4 font-medium slide-in-right"
-                (click)="handleClearButtonClick()">
-                Clear
-              </button>
+                  type="button"
+                  class="h-[3rem] w-auto bg-primary text-white rounded-xl px-4 
+                         font-medium slide-in-right"
+                  (click)="handleClearButtonClick()"
+                >
+                  Clear
+                </button>
               </div>
             </div>
           }
         </div>
         
-        <div class="w-full md:w-1/2 flex flex-row md:flex-row justify-end space-y-0 gap-1 md:space-y-0 md:space-x-2">
-          <button type="button" class="w-full md:w-40 h-14 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300" (click)="selectPdfReport()">
+        <div class="w-full md:w-1/2 flex flex-row md:flex-row justify-end 
+                    space-y-0 gap-1 md:space-y-0 md:space-x-2">
+          <button 
+            type="button" 
+            class="w-full md:w-40 h-14 bg-primary text-white px-4 py-3 
+                   rounded-full font-medium hover:bg-[#ffb700] hover:text-black 
+                   transition duration-300" 
+            (click)="selectPdfReport()"
+          >
             Generate PDF
           </button>
 
-          <button type="button" class="w-full md:w-40 h-14 bg-primary text-white px-4 py-3 rounded-full font-medium hover:bg-[#ffb700] hover:text-black transition duration-300" (click)="selectExcelReport()">
+          <button 
+            type="button" 
+            class="w-full md:w-40 h-14 bg-primary text-white px-4 py-3 
+                   rounded-full font-medium hover:bg-[#ffb700] hover:text-black 
+                   transition duration-300" 
+            (click)="selectExcelReport()"
+          >
             Save to Excel
           </button>          
         </div>
       </div>
       
-      <!-- Loading indicator -->
-      <div *ngIf="isLoading" class="flex justify-center items-center absolute top-0 left-0 right-0 bottom-0 bg-white bg-opacity-80 z-10">
+      <div *ngIf="isLoading" 
+           class="flex justify-center items-center absolute top-0 left-0 right-0 
+                  bottom-0 bg-white bg-opacity-80 z-10">
         <div class="loader"></div>
       </div>
       
-      <!-- PDF preview iframe -->
-      <iframe id="pdf-preview" class="w-full h-[500px] md:h-[600px] mt-3 rounded-md bg-[#8b0000] bg-opacity-65 p-2"></iframe>
+      <iframe 
+        id="pdf-preview" 
+        class="w-full h-[500px] md:h-[600px] mt-3 rounded-md bg-[#8b0000] 
+               bg-opacity-65 p-2">
+      </iframe>
 
       @if(showInitialDisplay) {
-        <div class="flex justify-center items-center w-full h-full absolute top-0 left-0 z-0 pointer-events-none">
-          <img src="../../../assets/reports_inital_display.png" alt="Reports" class="w-1/2 md:w-1/4 h-auto">
+        <div class="flex justify-center items-center w-full h-full absolute 
+                    top-0 left-0 z-0 pointer-events-none">
+          <img 
+            src="../../../assets/reports_inital_display.png" 
+            alt="Reports" 
+            class="w-1/2 md:w-1/4 h-auto"
+          >
         </div>
       }
-      
     </div>
   </div>
 </div>
-
-
-
-

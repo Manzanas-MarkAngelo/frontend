@@ -30,32 +30,30 @@ export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
     { name: 'December', value: 12 }
   ];
 
-  // Translucent colors with alpha values for background
   private backgroundColors: string[] = [
-    'rgba(255, 99, 132, 0.2)',  // Red
-    'rgba(255, 159, 64, 0.2)',  // Orange
-    'rgba(255, 205, 86, 0.2)',  // Yellow
-    'rgba(75, 192, 192, 0.2)',  // Teal
-    'rgba(54, 162, 235, 0.2)',  // Blue
-    'rgba(153, 102, 255, 0.2)', // Purple
-    'rgba(37, 149, 102, 0.2)'  // Grey
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(255, 159, 64, 0.2)',
+    'rgba(255, 205, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(37, 149, 102, 0.2)'
   ];
 
-  // Fully opaque colors for borders
   private borderColors: string[] = [
-    'rgb(255, 99, 132)',  // Red
-    'rgb(255, 159, 64)',  // Orange
-    'rgb(255, 205, 86)',  // Yellow
-    'rgb(75, 192, 192)',  // Teal
-    'rgb(54, 162, 235)',  // Blue
-    'rgb(153, 102, 255)', // Purple
-    'rgba(37, 149, 102, 1)'  // Grey
+    'rgb(255, 99, 132)',
+    'rgb(255, 159, 64)',
+    'rgb(255, 205, 86)',
+    'rgb(75, 192, 192)',
+    'rgb(54, 162, 235)',
+    'rgb(153, 102, 255)',
+    'rgba(37, 149, 102, 1)'
   ];
 
   constructor(private chartsService: ChartsService) {
     const now = new Date();
     this.year = now.getFullYear();
-    this.month = now.getMonth() + 1; // Current month (1-based index)
+    this.month = now.getMonth() + 1;
   }
 
   ngOnInit() {
@@ -74,7 +72,6 @@ export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
   fetchData(year: number, month: number) {
     this.chartsService.getTopTenUsers(year, month)
       .subscribe(data => {
-        console.log('Data received:', data); 
         if (data && data.data) {
           this.createChart(data, month, year);
         } else {
@@ -96,19 +93,16 @@ export class TopTenUserTimeinComponent implements OnInit, AfterViewInit {
       this.chart.destroy();
     }
   
-    // Prepare data for the bar chart
     const labels = data.data.map((item: any) => {
       const fullName = `${item.first_name} ${item.surname}`;
       return fullName.length > 17 ? item.surname : fullName;
     });
     const values = data.data.map((item: any) => item.times_in);
   
-    // Generate colors for each bar
     const numBars = labels.length;
     const backgroundColors = this.backgroundColors.slice(0, numBars);
     const borderColors = this.borderColors.slice(0, numBars);
   
-    // Update chart title based on the number of users
     const monthName = this.months.find(m => m.value === month)?.name || 'Unknown';
     const chartTitle = numBars === 1 
       ? `Top User for ${monthName}, ${year}` 
