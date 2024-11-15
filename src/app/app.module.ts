@@ -126,6 +126,7 @@ import { BookRequestService } from '../services/book-request.service';
 import { ClientSnackbarComponent } from './client/client-snackbar/client-snackbar.component';
 import { RequestComponent } from './admin/request/request.component';
 import { EmailService } from '../services/email.service';
+import { SuperAdminService } from '../services/super-admin.service';
 import { FeedbackComponent } from './client/feedback/feedback.component';
 import { LoginLispuptComponent } from './client/login-lispupt/login-lispupt.component';
 import { EmployeesComponent } from './super-admin/employees/employees.component';
@@ -143,6 +144,7 @@ import { FeedbackQuestion8Component } from './admin/analytics/feedback-question-
 import { FeedbackQuestion9Component } from './admin/analytics/feedback-question-9/feedback-question-9.component';
 import { FeedbackQuestion10Component } from './admin/analytics/feedback-question-10/feedback-question-10.component';
 import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
+import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/super-admin-profile.component';
 
 
 @NgModule({
@@ -250,6 +252,7 @@ import { PasswordRecoveryComponent } from './client/password-recovery/password-r
     FeedbackQuestion9Component,
     FeedbackQuestion10Component,
     PasswordRecoveryComponent,
+    SuperAdminProfileComponent,
 
   ],
   imports: [
@@ -294,6 +297,7 @@ import { PasswordRecoveryComponent } from './client/password-recovery/password-r
     AuthGuardService,
     PdfReportEmployeesService,
     ExcelReportEmployeesService,
+    SuperAdminService,
   ],
   bootstrap: [AppComponent]
 })

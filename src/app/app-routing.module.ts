@@ -33,6 +33,7 @@ import { AddTypeSuccessComponent } from './admin/add-type-success/add-type-succe
 import { RecordsComponent } from './admin/records/records.component';
 import { ReportsComponent } from './admin/reports/reports.component';
 import { ProfileComponent } from './admin/profile/profile.component';
+import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/super-admin-profile.component';
 import { SidebarAdminComponent } from './admin/sidebar-admin/sidebar-admin.component';
 import { MaterialInfoComponent } from './client/material-info/material-info.component';
 import { TimeinAlreadyComponent } from './client/timein-already/timein-already.component';
@@ -139,6 +140,7 @@ const routes: Routes = [
   { path: 'records', component: RecordsComponent, canActivate: [AuthGuardService] },
   { path: 'reports', component: ReportsComponent, canActivate: [AuthGuardService] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'super-admin-profile', component: SuperAdminProfileComponent, canActivate: [AuthGuardService] },
   { path: 'sidebar-admin', component: SidebarAdminComponent, canActivate: [AuthGuardService] },
   { path: 'material-info', component: MaterialInfoComponent, canActivate: [AuthGuardService] },
   { path: 'timein-already', component: TimeinAlreadyComponent, canActivate: [AuthGuardService] },
