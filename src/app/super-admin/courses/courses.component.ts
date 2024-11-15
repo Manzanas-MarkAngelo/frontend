@@ -13,7 +13,7 @@ export class CoursesComponent implements OnInit {
   courses: any[] = [];
   showModal: boolean = false;
   selectedCourse: any;
-  private previousPage: string | null = null; // Store the previous page based on query param
+  private previousPage: string | null = null;
 
   constructor(
     private courseService: CourseService,
@@ -24,10 +24,8 @@ export class CoursesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get the query parameter 'from'
     this.route.queryParams.subscribe(params => {
-      this.previousPage = params['from'] || null; // Store the previous page if it exists
-      console.log('Came from:', this.previousPage);
+      this.previousPage = params['from'] || null;
     });
 
     this.loadCourses();
@@ -57,7 +55,7 @@ export class CoursesComponent implements OnInit {
       this.courseService.deleteCourse(this.selectedCourse.id).subscribe(response => {
         if (response.success) {
           this.snackbarService.showSnackbar(`${this.selectedCourse.course_program} has been deleted.`);
-          this.loadCourses(); // Reload the courses after deletion
+          this.loadCourses();
         } else {
           console.error('Error deleting course:', response.message);
         }

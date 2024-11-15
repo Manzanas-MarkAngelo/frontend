@@ -15,12 +15,10 @@ export class AddCourseComponent {
 
   openConfirmModal(): void {
     this.showModal = true;
-    console.log('Modal opened');
   }
 
   closeConfirmModal(): void {
     this.showModal = false;
-    console.log('Modal closed');
   }
 
   addCourse(): void {

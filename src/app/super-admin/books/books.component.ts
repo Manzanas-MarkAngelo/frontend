@@ -324,7 +324,6 @@ export class BooksComponent implements OnInit {
 
   deleteMaterial(): void {
     if (this.selectedMaterialIds.length > 0) {
-      // Delete multiple materials
       this.materialsService.deleteMultipleMaterials(this.selectedMaterialIds)
         .subscribe(response => {
           if (response.status === 'success') {
@@ -350,7 +349,6 @@ export class BooksComponent implements OnInit {
           }
         });
     } else if (this.selectedMaterialId !== null) {
-      // Delete single material
       this.materialsService.deleteMaterial(this.selectedMaterialId)
         .subscribe(response => {
           if (response.status === 'success') {

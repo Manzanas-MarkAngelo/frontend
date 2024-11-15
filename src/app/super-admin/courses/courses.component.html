@@ -1,8 +1,8 @@
 <div class="flex items-center justify-center w-full pt-10 bg-primary">
   <div class="flex flex-col w-full gap-3 px-4 md:px-0">
-    <!-- Centered Table -->
-     @if (courses.length > 0) {
-      <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-1/2 mb-12 slide-in-left md:h-1/4 mx-auto">
+    @if (courses.length > 0) {
+      <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-1/2 mb-12 
+                  slide-in-left md:h-1/4 mx-auto">
         <div class="overflow-x-auto">
           <table class="table w-full">
             <thead>
@@ -19,12 +19,16 @@
                 <td class="text-center">
                   <button
                     routerLink="/edit-course/{{ course.id }}"
-                    class="bg-secondary text-black border-none shadow-none btn-sm rounded-xl font-medium mr-1 mb-0.5 md:mb-0">
+                    class="bg-secondary text-black border-none shadow-none 
+                           btn-sm rounded-xl font-medium mr-1 mb-0.5 md:mb-0"
+                  >
                     Edit
                   </button>
                   <button
-                    class="bg-primary text-white border-none shadow-none btn-sm rounded-xl font-medium"
-                    (click)="openDeleteModal(course)">
+                    class="bg-primary text-white border-none shadow-none btn-sm 
+                           rounded-xl font-medium"
+                    (click)="openDeleteModal(course)"
+                  >
                     Delete
                   </button>
                 </td>
@@ -33,42 +37,50 @@
           </table>
         </div>
         <div class="divider my-0"></div>
-        <div class="flex items-center w-full flex-col md:flex-row md:justify-between gap-2">
+        <div class="flex items-center w-full flex-col md:flex-row 
+                    md:justify-between gap-2">
           <button
-          routerLink="/student"
-          type="submit"
-          class="w-3/4 md:w-1/4 bg-primary text-white px-4 py-3 rounded-xl font-medium hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-top">
-          Back
-        </button>
+            routerLink="/student"
+            type="submit"
+            class="w-3/4 md:w-1/4 bg-primary text-white px-4 py-3 rounded-xl 
+                   font-medium hover:bg-[#ffb700] hover:text-black transition 
+                   duration-300 slide-in-top"
+          >
+            Back
+          </button>
           <button
             routerLink="/add-course"
             type="submit"
-            class="w-3/4 md:w-1/4 bg-secondary text-black px-4 py-3 rounded-xl font-medium hover:bg-[#801e1d] hover:text-white transition duration-300 slide-in-top">
+            class="w-3/4 md:w-1/4 bg-secondary text-black px-4 py-3 rounded-xl 
+                   font-medium hover:bg-[#801e1d] hover:text-white transition 
+                   duration-300 slide-in-top"
+          >
             Add a course
           </button>
-         </div>
+        </div>
       </div>
-     } @else {
+    } @else {
       <div class="flex justify-center items-center mt-20 slide-in-below">
         <div class="card bg-primary w-96">
-            <figure class="px-10 pt-10">
-              <img
-                src="../../../assets/no-match1.svg"
-                alt="no-match"/>
-            </figure>
-            <div class="card-body items-center text-center">
-              <h2 class="card-title text-white">Oops!</h2>
-              <p class="text-white">There's nothing to see here!</p>
-            </div>
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"
+            />
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Oops!</h2>
+            <p class="text-white">There's nothing to see here!</p>
           </div>
+        </div>
       </div>
-     }
-
+    }
   </div>
 </div>
 
-<!-- Modal -->
-<div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+<div *ngIf="showModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 
+            bg-opacity-50">
   <div class="bg-white p-8 rounded-xl shadow-lg w-[90%] md:w-1/2 max-w-md">
     <h2 class="text-center text-xl font-medium text-primary mb-3">
       Do you really want to delete this course?
@@ -80,12 +92,16 @@
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
           (click)="closeDeleteModal()"
-          class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium hover:bg-red-700 transition duration-300">
+          class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-red-700 transition duration-300"
+        >
           Cancel
         </button>
         <button
           (click)="deleteCourse()"
-          class="flex-1 bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-500 transition duration-300">
+          class="flex-1 bg-green-600 text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-green-500 transition duration-300"
+        >
           Continue
         </button>
       </div>

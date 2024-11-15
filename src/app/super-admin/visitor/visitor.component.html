@@ -1,30 +1,36 @@
 <div class="flex flex-col w-full bg-primary items-center pt-2">
-  <div class="flex flex-row flex-wrap w-11/12 lg:w-2/3 mt-1 justify-between gap-1 mb-3">
+  <div class="flex flex-row flex-wrap w-11/12 lg:w-2/3 mt-1 justify-between 
+              gap-1 mb-3">
     <div class="flex flex-row w-full md:w-1/2 gap-2">
       <input 
-      type="text" 
-      placeholder="Search visitor" 
-      class="input input-bordered w-full rounded-xl text-lg font-medium 
-             text-primary slide-in-left bg-white"
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="onSearchChange($event)" />
+        type="text" 
+        placeholder="Search visitor" 
+        class="input input-bordered w-full rounded-xl text-lg font-medium 
+               text-primary slide-in-left bg-white"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange($event)" 
+      />
       <button
-      type="button"
-      class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
-             hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
-      (click)="clearLogType()">
-      Clear
-    </button>
+        type="button"
+        class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+               hover:bg-[#ffb700] hover:text-black transition duration-300 
+               slide-in-right"
+        (click)="clearLogType()"
+      >
+        Clear
+      </button>
     </div>
 
     <div class="flex flex-row w-auto flex-wrap gap-1">
       <button
-      routerLink="/add-visitor"
-      type="submit"
-      class="h-[3rem] bg-secondary text-black rounded-xl px-4 font-medium 
-      hover:bg-white hover:text-[#801e1d] transition duration-300 slide-in-right">
-      Add a visitor
-    </button>
+        routerLink="/add-visitor"
+        type="submit"
+        class="h-[3rem] bg-secondary text-black rounded-xl px-4 font-medium 
+               hover:bg-white hover:text-[#801e1d] transition duration-300 
+               slide-in-right"
+      >
+        Add a visitor
+      </button>
 
       <div class="flex justify-between items-center gap-5 slide-in-right mb-1">
         <span class="text-lg font-medium ml-3 text-white">
@@ -32,26 +38,29 @@
         </span>
         <div class="flex gap-2">
           <button
-            class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+            class="btn border-none bg-secondary text-black 
+                   hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
             [disabled]="currentPage === 1"
             (click)="onPageChange(currentPage - 1)"
           >
             Previous
           </button>
           <button
-            class="btn border-none bg-secondary text-black hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+            class="btn border-none bg-secondary text-black 
+                   hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
             [disabled]="currentPage === totalPages"
             (click)="onPageChange(currentPage + 1)"
           >
             Next
           </button>
-          </div>
+        </div>
       </div>
     </div>
   </div>
 
   @if (logs.length > 0) {
-    <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-2/3 slide-in-right mb-5">
+    <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-2/3 
+                slide-in-right mb-5">
       <div class="overflow-x-auto">
         <table class="table w-full">
           <thead>
@@ -73,27 +82,17 @@
               <td>{{ record.identifier }}</td>
               <td class="text-center">
                 <button 
-                  class="bg-secondary 
-                        text-black 
-                        border-none 
-                        shadow-none 
-                        btn-sm 
-                        rounded-xl 
-                        font-medium
-                        mr-1
-                        mb-0.5"
-                  [routerLink]="['/edit-visitor', record.user_id]">
+                  class="bg-secondary text-black border-none shadow-none btn-sm 
+                        rounded-xl font-medium mr-1 mb-0.5"
+                  [routerLink]="['/edit-visitor', record.user_id]"
+                >
                   Edit
                 </button>            
                 <button 
-                  class="bg-primary 
-                        text-white 
-                        border-none 
-                        shadow-none 
-                        btn-sm 
-                        rounded-xl 
-                        font-medium"
-                  (click)="openDeleteModal(record, record.name)">
+                  class="bg-primary text-white border-none shadow-none btn-sm 
+                        rounded-xl font-medium"
+                  (click)="openDeleteModal(record, record.name)"
+                >
                   Delete
                 </button>
               </td>
@@ -103,7 +102,8 @@
             <tr>
               <td colspan="100%" class="text-center">
                 <label for="itemsPerPage" 
-                       class="text-primary text-lg font-medium mr-2">
+                       class="text-primary text-lg font-medium mr-2"
+                >
                   Show items:
                 </label>
                 <select 
@@ -140,55 +140,38 @@
         </div>
     </div>
   }
-
 </div>
 
 @if(showModal) {
-  <div 
-      class="fixed inset-0 flex items-center 
-             justify-center bg-gray-800 bg-opacity-50">
-      <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 
+              bg-opacity-50">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
       <h2 class="text-center text-2xl font-medium text-primary mb-3">
-          Do you want to delete this visitor? 
-          <div class="text-yellow-500 mt-4 italic">
-            {{selectedVisitorName}}
-          </div>
+        Do you want to delete this visitor? 
+        <div class="text-yellow-500 mt-4 italic">
+          {{selectedVisitorName}}
+        </div>
       </h2>
       <div class="flex flex-col items-center justify-between h-full">
-          <div class="flex flex-row gap-4 w-full mt-4">
+        <div class="flex flex-row gap-4 w-full mt-4">
           <button
-              (click)="hideModal()"
-              class="flex-1
-                  bg-primary 
-                  text-white 
-                  px-6 
-                  py-3 
-                  rounded-xl 
-                  font-medium 
-                  hover:bg-[#ffb700] 
-                  hover:text-black 
-                  transition 
-                  duration-300">
-              Back
+            (click)="hideModal()"
+            class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+                  hover:bg-[#ffb700] hover:text-black transition duration-300"
+          >
+            Back
           </button>
           <button
-              (click)="deleteVisitor()"
-              class="flex-1
-                  bg-secondary 
-                  text-black 
-                  px-6 
-                  py-3 
-                  rounded-xl 
-                  font-medium 
-                  hover:bg-[#801e1d] 
-                  hover:text-white 
-                  transition 
-                  duration-300">
-              Delete
+            (click)="deleteVisitor()"
+            class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl 
+                  font-medium hover:bg-[#801e1d] hover:text-white transition 
+                  duration-300"
+          >
+            Delete
           </button>
-          </div>
+        </div>
       </div>
-      </div>
+    </div>
   </div>
 }
 
