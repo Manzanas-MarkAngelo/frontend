@@ -17,6 +17,13 @@ export class MaterialsTypeComponent implements OnInit {
   selectedCategoryId: string = '';
   selectedMaterialTitle: string = '';
 
+  // Pagination properties
+  currentPage: number = 1;
+  limit: number = 7; // Items per page
+  totalCategories: number = 0;
+  totalMaterials = 0;
+  totalPages: number = 0;
+
   constructor(private location: Location, private materialsService: MaterialsService, private router: Router) {}
 
   ngOnInit(): void {
@@ -24,9 +31,12 @@ export class MaterialsTypeComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.materialsService.getCategories().subscribe(
+    this.materialsService.getPaginatedCategories(this.currentPage, this.limit).subscribe(
       data => {
-        this.categories = data;
+        this.categories = data.categories;
+        this.totalCategories = parseInt(data.total_categories, 10);
+        this.totalMaterials = parseInt(data.total_materials, 10);
+        this.totalPages = Math.ceil(this.totalCategories / this.limit);
         this.calculateTotalCount();
       },
       error => {
@@ -36,8 +46,8 @@ export class MaterialsTypeComponent implements OnInit {
   }
 
   calculateTotalCount(): void {
-    this.totalCount = this.categories.reduce((total, category) => {
-      const counterValue = parseInt(category.counter || '0', 10);
+    this.totalCount = this.categories.reduce((total, material) => {
+      const counterValue = parseInt(material.counter || '0', 10);
       return total + counterValue;
     }, 0);
   }
@@ -84,5 +94,20 @@ export class MaterialsTypeComponent implements OnInit {
 
   closeSnackBar(): void {
     this.snackBarVisible = false;
+  }
+
+  // Pagination controls
+  goToPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getCategories();
+    }
+  }
+
+  goToNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.getCategories();
+    }
   }
 }

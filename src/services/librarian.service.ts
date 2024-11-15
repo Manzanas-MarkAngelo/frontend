@@ -16,4 +16,8 @@ export class LibrarianService {
   updateLibrarian(id: number, librarianData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/update_librarian.php`, { id, ...librarianData });
   }
+  
+  addSubject(subjectName: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add_subject.php`, { subject_name: subjectName });
+  }
 }

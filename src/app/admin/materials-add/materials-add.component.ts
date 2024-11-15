@@ -1,22 +1,27 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { AddMaterialService } from '../../../services/add-material.service';
 import { MaterialsService } from '../../../services/materials.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
+import { LibrarianService } from '../../../services/librarian.service';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { Subject } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-materials-add',
   templateUrl: './materials-add.component.html',
   styleUrls: ['./materials-add.component.css']
 })
-export class MaterialsAddComponent {
-  @ViewChild('bookForm') bookForm!: NgForm;  // Reference to the form
+export class MaterialsAddComponent implements OnInit {
+  @ViewChild('bookForm') bookForm!: NgForm;
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
 
   bookDetails = {
     title: '',
     heading: 0,
-    accnum: '',  // This will be updated with the last number for accession number
+    accnum: '',
     category: '',
     author: '',
     callnum: '',
@@ -24,152 +29,224 @@ export class MaterialsAddComponent {
     publisher: '',
     edition: '',
     isbn: '',
-    status: 'Available' // Default value
+    status: 'Available'
   };
+
+  material: any = {};
+  showModal = false;
+  showModalDelete = false;
+  isDropdownOpen = false;
+  selectedCategory: { cat_id: number, mat_type: string } | null = null;
+  categories: { cat_id: number, mat_type: string }[] = [];
+  showTooltip = false;
+  continueButtonClicked = false;
+  
+  isSubjectDropdownOpen = false;
+  selectedSubject: { id: number, subject_name: string } | null = null;
+  subjects: { id: number, subject_name: string }[] = [];
+  dropdownSubjects: { id: number, subject_name: string }[] = [];  
+  filteredSubjects: { id: number, subject_name: string }[] = [];
+  subjectSearchTerm: string = '';
+  subject_id: number;
+  newSubjectName: string = '';
+  snackBarVisible: boolean = true;
+  snackBarMessage: string = '';
+
+  currentPage: number = 1;
+  totalPages: number = 1;
+  totalSubjects: number = 0;
+  isSubmitting: boolean = false;
+  subjectSearchSubject: Subject<string> = new Subject();
+  subjectToDelete: any = null; 
 
   constructor(
     private addMaterialService: AddMaterialService, 
     private router: Router, 
     private location: Location,
-    private materialsService: MaterialsService
+    private materialsService: MaterialsService,
+    private librarianService: LibrarianService,
   ) {}
 
-  material: any = {};
-  showModal = false; 
-  isDropdownOpen = false; 
-  selectedCategory: { cat_id: number, mat_type: string } | null = null;  // To display mat_type in dropdown
-  categories: { cat_id: number, mat_type: string }[] = [];  // Holds cat_id and mat_type
-  showTooltip = false;
-  continueButtonClicked = false;
-
-  isSubjectDropdownOpen = false; 
-  selectedSubject: { id: number, subject_name: string } | null = null;  // To display subject heading in dropdown
-  subjects: { id: number, subject_name: string }[] = [];  // Holds subject ids and headings
-  filteredSubjects: { id: number, subject_name: string }[] = [];
-  subjectSearchTerm: string = ''; // To hold the search term
-  subject_id: number ;
-
-
   ngOnInit(): void {
-    // Fetch categories from the database
+    this.loadCategories();
+    this.fetchSubjects(); // for dropdown
+    this.fetchSubjectsPaginated(); // for table
+
+    
+    this.subjectSearchSubject.pipe(
+      debounceTime(300),  
+      switchMap(term => this.addMaterialService
+          .getPaginatedSubjects(this.currentPage, term)) 
+    ).subscribe(data => {
+      this.subjects = data.subjects;
+      this.totalPages = data.pagination.totalPages;
+      this.totalSubjects = data.pagination.totalSubjects;
+    });
+  }
+
+  // Update the search term and trigger the debounce logic
+  onSubjectSearch(term: string): void {
+    this.fetchSubjects(term); // Fetch subjects based on search term
+  }
+
+  editSubject(subjectId: number): void {
+    this.router.navigate(['/edit-subject', subjectId]);
+  }
+
+  loadCategories(): void {
     this.materialsService.getCategories().subscribe(data => {
       this.categories = data.map((category: any) => ({
         cat_id: category.cat_id,
         mat_type: category.mat_type
       }));
-
-      // Set a default selected category if necessary
       this.selectedCategory = { cat_id: 0, mat_type: 'Select Category' };
     });
-
-    this.fetchSubjects();
   }
 
-  // Fetch subjects from the service
+  // Fetch subjects for the dropdown, not paginated
   fetchSubjects(searchTerm: string = ''): void {
     this.addMaterialService.getSubjectHeadings(searchTerm).subscribe(data => {
-      this.subjects = data.map((subject: any) => ({
+      this.dropdownSubjects = data.map((subject: any) => ({
         id: subject.id,
         subject_name: subject.subject_name
       }));
-      this.filteredSubjects = [...this.subjects]; // Initially show all subjects
+      this.filteredSubjects = [...this.dropdownSubjects]; 
     });
   }
 
-  openConfirmModal() {
-    this.continueButtonClicked = true;
+  // Fetch paginated subjects for the table
+  fetchSubjectsPaginated(searchTerm: string = ''): void {
+    this.addMaterialService.getPaginatedSubjects(this.currentPage, searchTerm).subscribe(data => {
+      this.subjects = data.subjects;
+      this.totalPages = data.pagination.totalPages;
+      this.totalSubjects = data.pagination.totalSubjects;
+    });
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.fetchSubjectsPaginated(this.subjectSearchTerm);
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.fetchSubjectsPaginated(this.subjectSearchTerm);
+    }
+  }
+
+  addSubject(): void {
+    if (!this.newSubjectName.trim()) {
+      console.log('Subject name is required');
+      return;
+    }
+    this.librarianService.addSubject(this.newSubjectName).subscribe({
+      next: (response) => {
+        this.snackbar.showMessage(response.success ? 'Subject added successfully' : 'Failed to add Subject');
+        if (response.success) this.fetchSubjectsPaginated();
+        this.newSubjectName = '';
+      },
+      error: () => this.snackbar.showMessage('Failed to add Subject')
+    });
+  }
+
+ 
+  deleteSubject(subjectId: number): void {
   
-    // List of form control names to validate
-    const controlsToValidate = [
-      'title', 'category', 'author', 'heading', 'copyright', 
-      'callnum', 'edition', 'publisher', 'isbn'
-    ];
-  
-    // Mark each control as touched if it's invalid
-    controlsToValidate.forEach(controlName => {
-      const control = this.bookForm.controls[controlName];
-      if (control && control.invalid) {
-        control.markAsTouched();
+    this.addMaterialService.getSubjectById(subjectId).subscribe({
+      next: (response) => {
+        if (response && response.id) {
+          this.subjectToDelete = response; 
+          this.showModalDelete = true;  
+        } else {
+          this.snackbar.showMessage('Subject not found.');
+        }
+      },
+      error: () => {
+        this.snackbar.showMessage('Failed to fetch subject details.');
       }
     });
-  
-    // Check if form is valid and category is not invalid
+  }
+
+  closeConfirmModal(): void {
+    this.showModalDelete = false;
+    this.showModal = false;
+    this.subjectToDelete = null;  
+  }
+
+  // Method to confirm deletion
+  confirmDeleteSubject(): void {
+    if (this.subjectToDelete && this.subjectToDelete.id) {
+      this.addMaterialService.deleteSubject(this.subjectToDelete.id).subscribe({
+        next: (response) => {
+          this.snackbar.showMessage(response.success ? 'Subject deleted successfully' : 'Failed to delete subject');
+          if (response.success) {
+            this.fetchSubjectsPaginated();  
+          }
+          this.closeConfirmModal();  
+        },
+        error: () => {
+          this.snackbar.showMessage('Failed to delete subject');
+          this.closeConfirmModal();  
+        }
+      });
+    }
+  }
+
+  openConfirmModal(): void {
+    this.continueButtonClicked = true;
+    ['title', 'category', 'author', 'heading', 'copyright', 'callnum', 'edition', 'publisher', 'isbn']
+      .forEach(controlName => this.bookForm.controls[controlName]?.markAsTouched());
+
     if (this.bookForm.valid && !this.bookForm.controls['category'].invalid) {
       this.showModal = true;
-      console.log('Modal opened');
       this.continueButtonClicked = false;
     }
   }
-  
 
-  goBack(): void {
-    this.location.back();
-  }
-
-  closeConfirmModal() {
-    this.showModal = false;
-    console.log('Modal closed');
-  }
-
-  isSubmitting: boolean = false;  // Flag to prevent multiple submissions
-
-  saveBook() {
-    if (this.isSubmitting) {
-      return;  // Exit early if a submission is in progress
-    }
-  
-    this.isSubmitting = true;  // Set flag to true once submission starts
-  
-    console.log(this.bookDetails);  // Check if category is correctly set
-  
+  saveBook(): void {
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
     this.addMaterialService.addBook(this.bookDetails).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: () => {
         this.closeConfirmModal();
-        // Handle success
         this.router.navigate(['/add-success']);
       },
-      error: (error) => {
-        console.error('Error adding material:', error);
-        // Optionally reset the flag on error
+      error: () => {
+        console.error('Error adding material');
         this.isSubmitting = false;
       },
-      complete: () => {
-        this.isSubmitting = false;  // Reset the flag once the submission completes
-      }
+      complete: () => this.isSubmitting = false
     });
   }
 
-  toggleDropdown() {
+  toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   selectCategory(cat_id: number, mat_type: string): void {
-    this.bookDetails.category = cat_id.toString();  // Set the category ID in bookDetails
-    this.selectedCategory = { cat_id, mat_type };  // Display selected mat_type in dropdown
+    this.bookDetails.category = cat_id.toString();
+    this.selectedCategory = { cat_id, mat_type };
     this.isDropdownOpen = false;
-
-    // Send the selected category ID to the backend and get the accession number
     this.addMaterialService.getAccessionNumber(cat_id).subscribe(response => {
-      this.bookDetails.accnum = response.response;  // Update accnum with the response from the backend
-      console.log(`ACCNUM: ${this.bookDetails.accnum}`);
+      this.bookDetails.accnum = response.response;
     });
   }
 
-  toggleSubjectDropdown() {
+  toggleSubjectDropdown(): void {
     this.isSubjectDropdownOpen = !this.isSubjectDropdownOpen;
   }
 
   selectSubjectHeading(id: number, subject_name: string): void {
     this.subject_id = id;
-    console.log(`Name: ${subject_name} ID: ${this.subject_id}`)
-    this.bookDetails.heading = id;  // Set the subject heading in bookDetails
-    this.selectedSubject = { id, subject_name };  // Display selected heading in dropdown
+    this.bookDetails.heading = id;
+    this.selectedSubject = { id, subject_name };
     this.isSubjectDropdownOpen = false;
   }
-  
-  // Search for subjects based on the input term
-  onSubjectSearch(term: string): void {
-    this.fetchSubjects(term); // Fetch subjects based on search term
+
+  goBack(): void {
+    this.location.back();
   }
 }

@@ -31,6 +31,12 @@ export class EmailService {
   }
 
   sendRecoveryEmail(email: string): Observable<any> {
-    return this.http.post<any>(this.recoveryEmailUrl, { email });
+    const payload = { email };
+    console.log('Payload being sent:', payload); // Log the payload
+  
+    return this.http.post<any>(this.recoveryEmailUrl, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
+  
 }
