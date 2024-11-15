@@ -159,7 +159,7 @@
 
         <!-- Subject list -->
         <ul tabindex="0">
-          <li *ngFor="let subject of filteredSubjects" class="w-full">
+          <li *ngFor="let subject of dropdownSubjects" class="w-full">
             <a (click)="selectSubjectHeading(subject.id, subject.subject_name)" class="block w-full px-4 py-2 hover:bg-[#801e1d] hover:text-white">
               {{ subject.subject_name }}
             </a>
@@ -455,7 +455,10 @@
   </div>
 </div>
 
+<!-- add subject -->
+
 <div class="flex flex-col lg:flex-row items-start justify-center w-full p-4 bg-primary">
+  
   <div class="w-full lg:w-1/3 p-4 bg-white text-black rounded-xl mb-12 slide-in-left lg:ml-10">
     <div class="overflow-x-auto">
       <table class="table w-full">
@@ -467,18 +470,21 @@
           </tr>
         </thead>
         <tbody class="text-center">
-          <tr>
-            <td>(sample) 1</td>
-            <td>(sample) Business Administration</td>
+          <tr *ngFor="let subject of subjects">
+            <td>{{ subject.id }}</td>
+            <td>{{ subject.subject_name }}</td>
             <td>
-              <button
-                class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium mr-1">
-                Edit
-              </button>
-              <button
+              <button 
+              (click)="editSubject(subject.id)"
+              class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium mr-1">
+              Edit
+            </button>
+              <button 
+              (click)="deleteSubject(subject.id)"
               class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium">
               Delete
             </button>
+            
             </td>
           </tr>
         </tbody>
@@ -487,45 +493,48 @@
     <div class="divider my-0"></div>
     <div class="flex justify-between items-center gap-5 slide-in-right">
       <span class="text-lg font-medium ml-3 text-black">
-        Page 1 / 
+        Page {{ currentPage }} / {{ totalPages }}
       </span>
       <div class="flex gap-2">
-        <button
+        <button (click)="previousPage()" 
           class="btn border-none bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-        >
+          [disabled]="currentPage === 1">
           Previous
         </button>
-        <button
+        <button (click)="nextPage()" 
           class="btn border-none bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-        >
+          [disabled]="currentPage === totalPages">
           Next
         </button>
-        </div>
+      </div>
     </div>
   </div>
+  
 
   <div class="w-full lg:w-1/3 flex flex-col items-center">
     <div class="bg-white p-6 lg:p-8 pb-0 rounded-xl shadow-lg w-full lg:w-4/5 slide-in-right">
       <span class="text-start text-2xl font-normal text-black mb-3">
         Total Subjects:
       </span>
-      <span class="text-primary text-2xl font-medium">25</span>
+      <span class="text-primary text-2xl font-medium">{{totalSubjects}}</span>
       <div class="divider my-0"></div>
       <p class="text-start text-2xl font-medium text-primary mb-3">
         Add Subject:
       </p>
-      <form>
+      <form #subjectForm="ngForm">
         <div class="flex flex-col items-center justify-between gap-2">
           <input
             type="text"
             placeholder="Enter new subject"
             name="subject"
+            [(ngModel)]="newSubjectName"
             required
             class="w-full px-6 py-4 rounded-xl bg-[#e0e0e0] text-gray-700 focus:ring-opacity-50"
           />
           <div class="flex justify-end w-full">
             <button
               type="button"
+              (click)="addSubject()"
               class="w-auto bg-secondary text-black px-4 py-3 rounded-xl font-medium hover:bg-[#801e1d] hover:text-white transition duration-300 mb-2 lg:mb-0">
               Continue
             </button>
@@ -534,3 +543,54 @@
       </form>
     </div>
   </div>
+
+  <!-- Modal for Confirming Deletion -->
+<div *ngIf="showModalDelete" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Are you sure you want to delete this subject?
+    </h2>
+    <div class="flex flex-col items-center justify-between mt-10">
+      <div class="flex flex-col space-y-2 text-black">
+        <div><strong>Subject Name:</strong> {{ subjectToDelete?.subject_name }}</div>
+        <div><strong>Subject ID:</strong> {{ subjectToDelete?.id }}</div>
+      </div>
+      <div class="flex flex-row gap-4 w-full mt-4">
+        <button
+          (click)="closeConfirmModal()"
+          class="flex-1
+                bg-primary 
+                text-white 
+                px-6 
+                py-3 
+                rounded-xl 
+                font-medium 
+                hover:bg-[#ffb700] 
+                hover:text-black 
+                transition 
+                duration-300">
+          Cancel
+        </button>
+        <button
+          (click)="confirmDeleteSubject()"
+          class="flex-1
+                bg-secondary 
+                text-black 
+                px-6 
+                py-3 
+                rounded-xl 
+                font-medium 
+                hover:bg-[#801e1d] 
+                hover:text-white 
+                transition 
+                duration-300">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <app-snackbar/>
+  

@@ -94,6 +94,8 @@ import { FeedbackQuestion8Component } from './admin/analytics/feedback-question-
 import { FeedbackQuestion9Component } from './admin/analytics/feedback-question-9/feedback-question-9.component';
 import { FeedbackQuestion10Component } from './admin/analytics/feedback-question-10/feedback-question-10.component';
 import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
+import { EditSubjectComponent } from './admin/edit-subject/edit-subject.component';
+import path from 'path';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -118,6 +120,7 @@ const routes: Routes = [
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'password-recovery', component: PasswordRecoveryComponent },
+  { path: 'timein-already', component: TimeinAlreadyComponent},
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },
@@ -143,7 +146,6 @@ const routes: Routes = [
   { path: 'super-admin-profile', component: SuperAdminProfileComponent, canActivate: [AuthGuardService] },
   { path: 'sidebar-admin', component: SidebarAdminComponent, canActivate: [AuthGuardService] },
   { path: 'material-info', component: MaterialInfoComponent, canActivate: [AuthGuardService] },
-  { path: 'timein-already', component: TimeinAlreadyComponent, canActivate: [AuthGuardService] },
   { path: 'logout-warning', component: LogoutWarningComponent, canActivate: [AuthGuardService] },
   { path: 'books', component: BooksComponent, canActivate: [AuthGuardService] },
   { path: 'student', component: StudentComponent, canActivate: [AuthGuardService] },
@@ -209,6 +211,7 @@ const routes: Routes = [
   { path: 'feedback-question-8', component: FeedbackQuestion8Component, canActivate: [AuthGuardService]},
   { path: 'feedback-question-9', component: FeedbackQuestion9Component, canActivate: [AuthGuardService]},
   { path: 'feedback-question-10', component: FeedbackQuestion10Component, canActivate: [AuthGuardService]},
+  { path: 'edit-subject/:id', component: EditSubjectComponent, canActivate: [AuthGuardService] },
 
 ];
 
