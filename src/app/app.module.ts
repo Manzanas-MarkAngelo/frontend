@@ -144,6 +144,7 @@ import { FeedbackQuestion8Component } from './admin/analytics/feedback-question-
 import { FeedbackQuestion9Component } from './admin/analytics/feedback-question-9/feedback-question-9.component';
 import { FeedbackQuestion10Component } from './admin/analytics/feedback-question-10/feedback-question-10.component';
 import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
+import { EditSubjectComponent } from './admin/edit-subject/edit-subject.component';
 import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/super-admin-profile.component';
 
 
@@ -252,6 +253,7 @@ import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/su
     FeedbackQuestion9Component,
     FeedbackQuestion10Component,
     PasswordRecoveryComponent,
+    EditSubjectComponent,
     SuperAdminProfileComponent,
 
   ],

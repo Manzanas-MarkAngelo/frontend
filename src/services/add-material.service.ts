@@ -10,7 +10,9 @@ export class AddMaterialService {
   private addBookUrl = `${environment.apiUrl}/add_material.php`;
   private getAccessionNumberUrl = `${environment.apiUrl}/fetch_accession_no.php`;
   private getSubjectHeadingsUrl = `${environment.apiUrl}/fetch_subjects.php`;
-  private getpPginatedSubjectsUrl = `${environment.apiUrl}/fetch_paginated_subj.php`; // use this
+  private getpPginatedSubjectsUrl = `${environment.apiUrl}/fetch_paginated_subj.php`;
+  private getSingleSubjectUrl = `${environment.apiUrl}/fetch_single_subject.php`;
+  private updateSubjectUrl = `${environment.apiUrl}/update_subject.php`;
 
   constructor(private http: HttpClient) { }
 
@@ -50,7 +52,17 @@ export class AddMaterialService {
     console.log('Payload for deleteSubject:', { url: deleteUrl, subjectId });
 
     return this.http.delete<any>(deleteUrl);
-}
+  }
+
+  getSubjectById(subjectId: number): Observable<any> {
+    const url = `${this.getSingleSubjectUrl}?id=${subjectId}`;
+    return this.http.get<any>(url);
+  }
+
+  updateSubject(subjectId: number, newValue: string): Observable<any> {
+    const url = `${this.updateSubjectUrl}?id=${subjectId}`;
+    return this.http.put<any>(url, { new_value: newValue });
+  }
 
   
 }

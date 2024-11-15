@@ -42,8 +42,8 @@ export class MaterialsAddComponent implements OnInit {
   
   isSubjectDropdownOpen = false;
   selectedSubject: { id: number, subject_name: string } | null = null;
-  subjects: { id: number, subject_name: string }[] = [];  // For the table
-  dropdownSubjects: { id: number, subject_name: string }[] = [];  // For the dropdown
+  subjects: { id: number, subject_name: string }[] = [];
+  dropdownSubjects: { id: number, subject_name: string }[] = [];  
   filteredSubjects: { id: number, subject_name: string }[] = [];
   subjectSearchTerm: string = '';
   subject_id: number;
@@ -55,7 +55,8 @@ export class MaterialsAddComponent implements OnInit {
   totalPages: number = 1;
   totalSubjects: number = 0;
   isSubmitting: boolean = false;
-  subjectSearchSubject: Subject<string> = new Subject();  // New subject for search term
+  subjectSearchSubject: Subject<string> = new Subject();
+  subjectToDelete: any = null; 
 
   constructor(
     private addMaterialService: AddMaterialService, 
@@ -67,13 +68,14 @@ export class MaterialsAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
-    this.fetchSubjects();  // Fetch initial subjects for the dropdown
-    this.fetchSubjectsPaginated();  // Fetch paginated subjects for the table
+    this.fetchSubjects(); // for dropdown
+    this.fetchSubjectsPaginated(); // for table
 
-    // Subscribe to the subject search term with debounce for the dropdown
+    
     this.subjectSearchSubject.pipe(
-      debounceTime(300),  // Wait for 300ms after user stops typing
-      switchMap(term => this.addMaterialService.getPaginatedSubjects(this.currentPage, term))  // Fetch paginated subjects
+      debounceTime(300),  
+      switchMap(term => this.addMaterialService
+          .getPaginatedSubjects(this.currentPage, term)) 
     ).subscribe(data => {
       this.subjects = data.subjects;
       this.totalPages = data.pagination.totalPages;
@@ -83,8 +85,12 @@ export class MaterialsAddComponent implements OnInit {
 
   // Update the search term and trigger the debounce logic
   onSubjectSearch(term: string): void {
-    this.subjectSearchSubject.next(term);  // Emit the search term to trigger debounced fetch
+    this.subjectSearchSubject.next(term);  
     this.filteredSubjects = this.dropdownSubjects.filter(subject => subject.subject_name.toLowerCase().includes(term.toLowerCase()));
+  }
+
+  editSubject(subjectId: number): void {
+    this.router.navigate(['/edit-subject', subjectId]);
   }
 
   loadCategories(): void {
@@ -104,7 +110,7 @@ export class MaterialsAddComponent implements OnInit {
         id: subject.id,
         subject_name: subject.subject_name
       }));
-      this.filteredSubjects = [...this.dropdownSubjects];  // Initial filter for the dropdown
+      this.filteredSubjects = [...this.dropdownSubjects]; 
     });
   }
 
@@ -139,21 +145,51 @@ export class MaterialsAddComponent implements OnInit {
     this.librarianService.addSubject(this.newSubjectName).subscribe({
       next: (response) => {
         this.snackbar.showMessage(response.success ? 'Subject added successfully' : 'Failed to add Subject');
-        if (response.success) this.fetchSubjectsPaginated();  // Re-fetch paginated subjects
+        if (response.success) this.fetchSubjectsPaginated();
         this.newSubjectName = '';
       },
       error: () => this.snackbar.showMessage('Failed to add Subject')
     });
   }
 
+ 
   deleteSubject(subjectId: number): void {
-    if (confirm('Are you sure you want to delete this subject?')) {
-      this.addMaterialService.deleteSubject(subjectId).subscribe({
+  
+    this.addMaterialService.getSubjectById(subjectId).subscribe({
+      next: (response) => {
+        if (response && response.id) {
+          this.subjectToDelete = response; 
+          this.showModal = true;  
+        } else {
+          this.snackbar.showMessage('Subject not found.');
+        }
+      },
+      error: () => {
+        this.snackbar.showMessage('Failed to fetch subject details.');
+      }
+    });
+  }
+
+  closeConfirmModal(): void {
+    this.showModal = false;
+    this.subjectToDelete = null;  
+  }
+
+  // Method to confirm deletion
+  confirmDeleteSubject(): void {
+    if (this.subjectToDelete && this.subjectToDelete.id) {
+      this.addMaterialService.deleteSubject(this.subjectToDelete.id).subscribe({
         next: (response) => {
           this.snackbar.showMessage(response.success ? 'Subject deleted successfully' : 'Failed to delete subject');
-          if (response.success) this.fetchSubjectsPaginated();  // Re-fetch paginated subjects after delete
+          if (response.success) {
+            this.fetchSubjectsPaginated();  
+          }
+          this.closeConfirmModal();  
         },
-        error: () => this.snackbar.showMessage('Failed to delete subject')
+        error: () => {
+          this.snackbar.showMessage('Failed to delete subject');
+          this.closeConfirmModal();  
+        }
       });
     }
   }
@@ -167,10 +203,6 @@ export class MaterialsAddComponent implements OnInit {
       this.showModal = true;
       this.continueButtonClicked = false;
     }
-  }
-
-  closeConfirmModal(): void {
-    this.showModal = false;
   }
 
   saveBook(): void {
