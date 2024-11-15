@@ -86,8 +86,7 @@ export class MaterialsAddComponent implements OnInit {
 
   // Update the search term and trigger the debounce logic
   onSubjectSearch(term: string): void {
-    this.subjectSearchSubject.next(term);  
-    this.filteredSubjects = this.dropdownSubjects.filter(subject => subject.subject_name.toLowerCase().includes(term.toLowerCase()));
+    this.fetchSubjects(term); // Fetch subjects based on search term
   }
 
   editSubject(subjectId: number): void {

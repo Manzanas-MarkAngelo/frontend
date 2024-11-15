@@ -15,6 +15,7 @@ export class TimeInComponent {
   placeholderText: string = 'Enter your Student number here';
   identifier: string = '';
   isSubmitting: boolean = false;
+  isProcessing: boolean = false;
 
   constructor(private timeLogService: TimeLogService, private router: Router) { }
 
@@ -32,6 +33,7 @@ export class TimeInComponent {
 
   onSubmit() {
   if (this.isSubmitting) return;
+     this.isProcessing = true;
      this.isSubmitting = true;
     
      this.timeLogService.checkUser(this.selectedRole, this.identifier).subscribe({
@@ -47,18 +49,22 @@ export class TimeInComponent {
               
               setTimeout(() => {
                 this.isSubmitting = false;
+                this.isProcessing = false;
               }, 500);
             }, () => {
               this.isSubmitting = false;
+              this.isProcessing = false;
             });
            }
          } else {
            this.router.navigate(['/unregistered']);
            this.isSubmitting = false;
+           this.isProcessing = false;
          }
        },
        error: () => {
          this.isSubmitting = false;
+         this.isProcessing = false;
        }
      });
    }

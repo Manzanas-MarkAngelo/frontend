@@ -120,6 +120,7 @@ const routes: Routes = [
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'password-recovery', component: PasswordRecoveryComponent },
+  { path: 'timein-already', component: TimeinAlreadyComponent},
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },
@@ -145,7 +146,6 @@ const routes: Routes = [
   { path: 'super-admin-profile', component: SuperAdminProfileComponent, canActivate: [AuthGuardService] },
   { path: 'sidebar-admin', component: SidebarAdminComponent, canActivate: [AuthGuardService] },
   { path: 'material-info', component: MaterialInfoComponent, canActivate: [AuthGuardService] },
-  { path: 'timein-already', component: TimeinAlreadyComponent, canActivate: [AuthGuardService] },
   { path: 'logout-warning', component: LogoutWarningComponent, canActivate: [AuthGuardService] },
   { path: 'books', component: BooksComponent, canActivate: [AuthGuardService] },
   { path: 'student', component: StudentComponent, canActivate: [AuthGuardService] },
