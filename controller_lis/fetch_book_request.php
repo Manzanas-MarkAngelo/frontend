@@ -8,6 +8,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 $query = "
     SELECT 
+        r.id,
         r.title, 
         r.author, 
         r.year_published, 
@@ -15,6 +16,7 @@ $query = "
         r.requester_name, 
         r.requester_id
     FROM request r
+    ORDER BY r.request_date DESC
 ";
 
 $result = $conn->query($query);

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MaterialsService } from '../../../services/materials.service';
 import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-material-info',
   templateUrl: './material-info.component.html',
@@ -9,6 +10,7 @@ import { Location } from '@angular/common';
 })
 export class MaterialInfoComponent {
   material: any = {};
+  categories: { cat_id: number, mat_type: string }[] = [];
 
   constructor(private route: ActivatedRoute, 
               private materialsService: MaterialsService, 
@@ -21,6 +23,10 @@ export class MaterialInfoComponent {
         this.material = data;
         this.populateForm();
       });
+
+      this.materialsService.getCategories().subscribe(cats => {
+        this.categories = cats;
+      });
     }
   }
 
@@ -29,11 +35,9 @@ export class MaterialInfoComponent {
   }
 
   populateForm(): void {
-    // Populate form fields with material data, set default value to "unknown/empty" if field is empty
     this.material.title = this.material.title || 'unknown/empty';
-    this.material.subj = this.material.subj || 'unknown/empty';
+    this.material.subj = this.material.subject_name || 'unknown/empty';
     this.material.accnum = this.material.accnum || 'unknown/empty';
-    this.material.category = this.material.category || 'unknown/empty';
     this.material.author = this.material.author || 'unknown/empty';
     this.material.callno = this.material.callno || 'unknown/empty';
     this.material.copyright = this.material.copyright || 'unknown/empty';
@@ -41,6 +45,12 @@ export class MaterialInfoComponent {
     this.material.edition = this.material.edition || 'unknown/empty';
     this.material.isbn = this.material.isbn || 'unknown/empty';
     this.material.status = this.material.status || 'unknown/empty';
+
+    const matchingCategory = this.categories.find(cat => cat.cat_id === this.material.categoryid);
+    if (matchingCategory) {
+      this.material.category = matchingCategory.mat_type;
+    } else {
+      this.material.category = 'unknown/empty'; 
+    }
   }
 }
-

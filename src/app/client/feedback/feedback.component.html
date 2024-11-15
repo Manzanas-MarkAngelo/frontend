@@ -1,0 +1,131 @@
+<div class="bg-primary">
+  <div class="w-full lg:w-2/5 mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-6 text-white">
+      PUP Taguig Library Feedback Form
+    </h2>
+    <form class="bg-gray-100 shadow-lg p-8 rounded-lg space-y-6" 
+          (ngSubmit)="submitFeedback()">
+      <div class="bg-white shadow-lg p-4 rounded-lg mb-6">
+        <h3 class="font-semibold mb-2">
+          Please rate the following statements based on your experience:
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div class="text-center">
+            <span class="block font-bold">1</span>
+            <span class="block text-sm">Very Unsatisfied</span>
+          </div>
+          <div class="text-center">
+            <span class="block font-bold">2</span>
+            <span class="block text-sm">Unsatisfied</span>
+          </div>
+          <div class="text-center">
+            <span class="block font-bold">3</span>
+            <span class="block text-sm">Neutral</span>
+          </div>
+          <div class="text-center">
+            <span class="block font-bold">4</span>
+            <span class="block text-sm">Satisfied</span>
+          </div>
+          <div class="text-center">
+            <span class="block font-bold">5</span>
+            <span class="block text-sm">Very Satisfied</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-control w-full relative">
+        <input 
+          type="text" 
+          [(ngModel)]="feedback.userId" 
+          name="userId" 
+          placeholder="Type here (Student ID/Faculty code/Identifier)" 
+          class="input input-bordered w-full"
+        />
+        <span *ngIf="!feedback.userId && formSubmitted" 
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                     text-red-500 cursor-pointer group"
+        >
+          <img 
+            src="../../../assets/Exclamation_flat_icon.svg.png" 
+            alt="Exclamation Mark" 
+            class="h-4 w-4 mt-1"
+          />
+          <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block 
+                       hidden">
+            Required
+          </span>
+        </span>
+      </div>
+
+      <div *ngFor="let question of questions; let i = index" 
+           class="relative mb-4">
+        <label class="block font-semibold mb-2">
+          {{ i + 1 }}. {{ question }}
+        </label>
+        <div class="flex justify-evenly">
+          <input 
+            type="radio" 
+            [name]="'q' + (i + 1)" 
+            [(ngModel)]="feedback.responses['q' + (i + 1)]" 
+            class="radio radio-primary" 
+            [value]="1"
+          > 1
+          <input 
+            type="radio" 
+            [name]="'q' + (i + 1)" 
+            [(ngModel)]="feedback.responses['q' + (i + 1)]" 
+            class="radio radio-primary" 
+            [value]="2"
+          > 2
+          <input 
+            type="radio" 
+            [name]="'q' + (i + 1)" 
+            [(ngModel)]="feedback.responses['q' + (i + 1)]" 
+            class="radio radio-primary" 
+            [value]="3"
+          > 3
+          <input 
+            type="radio" 
+            [name]="'q' + (i + 1)" 
+            [(ngModel)]="feedback.responses['q' + (i + 1)]" 
+            class="radio radio-primary" 
+            [value]="4"
+          > 4
+          <input 
+            type="radio" 
+            [name]="'q' + (i + 1)" 
+            [(ngModel)]="feedback.responses['q' + (i + 1)]" 
+            class="radio radio-primary" 
+            [value]="5"
+          > 5
+        </div>
+        <span *ngIf="!feedback.responses['q' + (i + 1)] && formSubmitted" 
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                     text-red-500 cursor-pointer group"
+        >
+          <img 
+            src="../../../assets/Exclamation_flat_icon.svg.png" 
+            alt="Exclamation Mark" 
+            class="h-4 w-4 mt-1"
+          />
+          <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block 
+                       hidden">
+            Required
+          </span>
+        </span>
+      </div>
+
+      <div class="w-full flex flex-col md:flex-row justify-between gap-1">
+        <button type="button" 
+          class="btn bg-primary text-white hover:bg-[#ffb700] hover:text-black"
+          (click)="submitFeedback()">Submit Feedback</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-snackbar></app-snackbar>

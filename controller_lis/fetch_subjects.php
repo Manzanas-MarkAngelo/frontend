@@ -14,9 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Fetch all details from the subject table
-$sql = "SELECT * FROM subjects";
-$stmt = $conn->prepare($sql);
+// Fetch the search term from the query parameter, if provided
+$searchTerm = isset($_GET['searchTerm']) ? $_GET['searchTerm'] : '';
+
+// Modify the SQL query to filter by the search term if it exists
+if (!empty($searchTerm)) {
+    $sql = "SELECT * FROM subjects WHERE subject_name LIKE ?";
+    $stmt = $conn->prepare($sql);
+    $searchTerm = '%' . $searchTerm . '%'; // Add wildcards for partial matching
+    $stmt->bind_param("s", $searchTerm);
+} else {
+    $sql = "SELECT * FROM subjects";
+    $stmt = $conn->prepare($sql);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 

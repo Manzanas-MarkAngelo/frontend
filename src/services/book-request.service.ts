@@ -19,4 +19,8 @@ export class BookRequestService {
   fetchRequests(): Observable<any> {
     return this.http.get<any>(this.fetchRequestsUrl);
   }
+
+  deleteRequest(id: number): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/delete_book_request.php`, { id });
+  }   
 }

@@ -4,7 +4,7 @@ import { BookRequestService } from '../../../services/book-request.service';
 import { ClientSnackbarComponent } from '../client-snackbar/client-snackbar.component';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search-book',
@@ -16,13 +16,17 @@ export class SearchBookComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 17;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
   category: string = '';
   private searchTerms = new Subject<string>();
   showModal: boolean = false;
   selectedMaterialId: number | null = null;
   selectedMaterialTitle = '';
+  requesterIdLabel: string = 'Identifier';
+  showSnackbar: boolean = false;
+  snackbarMessage: string = '';
 
   categoryPlaceholder: string = 'Choose category';
   categories: { mat_type: string, accession_no: string }[] = [];
@@ -51,13 +55,18 @@ export class SearchBookComponent implements OnInit {
     private materialsService: MaterialsService,
     private bookRequestService: BookRequestService,
     private router: Router,
+    private route: ActivatedRoute,
     private renderer: Renderer2
   ) {}
 
   ngOnInit() {
     this.loadMaterials();
     this.loadCategories();
-
+    this.route.queryParams.subscribe(params => {
+      if (params['openModal'] === 'true') {
+        this.openRequestModal();
+      }
+    });
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -67,6 +76,12 @@ export class SearchBookComponent implements OnInit {
       this.totalItems = response.totalItems;
       this.totalPages = response.totalPages;
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.loadMaterials();
   }
 
   loadMaterials() {
@@ -237,22 +252,25 @@ export class SearchBookComponent implements OnInit {
   closeRequestModal() {
     this.resetForm();
     (document.getElementById('my_modal_1') as HTMLDialogElement).close();
-  }
 
-  openNotRegisteredModal() {
-    (document.getElementById('not_registered_modal') as HTMLDialogElement).showModal();
-  }
-
-  closeNotRegisteredModal() {
-    (document.getElementById('not_registered_modal') as HTMLDialogElement).close();
+    this.router.navigate([], {
+      queryParams: { openModal: null },
+      queryParamsHandling: 'merge'
+    });
   }
 
   detectRequesterType(requesterId: string): string {
     if (/^\d{4}-\d{5}-TG-0$/.test(requesterId)) {
+      this.requesterIdLabel = 'Student Number';
       return 'student';
     } else if (/^FA\d{4}TG\d{4}$/.test(requesterId)) {
+      this.requesterIdLabel = 'Faculty Code';
       return 'faculty';
+    } else if (/^\d{5}$/.test(requesterId)) {
+      this.requesterIdLabel = 'Employee Number';
+      return 'employee';
     } else {
+      this.requesterIdLabel = 'Identifier';
       return 'visitor';
     }
   }
@@ -312,15 +330,29 @@ export class SearchBookComponent implements OnInit {
 
     this.request.requester_type = this.detectRequesterType(this.request.requester_id);
 
+    this.openConfirmationModal();
+  }
+
+  openConfirmationModal() {
+    (document.getElementById('confirmation_modal') as HTMLDialogElement).showModal();
+  }
+
+  closeConfirmationModal() {
+    (document.getElementById('confirmation_modal') as HTMLDialogElement).close();
+  }
+
+  confirmSubmit() {
     this.bookRequestService.submitBookRequest(this.request).subscribe(
       response => {
         if (response.success) {
           this.snackbar.showMessage('Book request submitted successfully.');
           this.resetForm();
+          this.closeConfirmationModal();
           this.closeRequestModal();
         } else {
           if (response.message === 'Requestor not found.') {
-            this.openNotRegisteredModal();
+            this.closeConfirmationModal();
+            this.showTemporarySnackbar('You are not registered. Please register before requesting a book.');
           } else {
             this.snackbar.showMessage('Failed to submit book request: ' + response.message);
           }
@@ -331,5 +363,14 @@ export class SearchBookComponent implements OnInit {
         console.error('Error:', error);
       }
     );
+  }
+
+  showTemporarySnackbar(message: string) {
+    this.snackbarMessage = message;
+    this.showSnackbar = true;
+
+    setTimeout(() => {
+      this.showSnackbar = false;
+    }, 3000);
   }
 }

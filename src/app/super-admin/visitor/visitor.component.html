@@ -50,78 +50,97 @@
     </div>
   </div>
 
-  <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-2/3 slide-in-right mb-5">
-    <div class="overflow-x-auto">
-      <table class="table w-full">
-        <thead>
-          <tr class="text-primary text-sm">
-            <th>Name</th>
-            <th>Gender</th>
-            <th>School</th>
-            <th>Contact Number</th>
-            <th>Email</th>
-            <th>Identifier</th>
-            <th class="text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let record of logs">
-            <td>{{ record.name }}</td>
-            <td>{{ record.gender }}</td>
-            <td>{{ record.school }}</td>
-            <td>{{ record.phone_number }}</td>
-            <td>emailexampletestingsampleagmail.com</td>
-            <td>{{ record.identifier }}</td>
-            <td class="text-center">
-              <button 
-                class="bg-secondary 
-                      text-black 
-                      border-none 
-                      shadow-none 
-                      btn-sm 
-                      rounded-xl 
-                      font-medium
-                      mr-1
-                      mb-0.5"
-                [routerLink]="['/edit-visitor', record.user_id]">
-                Edit
-              </button>            
-              <button 
-                class="bg-primary 
-                      text-white 
-                      border-none 
-                      shadow-none 
-                      btn-sm 
-                      rounded-xl 
-                      font-medium"
-                (click)="openDeleteModal(record, record.name)">
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- <div class="flex justify-between items-center mt-4">
-        <span class="text-lg font-medium ml-3">Page {{ currentPage }} / {{ totalPages }}</span>
-        <div class="flex gap-2">
-          <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === 1"
-            (click)="onPageChange(currentPage - 1)"
-          >
-            Previous
-          </button>
-          <button
-            class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-            [disabled]="currentPage === totalPages"
-            (click)="onPageChange(currentPage + 1)"
-          >
-            Next
-          </button>
-        </div>
-      </div> -->
+  @if (logs.length > 0) {
+    <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-2/3 slide-in-right mb-5">
+      <div class="overflow-x-auto">
+        <table class="table w-full">
+          <thead>
+            <tr class="text-primary text-sm">
+              <th>Name</th>
+              <th>Gender</th>
+              <th>School</th>
+              <th>Contact Number</th>
+              <th>Identifier</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of logs">
+              <td>{{ record.name }}</td>
+              <td>{{ record.gender }}</td>
+              <td>{{ record.school }}</td>
+              <td>{{ record.phone_number }}</td>
+              <td>{{ record.identifier }}</td>
+              <td class="text-center">
+                <button 
+                  class="bg-secondary 
+                        text-black 
+                        border-none 
+                        shadow-none 
+                        btn-sm 
+                        rounded-xl 
+                        font-medium
+                        mr-1
+                        mb-0.5"
+                  [routerLink]="['/edit-visitor', record.user_id]">
+                  Edit
+                </button>            
+                <button 
+                  class="bg-primary 
+                        text-white 
+                        border-none 
+                        shadow-none 
+                        btn-sm 
+                        rounded-xl 
+                        font-medium"
+                  (click)="openDeleteModal(record, record.name)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="100%" class="text-center">
+                <label for="itemsPerPage" 
+                       class="text-primary text-lg font-medium mr-2">
+                  Show items:
+                </label>
+                <select 
+                  id="itemsPerPage" 
+                  [(ngModel)]="itemsPerPage" 
+                  (change)="onItemsPerPageChange($event)" 
+                  class="bg-secondary text-black border-none shadow-none btn-sm 
+                         rounded-xl font-medium cursor-pointer">
+                  <option 
+                    *ngFor="let option of itemsPerPageOptions" 
+                    [value]="option"
+                  >
+                    {{ option }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
-  </div>
+  } @else {
+    <div class="flex justify-center items-center mt-20 slide-in-below">
+      <div class="card bg-primary w-96">
+          <figure class="px-10 pt-10">
+            <img
+              src="../../../assets/no-match1.svg"
+              alt="no-match"/>
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-white">Nothing match your search!</h2>
+            <p class="text-white">Didn't find what you're looking for?</p>
+          </div>
+        </div>
+    </div>
+  }
+
 </div>
 
 @if(showModal) {
@@ -173,5 +192,4 @@
   </div>
 }
 
-<!-- Snackbar for feedback -->
 <app-snackbar-delete/>

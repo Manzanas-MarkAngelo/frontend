@@ -27,8 +27,8 @@ $edition = $data['edition'] ?? null;
 $isbn = $data['isbn'] ?? null;
 $status = $data['status'] ?? null;
 $heading = $data['heading'] ?? null;
-//$datereceived = date('Y-m-d'); // set the current date
-$subj = $heading;
+
+$subj = $heading; // Subject value from heading
 
 $conn->begin_transaction();
 
@@ -36,14 +36,15 @@ try {
     // Insert book details into the materials table
     $stmt = $conn->prepare("INSERT INTO materials (
         accnum, isbn, title, subj, callno, author, 
-        publisher, edition, copyright, copies, categoryid, status) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        publisher, edition, copyright, copies, categoryid, status, subject_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $copies = 1; // Assuming a default value for copies, adjust as needed
 
-    $stmt->bind_param("ssssssssssis", 
+    // Include $heading as subject_id in the bind_param
+    $stmt->bind_param("ssssssssssiss", 
     $accnum, $isbn, $title, $subj, $callno, 
-    $author, $publisher, $edition, $copyright, $copies, $categoryid, $status);
+    $author, $publisher, $edition, $copyright, $copies, $categoryid, $status, $heading); // Add $heading as the last parameter
 
     $stmt->execute();
     $stmt->close();

@@ -29,6 +29,7 @@ $publisher = $data['publisher'] ?? null;
 $edition = $data['edition'] ?? null;
 $isbn = $data['isbn'] ?? null;
 $status = $data['status'] ?? null;
+$subject_id = $data['subject_id'] ?? null;
 
 // Fetch the category ID dynamically based on mat_type
 $stmt = $conn->prepare("SELECT cat_id FROM category WHERE mat_type = ?");
@@ -38,9 +39,7 @@ $stmt->bind_result($categoryid);
 $stmt->fetch();
 $stmt->close();
 
-// If category ID is not found, set it to 0 (or handle as needed)
-//$categoryid = $categoryid ?? 0;
-
+// Begin transaction
 $conn->begin_transaction();
 
 try {
@@ -48,23 +47,27 @@ try {
     $stmt = $conn->prepare("UPDATE materials SET
         title = ?, subj = ?, accnum = ?, categoryid = ?, author = ?, 
         callno = ?, copyright = ?, publisher = ?, edition = ?, 
-        isbn = ?, status = ?
+        isbn = ?, status = ?, subject_id = ?
         WHERE id = ?");
     
-    $stmt->bind_param("sssisssssssi", 
+    $stmt->bind_param("sssissssssssi", 
         $title, $heading, $accnum, $categoryid, $author, 
         $callnum, $copyright, $publisher, $edition, 
-        $isbn, $status, $id);
+        $isbn, $status, $subject_id, $id);
 
     $stmt->execute();
     $stmt->close();
 
+    // Commit transaction
     $conn->commit();
 
     echo json_encode(['status' => 'success', 'message' => 'Book details updated successfully']);
 } catch (Exception $e) {
+    // Rollback on error
     $conn->rollback();
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
+
+// Close connection
 $conn->close();
 ?>

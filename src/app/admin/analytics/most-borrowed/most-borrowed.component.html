@@ -1,45 +1,23 @@
-<div class="flex flex-col items-center justify-start w-full gap-3 mt-6">
-  <p class="text-white text-5xl">Most Borrowed Books</p>
-  <div class="bg-white h-0.5 w-full"></div>
-  <div class="p-4 bg-white text-black rounded-3xl w-full slide-in-left">
-      <div class="table-container">
-          <table class="table fixed-table w-full">
-              <thead>
-                  <tr class="text-primary text-center">
-                      <th>Rank</th>
-                      <th class="text-start">Title</th>
-                      <th>Times Borrowed</th>
-                  </tr>
-              </thead>
-              <tbody class="text-center">
-                  <tr *ngFor="let book of paginatedBooks; let i = index">
-                      <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                      <td class="text-start">{{ book.title }}</td>
-                      <td>{{ book.times_borrowed }}</td>
-                  </tr>
-              </tbody>
-          </table>
+<div class="container flex items-center justify-center">
+  <div class="w-full">
+    <div class="chart-container">
+      <div class="dropdown-container">
+        <label for="year" class="sr-only">Select Year:</label>
+        <select id="year" [(ngModel)]="year" (change)="onYearChange($event)" 
+            class="dropdown">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+
+        <label for="month" class="sr-only">Select Month:</label>
+        <select id="month" [(ngModel)]="month" (change)="onMonthChange($event)" 
+            class="dropdown">
+          <option *ngFor="let month of months" [value]="month.value">
+                {{ month.name }}
+          </option>
+        </select>
       </div>
-      <div class="flex justify-between items-center mt-4">
-          <span class="text-lg font-medium ml-3">
-            Page {{ currentPage }} / {{ totalPages }}
-          </span>
-          <div class="flex gap-2">
-            <button
-              class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-              (click)="goToPreviousPage()"
-              [disabled]="currentPage === 1"
-            >
-              Previous
-            </button>
-            <button
-              class="btn bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
-              (click)="goToNextPage()"
-              [disabled]="currentPage === totalPages"
-            >
-              Next
-            </button>
-          </div>
-      </div>
+
+      <canvas #barChart></canvas>
+    </div>
   </div>
 </div>

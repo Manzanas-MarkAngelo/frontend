@@ -13,21 +13,21 @@ export class UserRecordComponent implements OnInit {
   logs: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  itemsPerPage: number = 14;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
-  searchSubject: Subject<string> = new Subject<string>(); // For debounced search
+  searchSubject: Subject<string> = new Subject<string>();
 
   constructor(private recordsService: RecordsService) { }
 
   ngOnInit(): void {
     this.setLogType('student_log');
     
-    // Implement debounce on search input
     this.searchSubject.pipe(
-      debounceTime(300) // Adjust debounce time as needed
+      debounceTime(300)
     ).subscribe(term => {
       this.searchTerm = term;
-      this.fetchLogs(this.currentLogType.replace('_log', '')); // Fetch logs based on the current log type
+      this.fetchLogs(this.currentLogType.replace('_log', ''));
     });
   }
 
@@ -47,6 +47,10 @@ export class UserRecordComponent implements OnInit {
         this.searchPlaceholder = 'Search visitor log';
         this.fetchLogs('visitor');
         break;
+      case 'pupt-employee_log':
+        this.searchPlaceholder = 'Search employee log';
+        this.fetchLogs('pupt-employee');
+        break;
       default:
         this.searchPlaceholder = 'Search student log';
         this.fetchLogs('student');
@@ -54,12 +58,23 @@ export class UserRecordComponent implements OnInit {
   }
 
   fetchLogs(logType: string) {
-    this.recordsService.getLogs(logType, this.itemsPerPage, this.currentPage, this.searchTerm).subscribe(data => {
+    this.recordsService.getLogs(
+      logType, 
+      this.itemsPerPage, 
+      this.currentPage, 
+      this.searchTerm
+    ).subscribe(data => {
       this.logs = data.records;
       this.totalPages = data.totalPages;
     }, error => {
       console.error('Error fetching logs:', error);
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.fetchLogs(this.currentLogType.replace('_log', ''));
   }
 
   onPageChange(page: number) {
@@ -69,13 +84,11 @@ export class UserRecordComponent implements OnInit {
 
   clearLogType() {
     this.setLogType('student_log');
-    this.searchTerm = ''; // Clear the search term
-    this.fetchLogs(this.currentLogType.replace('_log', '')); // Fetch logs based on the current log type
+    this.searchTerm = '';
+    this.fetchLogs(this.currentLogType.replace('_log', ''));
   }
   
-
-  // Trigger search with debounce
   onSearchChange(searchTerm: string) {
-    this.searchSubject.next(searchTerm); // Pass the search term to the debounced subject
+    this.searchSubject.next(searchTerm);
   }
 }

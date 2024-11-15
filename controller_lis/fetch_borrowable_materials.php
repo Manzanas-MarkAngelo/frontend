@@ -43,11 +43,13 @@ if (!in_array($sortOrder, $allowedSortOrders)) {
     $sortOrder = 'DESC'; // Default sort order
 }
 
-// Base SQL query to fetch borrowable materials
+// Base SQL query to fetch borrowable materials including subject_name
 $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, 
-               m.copyright, m.callno, m.status, m.isbn 
+               m.copyright, m.callno, m.status, m.isbn, 
+               s.subject_name  -- Add subject_name here
         FROM materials m
         JOIN category c ON m.categoryid = c.cat_id
+        LEFT JOIN subjects s ON m.subject_id = s.id  -- Join with subjects table to fetch subject_name
         WHERE c.cat_type = 'Normal' AND c.duration > 0 
         AND (m.accnum LIKE ? 
              OR m.title LIKE ? 
@@ -93,7 +95,7 @@ $result = $stmt->get_result();
 
 $materials = array();
 while ($row = $result->fetch_assoc()) {
-    $materials[] = $row;
+    $materials[] = $row;  // This array will now contain subject_name as well
 }
 
 // Fetch total count for pagination

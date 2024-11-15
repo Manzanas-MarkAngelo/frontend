@@ -53,7 +53,7 @@
           <div class="w-1/2 flex mt-1">
             <input id="category" name="category" type="hidden" [(ngModel)]="bookDetails.category" #categoryInput="ngModel" required />
             <div class="flex-1 relative">
-              <div class="dropdown dropdown-left w-full">
+              <div class="dropdown dropdown-bottom w-full">
                 <div tabindex="0" role="button"
                      class="btn w-full 
                             bg-secondary 
@@ -79,10 +79,12 @@
                 </div>
                 
                 <ul tabindex="0" *ngIf="isDropdownOpen"
-                    class="dropdown-content menu bg-secondary rounded-box z-[1] w-full text-base font-medium text-black">
+                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
+                    w-full text-base font-medium text-black 
+                    max-h-60 overflow-y-auto overflow-x-hidden block">
                   <li *ngFor="let category of categories">
                     <a (click)="selectCategory(category.cat_id, category.mat_type)" 
-                       class="block px-4 py-2 hover:bg-[#ffb700] hover:text-black">
+                       class="block w-full px-4 py-2 hover:bg-[#801e1d] hover:text-white">
                       {{ category.mat_type }}
                     </a>
                   </li>
@@ -131,48 +133,44 @@
               </span>
           </div>
 
-          <!-- Subject Heading -->
-          <div class="w-1/2 flex mt-1">
-            <input id="heading" name="heading" type="hidden" 
-                   [(ngModel)]="bookDetails.heading" 
-                   #headingInput="ngModel" required />
-            <div class="flex-1 relative">
-              <div class="dropdown dropdown-left w-full">
-                <div tabindex="0" role="button"
-                     class="btn w-full 
-                            bg-secondary 
-                            border-none 
-                            text-black 
-                            text-lg 
-                            hover:bg-[#ffb700] 
-                            rounded-box 
-                            flex items-center 
-                            justify-between"
-                     (click)="toggleSubjectDropdown()"
-                     (blur)="headingInput.control.markAsTouched()">
-                  <span>{{ selectedSubject?.subject_name || 'Select subject heading' }}</span>
-              
-                  <!-- Exclamation icon shown if subject heading is invalid -->
-                  <span *ngIf="headingInput.invalid && headingInput.touched" class="flex items-center">
-                    <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4"/>
-                    <span class="tooltip" id="heading_tooltip">Please select a subject heading.</span>
-                  </span>
-                </div>
+ <!-- Subject Heading -->
+<div class="w-1/2 flex mt-1">
+  <input id="heading" name="heading" type="hidden" [(ngModel)]="bookDetails.heading" #headingInput="ngModel" required />
+  <div class="flex-1 relative">
+    <div class="dropdown dropdown-bottom w-full">
+      <div tabindex="0" role="button"
+           class="btn w-full bg-secondary border-none text-black text-lg hover:bg-[#ffb700] rounded-box flex items-center justify-between"
+           (click)="toggleSubjectDropdown()"
+           (blur)="headingInput.control.markAsTouched()">
+        <span>{{ selectedSubject?.subject_name || 'Select subject heading' }}</span>
 
-                <ul tabindex="0" *ngIf="isSubjectDropdownOpen"
-                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
-                           w-full text-base font-medium text-black">
-                  <li *ngFor="let subject of subjects">
-                    <a (click)="selectSubjectHeading(subject.id, subject.subject_name)" 
-                       class="block px-4 py-2 hover:bg-[#ffb700] hover:text-black">
-                      {{ subject.subject_name }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          
+        <!-- Exclamation icon shown if subject heading is invalid -->
+        <span *ngIf="headingInput.invalid && headingInput.touched" class="flex items-center">
+          <img src="../../../assets/Exclamation_flat_icon.svg.png" alt="Exclamation Mark" class="h-4 w-4"/>
+          <span class="tooltip" id="heading_tooltip">Please select a subject heading.</span>
+        </span>
+      </div>
+
+      <!-- Dropdown with search input -->
+      <div *ngIf="isSubjectDropdownOpen" class="dropdown-content menu bg-secondary rounded-box z-[1] w-full text-base font-medium text-black max-h-56 overflow-y-auto overflow-x-hidden block">
+        <!-- Search input -->
+        <input type="text" placeholder="Search subject..." class="input input-bordered w-full mb-2"
+        name="subjectSearch"[(ngModel)]="subjectSearchTerm" (ngModelChange)="onSubjectSearch($event)" />
+
+        <!-- Subject list -->
+        <ul tabindex="0">
+          <li *ngFor="let subject of filteredSubjects" class="w-full">
+            <a (click)="selectSubjectHeading(subject.id, subject.subject_name)" class="block w-full px-4 py-2 hover:bg-[#801e1d] hover:text-white">
+              {{ subject.subject_name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+                    
         </div>
 
         <div class="mb-4 mt-1 flex items-center space-x-4">
@@ -456,3 +454,83 @@
     </div>
   </div>
 </div>
+
+<div class="flex flex-col lg:flex-row items-start justify-center w-full p-4 bg-primary">
+  <div class="w-full lg:w-1/3 p-4 bg-white text-black rounded-xl mb-12 slide-in-left lg:ml-10">
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <thead>
+          <tr class="text-primary text-center">
+            <th>ID</th>
+            <th>Subject</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr>
+            <td>(sample) 1</td>
+            <td>(sample) Business Administration</td>
+            <td>
+              <button
+                class="bg-secondary text-black border-none shadow-none btn-sm rounded-full font-medium mr-1">
+                Edit
+              </button>
+              <button
+              class="bg-primary text-white border-none shadow-none btn-sm rounded-full font-medium">
+              Delete
+            </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="divider my-0"></div>
+    <div class="flex justify-between items-center gap-5 slide-in-right">
+      <span class="text-lg font-medium ml-3 text-black">
+        Page 1 / 
+      </span>
+      <div class="flex gap-2">
+        <button
+          class="btn border-none bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+        >
+          Previous
+        </button>
+        <button
+          class="btn border-none bg-primary text-white hover:bg-primary-focus hover:bg-[#ffb700] hover:text-black"
+        >
+          Next
+        </button>
+        </div>
+    </div>
+  </div>
+
+  <div class="w-full lg:w-1/3 flex flex-col items-center">
+    <div class="bg-white p-6 lg:p-8 pb-0 rounded-xl shadow-lg w-full lg:w-4/5 slide-in-right">
+      <span class="text-start text-2xl font-normal text-black mb-3">
+        Total Subjects:
+      </span>
+      <span class="text-primary text-2xl font-medium">25</span>
+      <div class="divider my-0"></div>
+      <p class="text-start text-2xl font-medium text-primary mb-3">
+        Add Subject:
+      </p>
+      <form>
+        <div class="flex flex-col items-center justify-between gap-2">
+          <input
+            type="text"
+            placeholder="Enter new subject"
+            name="subject"
+            required
+            class="w-full px-6 py-4 rounded-xl bg-[#e0e0e0] text-gray-700 focus:ring-opacity-50"
+          />
+          <div class="flex justify-end w-full">
+            <button
+              type="button"
+              class="w-auto bg-secondary text-black px-4 py-3 rounded-xl font-medium hover:bg-[#801e1d] hover:text-white transition duration-300 mb-2 lg:mb-0">
+              Continue
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

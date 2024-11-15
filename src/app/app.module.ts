@@ -83,6 +83,7 @@ import { RecordsService } from '../services/records.service';
 import { SnackbarService } from '../services/snackbar.service';
 import { ReportsService } from '../services/reports.service';
 import { AdminLoginService } from '../services/admin-login.service';
+import { AuthGuardService } from '../services/auth-guard.service';
 import { AdminService } from '../services/admin.service';
 import { AddMaterialService } from '../services/add-material.service';
 import { BorrowService } from '../services/borrow.service';
@@ -91,10 +92,12 @@ import { PdfReportInventoryService } from '../services/pdf-report-inventory.serv
 import { PdfReportFacultyService } from '../services/pdf-report-faculty.service';
 import { PdfReportStudentsService } from '../services/pdf-report-students.service';
 import { PdfReportVisitorsService } from '../services/pdf-report-visitors.service';
+import { PdfReportEmployeesService } from '../services/pdf-report-employees.service';
 import { ExcelReportInventoryService } from '../services/excel-report-inventory.service';
 import { ExcelReportFacultyService } from '../services/excel-report-faculty.service';
 import { ExcelReportStudentsService } from '../services/excel-report-students.service';
 import { ExcelReportVisitorsService } from '../services/excel-report-visitors.service';
+import { ExcelReportEmployeesService } from '../services/excel-report-employees.service';
 import { CurrentDateYearService } from '../services/current-date-year.service';
 import { PdfReportBorrowersService } from '../services/pdf-report-borrowers.service';
 import { CoursesComponent } from './super-admin/courses/courses.component';
@@ -122,6 +125,26 @@ import { NavbarSuperAdminComponent } from './super-admin/navbar-super-admin/navb
 import { BookRequestService } from '../services/book-request.service';
 import { ClientSnackbarComponent } from './client/client-snackbar/client-snackbar.component';
 import { RequestComponent } from './admin/request/request.component';
+import { EmailService } from '../services/email.service';
+import { SuperAdminService } from '../services/super-admin.service';
+import { FeedbackComponent } from './client/feedback/feedback.component';
+import { LoginLispuptComponent } from './client/login-lispupt/login-lispupt.component';
+import { EmployeesComponent } from './super-admin/employees/employees.component';
+import { AddEmployeeComponent } from './super-admin/add-employee/add-employee.component';
+import { EditEmployeeComponent } from './super-admin/edit-employee/edit-employee.component';
+import { CoursesTimedInComponent } from './admin/analytics/courses-timed-in/courses-timed-in.component';
+import { FeedbackQuestion1Component } from './admin/analytics/feedback-question-1/feedback-question-1.component';
+import { FeedbackQuestion2Component } from './admin/analytics/feedback-question-2/feedback-question-2.component';
+import { FeedbackQuestion3Component } from './admin/analytics/feedback-question-3/feedback-question-3.component';
+import { FeedbackQuestion4Component } from './admin/analytics/feedback-question-4/feedback-question-4.component';
+import { FeedbackQuestion5Component } from './admin/analytics/feedback-question-5/feedback-question-5.component';
+import { FeedbackQuestion6Component } from './admin/analytics/feedback-question-6/feedback-question-6.component';
+import { FeedbackQuestion7Component } from './admin/analytics/feedback-question-7/feedback-question-7.component';
+import { FeedbackQuestion8Component } from './admin/analytics/feedback-question-8/feedback-question-8.component';
+import { FeedbackQuestion9Component } from './admin/analytics/feedback-question-9/feedback-question-9.component';
+import { FeedbackQuestion10Component } from './admin/analytics/feedback-question-10/feedback-question-10.component';
+import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
+import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/super-admin-profile.component';
 
 
 @NgModule({
@@ -212,6 +235,24 @@ import { RequestComponent } from './admin/request/request.component';
     NavbarSuperAdminComponent,
     ClientSnackbarComponent,
     RequestComponent,
+    FeedbackComponent,
+    LoginLispuptComponent,
+    EmployeesComponent,
+    AddEmployeeComponent,
+    EditEmployeeComponent,
+    CoursesTimedInComponent,
+    FeedbackQuestion1Component,
+    FeedbackQuestion2Component,
+    FeedbackQuestion3Component,
+    FeedbackQuestion4Component,
+    FeedbackQuestion5Component,
+    FeedbackQuestion6Component,
+    FeedbackQuestion7Component,
+    FeedbackQuestion8Component,
+    FeedbackQuestion9Component,
+    FeedbackQuestion10Component,
+    PasswordRecoveryComponent,
+    SuperAdminProfileComponent,
 
   ],
   imports: [
@@ -252,6 +293,11 @@ import { RequestComponent } from './admin/request/request.component';
     ChartsService,
     BookRequestService,
     AnalyticsService,
+    EmailService,
+    AuthGuardService,
+    PdfReportEmployeesService,
+    ExcelReportEmployeesService,
+    SuperAdminService,
   ],
   bootstrap: [AppComponent]
 })

@@ -10,7 +10,7 @@ export class PdfReportBorrowersService {
               private currentDateYearService: CurrentDateYearService) {}
 
   generatePDF(iframeId: string, dateFrom: string | null, dateTo: string | null,
-    setLoading: (loading: boolean) => void, setShowInitialDisplay: (show: boolean) => void) {
+    setLoading: (loading: boolean) => void, setShowInitialDisplay: (show: boolean) => void, selectedRemark) {
     setLoading(true);
     setShowInitialDisplay(false);
 
@@ -49,7 +49,7 @@ export class PdfReportBorrowersService {
         textStartY + 15, { align: "center" });
 
     let startY = textStartY + 23; // Adjust the table start Y position accordingly
-    this.returnService.getBorrowingData(dateFrom, dateTo).subscribe(
+    this.returnService.getBorrowingData(dateFrom, dateTo, selectedRemark).subscribe(
       response => {
         const borrowersData = response || [];
         const tableData = borrowersData.map((borrower: any) => [
@@ -65,7 +65,7 @@ export class PdfReportBorrowersService {
 
         autoTable(doc, {
           head: [[ 'Title', 'Author', 'User Type', 'Name', 
-                   'Course', 'Claim Date', 'Due Date', 'Remark']],
+                   'Department', 'Claim Date', 'Due Date', 'Remark']],
           body: tableData,
           startY: startY,
           theme: 'grid',
@@ -75,8 +75,8 @@ export class PdfReportBorrowersService {
             1: { cellWidth: 40 },
             2: { cellWidth: 20 },
             3: { cellWidth: 45 },
-            4: { cellWidth: 20 },
-            5: { cellWidth: 30 },
+            4: { cellWidth: 25 },
+            5: { cellWidth: 25 },
             6: { cellWidth: 30 },
             7: { cellWidth: 30 },
           },

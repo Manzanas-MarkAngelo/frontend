@@ -13,6 +13,7 @@ export class StudentComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 0;
   itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   showModal: boolean = false;
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';
@@ -41,6 +42,12 @@ export class StudentComponent implements OnInit {
     }, error => {
       console.error('Error fetching records:', error);
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.fetchRecords();
   }
 
   onPageChange(page: number) {

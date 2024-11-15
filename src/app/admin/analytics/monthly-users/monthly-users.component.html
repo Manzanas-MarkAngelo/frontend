@@ -3,7 +3,7 @@
     <div class="chart-container">
       <div class="dropdown-container">
         <label for="year" class="sr-only">Select Year:</label>
-        <select id="year" (change)="onYearChange($event)" class="dropdown">
+        <select id="year" [(ngModel)]="year" (change)="onYearChange($event)" class="dropdown">
           <option *ngFor="let year of years" [value]="year">{{ year }}</option>
         </select>
       </div>

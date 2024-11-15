@@ -6,15 +6,16 @@
                 <input 
                     type="text" 
                     placeholder="Search here (title, author, year, accession number)" 
-                    class="input input-bordered w-full rounded-xl text-lg font-medium 
-                           text-primary slide-in-left bg-white"
+                    class="input input-bordered w-full rounded-xl text-lg 
+                           font-medium text-primary slide-in-left bg-white"
                     [(ngModel)]="searchTerm"
                     (input)="onSearch()" 
                 />
                 <button
                     type="button"
-                    class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
-                           hover:bg-[#ffb700] hover:text-black transition duration-300 slide-in-right"
+                    class="h-[3rem] bg-white text-primary rounded-xl px-4 
+                           font-medium hover:bg-[#ffb700] hover:text-black 
+                           transition duration-300 slide-in-right"
                     (click)="clearSearch()"
                 >
                     Clear
@@ -72,9 +73,10 @@
                     </div>
                 </div>
                 <button
-                    class="w-auto h-[3rem] mt-0.5 bg-white text-primary px-4 rounded-xl 
-                           font-medium hover:bg-[#ffb700] hover:text-black 
-                           transition duration-300 ml-1 slide-in-left"
+                    class="w-auto h-[3rem] mt-0.5 bg-white text-primary px-4 
+                           rounded-xl font-medium hover:bg-[#ffb700] 
+                           hover:text-black transition duration-300 ml-1 
+                           slide-in-left"
                     (click)="openRequestModal()"
                 >
                     Request a material
@@ -86,136 +88,180 @@
                     <h3 class="text-xl font-bold text-primary text-center">
                         Enter details of the book you want to request
                     </h3>
+
                     <p class="text-red-500 text-xs text-center my-1">
                         Note* Only registered users are allowed to make a request
                     </p>
               
                     <div class="flex justify-center items-center gap-2 flex-col mt-5">
                         <div class="relative w-full">
-                            <input [(ngModel)]="request.title"
-                                   type="text"
-                                   placeholder="Title"
-                                   class="input input-bordered w-full"
-                                   [ngClass]="{'border-red-500': !request.title && formSubmitted}" 
-                                   (input)="onFieldInput('title')"/>
+                            <input 
+                                [(ngModel)]="request.title"
+                                type="text"
+                                placeholder="Title"
+                                class="input input-bordered w-full"
+                                [ngClass]="{
+                                    'border-red-500': 
+                                        !request.title && formSubmitted
+                                }" 
+                                   (input)="onFieldInput('title')"
+                            />
                             <span *ngIf="!request.title && formSubmitted"
-                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                  class="absolute right-2 top-1/2 transform 
+                                         -translate-y-1/2 text-red-500 
+                                         cursor-pointer group">
                                 <img 
                                     src="../../../assets/Exclamation_flat_icon.svg.png" 
                                     alt="Exclamation Mark" 
                                     class="h-4 w-4 mt-1"
                                 />
-                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
-                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
-                                             whitespace-nowrap group-hover:block hidden">
+                                <span 
+                                    class="absolute right-6 top-1/2 transform 
+                                           -translate-y-1/2 mr-1 w-max bg-red-500 
+                                           text-white text-xs rounded py-1 px-2 
+                                           shadow-lg z-10 whitespace-nowrap 
+                                           group-hover:block hidden">
                                     Title cannot be empty.
                                 </span>
                             </span>
                         </div>
                         
                         <div class="relative w-full">
-                            <input [(ngModel)]="request.author"
-                                   type="text"
-                                   placeholder="Author"
-                                   class="input input-bordered w-full"
-                                   [ngClass]="{'border-red-500': !request.author && formSubmitted}"
-                                   (input)="onFieldInput('author')"/>
+                            <input 
+                                [(ngModel)]="request.author"
+                                type="text"
+                                placeholder="Author"
+                                class="input input-bordered w-full"
+                                [ngClass]="{
+                                    'border-red-500':  
+                                        !request.author && formSubmitted
+                                }"
+                                   (input)="onFieldInput('author')"
+                            />
                             <span *ngIf="!request.author && formSubmitted"
-                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                  class="absolute right-2 top-1/2 transform 
+                                         -translate-y-1/2 text-red-500 
+                                         cursor-pointer group">
                                 <img 
                                     src="../../../assets/Exclamation_flat_icon.svg.png" 
                                     alt="Exclamation Mark" 
                                     class="h-4 w-4 mt-1"
                                 />
-                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
-                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
-                                             whitespace-nowrap group-hover:block hidden">
+                                <span 
+                                    class="absolute right-6 top-1/2 transform 
+                                           -translate-y-1/2 mr-1 w-max bg-red-500 
+                                           text-white text-xs rounded py-1 px-2 
+                                           shadow-lg z-10 whitespace-nowrap 
+                                           group-hover:block hidden">
                                     Author cannot be empty.
                                 </span>
                             </span>
                         </div>
                     
                         <div class="relative w-full">
-                            <input [(ngModel)]="request.year_published"
-                                   type="text"
-                                   placeholder="Year published"
-                                   class="input input-bordered w-full"
-                                   [ngClass]="{'border-red-500': !request.year_published && formSubmitted}"
-                                   (input)="onFieldInput('year_published')"/>
+                            <input 
+                                [(ngModel)]="request.year_published"
+                                type="text"
+                                placeholder="Year published"
+                                class="input input-bordered w-full"
+                                [ngClass]="{
+                                    'border-red-500': 
+                                        !request.year_published && formSubmitted
+                                }"
+                                   (input)="onFieldInput('year_published')"
+                            />
                             <span *ngIf="!request.year_published && formSubmitted"
-                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                  class="absolute right-2 top-1/2 transform 
+                                         -translate-y-1/2 text-red-500 
+                                         cursor-pointer group">
                                 <img 
                                     src="../../../assets/Exclamation_flat_icon.svg.png" 
                                     alt="Exclamation Mark" 
                                     class="h-4 w-4 mt-1"
                                 />
-                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
-                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
-                                             whitespace-nowrap group-hover:block hidden">
+                                <span 
+                                    class="absolute right-6 top-1/2 transform 
+                                           -translate-y-1/2 mr-1 w-max bg-red-500 
+                                           text-white text-xs rounded py-1 px-2 
+                                           shadow-lg z-10 whitespace-nowrap 
+                                           group-hover:block hidden">
                                     Year Published cannot be empty.
                                 </span>
                             </span>
                         </div>
                     
                         <div class="relative w-full">
-                            <input [(ngModel)]="request.requester_id"
-                                   type="text"
-                                   placeholder="Student ID / Faculty code / Identifier"
-                                   class="input input-bordered w-full"
-                                   [ngClass]="{'border-red-500': !request.requester_id && formSubmitted}"
-                                   (input)="onFieldInput('requester_id')"/>
+                            <input 
+                                [(ngModel)]="request.requester_id"
+                                type="text"
+                                placeholder="Student ID / Faculty Code / Employee Number / Identifier"
+                                class="input input-bordered w-full"
+                                [ngClass]="{
+                                    'border-red-500': 
+                                        !request.requester_id && formSubmitted
+                                }"
+                                (input)="onFieldInput('requester_id')"
+                            />
                             <span *ngIf="!request.requester_id && formSubmitted"
-                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer group">
+                                  class="absolute right-2 top-1/2 transform 
+                                         -translate-y-1/2 text-red-500 
+                                         cursor-pointer group">
                                 <img 
                                     src="../../../assets/Exclamation_flat_icon.svg.png" 
                                     alt="Exclamation Mark" 
                                     class="h-4 w-4 mt-1"
                                 />
-                                <span class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 w-max 
-                                             bg-red-500 text-white text-xs rounded py-1 px-2 shadow-lg z-10 
-                                             whitespace-nowrap group-hover:block hidden">
+                                <span 
+                                    class="absolute right-6 top-1/2 transform 
+                                           -translate-y-1/2 mr-1 w-max bg-red-500 
+                                           text-white text-xs rounded py-1 px-2 
+                                           shadow-lg z-10 whitespace-nowrap 
+                                           group-hover:block hidden">
                                     Requester ID cannot be empty.
                                 </span>
                             </span>
                         </div>
                     
-                        <p *ngIf="formErrorMessage" class="text-red-500 text-sm mt-2">
+                        <p *ngIf="formErrorMessage" 
+                           class="text-red-500 text-sm mt-2">
                             {{ formErrorMessage }}
+                        </p>
+                        <p class="text-black text-sm text-start my-1">
+                            <span class="font-bold">Note:</span> This feature 
+                            is for requesting new books or materials that are 
+                            not currently available in the library. It is 
+                            <span class="font-bold">NOT</span> for borrowing 
+                            existing materials. For borrowing available 
+                            materials, please see the librarian or the 
+                            designated library staff. Thank you!
                         </p>
                     </div>
               
                     <div class="modal-action justify-center items-center">
                         <button 
-                            class="btn w-40 bg-primary text-white hover:bg-[#ffb700] hover:text-black" 
+                            class="btn w-40 bg-primary text-white 
+                                   hover:bg-[#ffb700] hover:text-black" 
                             (click)="closeRequestModal()">
                             Close
                         </button>
                         <button 
-                            class="btn w-40 bg-secondary text-black hover:bg-[#801e1d] hover:text-white" 
+                            class="btn w-40 bg-secondary text-black 
+                                   hover:bg-[#801e1d] hover:text-white" 
                             (click)="submitRequest()">
                             Submit
                         </button>
                     </div>
                 </div>
-            </dialog>
 
-            <dialog id="not_registered_modal" class="modal">
-                <div class="modal-box">
-                    <h3 class="text-xl font-bold text-red-500 text-center">
-                        Error
-                    </h3>
-                    <p class="text-lg text-center">
-                        You are not registered. Please register before 
-                        requesting a book.
-                    </p>
-                    <div class="modal-action justify-center items-center">
-                        <button 
-                            class="btn w-40 bg-primary text-white hover:bg-[#ffb700]" 
-                            (click)="closeNotRegisteredModal()">
-                            Close
+                <div *ngIf="showSnackbar" 
+                         class="fixed bottom-0 left-1/2 transform 
+                                -translate-x-1/2 mb-4 bg-yellow-500 text-white 
+                                p-4 rounded-lg shadow-lg flex items-center z-50">
+                        <span>{{ snackbarMessage }}</span>
+                        <button (click)="closeSnackbar()" class="ml-4 text-white">
+                            <span class="text-xl font-bold">×</span>
                         </button>
                     </div>
-                </div>
             </dialog>
         </div>
     </div>
@@ -223,7 +269,8 @@
     <div class="flex flex-col w-full">
         <div class="flex-grow bg-primary">
             @if (materials.length > 0) {
-                <div class="p-2 bg-white text-black rounded-xl w-full slide-in-right border border-gray-300 mb-5">
+                <div class="p-2 bg-white text-black rounded-xl w-full 
+                            slide-in-right border border-gray-300 mb-5">
                     <div class="overflow-x-auto">
                         <table class="table w-full">
                             <thead class="cursor-pointer">
@@ -317,7 +364,8 @@
                                     </td>
                                     <td>
                                         <a [routerLink]="['/material-info', material.accnum]" 
-                                           class="text-primary font-semibold hover:text-[#ffb700] 
+                                           class="text-primary font-semibold 
+                                                  hover:text-[#ffb700] 
                                                   hover:underline">
                                             {{ material.title}}
                                         </a>
@@ -327,7 +375,7 @@
                                         {{ material.author.length > 30 ? '...' : '' }}
                                     </td>
                                     <td>
-                                        {{ material.subj }}
+                                        {{ material.subject_name }}
                                     </td>
                                     <td>
                                         {{ material.copyright }}
@@ -338,6 +386,29 @@
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                  <td colspan="100%" class="text-center">
+                                    <label for="itemsPerPage" 
+                                           class="text-primary text-lg font-medium mr-2">
+                                      Show items:
+                                    </label>
+                                    <select 
+                                      id="itemsPerPage" 
+                                      [(ngModel)]="itemsPerPage" 
+                                      (change)="onItemsPerPageChange($event)" 
+                                      class="bg-secondary text-black border-none shadow-none btn-sm 
+                                             rounded-xl font-medium cursor-pointer">
+                                      <option 
+                                        *ngFor="let option of itemsPerPageOptions" 
+                                        [value]="option"
+                                      >
+                                        {{ option }}
+                                      </option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tfoot>
                         </table>
                     </div>
                 </div>
@@ -359,11 +430,9 @@
                             </p>
                             <div class="card-actions">
                                 <button
-                                    class="w-auto h-[3rem] 
-                                           mt-0.5 bg-white 
-                                           text-primary px-4 
-                                           rounded-xl font-medium 
-                                           hover:bg-[#ffb700] 
+                                    class="w-auto h-[3rem] mt-0.5 bg-white 
+                                           text-primary px-4 rounded-xl 
+                                           font-medium hover:bg-[#ffb700] 
                                            hover:text-black transition 
                                            duration-300 ml-1"
                                     (click)="openRequestModal()"
@@ -398,37 +467,65 @@
             <div class="flex flex-row gap-4 w-full">
                 <button
                     (click)="closeConfirmModal()"
-                    class="flex-1
-                           bg-primary 
-                           text-white 
-                           px-6 
-                           py-3 
-                           rounded-full 
-                           font-medium 
-                           hover:bg-[#ffb700] 
-                           hover:text-black 
-                           transition 
-                           duration-300">
+                    class="flex-1bg-primary text-white px-6 py-3 rounded-full 
+                           font-medium hover:bg-[#ffb700] hover:text-black 
+                           transition duration-300"
+                >
                     Back
                 </button>
                 <button
                     (click)="deleteMaterial()"
-                    class="flex-1
-                           bg-secondary 
-                           text-black 
-                           px-6 
-                           py-3 
-                           rounded-full 
-                           font-medium 
-                           hover:bg-[#801e1d] 
-                           hover:text-white 
-                           transition 
-                           duration-300">
+                    class="flex-1bg-secondary text-black px-6 py-3 rounded-full 
+                           font-medium hover:bg-[#801e1d] hover:text-white 
+                           transition duration-300">
                     Delete Material
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+<dialog id="confirmation_modal" class="modal">
+    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+        Are the details correct?
+      </h2>
+      <p class="text-red-500 text-sm text-center my-1">
+        Note: Please review the details carefully
+      </p>
+      <div class="flex flex-col items-center justify-between h-full">
+        <img 
+          src="../../../assets/return.jpg" 
+          alt="success" 
+          class="w-4/5 h-auto mb-4" 
+        />
+        <div class="flex flex-col space-y-2">
+          <div><strong>Title:</strong> {{ request.title }}</div>
+          <div><strong>Author:</strong> {{ request.author }}</div>
+          <div><strong>Year Published:</strong> {{ request.year_published }}</div>
+          <div><strong>{{ requesterIdLabel }}:</strong> {{ request.requester_id }}</div>
+        </div>
+      </div>
+  
+      <div class="modal-action justify-center items-center">
+        <button
+          class="btn w-40 bg-primary text-white hover:bg-[#ffb700] 
+                 hover:text-black"
+          (click)="closeConfirmationModal()"
+        >
+          Close
+        </button>
+  
+        <button
+          type="button"
+          class="btn w-40 bg-secondary text-black hover:bg-[#801e1d] 
+                 hover:text-white"
+          (click)="confirmSubmit()"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+</dialog>  
 
 <app-client-snackbar/>

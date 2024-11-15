@@ -13,7 +13,8 @@ export class BorrowComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 1;
-  itemsPerPage: number = 13;
+  itemsPerPage: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
   category: string = '';
   categories: any[] = []; // Added categories array to store category data
@@ -41,6 +42,12 @@ export class BorrowComponent implements OnInit {
     this.borrowService.getCategories().subscribe(response => {
       this.categories = response; // Assuming the API returns a list of categories
     });
+  }
+
+  onItemsPerPageChange(event: any) {
+    this.itemsPerPage = event.target.value;
+    this.currentPage = 1;
+    this.loadMaterials();
   }
 
   trackByAccNum(index: number, material: any): string {

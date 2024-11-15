@@ -27,8 +27,12 @@ export class AddMaterialService {
   addBook(bookDetails: any): Observable<any> {
     return this.http.post<any>(this.addBookUrl, bookDetails);
   }
-    // Method to get subject headings
-    getSubjectHeadings(): Observable<any> {
-      return this.http.get<any>(this.getSubjectHeadingsUrl);
-    }
+  
+  // Method to get subject headings, with an optional search term
+  getSubjectHeadings(searchTerm: string = ''): Observable<any> {
+    const url = searchTerm 
+                ? `${this.getSubjectHeadingsUrl}?searchTerm=${encodeURIComponent(searchTerm)}`
+                : this.getSubjectHeadingsUrl;
+    return this.http.get<any>(url);
+  }
 }

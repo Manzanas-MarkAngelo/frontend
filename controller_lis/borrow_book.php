@@ -12,14 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-
 $id_number = $data['id_number'];
 $material_id = $data['material_id'];
 
 $sql = "SELECT user_id FROM students WHERE student_number = ? 
-        UNION SELECT user_id FROM faculty WHERE emp_number = ?";
+        UNION 
+        SELECT user_id FROM faculty WHERE emp_number = ?
+        UNION 
+        SELECT user_id FROM pupt_employees WHERE emp_num = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $id_number, $id_number);
+$stmt->bind_param("sss", $id_number, $id_number, $id_number);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
@@ -56,11 +58,24 @@ if ($material['status'] === 'Available') {
     $stmt->execute();
 
     $response = array('status' => 'success', 'message' => 'Book borrowed successfully!');
+
+    $emailData = [
+        'user_id' => $user_id,
+        'material_id' => $material_id
+    ];
+
+    $ch = curl_init('http://localhost/controller_lis/send_borrow_notification.php');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); 
+    $emailResponse = curl_exec($ch);
+    curl_close($ch);
+
+    echo json_encode($response);
 } else {
     $response = array('status' => 'error', 'message' => 'Book is not available for borrowing.');
+    echo json_encode($response);
 }
-
-echo json_encode($response);
 
 $stmt->close();
 $conn->close();

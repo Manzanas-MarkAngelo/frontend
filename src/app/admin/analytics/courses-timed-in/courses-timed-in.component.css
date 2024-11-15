@@ -1,0 +1,37 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.chart-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  height: 400px; /* Set a fixed height for the container */
+}
+
+/* Dropdown inside chart container */
+.dropdown-container {
+  position: absolute;
+  top: 10px; /* Adjust distance from the top */
+  right: 10px; /* Adjust distance from the right */
+  z-index: 10; /* Ensure dropdown is above other elements */
+}
+
+.dropdown {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 0.875rem; /* Smaller font size */
+  width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important; /* Ensure canvas takes full height of the container */
+}

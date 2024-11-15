@@ -28,6 +28,8 @@ if ($role === 'student') {
     $query = "SELECT id FROM faculty WHERE emp_number = ?";
 } elseif ($role === 'visitor') {
     $query = "SELECT id FROM visitor WHERE identifier = ?";
+} elseif ($role === 'pupt-employee') {
+    $query = "SELECT id FROM pupt_employees WHERE emp_num = ?";
 } else {
     echo json_encode(['registered' => false, 'error' => 'Invalid role']);
     exit();
@@ -53,7 +55,8 @@ if ($stmt->num_rows > 0) {
 
 $contactQuery = "SELECT id FROM students WHERE phone_number = ? UNION ALL 
                  SELECT id FROM faculty WHERE phone_number = ? UNION ALL 
-                 SELECT id FROM visitor WHERE phone_number = ?";
+                 SELECT id FROM visitor WHERE phone_number = ? UNION ALL 
+                 SELECT id FROM pupt_employees WHERE phone_number = ?";
 
 $contactStmt = $conn->prepare($contactQuery);
 if ($contactStmt === false) {
@@ -61,7 +64,7 @@ if ($contactStmt === false) {
     exit();
 }
 
-$contactStmt->bind_param("sss", $contact, $contact, $contact);
+$contactStmt->bind_param("ssss", $contact, $contact, $contact, $contact);
 $contactStmt->execute();
 $contactStmt->store_result();
 

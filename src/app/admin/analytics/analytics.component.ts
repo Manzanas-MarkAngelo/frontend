@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { BookRequestService } from '../../../services/book-request.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { subscribe } from 'diagnostics_channel';
@@ -7,13 +7,15 @@ import { subscribe } from 'diagnostics_channel';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.css'],
 })
-export class AnalyticsComponent implements OnInit {
+export class AnalyticsComponent implements OnInit, AfterViewInit {
   requests: any[] = [];
   paginatedRequests: any[] = [];
   itemsPerPage: number = 10;
   currentPage: number = 1;
   totalPages: number = 1;
   analyticsData: any = {}
+  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+  public scrollDirection: 'right' | 'left' = 'right';
 
 
   constructor(private bookRequestService: BookRequestService, 
@@ -65,5 +67,40 @@ export class AnalyticsComponent implements OnInit {
         console.error('Error fetching analytics data', error)
       }
     );
+  }
+
+  ngAfterViewInit() {
+    // Initialize button direction based on initial scroll position
+    this.updateScrollDirection();
+  }
+
+  // Scroll detection for toggling button direction
+  @HostListener('window:resize') onResize() {
+    this.updateScrollDirection();
+  }
+
+  updateScrollDirection() {
+    const container = this.scrollContainer.nativeElement;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+    // If closer to the right, set direction to 'left', otherwise 'right'
+    this.scrollDirection = container.scrollLeft >= maxScrollLeft - 50 ? 'left' : 'right';
+  }
+
+  toggleScroll() {
+    const container = this.scrollContainer.nativeElement;
+
+    if (this.scrollDirection === 'right') {
+      container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+    } else {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+
+    // Update direction after scrolling
+    this.scrollDirection = this.scrollDirection === 'right' ? 'left' : 'right';
+  }
+
+  onScroll() {
+    this.updateScrollDirection();
   }
 }

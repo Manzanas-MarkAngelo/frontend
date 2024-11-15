@@ -8,7 +8,7 @@ import autoTable from 'jspdf-autotable';
 export class PdfPenaltyReceiptService {
   constructor() {}
 
-  generateReceipt(response: any, isStudent: boolean): string {
+  generateReceipt(response: any, isStudent: boolean, isEmployee: boolean = false): string {
     const doc = new jsPDF('landscape');
     const img = new Image();
     img.src = 'assets/pup.png';
@@ -25,8 +25,8 @@ export class PdfPenaltyReceiptService {
       amountDue: `P${response.amount_due}`
     };
 
-    const copyLabelLeft = isStudent ? "STUDENT'S COPY" : "FACULTY'S COPY";
-    const idLabel = isStudent ? "Student Number:" : "Faculty Code:";
+    const copyLabelLeft = isStudent ? "STUDENT'S COPY" : isEmployee ? "EMPLOYEE'S COPY" : "FACULTY'S COPY";
+    const idLabel = isStudent ? "Student Number:" : isEmployee ? "Employee Number:" : "Faculty Code:";
     const copyLabelRight = "LIBRARY'S COPY";
 
     doc.setFont('helvetica');
@@ -65,7 +65,7 @@ export class PdfPenaltyReceiptService {
       drawText(true, 'Name:', x + margin, topY + 70);
       drawText(false, borrowerDetails.name, x + margin + 16, topY + 70);
       drawText(true, idLabel, x + margin, topY + 80);
-      drawText(false, borrowerDetails.borrowerId, x + margin + 38, topY + 80);
+      drawText(false, borrowerDetails.borrowerId, x + margin + 40, topY + 80);
       drawText(true, 'Date:', x + sectionWidth - 42, topY + 70);
       drawText(false, borrowerDetails.date, x + sectionWidth - 28, topY + 70);
 
