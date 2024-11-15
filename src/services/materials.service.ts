@@ -93,5 +93,14 @@ export class MaterialsService {
 
   getAllMaterialIds(): Observable<number[]> {
     return this.http.get<number[]>(`${this.apiUrl}/fetch_materials.php?fetchAllIds=true`);
-  }  
+  } 
+  
+  getPaginatedCategories(page: number, limit: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    
+    return this.http.get<any>(`${this.apiUrl}/fetch_paginated_category.php`, { params });
+  }
+  
 }

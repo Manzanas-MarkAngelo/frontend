@@ -1,0 +1,29 @@
+<div class="flex items-center justify-center h-screen bg-primary">
+  <div class="bg-white p-6 lg:p-8 pb-0 rounded-xl shadow-lg w-full lg:w-4/5 slide-in-right">
+    <div class="divider my-0"></div>
+    <p class="text-start text-2xl font-medium text-primary mb-3">
+      Edit Subject:
+    </p>
+    <form #subjectForm="ngForm">
+      <div class="flex flex-col items-center justify-between gap-2">
+        <input
+          type="text"
+          name="subject"
+          [(ngModel)]="subjectName" 
+          required
+          class="w-full px-6 py-4 rounded-xl bg-[#e0e0e0] text-gray-700 focus:ring-opacity-50"
+        />
+        <div class="flex justify-end w-full">
+          <button
+            type="button"
+            (click)="updateSubject()"
+            class="w-auto bg-secondary text-black px-4 py-3 rounded-xl font-medium hover:bg-[#801e1d] hover:text-white transition duration-300 mb-2 lg:mb-0">
+            Continue
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-snackbar></app-snackbar>

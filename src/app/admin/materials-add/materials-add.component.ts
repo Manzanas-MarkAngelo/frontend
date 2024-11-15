@@ -34,6 +34,7 @@ export class MaterialsAddComponent implements OnInit {
 
   material: any = {};
   showModal = false;
+  showModalDelete = false;
   isDropdownOpen = false;
   selectedCategory: { cat_id: number, mat_type: string } | null = null;
   categories: { cat_id: number, mat_type: string }[] = [];
@@ -159,7 +160,7 @@ export class MaterialsAddComponent implements OnInit {
       next: (response) => {
         if (response && response.id) {
           this.subjectToDelete = response; 
-          this.showModal = true;  
+          this.showModalDelete = true;  
         } else {
           this.snackbar.showMessage('Subject not found.');
         }
@@ -171,6 +172,7 @@ export class MaterialsAddComponent implements OnInit {
   }
 
   closeConfirmModal(): void {
+    this.showModalDelete = false;
     this.showModal = false;
     this.subjectToDelete = null;  
   }
