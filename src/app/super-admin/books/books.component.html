@@ -245,20 +245,20 @@
       </div>
     </div>
   } @else {
-      <div class="flex justify-center items-center mt-20 slide-in-below">
-        <div class="card bg-primary w-96">
-          <figure class="px-10 pt-10">
-            <img
-              src="../../../assets/no-match1.svg"
-              alt="no-match"
-            />
-          </figure>
-          <div class="card-body items-center text-center">
-            <h2 class="card-title text-white">Nothing match your search!</h2>
-            <p class="text-white">Didn't find what you're looking for?</p>
-          </div>
+    <div class="flex justify-center items-center mt-20 slide-in-below">
+      <div class="card bg-primary w-96">
+        <figure class="px-10 pt-10">
+          <img
+            src="../../../assets/no-match1.svg"
+            alt="no-match"
+          />
+        </figure>
+        <div class="card-body items-center text-center">
+          <h2 class="card-title text-white">Nothing match your search!</h2>
+          <p class="text-white">Didn't find what you're looking for?</p>
         </div>
       </div>
+    </div>
   }
 </div>
 
@@ -384,7 +384,8 @@
       </div>
     </div>
 
-    <div *ngIf="totalTitlePages > 1" class="modal-action justify-center items-center">
+    <div *ngIf="totalTitlePages > 1" 
+         class="modal-action justify-center items-center">
       <button 
         class="btn btn-sm w-20 bg-gray-600 text-white hover:bg-gray-500"
         [disabled]="currentTitlePage === 1"

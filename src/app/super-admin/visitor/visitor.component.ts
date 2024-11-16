@@ -31,7 +31,6 @@ export class VisitorComponent implements OnInit {
   ngOnInit(): void {
     this.fetchRecords();
 
-    // Set up search with debounce
     this.searchSubject.pipe(debounceTime(300)).subscribe(term => {
       this.searchTerm = term;
       this.fetchRecords();
@@ -51,7 +50,7 @@ export class VisitorComponent implements OnInit {
   }
 
   clearLogType() {
-    this.searchTerm = ''; // Clear the search term
+    this.searchTerm = '';
     this.fetchRecords();
   }
 

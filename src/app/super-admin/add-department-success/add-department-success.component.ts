@@ -6,15 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './add-department-success.component.css'
 })
 export class AddDepartmentSuccessComponent {
-  showModal = false; 
-
-  openConfirmModal() {
-    this.showModal = true;
-    console.log('Modal opened');
-  }
-
-  closeConfirmModal() {
-    this.showModal = false;
-    console.log('Modal closed');
-  }
+  
 }

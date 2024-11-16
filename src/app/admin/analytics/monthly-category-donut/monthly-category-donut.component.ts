@@ -48,7 +48,6 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
   fetchData(year: number, month: number) {
     this.chartsService.getMonthlyBorrowingData(year, month)
       .subscribe(data => {
-        console.log('Data received for chart:', data);
         this.createChart(data);
       }, error => {
         console.error('Error fetching data:', error);
@@ -89,14 +88,14 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: `Monthly Borrow Ratio by Material Category for ${this.months[this.month - 1].name}, ${this.year}`, // Updated title
+            text: `Monthly Borrow Ratio by Material Category for ${this.months[this.month - 1].name}, ${this.year}`,
             font: {
               size: 18
             },
-            position: 'bottom', // Position the title at the bottom
+            position: 'bottom',
             padding: {
-              top: 20, // Space above the title
-              bottom: 10 // Space below the title
+              top: 20,
+              bottom: 10
             }
           },
           legend: {
@@ -108,7 +107,6 @@ export class MonthlyCategoryDonutComponent implements OnInit, AfterViewInit {
     });
   }
   
-
   onYearChange(event: any) {
     const selectedYear = +event.target.value;
     this.fetchData(selectedYear, this.month);

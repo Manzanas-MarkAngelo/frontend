@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { AdminLoginService } from '../../../services/admin-login.service'; // Import the login service
+import { AdminLoginService } from '../../../services/admin-login.service';
 import { AdminService } from '../../../services/admin.service';
 @Component({
   selector: 'app-logout-warning',
@@ -18,12 +18,12 @@ export class LogoutWarningComponent {
   ) { }
 
   onBack() {
-    this.location.back(); // Navigate back to the previous page
+    this.location.back();
   }
 
   onContinue() {
-    this.adminLoginService.logout(); // Call the logout method to clear session
+    this.adminLoginService.logout();
     this.adminService.setRole(null);
-    this.router.navigate(['/']); // Redirect to home or login page
+    this.router.navigate(['/']);
   }
 }

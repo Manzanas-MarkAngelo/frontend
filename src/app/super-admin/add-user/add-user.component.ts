@@ -42,11 +42,8 @@ export class AddUserComponent {
     }
 
     this.registerService.registerUser(formData).subscribe(response => {
-      console.log('Response from server:', response);
       if(response.status === 'success') {
         this.router.navigate(['/register-success']);
-      } else {
-        // TODO: Handle error here
       }
     });
   }

@@ -28,7 +28,7 @@ export class StudentComponent implements OnInit {
   ngOnInit(): void {
     this.fetchRecords();
     this.searchSubject.pipe(
-      debounceTime(300)  // Adjust debounce time as needed
+      debounceTime(300)
     ).subscribe(term => {
       this.searchTerm = term;
       this.fetchRecords();
@@ -87,7 +87,7 @@ export class StudentComponent implements OnInit {
   }
 
   clearLogType() {
-    this.searchTerm = ''; // Clear the search term
+    this.searchTerm = '';
     this.fetchRecords();
   }
 }

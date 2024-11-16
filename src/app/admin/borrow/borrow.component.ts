@@ -17,12 +17,12 @@ export class BorrowComponent implements OnInit {
   itemsPerPageOptions: number[] = [10, 25, 50, 100, 500, 1000];
   searchTerm: string = '';
   category: string = '';
-  categories: any[] = []; // Added categories array to store category data
+  categories: any[] = [];
   private searchTerms = new Subject<string>();
 
   categoryPlaceholder: string = 'Choose category';
-  sortField: string = 'date_added'; // Default sort field
-  sortOrder: string = 'DESC'; // Default sort order
+  sortField: string = 'date_added';
+  sortOrder: string = 'DESC';
 
   constructor(private borrowService: BorrowService) {}
 
@@ -38,9 +38,8 @@ export class BorrowComponent implements OnInit {
       this.totalPages = response.totalPages;
     });
 
-    // Fetch categories when the component initializes
     this.borrowService.getCategories().subscribe(response => {
-      this.categories = response; // Assuming the API returns a list of categories
+      this.categories = response;
     });
   }
 
@@ -153,12 +152,10 @@ export class BorrowComponent implements OnInit {
 
   sortMaterials(field: string) {
     if (field === 'accnum') {
-      // Special case for sorting by 'Acc No.'
       this.sortField = 'categoryid';
       this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
     } else {
       if (this.sortField === field) {
-        // Toggle the sorting order for the same field
         this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
       } else {
         this.sortField = field;
@@ -166,7 +163,6 @@ export class BorrowComponent implements OnInit {
       }
     }
 
-    // Reload materials with the updated sorting
     this.loadMaterials();
   }
 
@@ -175,8 +171,8 @@ export class BorrowComponent implements OnInit {
     this.category = '';
     this.currentPage = 1;
     this.categoryPlaceholder = 'Choose category';
-    this.sortField = 'date_added'; // Reset to default sort field
-    this.sortOrder = 'DESC'; // Reset to default sort order
+    this.sortField = 'date_added';
+    this.sortOrder = 'DESC';
     this.loadMaterials();
   }
 }

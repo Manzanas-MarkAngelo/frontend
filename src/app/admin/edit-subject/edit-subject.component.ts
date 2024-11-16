@@ -26,13 +26,11 @@ export class EditSubjectComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Ensure snackbar is defined
     if (!this.snackbar) {
       console.error('Snackbar component is not initialized.');
     }
   }
 
-  // Method to fetch subject details and set the subjectName
   fetchSubject(subjectId: number): void {
     this.addMaterialService.getSubjectById(subjectId).subscribe({
       next: (response) => {
@@ -46,15 +44,14 @@ export class EditSubjectComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // Method to update the subject name when "Continue" button is clicked
   updateSubject(): void {
     this.addMaterialService.updateSubject(this.subjectId, this.subjectName).subscribe({
       next: (response) => {
         if (response.success) {
-          this.snackbar?.showMessage('Subject updated successfully'); // Check if snackbar is defined
+          this.snackbar?.showMessage('Subject updated successfully');
           setTimeout(() => {
             this.router.navigate(['/materials-add']);
-          }, 1000); // Delay in milliseconds (2 seconds)
+          }, 1000);
         } else {
           this.snackbar?.showMessage('Failed to update Subject');
         }

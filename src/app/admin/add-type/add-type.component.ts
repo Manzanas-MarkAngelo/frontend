@@ -22,7 +22,6 @@ export class AddTypeComponent {
 
   addMaterialType() {
     if (this.isSubmitting) {
-      console.log('Submission already in progress');
       return;
     }
 
@@ -31,14 +30,11 @@ export class AddTypeComponent {
       mat_type: this.classname,
       cat_type: this.type ? 'Special case' : 'Normal',
       accession_no: this.accnum,
-      duration: this.duration || null, // Set to null if not provided
+      duration: this.duration || null,
     };
-
-    console.log('Payload to be sent:', categoryDetails); // Log the payload
 
     this.addMaterialService.addCategory(categoryDetails).subscribe(
       response => {
-        console.log('Category added successfully', response);
         this.isSubmitting = false;
         this.router.navigate(['/add-type-success']);
       },

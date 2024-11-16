@@ -13,26 +13,23 @@ export class EditTypeComponent implements OnInit {
   accnum: string;
   duration: number;
   isSubmitting = false;
-  cat_id: string; // To store the cat_id
+  cat_id: string;
 
   constructor(
     private materialService: MaterialsService, 
     private router: Router,
-    private route: ActivatedRoute // Inject ActivatedRoute
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    // Extract cat_id from URL
     this.cat_id = this.route.snapshot.paramMap.get('cat_id');
     
-    // Fetch the data for this category ID
     this.getCategoryDetails(this.cat_id);
   }
 
   getCategoryDetails(cat_id: string) {
     this.materialService.getCategory(cat_id).subscribe(
       (category) => {
-        // Bind the fetched data to the form fields
         this.classname = category.mat_type;
         this.type = category.cat_type === 'Special case';
         this.accnum = category.accession_no;
@@ -50,7 +47,6 @@ export class EditTypeComponent implements OnInit {
 
   updateMaterialType() {
     if (this.isSubmitting) {
-      console.log('Submission already in progress');
       return;
     }
 
@@ -59,14 +55,11 @@ export class EditTypeComponent implements OnInit {
       mat_type: this.classname,
       cat_type: this.type ? 'Special case' : 'Normal',
       accession_no: this.accnum,
-      duration: this.duration || null, // Set to null if not provided
+      duration: this.duration || null,
     };
-
-    console.log('Payload to be sent:', categoryDetails);
 
     this.materialService.updateCategory(this.cat_id, categoryDetails).subscribe(
       response => {
-        console.log('Category updated successfully', response);
         this.isSubmitting = false;
         this.router.navigate(['/materials-success']);
       },

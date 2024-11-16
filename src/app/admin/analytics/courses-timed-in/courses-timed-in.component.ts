@@ -48,7 +48,6 @@ export class CoursesTimedInComponent implements OnInit, AfterViewInit {
   fetchData(year: number, month: number) {
     this.chartsService.getCourseCounts(year, month)
       .subscribe(data => {
-        console.log('Data received for chart:', data);
         this.createChart(data);
       }, error => {
         console.error('Error fetching data:', error);
@@ -66,34 +65,31 @@ export class CoursesTimedInComponent implements OnInit, AfterViewInit {
       this.chart.destroy();
     }
   
-    // Extracting labels and values from the data
     const labels = data.map((item: any) => item.course_abbreviation);
     const values = data.map((item: any) => item.student_count);
   
-    // Array of 11 unique colors with good contrast
     const backgroundColors = [
-      '#FF6F61', // Coral
-      '#6B5B93', // Purple
-      '#88B04B', // Olive Green
-      '#F7CAC9', // Light Pink
-      '#92A8D1', // Light Blue
-      '#955251', // Burgundy
-      '#B9D3C1', // Mint Green
-      '#F15A29', // Bright Orange
-      '#A35E8D', // Lavender
-      '#7A9E9F', // Teal
-      '#F2C94C'  // Gold
+      '#FF6F61',
+      '#6B5B93',
+      '#88B04B',
+      '#F7CAC9',
+      '#92A8D1',
+      '#955251',
+      '#B9D3C1',
+      '#F15A29',
+      '#A35E8D',
+      '#7A9E9F',
+      '#F2C94C'
     ];
-
   
     this.chart = new Chart(ctx, {
-      type: 'pie', // Changed from 'doughnut' to 'pie'
+      type: 'pie',
       data: {
         labels: labels,
         datasets: [{
           label: 'Student Count by Course',
           data: values,
-          backgroundColor: backgroundColors.slice(0, labels.length), // Ensure colors match the number of labels
+          backgroundColor: backgroundColors.slice(0, labels.length),
           hoverOffset: 4
         }]
       },
@@ -121,7 +117,6 @@ export class CoursesTimedInComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  
   
   onYearChange(event: any) {
     const selectedYear = +event.target.value;

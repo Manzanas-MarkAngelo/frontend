@@ -70,11 +70,9 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Initialize button direction based on initial scroll position
     this.updateScrollDirection();
   }
 
-  // Scroll detection for toggling button direction
   @HostListener('window:resize') onResize() {
     this.updateScrollDirection();
   }
@@ -83,7 +81,6 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     const container = this.scrollContainer.nativeElement;
     const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
-    // If closer to the right, set direction to 'left', otherwise 'right'
     this.scrollDirection = container.scrollLeft >= maxScrollLeft - 50 ? 'left' : 'right';
   }
 
@@ -96,7 +93,6 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
       container.scrollTo({ left: 0, behavior: 'smooth' });
     }
 
-    // Update direction after scrolling
     this.scrollDirection = this.scrollDirection === 'right' ? 'left' : 'right';
   }
 

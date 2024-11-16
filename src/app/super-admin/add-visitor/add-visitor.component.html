@@ -1,5 +1,6 @@
 <div class="flex items-start justify-center pt-40 bg-primary">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full slide-in-right">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full 
+              slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
         Add a visitor
@@ -18,7 +19,8 @@
             class="mt-1 block w-full rounded-xl border border-gray-300 px-6 py-2 
                    focus:ring-opacity-50 text-lg"
             [ngClass]="{'border-red-500': !school && hasFormErrors}"
-            (input)="onFieldInput('school')"/>
+            (input)="onFieldInput('school')"
+          />
           @if (!school && hasFormErrors) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
@@ -31,7 +33,8 @@
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 School cannot be empty.
               </span>
             </span>
@@ -47,7 +50,8 @@
                    leading-tight focus:outline-none focus:bg-white 
                    cursor-pointer text-lg mt-1"
             [ngClass]="{'border-red-500': !sex && hasFormErrors}"
-            (input)="onFieldInput('sex')">
+            (input)="onFieldInput('sex')"
+          >
             <option value="" disabled selected>Gender</option>
             <option>Male</option>
             <option>Female</option>
@@ -63,26 +67,28 @@
               />
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
-                      w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 Gender must be selected.
               </span>
             </span>
           }
-          <div
-            class="pointer-events-none absolute inset-y-0 top-1.5 right-2 flex 
-                   items-center text-gray-700">
+          <div class="pointer-events-none absolute inset-y-0 top-1.5 right-2 
+                      flex items-center text-gray-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-5">
+              class="size-5"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </div>
         </div>
@@ -98,7 +104,8 @@
                    py-2 focus:ring-opacity-50 text-lg"
             placeholder="First name"
             [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
-            (input)="onFieldInput('firstName')"/>
+            (input)="onFieldInput('firstName')"
+          />
           @if (!firstName && hasFormErrors) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
@@ -111,7 +118,8 @@
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 First name cannot be empty.
               </span>
             </span>
@@ -127,7 +135,8 @@
                    py-2 focus:ring-opacity-50 text-lg"
             placeholder="Last name"
             [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
-            (input)="onFieldInput('lastName')"/>
+            (input)="onFieldInput('lastName')"
+          />
           @if (!lastName && hasFormErrors) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
@@ -140,7 +149,8 @@
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrapgroup-hover:block hidden">
+                      shadow-lg z-10 whitespace-nowrapgroup-hover:block hidden"
+              >
                 Last name cannot be empty.
               </span>
             </span>
@@ -154,11 +164,12 @@
               type="text"
               [(ngModel)]="identifier"
               placeholder="Enter your identifier here"
-              class="mt-1 block w-full rounded-xl border border-gray-300 px-6 py-2 
-                     focus:ring-opacity-50 text-lg"
+              class="mt-1 block w-full rounded-xl border border-gray-300 px-6 
+                     py-2 focus:ring-opacity-50 text-lg"
               [ngClass]="{'border-red-500': 
                 (!identifier && hasFormErrors) || isUserExists}"
-              (input)="onFieldInput('identifier')"/>
+              (input)="onFieldInput('identifier')"
+            />
             @if ((!identifier && hasFormErrors) || isUserExists) {
               <span
                 class="absolute right-2 top-1/2 transform -translate-y-1/2 
@@ -170,8 +181,10 @@
                 />
                 <span
                   class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
-                        w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                        shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                         w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                         shadow-lg z-10 whitespace-nowrap group-hover:block 
+                         hidden"
+                >
                   {{ !identifier && hasFormErrors ? 'Identifier cannot be empty.' 
                         : isUserExists ? userExistsError : '' }}
                 </span>
@@ -192,7 +205,8 @@
             placeholder="Contact number"
             [ngClass]="{'border-red-500': 
             (!contact && hasFormErrors) || !isContactValid || isContactExists}"
-            (input)="onFieldInput('contact')"/>
+            (input)="onFieldInput('contact')"
+          />
           @if ((!contact && hasFormErrors) || !isContactValid 
           || isContactExists) {
             <span
@@ -205,8 +219,9 @@
               />
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
-                      w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 {{ !contact && hasFormErrors ? 'Contact number cannot be empty.' 
                       : !isContactValid ? contactError 
                       : isContactExists ? contactExistsError : '' }}
@@ -215,48 +230,33 @@
           }
         </div>
       </div>
-<div class="flex flex-row gap-4 w-full mt-4">
-  <button
-    type="button"
-    class="flex-1 
-    bg-primary 
-    text-white 
-    px-6 
-    py-3 
-    rounded-xl 
-    font-medium 
-    hover:bg-[#ffb700] 
-    hover:text-black
-    transition 
-    duration-300"
-    (click)="goBack()">
-    Cancel
-  </button>
-  <button
-    type="submit"
-    class="flex-1 
-    bg-secondary 
-    text-black 
-    px-6 
-    py-3 
-    rounded-xl 
-    font-medium 
-    hover:bg-[#801e1d] 
-    hover:text-white 
-    transition 
-    duration-300">
-    Continue
-  </button>
-</div>
-<div class="mt-5">
-  <span class="text-red-500 font-medium">Please read carefully*</span>
-  <p class="text-primary">
-    Be sure to save or take note of your identifier. It could be your 
-    favorite color, pet's name, or favorite food. You'll need it to log 
-    in and out of the library information system. Thank you!
-  </p>
-</div>
-</form>
+      <div class="flex flex-row gap-4 w-full mt-4">
+        <button
+          type="button"
+          class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300"
+          (click)="goBack()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl font-medium 
+                 hover:bg-[#801e1d] hover:text-white transition duration-300"
+        >
+          Continue
+        </button>
+      </div>
+      <div class="mt-5">
+        <span class="text-red-500 font-medium">Please read carefully*</span>
+        <p class="text-primary">
+          Be sure to save or take note of your identifier. It could be your 
+          favorite color, pet's name, or favorite food. You'll need it to log 
+          in and out of the library information system. Thank you!
+        </p>
+      </div>
+    </form>
+  </div>
 </div>
 
 

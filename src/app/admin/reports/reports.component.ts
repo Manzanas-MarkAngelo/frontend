@@ -25,7 +25,7 @@ export class ReportsComponent implements OnInit {
   programPlaceholder: string = 'Select a Subject';
   selectedRemark: string = '';
   category: string = '';
-  programs: string[] = [];  // For storing fetched programs
+  programs: string[] = [];
   isLoading: boolean = false;
   categories: { mat_type: string, accession_no: string }[] = [];
   showInitialDisplay: boolean = true;
@@ -34,10 +34,10 @@ export class ReportsComponent implements OnInit {
   dateTo: string | null = null;
   categoryPDFDIsplay = '';
   programValue = 'Select a Subject';
-  filteredPrograms: string[] = [];  // Filtered programs based on search
+  filteredPrograms: string[] = [];
   isProgramDropdownOpen: boolean = false;
-  programSearchTerm: string = '';  // Search term for the dropdown
-  selectedProgram: string = '';  // Stores the selected program
+  programSearchTerm: string = '';
+  selectedProgram: string = '';
 
   constructor(
     private pdfReportFacultyService: PdfReportFacultyService,
@@ -75,12 +75,11 @@ export class ReportsComponent implements OnInit {
     );
   }
 
-  // Fetch programs from the service
   fetchPrograms() {
     this.reportsService.getDepartments().subscribe(
       data => {
         this.programs = data.map((program: any) => program.subject_name);
-        this.filteredPrograms = [...this.programs];  // Initially show all programs
+        this.filteredPrograms = [...this.programs];
       },
       error => {
         console.error('Error fetching programs:', error);
@@ -88,12 +87,10 @@ export class ReportsComponent implements OnInit {
     );
   }
 
-    // Toggle the dropdown visibility
     toggleProgramDropdown() {
       this.isProgramDropdownOpen = !this.isProgramDropdownOpen;
     }
   
-    // Handle program selection
     selectProgram(program: string) {
       this.programPlaceholder = program;
       this.isProgramDropdownOpen = false;
@@ -101,7 +98,6 @@ export class ReportsComponent implements OnInit {
       
     }
   
-    // Filter programs based on the search input
     onProgramSearch(term: string) {
       this.filteredPrograms = this.programs.filter(program =>
         program.toLowerCase().includes(term.toLowerCase())
@@ -131,18 +127,15 @@ export class ReportsComponent implements OnInit {
     this.fetchMaterialsByProgram(value);
   }
 
-  // New method to fetch materials filtered by program
   fetchMaterialsByProgram(program: string) {
-    console.log('Selected Program:', program);
-    const page = 1;  // Example: Default page
-    const limit = 12;  // Example: Default limit
-    const sortField = 'date_added';  // Example: Default sorting field
-    const sortOrder = 'DESC';  // Example: Default sorting order
+    const page = 1;
+    const limit = 12;
+    const sortField = 'date_added';
+    const sortOrder = 'DESC';
     this.programValue = program;
     this.materialService.filterMaterialsByCategory(program, page, limit, sortField, sortOrder).subscribe(
       (response) => {
-        // Handle the response here (e.g., store the materials in a component variable)
-        console.log('Filtered materials by program:', response);
+        
       },
       (error) => {
         console.error('Error fetching filtered materials:', error);
@@ -158,7 +151,6 @@ export class ReportsComponent implements OnInit {
       : `${year}`;
   }
 
-    //Fomat date to match date format in time_logs table in the database
     formatDate(date: string | null): string | null {
       if (!date) return null;
       const parsedDate = new Date(date);
@@ -166,13 +158,9 @@ export class ReportsComponent implements OnInit {
           .slice(-2)}-${('0' + parsedDate.getDate()).slice(-2)}`;
     }
 
-  // Method to handle remark selection
   onRemarkSelected(remark: string): void {
     this.selectedRemark = remark;
-    // then pass the remark to generatePdfBorrowersReport() as an added filter
   }
-
-  //*PDF Generation
 
   selectPdfReport() {
     switch(this.inventoryPlaceholder) {
@@ -198,7 +186,6 @@ export class ReportsComponent implements OnInit {
     }
   }
 
-  // Pass selected program to PDF generation services
   generatePdfInventoryReport() {
     this.pdfReportInventoryService.generatePDF(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
@@ -206,9 +193,8 @@ export class ReportsComponent implements OnInit {
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show,
       this.categoryPDFDIsplay,
-      this.programPlaceholder === 'Select a Subject' ? '' : this.programValue  // Pass program
+      this.programPlaceholder === 'Select a Subject' ? '' : this.programValue
     );
-    console.log('hello ' + this.programValue);
   }
 
   generatePdfBorrowersReport() {
@@ -223,9 +209,6 @@ export class ReportsComponent implements OnInit {
   }
 
   generatePdfFacultyReport() {
-    console.log('Formatted dateFrom:', this.formatDate(this.dateFrom));
-    console.log('Formatted dateTo:', this.formatDate(this.dateTo));
-  
     this.pdfReportFacultyService.generatePDF(
       'pdf-preview',
       this.formatDate(this.dateFrom),
@@ -236,9 +219,6 @@ export class ReportsComponent implements OnInit {
   }
 
   generatePdfEmployeeReport() {
-    console.log('Formatted dateFrom:', this.formatDate(this.dateFrom));
-    console.log('Formatted dateTo:', this.formatDate(this.dateTo));
-  
     this.pdfReportEmployeesService.generatePDF(
       'pdf-preview',
       this.formatDate(this.dateFrom),
@@ -269,16 +249,12 @@ export class ReportsComponent implements OnInit {
   }
 
   handleClearButtonClick() {
-    console.log('Clicked');
     this.categoryPlaceholder = 'Category';
     this.programPlaceholder = 'Select a Subject';
     this.selectedRemark = '';
     this.dateFrom = null;
     this.dateTo = null;
-
   }
-
-  //*Excel Generation
 
   selectExcelReport() {
     switch(this.inventoryPlaceholder) {
@@ -306,7 +282,7 @@ export class ReportsComponent implements OnInit {
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
-      this.programPlaceholder === 'Select a Subject' ? '' : this.programPlaceholder, // Pass program filter
+      this.programPlaceholder === 'Select a Subject' ? '' : this.programPlaceholder,
       (loading) => this.isLoading = loading,  
       this.categoryPDFDIsplay
     );

@@ -21,21 +21,23 @@
                          (!empNumber && hasFormErrors) || 
                          !isEmpNumberValid || isUserExists
                        }"
-            (input)="onFieldInput('empNumber')"/>
+            (input)="onFieldInput('empNumber')"
+          />
           @if ((!empNumber && hasFormErrors) || !isEmpNumberValid ||
                 isUserExists) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
-                    text-red-500 cursor-pointer group">
+                     text-red-500 cursor-pointer group">
               <img
                 src="../../../assets/Exclamation_flat_icon.svg.png"
                 alt="Exclamation Mark"
                 class="h-4 w-4 mt-1"
               />
               <span
-                class="absolute right-6 top-1/2 transform -translate-y-1/2 
-                      mr-1 w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                      w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 {{ !empNumber && hasFormErrors ? 'Faculty code cannot be empty.' 
                       : !isEmpNumberValid ? empNumberError 
                       : isUserExists ? userExistsError : '' }}
@@ -53,7 +55,8 @@
                    leading-tight focus:outline-none focus:bg-white cursor-pointer 
                    text-lg mt-1"
             [ngClass]="{'border-red-500': !sex && hasFormErrors}"
-            (input)="onFieldInput('sex')">
+            (input)="onFieldInput('sex')"
+          >
             <option value="" disabled selected>Gender</option>
             <option>Male</option>
             <option>Female</option>
@@ -69,8 +72,9 @@
               />
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
-                      w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 Gender must be selected.
               </span>
             </span>
@@ -84,7 +88,8 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-5">
+              class="size-5"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -105,7 +110,8 @@
                    py-2 focus:ring-opacity-50 text-lg"
             placeholder="First name"
             [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
-            (input)="onFieldInput('firstName')"/>
+            (input)="onFieldInput('firstName')"
+          />
           @if (!firstName && hasFormErrors) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
@@ -117,8 +123,9 @@
               />
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
-                      w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 First name cannot be empty.
               </span>
             </span>
@@ -134,7 +141,8 @@
                    py-2 focus:ring-opacity-50 text-lg"
             placeholder="Last name"
             [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
-            (input)="onFieldInput('lastName')"/>
+            (input)="onFieldInput('lastName')"
+          />
           @if (!lastName && hasFormErrors) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
@@ -145,8 +153,9 @@
                 class="h-4 w-4 mt-1"/>
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
-                      w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrapgroup-hover:block hidden">
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrapgroup-hover:block hidden"
+              >
                 Last name cannot be empty.
               </span>
             </span>
@@ -161,7 +170,8 @@
                    text-gray-700 font-medium py-3 px-6 pr-8 rounded-xl 
                    leading-tight focus:outline-none cursor-pointer text-lg mt-1"
             [ngClass]="{'border-red-500': !department && hasFormErrors}"
-            (input)="onFieldInput('department')">
+            (input)="onFieldInput('department')"
+          >
             <option value="" disabled selected>Department</option>
             @for (dept of departments; track $index) {
               <option [value]="dept.id">
@@ -172,7 +182,7 @@
           @if (!department && hasFormErrors) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
-                    text-red-500 cursor-pointer group">
+                     text-red-500 cursor-pointer group">
               <img
                 src="../../../assets/Exclamation_flat_icon.svg.png"
                 alt="Exclamation Mark"
@@ -180,22 +190,25 @@
               />
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 
-                      mr-1 w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                      shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                       mr-1 w-max bg-red-500 text-white text-xs rounded py-1 
+                       px-2 shadow-lg z-10 whitespace-nowrap group-hover:block 
+                       hidden"
+              >
                 Department must be selected.
               </span>
             </span>
           }    
           <div
             class="pointer-events-none absolute inset-y-0 top-0.5 right-2 flex 
-                  items-center text-gray-700">
+                   items-center text-gray-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-5">
+              class="size-5"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -220,25 +233,27 @@
                         !isContactValid || 
                         isContactExists
                       }"
-            (input)="onFieldInput('contact')"/>
+            (input)="onFieldInput('contact')"
+          />
           @if ((!contact && hasFormErrors) || !isContactValid || isContactExists) {
-          <span
-            class="absolute right-2 top-1/2 transform -translate-y-1/2 
-                   text-red-500 cursor-pointer group">
-            <img
-              src="../../../assets/Exclamation_flat_icon.svg.png"
-              alt="Exclamation Mark"
-              class="h-4 w-4 mt-1"
-            />
             <span
-              class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
-                     w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                     shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
-              {{ !contact && hasFormErrors ? 'Contact number cannot be empty.' 
-                     : !isContactValid ? contactError 
-                     : isContactExists ? contactExistsError : '' }}
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 
+                    text-red-500 cursor-pointer group">
+              <img
+                src="../../../assets/Exclamation_flat_icon.svg.png"
+                alt="Exclamation Mark"
+                class="h-4 w-4 mt-1"
+              />
+              <span
+                class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
+                       w-max bg-red-500 text-white text-xs rounded py-1 px-2 
+                       shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
+                {{ !contact && hasFormErrors ? 'Contact number cannot be empty.' 
+                      : !isContactValid ? contactError 
+                      : isContactExists ? contactExistsError : '' }}
+              </span>
             </span>
-          </span>
           }
         </div>
         <div class="relative flex-grow">
@@ -252,7 +267,8 @@
             placeholder="Email"
             [ngClass]="{'border-red-500': 
               (!email && hasFormErrors) || !isEmailValid }"
-            (input)="onFieldInput('email')"/>
+            (input)="onFieldInput('email')"
+          />
           @if ((!email && hasFormErrors) || !isEmailValid ) {
             <span
               class="absolute right-2 top-1/2 transform -translate-y-1/2 
@@ -265,7 +281,8 @@
               <span
                 class="absolute right-6 top-1/2 transform -translate-y-1/2 mr-1 
                        w-max bg-red-500 text-white text-xs rounded py-1 px-2 
-                       shadow-lg z-10 whitespace-nowrap group-hover:block hidden">
+                       shadow-lg z-10 whitespace-nowrap group-hover:block hidden"
+              >
                 {{ !email && hasFormErrors ? 'Email cannot be empty.' 
                       : !isEmailValid ? emailError : '' }}
               </span>
@@ -276,34 +293,16 @@
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
           type="button"
-          class="flex-1 
-                 bg-primary 
-                 text-white 
-                 px-6 
-                 py-3 
-                 rounded-xl 
-                 font-medium 
-                 hover:bg-[#ffb700] 
-                 hover:text-black
-                 transition 
-                 duration-300"
+          class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300"
           (click)="goBack()"
         >
           Cancel
         </button>
         <button
           type="submit"
-          class="flex-1
-                 bg-secondary 
-                 text-black 
-                 px-6 
-                 py-3 
-                 rounded-xl 
-                 font-medium 
-                 hover:bg-[#801e1d] 
-                 hover:text-white 
-                 transition 
-                 duration-300"
+          class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl font-medium 
+                 hover:bg-[#801e1d] hover:text-white transition duration-300"
         >
           Continue
         </button>

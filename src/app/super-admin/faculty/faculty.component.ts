@@ -33,7 +33,6 @@ export class FacultyComponent implements OnInit {
   ngOnInit(): void {
     this.fetchRecords();
 
-    // Set up search debounce
     this.searchSubject.pipe(debounceTime(300)).subscribe(term => {
       this.searchTerm = term;
       this.fetchRecords();
@@ -95,7 +94,7 @@ export class FacultyComponent implements OnInit {
   }
   
   clearLogType() {
-    this.searchTerm = ''; // Clear the search term
+    this.searchTerm = '';
     this.fetchRecords();
   }
 }

@@ -25,7 +25,6 @@ export class FeedbackQuestion10Component implements OnInit, AfterViewInit {
   fetchFeedbackData() {
     this.chartsService.getFeedbackResponses(this.questionNumber)
       .subscribe(data => {
-        console.log('Data received for chart:', data);
         this.createChart(data);
       }, error => {
         console.error('Error fetching feedback data:', error);
@@ -43,17 +42,15 @@ export class FeedbackQuestion10Component implements OnInit, AfterViewInit {
       this.chart.destroy();
     }
 
-    // Extract labels and values from the response data
     const labels = Object.keys(data.responses);
     const values = Object.values(data.responses);
 
-    // Colors for the pie chart segments
     const backgroundColors = [
-      '#FF6F61', // Coral
-      '#6B5B93', // Purple
-      '#88B04B', // Olive Green
-      '#F7CAC9', // Light Pink
-      '#92A8D1'  // Light Blue
+      '#FF6F61',
+      '#6B5B93',
+      '#88B04B',
+      '#F7CAC9',
+      '#92A8D1'
     ];
 
     this.chart = new Chart(ctx, {
@@ -73,7 +70,7 @@ export class FeedbackQuestion10Component implements OnInit, AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: `Question 10: ${data.question}`,  // Using the question text from the backend response
+            text: `Question 10: ${data.question}`,
             font: {
               size: 18
             },
