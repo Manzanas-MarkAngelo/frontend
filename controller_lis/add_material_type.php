@@ -32,10 +32,6 @@ if (!$result) {
 $row = $result->fetch_assoc();
 $new_cat_id = $row['max_id'] + 1;
 
-// Debugging output
-error_log("Max ID: " . $row['max_id']);
-error_log("New ID: " . $new_cat_id);
-
 // SQL query to insert new category with the generated cat_id
 $sql_insert = "INSERT INTO category (cat_id, mat_type, accession_no, cat_type, duration) 
                VALUES ('$new_cat_id', '$mat_type', '$accession_no', '$cat_type', '$duration')";

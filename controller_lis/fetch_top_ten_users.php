@@ -17,11 +17,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Get month and year from the request
-$month = isset($_GET['month']) ? intval($_GET['month']) : date('m'); // Default to current month if not provided
-$year = isset($_GET['year']) ? intval($_GET['year']) : date('Y'); // Default to current year if not provided
-
-// Debugging: Show the month and year being used
-error_log("Month: $month, Year: $year");
+$month = isset($_GET['month']) ? intval($_GET['month']) : date('m');
+$year = isset($_GET['year']) ? intval($_GET['year']) : date('Y'); 
 
 // Step 1: Fetch top 10 most frequent users
 $sql = "
@@ -47,9 +44,6 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-// Debugging: Show retrieved user IDs
-error_log("Retrieved User IDs: " . implode(', ', array_column($users, 'user_id')));
-
 // Step 2: Fetch user types for the retrieved user_ids
 if (!empty($users)) {
     $user_ids = array_column($users, 'user_id');
@@ -60,10 +54,6 @@ if (!empty($users)) {
         FROM users
         WHERE id IN ($user_ids_placeholder)
     ";
-
-    // Debugging: Show SQL query and parameters
-    error_log("SQL Query: $sql");
-    error_log("User IDs: " . implode(', ', $user_ids));
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(str_repeat('i', count($user_ids)), ...$user_ids);
@@ -76,16 +66,10 @@ if (!empty($users)) {
     }
     $stmt->close();
 
-    // Debugging: Show user types retrieved
-    error_log("User Types: " . print_r($user_types, true));
-
     // Step 3: Fetch first_name and surname based on user_type
     foreach ($users as &$user) {
         $user_id = $user['user_id'];
         $user_type = isset($user_types[$user_id]) ? $user_types[$user_id] : 'Unknown';
-
-        // Debugging: Show user type being processed
-        error_log("Processing User - ID: $user_id, Type: $user_type");
 
         $first_name = 'Unknown'; // Default value
         $surname = 'Unknown'; // Default value
@@ -116,9 +100,6 @@ if (!empty($users)) {
         $user['first_name'] = $first_name;
         $user['surname'] = $surname;
         $user['user_type'] = $user_type;
-
-        // Debugging: Show each user's details
-        error_log("User Details - ID: $user_id, Type: $user_type, First Name: $first_name, Surname: $surname");
     }
 
     $response = array(

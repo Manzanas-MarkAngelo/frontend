@@ -17,7 +17,6 @@ export class RecordsService {
 
   getLogsReports(logType: string, itemsPerPage: number, page: number, startDate?: string | null, endDate?: string | null): Observable<any> {
     const payload = { logType, itemsPerPage, page, startDate, endDate };
-    console.log('RECORDS SERVICE', payload); // To verify the correct payload is sent
     return this.http.post<any>(this.logsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
@@ -49,8 +48,6 @@ export class RecordsService {
       payload.endDate = endDate;
     }
   
-    console.log('RECORDS SERVICE PAYLOAD', payload); // Log the request payload
-  
     return this.http.post<any>(this.logsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
@@ -61,7 +58,6 @@ export class RecordsService {
   
   getRecords(recordType: string, itemsPerPage: number, page: number, searchTerm?: string): Observable<any> {
     const payload = { recordType, itemsPerPage, page, searchTerm };
-    console.log('GET RECORDS PAYLOAD:', payload); // Log payload for getRecords
     return this.http.post<any>(this.recordsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(

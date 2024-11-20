@@ -27,8 +27,6 @@ export class ChartsService {
   // bar graph
   getTopTenUsers(year: number, month: number): Observable<any> {
     const url = `${environment.apiUrl}/fetch_top_ten_users.php?year=${year}&month=${month}`;
-    console.log('Request URL:', url);
-    console.log(` month: ${month}, year:${year}`)  // Log the request URL with parameters
   
     return this.http.get<any>(url).pipe(
       catchError(error => {

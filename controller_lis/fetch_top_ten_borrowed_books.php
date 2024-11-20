@@ -17,11 +17,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Get month and year from the request
-$month = isset($_GET['month']) ? intval($_GET['month']) : date('m'); // Default to current month if not provided
-$year = isset($_GET['year']) ? intval($_GET['year']) : date('Y'); // Default to current year if not provided
-
-// Debugging: Show the month and year being used
-error_log("Month: $month, Year: $year");
+$month = isset($_GET['month']) ? intval($_GET['month']) : date('m');
+$year = isset($_GET['year']) ? intval($_GET['year']) : date('Y'); 
 
 // Step 1: Fetch top 10 most borrowed books
 $sql = "
