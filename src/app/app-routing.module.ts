@@ -96,6 +96,7 @@ import { FeedbackQuestion10Component } from './admin/analytics/feedback-question
 import { PasswordRecoveryComponent } from './client/password-recovery/password-recovery.component';
 import { EditSubjectComponent } from './admin/edit-subject/edit-subject.component';
 import path from 'path';
+import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -120,7 +121,8 @@ const routes: Routes = [
   { path: 'request', component: RequestComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'password-recovery', component: PasswordRecoveryComponent },
-  { path: 'timein-already', component: TimeinAlreadyComponent},
+  { path: 'timein-already', component: TimeinAlreadyComponent },
+  { path: 'subjects-add', component: SubjectsAddComponent },
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },

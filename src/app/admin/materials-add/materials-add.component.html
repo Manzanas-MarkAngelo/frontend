@@ -1,12 +1,27 @@
-<div class="flex flex-col w-full px-1 md:px-14 pt-20 bg-primary justify-center 
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/materials">Materials</a></li>
+    <li><a routerLink="/materials-add">Add material</a></li>
+  </ul>
+</div>
+<div class="flex flex-col w-full px-1 md:px-14 pt-10 bg-primary justify-center 
             items-center">
   <div class="flex flex-col w-full lg:w-1/2">
     <div class="w-full">
-      <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
-        <span class="text-white text-3xl ml-3">Add a material:</span>
+      <div class="bg-primary mb-3 w-full slide-in-right flex flex-row">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+        stroke-width="1.5" stroke="white" class="size-8 cursor-pointer" 
+        (click)="goBack()">
+          <path stroke-linecap="round" 
+          stroke-linejoin="round" 
+          d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+        </svg>        
+        <span class="text-white text-2xl ml-1.5 cursor-pointer"
+        (click)="goBack()">Go back</span>
       </div>
     </div>
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full h-full slide-in-right">
+    <div class="bg-white p-8 rounded shadow-lg w-full h-full slide-in-right">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
         Material details
       </h1>
@@ -17,7 +32,7 @@
               id="title"
               name="title"
               type="text"
-              class="w-full flex mt-1 rounded-xl border border-gray-300 px-3 
+              class="w-full flex mt-1 rounded border border-gray-300 px-3 
                      pl-6 py-2 text-lg focus:ring-opacity-50 pr-10"
               placeholder="Title"
               [(ngModel)]="bookDetails.title"
@@ -59,15 +74,24 @@
                 <div tabindex="0" 
                      role="button"
                      class="btn w-full bg-secondary border-none text-black 
-                            text-lg hover:bg-[#ffb700] rounded-box 
+                            text-lg hover:bg-[#ffb700] rounded 
                             flex items-center justify-between"
                      (click)="toggleDropdown()"
                      (blur)="categoryInput.control.markAsTouched()">
                   <span>
                     {{ 
-                      selectedCategory?.mat_type || 'Select material category' 
+                      selectedCategory?.mat_type || 'Select Category' 
                     }}
                   </span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="2" 
+                  stroke="currentColor" 
+                  class="size-6 mt-0.5">
+                    <path stroke-linecap="round" 
+                          stroke-linejoin="round" 
+                          d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
                   
                   <span
                     *ngIf="categoryInput.invalid && categoryInput.touched"
@@ -86,14 +110,13 @@
                 
                 <ul tabindex="0" 
                     *ngIf="isDropdownOpen"
-                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
+                    class="dropdown-content menu bg-secondary rounded z-[1] 
                            w-full text-base font-medium text-black max-h-60 
                            overflow-y-auto overflow-x-hidden block">
                   <li *ngFor="let category of categories">
                     <a (click)="selectCategory(category.cat_id, category.mat_type)" 
                        class="block w-full px-4 py-2 hover:bg-[#801e1d] 
-                              hover:text-white"
-                    >
+                              hover:text-white">
                       {{ category.mat_type }}
                     </a>
                   </li>
@@ -109,7 +132,7 @@
               id="author"
               name="author"
               type="text"
-              class="w-full flex mt-1 rounded-xl border border-gray-300 px-3 
+              class="w-full flex mt-1 rounded border border-gray-300 px-3 
                      pl-6 py-2 text-lg focus:ring-opacity-50 pr-10"
               placeholder="Author"
               [(ngModel)]="bookDetails.author" 
@@ -151,13 +174,22 @@
                 <div tabindex="0" 
                     role="button"
                     class="btn w-full bg-secondary border-none text-black text-lg 
-                            hover:bg-[#ffb700] rounded-box flex items-center 
+                            hover:bg-[#ffb700] rounded flex items-center 
                             justify-between"
                     (click)="toggleSubjectDropdown()"
                     (blur)="headingInput.control.markAsTouched()">
                   <span>
-                    {{ selectedSubject?.subject_name || 'Select subject heading' }}
+                    {{ selectedSubject?.subject_name || 'Select Subject' }}
                   </span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="2" 
+                  stroke="currentColor" 
+                  class="size-6 mt-0.5">
+                    <path stroke-linecap="round" 
+                          stroke-linejoin="round" 
+                          d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
 
                   <span *ngIf="headingInput.invalid && headingInput.touched" 
                         class="flex items-center">
@@ -173,7 +205,7 @@
                 </div>
 
                 <div *ngIf="isSubjectDropdownOpen" 
-                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
+                    class="dropdown-content menu bg-secondary rounded z-[1] 
                             w-full text-base font-medium text-black max-h-56 
                             overflow-y-auto overflow-x-hidden block">
                   <input 
@@ -188,10 +220,9 @@
                   <ul tabindex="0">
                     <li *ngFor="let subject of dropdownSubjects" class="w-full">
                       <a (click)="selectSubjectHeading(subject.id, subject.subject_name)" 
-                        class="block w-full px-4 py-2 hover:bg-[#801e1d] 
-                                hover:text-white"
-                      >
-                        {{ subject.subject_name }}
+                        class="block w-full px-4 py-2">
+                        {{ subject.subject_name }} 
+                        <input type="checkbox" class="cursor-pointer">
                       </a>
                     </li>
                   </ul>
@@ -207,7 +238,7 @@
               id="copyright"
               name="copyright"
               type="text"
-              class="w-full flex mt-1 rounded-xl border border-gray-300 px-3 
+              class="w-full flex mt-1 rounded border border-gray-300 px-3 
                     pl-6 py-2 focus:ring-opacity-50 text-lg"
               placeholder="Copyright"
               [(ngModel)]="bookDetails.copyright" 
@@ -240,7 +271,7 @@
               id="callnum"
               name="callnum"
               type="text"
-              class="w-full flex mt-1 rounded-xl border border-gray-300 px-3 
+              class="w-full flex mt-1 rounded border border-gray-300 px-3 
                       pl-6 py-2 focus:ring-opacity-50 text-lg"
               placeholder="Call number"
               [(ngModel)]="bookDetails.callnum" 
@@ -274,7 +305,7 @@
               id="edition"
               name="edition"
               type="text"
-              class="w-full flex mt-1 rounded-xl border border-gray-300 px-3 
+              class="w-full flex mt-1 rounded border border-gray-300 px-3 
                      pl-6 py-2 focus:ring-opacity-50 text-lg"
               placeholder="Edition"
               [(ngModel)]="bookDetails.edition"
@@ -303,7 +334,7 @@
               id="publisher"
               name="publisher"
               type="text"
-              class="w-full flex mt-1 rounded-xl border border-gray-300 px-3 
+              class="w-full flex mt-1 rounded border border-gray-300 px-3 
                     pl-6 py-2 focus:ring-opacity-50 text-lg"
               placeholder="Publisher"
               [(ngModel)]="bookDetails.publisher"
@@ -331,13 +362,13 @@
           </div>
         </div>
 
-        <div class="mb-4 mt-1 flex items-center space-x-2">
+        <div class="mb-4 mt-1 flex items-center space-x-4">
           <div class="relative w-1/2">
             <input
               id="isbn"
               name="isbn"
               type="text"
-              class="w-full flex mt-1 rounded-xl border border-gray-300 px-3 
+              class="w-full flex mt-1 rounded border border-gray-300 px-3 
                      pl-6 py-2 focus:ring-opacity-50 text-lg"
               placeholder="ISBN"
               [(ngModel)]="bookDetails.isbn"
@@ -365,20 +396,20 @@
             </span>
           </div>
         
-          <button
+          <!-- <button
             type="button"
-            class="w-1/4 bg-primary text-white px-4 py-3 rounded-xl font-medium 
+            class="w-1/4 bg-primary text-white px-4 py-3 rounded font-medium 
                    hover:bg-[#ffb700] hover:text-black transition duration-300 
                    mt-0.5"
             (click)="goBack()"
           >
             Back
-          </button>
+          </button> -->
           <button
             type="button"
             (click)="openConfirmModal()"
-            class="w-1/4 bg-secondary text-black px-4 py-3 rounded-xl 
-                   font-medium hover:bg-[#801e1d] hover:text-white transition 
+            class="w-1/2 bg-green-600 text-white px-4 py-3 rounded 
+                   font-medium hover:bg-green-500 hover:text-white transition 
                    duration-300 mt-0.5"
           >
             Continue
@@ -395,7 +426,7 @@
 <div *ngIf="showModal" 
      class="fixed inset-0 flex items-center justify-center bg-gray-800 
             bg-opacity-50">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
+  <div class="bg-white p-8 rounded shadow-lg w-1/2 max-w-md">
     <h2 class="text-center text-xl font-medium text-primary mb-3">
       Do you really want to add this material?
     </h2>
@@ -408,7 +439,7 @@
       <div class="flex flex-row gap-4 w-full">
         <button
           (click)="closeConfirmModal()"
-          class="flex-1bg-primary text-white px-6 py-3 rounded-xl font-medium 
+          class="flex-1bg-primary text-white px-6 py-3 rounded font-medium 
                  hover:bg-[#ffb700] hover:text-black transition duration-300"
         >
           Back
@@ -416,7 +447,7 @@
         <button
         (click)="saveBook()"
         [disabled]="isSubmitting"
-          class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl font-medium 
+          class="flex-1 bg-secondary text-black px-6 py-3 rounded font-medium 
                  hover:bg-[#801e1d] hover:text-white transition duration-300"
           [ngClass]="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
         >
@@ -427,9 +458,9 @@
   </div>
 </div>
 
-<div class="flex flex-col lg:flex-row items-start justify-center w-full p-4 
+<!-- <div class="flex flex-col lg:flex-row items-start justify-center w-full p-4 
             bg-primary">
-  <div class="w-full lg:w-1/3 p-4 bg-white text-black rounded-xl mb-12 
+  <div class="w-full lg:w-1/3 p-4 bg-white text-black rounded mb-12 
               slide-in-left lg:ml-10">
     <div class="overflow-x-auto">
       <table class="table w-full">
@@ -489,7 +520,7 @@
   </div>
   
   <div class="w-full lg:w-1/3 flex flex-col items-center">
-    <div class="bg-white p-6 lg:p-8 pb-0 rounded-xl shadow-lg w-full lg:w-4/5 
+    <div class="bg-white p-6 lg:p-8 pb-0 rounded shadow-lg w-full lg:w-4/5 
                 slide-in-right">
       <span class="text-start text-2xl font-normal text-black mb-3">
         Total Subjects:
@@ -507,14 +538,14 @@
             name="subject"
             [(ngModel)]="newSubjectName"
             required
-            class="w-full px-6 py-4 rounded-xl bg-[#e0e0e0] text-gray-700 
+            class="w-full px-6 py-4 rounded bg-[#e0e0e0] text-gray-700 
                    focus:ring-opacity-50"
           />
           <div class="flex justify-end w-full">
             <button
               type="button"
               (click)="addSubject()"
-              class="w-auto bg-secondary text-black px-4 py-3 rounded-xl 
+              class="w-auto bg-secondary text-black px-4 py-3 rounded 
                      font-medium hover:bg-[#801e1d] hover:text-white transition 
                      duration-300 mb-2 lg:mb-0"
             >
@@ -543,14 +574,14 @@
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
           (click)="closeConfirmModal()"
-          class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+          class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
                  hover:bg-[#ffb700] hover:text-black transition duration-300"
         >
           Cancel
         </button>
         <button
           (click)="confirmDeleteSubject()"
-          class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl font-medium 
+          class="flex-1 bg-secondary text-black px-6 py-3 rounded font-medium 
                  hover:bg-[#801e1d] hover:text-white transition duration-300"
         >
           Delete
@@ -558,6 +589,6 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <app-snackbar/>

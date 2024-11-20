@@ -1,4 +1,10 @@
-<div class="flex flex-col w-full px-10 bg-primary justify-center items-center">
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5 pb-0">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/records">User records</a></li>
+  </ul>
+</div>
+<div class="flex flex-col w-full px-10 bg-primary justify-center items-center pt-3">
   <div class="flex flex-col md:flex-row w-full lg:w-[70%] pb-4 gap-2">
     <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
       @if (currentLogType === 'faculty') {
@@ -6,14 +12,14 @@
           <input 
             type="text" 
             placeholder="Search here" 
-            class="input input-bordered w-1/2 rounded-xl text-lg font-medium 
+            class="input input-bordered w-1/2 rounded text-lg font-medium 
                   slide-in-left bg-white"
             [(ngModel)]="searchTerm"
             (input)="onSearchChange($event.target.value)"
           />
           <button
             type="button"
-            class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+            class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
                   hover:bg-[#ffb700] hover:text-black transition duration-300 
                   slide-in-right"
             (click)="clearLogType()">
@@ -25,7 +31,7 @@
               'bg-secondary text-black cursor-pointer': anySelected(),
               'bg-gray-400 text-gray-500 cursor-not-allowed': !anySelected()
             }"
-            class="h-[3rem] w-auto rounded-xl px-4 font-medium slide-in-right"
+            class="h-[3rem] w-auto rounded px-4 font-medium slide-in-right"
             [disabled]="!anySelected() || isSending" 
             (click)="sendEmailsToSelectedFaculty()"
           >
@@ -37,14 +43,14 @@
           <input 
           type="text" 
           placeholder="Search here" 
-          class="input input-bordered w-full rounded-xl text-lg font-medium 
+          class="input input-bordered w-full rounded text-lg font-medium 
                  slide-in-left bg-white"
           [(ngModel)]="searchTerm"
           (input)="onSearchChange($event.target.value)"/>
         
           <button
             type="button"
-            class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+            class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
                   hover:bg-[#ffb700] hover:text-black transition duration-300 
                   slide-in-right"
                   (click)="clearLogType()">
@@ -58,7 +64,7 @@
           <select id="role" 
                   name="role" 
                   class="block appearance-none w-auto bg-secondary text-gray-700 
-                  font-medium py-3 px-4 rounded-xl leading-tight focus:outline-none 
+                  font-medium py-3 px-4 rounded leading-tight focus:outline-none 
                   focus:bg-[#ffb700] cursor-pointer text-lg ml-1"
                   [(ngModel)]="selectedRole"
                   (change)="setLogType(selectedRole)"
@@ -69,13 +75,16 @@
             <option value="visitor">Visitor</option>
             <option value="pupt-employee">Employees</option>
           </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 
+          <div class="pointer-events-none absolute inset-y-0 right-2 
                       flex items-center text-gray-700">
-            <svg 
-              class="fill-current h-10 w-10" 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 20 20">
-              <path d="M14.35 8.35a.5.5 0 0 1 .7.7l-5 5a.5.5 0 0 1-.7 0l-5-5a.5.5 0 1 1 .7-.7L10 13.29l4.35-4.94z" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+            viewBox="0 0 24 24" 
+            stroke-width="2" 
+            stroke="currentColor" 
+            class="size-6 mt-0.5">
+              <path stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </div>
         </div>
@@ -109,7 +118,7 @@
     </div>
   
   @if (logs.length > 0) {
-    <div class="p-4 bg-white text-black rounded-xl w-full lg:w-[70%] 
+    <div class="p-4 bg-white text-black rounded w-full lg:w-[70%] 
                 slide-in-right mb-4">
       <div class="overflow-x-auto">
         @if (currentLogType === 'student') {
@@ -148,7 +157,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -210,7 +219,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -254,7 +263,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -300,7 +309,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -344,7 +353,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
