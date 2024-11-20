@@ -1,15 +1,38 @@
 <p class="text-white text-4xl bg-primary text-center pb-5">Material Requests</p>
 <div class="w-full bg-primary pb-5">
-  <div class="p-4 bg-base-100 text-black rounded-xl w-2/3 slide-in-left mx-auto 
+  <div class="p-4 bg-base-100 text-black rounded w-2/3 slide-in-left mx-auto 
               slide-in-below">
     <div class="flex justify-between items-center gap-5 slide-in-right">
-      <span class="text-lg font-medium ml-3 text-black">
-        Page {{ currentPage }} / {{ totalPages }}
-      </span>
+      <tfoot>
+        <tr>
+          <td colspan="100%" class="text-start">
+            <label for="itemsPerPage" 
+                   class="text-black text-base font-medium mr-2">
+              Show items:
+            </label>
+            <select 
+              id="itemsPerPage" 
+              [(ngModel)]="itemsPerPage" 
+              (change)="onItemsPerPageChange($event)" 
+              class="bg-secondary text-black border-none shadow-none btn-sm 
+                     rounded font-medium cursor-pointer">
+              <option 
+                *ngFor="let option of itemsPerPageOptions" 
+                [value]="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tfoot>
       <div class="flex gap-2">
+        <span class="text-lg font-medium mt-2 text-black">
+          Page {{ currentPage }} / {{ totalPages }}
+        </span>
         <button
           class="btn border-none bg-secondary text-black hover:bg-primary-focus 
-                 hover:bg-base-100 hover:text-[#801e1d]"
+                 hover:bg-base-100 hover:text-[#801e1d] rounded"
           (click)="previousPage()"
           [disabled]="currentPage === 1"
         >
@@ -17,7 +40,7 @@
         </button>
         <button
           class="btn border-none bg-secondary text-black hover:bg-primary-focus 
-                 hover:bg-base-100 hover:text-[#801e1d]"
+                 hover:bg-base-100 hover:text-[#801e1d] rounded"
           (click)="nextPage()"
           [disabled]="currentPage === totalPages"
         >
@@ -25,7 +48,7 @@
         </button>
       </div>
     </div>
-
+    <div class="divider my-0"></div>
     <div class="overflow-x-auto">
       <table class="table w-full mx-auto">
         <thead>
@@ -48,7 +71,7 @@
             <td>{{ request.requester_name }}</td>
             <td>
               <button 
-                class="bg-primary text-white shadow-none btn-sm rounded-full 
+                class="bg-primary text-white shadow-none btn-sm rounded 
                        font-medium" 
                 (click)="openConfirmationModal(request)">
                 Delete
@@ -56,11 +79,11 @@
             </td>
           </tr>          
         </tbody>
-        <tfoot>
+        <!-- <tfoot>
           <tr>
-            <td colspan="100%" class="text-center">
+            <td colspan="100%" class="text-start">
               <label for="itemsPerPage" 
-                     class="text-primary text-lg font-medium mr-2">
+                     class="text-black text-base font-medium mr-2">
                 Show items:
               </label>
               <select 
@@ -68,7 +91,7 @@
                 [(ngModel)]="itemsPerPage" 
                 (change)="onItemsPerPageChange($event)" 
                 class="bg-secondary text-black border-none shadow-none btn-sm 
-                       rounded-xl font-medium cursor-pointer">
+                       rounded font-medium cursor-pointer">
                 <option 
                   *ngFor="let option of itemsPerPageOptions" 
                   [value]="option"
@@ -78,7 +101,7 @@
               </select>
             </td>
           </tr>
-        </tfoot>
+        </tfoot> -->
       </table>
     </div>   
   </div>
