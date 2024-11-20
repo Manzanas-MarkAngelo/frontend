@@ -1,17 +1,23 @@
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5 pb-0">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/user-record">Audit Trail</a></li>
+  </ul>
+</div>
 <div class="flex flex-col w-full px-10 bg-primary justify-center items-center">
-  <div class="flex flex-col md:flex-row w-full lg:w-11/12 pb-4 gap-2">
+  <div class="flex flex-col md:flex-row w-full lg:w-11/12 pb-4 gap-2 mt-5">
     <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
-      <div class="flex flex-row w-full md:w-1/2 gap-2 mt-1">
+      <div class="flex flex-row w-full md:w-1/2 gap-1 mt-1">
         <input 
           type="text" 
           placeholder="Search here" 
-          class="input input-bordered w-full rounded-xl text-lg font-medium 
+          class="input input-bordered w-full rounded text-lg font-medium 
                  slide-in-left bg-white"
           [(ngModel)]="searchTerm"
           (input)="onSearchChange($event.target.value)"/>
         <button
           type="button"
-          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+          class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
                  hover:bg-[#ffb700] hover:text-black transition duration-300 
                  slide-in-right"
           (click)="clearLogType()">
@@ -27,7 +33,7 @@
             'bg-blue-500 text-white': currentLogType === 'student_log',
             'bg-secondary text-black': currentLogType !== 'student_log'
           }"
-          class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
+          class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
                  duration-300 slide-in-right">
           Student log
@@ -40,7 +46,7 @@
             'bg-blue-500 text-white': currentLogType === 'faculty_log',
             'bg-secondary text-black': currentLogType !== 'faculty_log'
           }"
-          class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
+          class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
                  duration-300 slide-in-right">
           Faculty log
@@ -53,7 +59,7 @@
             'bg-blue-500 text-white': currentLogType === 'visitor_log',
             'bg-secondary text-black': currentLogType !== 'visitor_log'
           }"
-          class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
+          class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
                  duration-300 slide-in-right">
           Visitor log
@@ -66,7 +72,7 @@
           'bg-blue-500 text-white': currentLogType === 'pupt-employee_log',
           'bg-secondary text-black': currentLogType !== 'pupt-employee_log'
         }"
-        class="h-[3rem] mt-1 bg-secondary text-black rounded-xl px-4 
+        class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                font-medium hover:bg-blue-500 hover:text-white transition 
                duration-300 slide-in-right">
         Employees log
@@ -79,7 +85,8 @@
           <div class="flex gap-2">
             <button
               class="btn border-none bg-secondary text-black 
-                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                     hover:bg-primary-focus hover:bg-white 
+                     hover:text-[#801e1d] rounded"
               [disabled]="currentPage === 1"
               (click)="onPageChange(currentPage - 1)"
             >
@@ -87,7 +94,8 @@
             </button>
             <button
               class="btn border-none bg-secondary text-black 
-                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                     hover:bg-primary-focus hover:bg-white 
+                     hover:text-[#801e1d] rounded"
               [disabled]="currentPage === totalPages"
               (click)="onPageChange(currentPage + 1)"
             >
@@ -99,7 +107,7 @@
     </div>
   </div>
   @if (logs.length > 0) {
-    <div class="p-4 bg-white text-black rounded-xl w-full lg:w-11/12 
+    <div class="p-4 bg-white text-black rounded w-full lg:w-11/12 
                 slide-in-right mb-4">
       <div class="overflow-x-auto">
         @if (currentLogType === 'student_log') {
@@ -134,7 +142,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -178,7 +186,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -220,7 +228,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -262,7 +270,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"
@@ -306,7 +314,7 @@
                     [(ngModel)]="itemsPerPage" 
                     (change)="onItemsPerPageChange($event)" 
                     class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded-xl font-medium cursor-pointer">
+                           rounded font-medium cursor-pointer">
                     <option 
                       *ngFor="let option of itemsPerPageOptions" 
                       [value]="option"

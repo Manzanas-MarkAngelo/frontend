@@ -1,19 +1,25 @@
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/return">Return</a></li>
+  </ul>
+</div>
 <div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary mx-auto 
-            justify-start">
-  <div class="flex w-full p-4 rounded-t-xl gap-2">
-    <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
-      <div class="flex flex-row w-full md:w-1/2 gap-2">
+            justify-center items-center">
+  <div class="flex w-full pb-2 rounded-t-xl gap-1 justify-center">
+    <div class="flex flex-row flex-wrap w-11/12 mt-1 justify-between">
+      <div class="flex flex-row w-full md:w-1/2 gap-1">
         <input 
           type="text"
           placeholder="Search here (name, course/department, title, author)"
-          class="input input-bordered w-full rounded-xl text-lg font-medium 
+          class="input input-bordered w-full rounded text-lg font-medium 
                  text-primary slide-in-left bg-white"
           [(ngModel)]="searchTerm"
           (ngModelChange)="onSearch()"
         />
         <button
           type="button"
-          class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+          class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
                 hover:bg-[#ffb700] hover:text-black transition duration-300 
                 slide-in-right"
           (click)="clearSearch()"
@@ -21,21 +27,36 @@
           Clear
         </button>
       </div>
-
       <div class="flex flex-row flex-wrap">
-        <div class="flex flex-row gap-2 slide-in-right mt-1">
+        <div class="flex flex-row gap-1 slide-in-right mt-1">
+          <button
+          type="button"
+          class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
+                hover:bg-[#ffb700] hover:text-black transition duration-300 
+                slide-in-right">
+          Remind all
+        </button>
           <div class="dropdown dropdown-bottom slide-in-right">
             <div
               tabindex="0"
               role="button"
               class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black 
-                     text-lg hover:bg-[#ffb700]">
-              {{this.selectedRemark || 'Remark'}}
+                     text-base hover:bg-[#ffb700] rounded">
+              {{this.selectedRemark || 'Remarks'}}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+              viewBox="0 0 24 24" 
+              stroke-width="2" 
+              stroke="currentColor" 
+              class="size-6 mt-0.5">
+                <path stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
             </div>
             <ul
               tabindex="0"
-              class="dropdown-content menu bg-secondary rounded-box z-[1] w-52 
-                     p-2 shadow text-lg font-medium text-black">
+              class="dropdown-content menu bg-secondary rounded z-[1] w-52 
+                     p-2 shadow text-base font-medium text-black">
               <li>
                 <a (click)="onRemarkSelected('In Progress')">In Progress</a>
               </li>
@@ -52,7 +73,7 @@
                 <a (click)="onRemarkSelected('Overdue')">Overdue</a>
               </li>
               <li>
-                <a (click)="onRemarkSelected('')">All</a>
+                <a (click)="onRemarkSelected('')">Show All</a>
               </li>
             </ul>
           </div>
@@ -65,7 +86,8 @@
           <div class="flex gap-2">
             <button
               class="btn border-none bg-secondary text-black 
-                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                     hover:bg-primary-focus hover:bg-white 
+                     hover:text-[#801e1d] rounded"
               (click)="previousPage()"
               [disabled]="currentPage === 1"
             >
@@ -73,7 +95,8 @@
             </button>
             <button
               class="btn border-none bg-secondary text-black 
-                     hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                     hover:bg-primary-focus hover:bg-white 
+                     hover:text-[#801e1d] rounded"
               (click)="nextPage()"
               [disabled]="currentPage === totalPages"
             >
@@ -86,7 +109,7 @@
   </div>
 
   @if (paginatedItems.length > 0) {
-    <div class="p-4 bg-white text-black rounded-xl w-full overflow-x-auto 
+    <div class="p-4 bg-white text-black rounded w-11/12 overflow-x-auto 
                 slide-in-right mb-1">
       <div class="overflow-x-auto">
         <table class="table w-full text-xs md:text-sm">
@@ -123,7 +146,7 @@
                   @if (item.remarks === 'In Progress') {
                     <button
                       class="bg-secondary text-black border-none shadow-none 
-                             btn-sm rounded-xl font-medium w-28 mx-auto"
+                             btn-sm rounded font-medium w-28 mx-auto"
                       (click)="openConfirmationModal(item)">
                       Return
                     </button>             
@@ -132,7 +155,7 @@
                                 space-x-2"> 
                       <button 
                         class="bg-primary text-white border-none shadow-none 
-                               btn-sm rounded-xl font-medium w-full"
+                               btn-sm rounded font-medium w-full"
                         (click)="generatePenaltyReceipt(item)"
                       >
                         Penalty
@@ -185,21 +208,21 @@
                   } @else if (item.remarks === 'Processing') {
                     <button 
                       class="bg-secondary text-black border-none shadow-none 
-                             btn-sm rounded-xl font-medium w-28 mx-auto"
+                             btn-sm rounded font-medium w-28 mx-auto"
                       (click)="openConfirmationModal(item)">
                       Return
                     </button>
                   } @else if (item.remarks === 'Returned') {
                     <button 
                       class="bg-gray-400 text-white border-none shadow-none 
-                             btn-sm rounded-xl font-medium w-28 mx-auto" 
+                             btn-sm rounded font-medium w-28 mx-auto" 
                       disabled>
                       Returned
                     </button>
                   } @else if (item.remarks === 'Returned Late') {
                     <button 
                       class="bg-gray-600 text-white border-none shadow-none 
-                             btn-sm rounded-xl font-medium w-28 mx-auto" 
+                             btn-sm rounded font-medium w-28 mx-auto" 
                       disabled>
                       Returned
                     </button>
@@ -210,10 +233,9 @@
           </tbody>        
           <tfoot>
             <tr>
-              <td colspan="100%" class="text-center">
+              <td colspan="100%" class="text-start">
                 <label for="itemsPerPage" 
-                       class="text-primary text-lg font-medium mr-2"
-                >
+                       class="text-black text-base font-medium mr-2">
                   Show items:
                 </label>
                 <select 
@@ -221,7 +243,7 @@
                   [(ngModel)]="itemsPerPage" 
                   (change)="onItemsPerPageChange($event)" 
                   class="bg-secondary text-black border-none shadow-none btn-sm 
-                         rounded-xl font-medium cursor-pointer">
+                         rounded font-medium cursor-pointer">
                   <option 
                     *ngFor="let option of itemsPerPageOptions" 
                     [value]="option"
@@ -296,13 +318,13 @@
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="closeConfirmationModal()"
-            class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+            class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
                   hover:bg-[#ffb700] hover:text-black transition duration-300">
             Back
           </button>
           <button
             (click)="confirmReturn()"
-            class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl 
+            class="flex-1 bg-secondary text-black px-6 py-3 rounded 
                    font-medium hover:bg-[#801e1d] hover:text-white transition 
                    duration-300">
             Confirm
