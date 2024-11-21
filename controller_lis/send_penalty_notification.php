@@ -10,11 +10,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-// For error logging
-error_reporting(E_ALL);
-ini_set('log_errors', '1');
-ini_set('error_log', '/path/to/your/log/file.txt'); // Update with a valid log path
-
 $data = json_decode(file_get_contents("php://input"), true);
 
 // Validate input

@@ -45,9 +45,6 @@ export class ReturnService {
     if (dateFrom && dateTo) {
       params = params.set('startDate', dateFrom).set('endDate', dateTo);
     }
-    
-    // Log the payload for debugging
-    console.log('searchBorrowingData payload:', params.toString());
 
     return this.http.get<any>(this.borrowingDataUrl, { params });
   }

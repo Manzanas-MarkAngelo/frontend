@@ -23,8 +23,6 @@ export class BorrowService {
       .set('limit', limit.toString())
       .set('sortField', sortField || 'date_borrowed') // Default sortField set to 'date_borrowed'
       .set('sortOrder', sortOrder || 'DESC'); // Default sortOrder set to 'DESC'
-
-    console.log('getBorrowedMaterials payload:', params.toString());
     return this.http.get<any>(`${this.apiUrl}/fetch_borrowable_materials.php`, { params });
   }
 
@@ -35,8 +33,6 @@ export class BorrowService {
       .set('limit', limit.toString())
       .set('sortField', sortField || 'date_borrowed')
       .set('sortOrder', sortOrder || 'DESC');
-
-    console.log('searchBorrowedMaterials payload:', params.toString());
     return this.http.get<any>(`${this.apiUrl}/fetch_borrowable_materials.php`, { params });
   }
 
@@ -47,8 +43,6 @@ export class BorrowService {
       .set('limit', limit.toString())
       .set('sortField', sortField || 'date_borrowed')
       .set('sortOrder', sortOrder || 'DESC');
-
-    console.log('filterBorrowedMaterialsByCategory payload:', params.toString());
     return this.http.get<any>(`${this.apiUrl}/fetch_borrowable_materials.php`, { params });
   }
 
@@ -60,8 +54,6 @@ export class BorrowService {
       .set('limit', limit.toString())
       .set('sortField', sortField || 'date_borrowed')
       .set('sortOrder', sortOrder || 'DESC');
-
-    console.log('searchBorrowedMaterialsByCategory payload:', params.toString());
     return this.http.get<any>(`${this.apiUrl}/fetch_borrowable_materials.php`, { params });
   }
 

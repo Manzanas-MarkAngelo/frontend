@@ -49,8 +49,6 @@ export class AddMaterialService {
 
   deleteSubject(subjectId: number): Observable<any> {
     const deleteUrl = `${environment.apiUrl}/delete_subject.php?id=${subjectId}`;
-    console.log('Payload for deleteSubject:', { url: deleteUrl, subjectId });
-
     return this.http.delete<any>(deleteUrl);
   }
 
