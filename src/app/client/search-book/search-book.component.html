@@ -1,19 +1,19 @@
 
 <div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary">
-    <div class="flex flex-wrap w-full p-4 rounded-t-xl gap-2 mt-5">
+    <div class="flex flex-wrap w-full pb-2 rounded-t-xl gap-2 mt-5">
         <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
-            <div class="flex flex-row w-full md:w-1/2 gap-2">
+            <div class="flex flex-row w-full md:w-1/2 gap-1">
                 <input 
                     type="text" 
                     placeholder="Search here (title, author, year, accession number)" 
-                    class="input input-bordered w-full rounded-xl text-lg 
+                    class="input input-bordered w-full rounded text-lg 
                            font-medium text-primary slide-in-left bg-white"
                     [(ngModel)]="searchTerm"
                     (input)="onSearch()" 
                 />
                 <button
                     type="button"
-                    class="h-[3rem] bg-white text-primary rounded-xl px-4 
+                    class="h-[3rem] bg-white text-primary rounded px-4 
                            font-medium hover:bg-[#ffb700] hover:text-black 
                            transition duration-300 slide-in-right"
                     (click)="clearSearch()"
@@ -29,14 +29,22 @@
                             tabindex="0"
                             role="button"
                             class="btn w-auto mb-1 mx-2 bg-secondary border-none 
-                                   text-black text-lg hover:bg-[#ffb700]"
-                        >
+                                   text-black text-base hover:bg-[#ffb700] rounded">
                             {{ categoryPlaceholder }}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke-width="2" 
+                            stroke="currentColor" 
+                            class="size-6 mt-0.5">
+                              <path stroke-linecap="round" 
+                                    stroke-linejoin="round" 
+                                    d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
                         </div>
                         <ul
                             tabindex="0"
-                            class="dropdown-content menu bg-secondary rounded-box 
-                                   z-[1] w-52 p-2 shadow text-lg font-medium 
+                            class="dropdown-content menu bg-secondary rounded 
+                                   z-[1] w-52 p-2 shadow text-base font-medium 
                                    text-black"
                         >
                             <li *ngFor="let category of categories">
@@ -55,7 +63,7 @@
                         <button
                             class="btn border-none bg-secondary text-black 
                                    hover:bg-primary-focus hover:bg-white 
-                                   hover:text-[#801e1d]"
+                                   hover:text-[#801e1d] rounded"
                             [disabled]="currentPage === 1"
                             (click)="onPageChange(currentPage - 1)"
                         >
@@ -64,7 +72,7 @@
                         <button
                             class="btn border-none bg-secondary text-black 
                                    hover:bg-primary-focus hover:bg-white 
-                                   hover:text-[#801e1d]"
+                                   hover:text-[#801e1d] rounded"
                             [disabled]="currentPage === totalPages"
                             (click)="onPageChange(currentPage + 1)"
                         >
@@ -74,12 +82,12 @@
                 </div>
                 <button
                     class="w-auto h-[3rem] mt-0.5 bg-white text-primary px-4 
-                           rounded-xl font-medium hover:bg-[#ffb700] 
+                           rounded font-medium hover:bg-[#ffb700] 
                            hover:text-black transition duration-300 ml-1 
                            slide-in-left"
                     (click)="openRequestModal()"
                 >
-                    Request a material
+                    Request material
                 </button>
             </div>
 
@@ -269,7 +277,7 @@
     <div class="flex flex-col w-full">
         <div class="flex-grow bg-primary">
             @if (materials.length > 0) {
-                <div class="p-2 bg-white text-black rounded-xl w-full 
+                <div class="p-2 bg-white text-black rounded w-full 
                             slide-in-right border border-gray-300 mb-5">
                     <div class="overflow-x-auto">
                         <table class="table w-full">
@@ -388,9 +396,9 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                  <td colspan="100%" class="text-center">
+                                  <td colspan="100%" class="text-start">
                                     <label for="itemsPerPage" 
-                                           class="text-primary text-lg font-medium mr-2">
+                                           class="text-black text-base font-medium mr-2">
                                       Show items:
                                     </label>
                                     <select 
@@ -398,7 +406,7 @@
                                       [(ngModel)]="itemsPerPage" 
                                       (change)="onItemsPerPageChange($event)" 
                                       class="bg-secondary text-black border-none shadow-none btn-sm 
-                                             rounded-xl font-medium cursor-pointer">
+                                             rounded font-medium cursor-pointer">
                                       <option 
                                         *ngFor="let option of itemsPerPageOptions" 
                                         [value]="option"
@@ -431,7 +439,7 @@
                             <div class="card-actions">
                                 <button
                                     class="w-auto h-[3rem] mt-0.5 bg-white 
-                                           text-primary px-4 rounded-xl 
+                                           text-primary px-4 rounded 
                                            font-medium hover:bg-[#ffb700] 
                                            hover:text-black transition 
                                            duration-300 ml-1"
