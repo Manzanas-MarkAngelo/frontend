@@ -147,6 +147,7 @@ import { PasswordRecoveryComponent } from './client/password-recovery/password-r
 import { EditSubjectComponent } from './admin/edit-subject/edit-subject.component';
 import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/super-admin-profile.component';
 import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.component';
+import { LibraryClosedComponent } from './client/library-closed/library-closed.component';
 
 
 @NgModule({
@@ -257,6 +258,7 @@ import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.componen
     EditSubjectComponent,
     SuperAdminProfileComponent,
     SubjectsAddComponent,
+    LibraryClosedComponent,
 
   ],
   imports: [

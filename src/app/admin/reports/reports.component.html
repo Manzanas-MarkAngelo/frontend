@@ -185,7 +185,7 @@
                             hover:bg-[#ffca45] flex items-center justify-center 
                             w-auto rounded" 
                      (click)="toggleProgramDropdown()">
-                  <span>{{ programPlaceholder || 'Select subject' }}</span>
+                  <span>{{ programPlaceholder || 'Subject' }}</span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
                   viewBox="0 0 24 24" 
                   stroke-width="2" 
@@ -211,7 +211,7 @@
                       <a (click)="selectProgram(program)" 
                           class="block w-full px-4 py-2 hover:bg-[#801e1d] 
                                  hover:text-white">
-                        {{ program }}
+                        {{ program }} <input type="checkbox" name="" id="">
                       </a>
                     </li>
                   </ul>

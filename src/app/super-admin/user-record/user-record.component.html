@@ -5,8 +5,8 @@
   </ul>
 </div>
 <div class="flex flex-col w-full px-10 bg-primary justify-center items-center">
-  <div class="flex flex-col md:flex-row w-full lg:w-11/12 pb-4 gap-2 mt-5">
-    <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
+  <div class="flex flex-col md:flex-row w-full lg:w-3/4 pb-4 gap-2 mt-5 justify-center">
+    <div class="flex flex-row flex-wrap w-full mt-1 justify-between">
       <div class="flex flex-row w-full md:w-1/2 gap-1 mt-1">
         <input 
           type="text" 
@@ -36,7 +36,7 @@
           class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
                  duration-300 slide-in-right">
-          Student log
+          Student
         </button>
 
         <button
@@ -49,7 +49,7 @@
           class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
                  duration-300 slide-in-right">
-          Faculty log
+          Faculty
         </button>
 
         <button
@@ -62,7 +62,7 @@
           class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                  font-medium hover:bg-blue-500 hover:text-white transition 
                  duration-300 slide-in-right">
-          Visitor log
+          Visitor
         </button>
 
         <button
@@ -75,7 +75,7 @@
         class="h-[3rem] mt-1 bg-secondary text-black rounded px-4 
                font-medium hover:bg-blue-500 hover:text-white transition 
                duration-300 slide-in-right">
-        Employees log
+        Employee
       </button>
 
         <div class="flex justify-between items-center gap-5 slide-in-right">
@@ -107,7 +107,7 @@
     </div>
   </div>
   @if (logs.length > 0) {
-    <div class="p-4 bg-white text-black rounded w-full lg:w-11/12 
+    <div class="p-4 bg-white text-black rounded w-full lg:w-3/4 
                 slide-in-right mb-4">
       <div class="overflow-x-auto">
         @if (currentLogType === 'student_log') {
@@ -132,9 +132,9 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="100%" class="text-center">
+                <td colspan="100%" class="text-start">
                   <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
+                         class="text-black text-base font-medium mr-2">
                     Show items:
                   </label>
                   <select 
@@ -176,9 +176,9 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="100%" class="text-center">
+                <td colspan="100%" class="text-start">
                   <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
+                         class="text-black text-base font-medium mr-2">
                     Show items:
                   </label>
                   <select 
@@ -218,9 +218,9 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="100%" class="text-center">
+                <td colspan="100%" class="text-start">
                   <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
+                         class="text-black text-base font-medium mr-2">
                     Show items:
                   </label>
                   <select 
@@ -260,9 +260,9 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="100%" class="text-center">
+                <td colspan="100%" class="text-start">
                   <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
+                         class="text-black text-base font-medium mr-2">
                     Show items:
                   </label>
                   <select 
@@ -304,9 +304,9 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="100%" class="text-center">
+                <td colspan="100%" class="text-start">
                   <label for="itemsPerPage" 
-                         class="text-primary text-lg font-medium mr-2">
+                         class="text-black text-base font-medium mr-2">
                     Show items:
                   </label>
                   <select 

@@ -97,6 +97,7 @@ import { PasswordRecoveryComponent } from './client/password-recovery/password-r
 import { EditSubjectComponent } from './admin/edit-subject/edit-subject.component';
 import path from 'path';
 import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.component';
+import { LibraryClosedComponent } from './client/library-closed/library-closed.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -123,6 +124,8 @@ const routes: Routes = [
   { path: 'password-recovery', component: PasswordRecoveryComponent },
   { path: 'timein-already', component: TimeinAlreadyComponent },
   { path: 'subjects-add', component: SubjectsAddComponent },
+  { path: 'library-closed', component: LibraryClosedComponent },
+
 
    //*Admin
   { path: 'borrow', component: BorrowComponent, canActivate: [AuthGuardService] },
