@@ -21,8 +21,8 @@ import { ReportsService } from '../../../services/reports.service';
 })
 export class ReportsComponent implements OnInit {
   inventoryPlaceholder: string = 'Inventory';
-  categoryPlaceholder: string = 'Category';
-  programPlaceholder: string = 'Select a Subject';
+  categoryPlaceholder: string = 'Material type';
+  programPlaceholder: string = 'Subject';
   selectedRemark: string = '';
   category: string = '';
   programs: string[] = [];
@@ -33,7 +33,7 @@ export class ReportsComponent implements OnInit {
   dateFrom: string | null = null;
   dateTo: string | null = null;
   categoryPDFDIsplay = '';
-  programValue = 'Select a Subject';
+  programValue = 'Subject';
   filteredPrograms: string[] = [];
   isProgramDropdownOpen: boolean = false;
   programSearchTerm: string = '';
@@ -193,7 +193,7 @@ export class ReportsComponent implements OnInit {
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show,
       this.categoryPDFDIsplay,
-      this.programPlaceholder === 'Select a Subject' ? '' : this.programValue
+      this.programPlaceholder === 'Subject' ? '' : this.programValue
     );
   }
 
@@ -250,7 +250,7 @@ export class ReportsComponent implements OnInit {
 
   handleClearButtonClick() {
     this.categoryPlaceholder = 'Category';
-    this.programPlaceholder = 'Select a Subject';
+    this.programPlaceholder = 'Subject';
     this.selectedRemark = '';
     this.dateFrom = null;
     this.dateTo = null;
@@ -282,7 +282,7 @@ export class ReportsComponent implements OnInit {
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
       this.categoryPlaceholder === 'Category' ? '' : this.category,
-      this.programPlaceholder === 'Select a Subject' ? '' : this.programPlaceholder,
+      this.programPlaceholder === 'Subject' ? '' : this.programPlaceholder,
       (loading) => this.isLoading = loading,  
       this.categoryPDFDIsplay
     );
