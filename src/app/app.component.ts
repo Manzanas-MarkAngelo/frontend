@@ -12,7 +12,9 @@ export class AppComponent implements OnInit {
   showNavbar = true;
   filter = false;
   
-  excludedRoutes: string[] = ['/feedback', '/password-recovery']; 
+  excludedRoutes: string[] = ['/feedback', 
+                              '/password-recovery', 
+                              '/library-closed']; 
 
   constructor(private adminService: AdminService, private router: Router) {}
 
