@@ -1,404 +1,518 @@
 <div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5 pb-0">
   <ul>
     <li><a routerLink="/analytics">Home</a></li>
-    <li><a routerLink="/records">User records</a></li>
+    <li><a routerLink="/records">Records</a></li>
+    @if (currentLogType === 'pupt-employee') {
+      <li><a routerLink="/records">Employees</a></li>
+    } @else if (currentLogType === 'faculty') {
+      <li><a routerLink="/records">Faculty</a></li>
+    } @else if (currentLogType === 'visitor') {
+      <li><a routerLink="/records">Visitors</a></li>
+    } @else {
+      <li><a routerLink="/records">Students</a></li>
+    }
   </ul>
 </div>
 <div class="flex flex-col w-full px-10 bg-primary justify-center items-center pt-3">
-  <div class="flex flex-col md:flex-row w-full lg:w-[70%] pb-4 gap-2">
+  <div class="flex flex-col md:flex-row w-full lg:w-4/5 pb-4 gap-2">
     <div class="flex flex-row flex-wrap w-full mt-1 justify-between gap-1">
       @if (currentLogType === 'faculty') {
-        <div class="flex flex-row w-full md:w-1/2 gap-1 mt-1">
-          <input 
-            type="text" 
-            placeholder="Search here" 
-            class="input input-bordered w-1/2 rounded text-lg font-medium 
-                  slide-in-left bg-white"
-            [(ngModel)]="searchTerm"
-            (input)="onSearchChange($event.target.value)"
-          />
-          <button
-            type="button"
-            class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
-                  hover:bg-[#ffb700] hover:text-black transition duration-300 
-                  slide-in-right"
-            (click)="clearLogType()">
-            Clear
-          </button>
-          <button
-            type="button"
-            [ngClass]="{
-              'bg-secondary text-black cursor-pointer': anySelected(),
-              'bg-gray-400 text-gray-500 cursor-not-allowed': !anySelected()
-            }"
-            class="h-[3rem] w-auto rounded px-4 font-medium slide-in-right"
-            [disabled]="!anySelected() || isSending" 
-            (click)="sendEmailsToSelectedFaculty()"
-          >
-            <ng-container *ngIf="!isSending">Send book request</ng-container>
-          </button>
-        </div>
-      } @else {
-        <div class="flex flex-row w-full md:w-1/2 gap-1 mt-1">
-          <input 
-          type="text" 
-          placeholder="Search here" 
-          class="input input-bordered w-full rounded text-lg font-medium 
-                 slide-in-left bg-white"
+      <div class="flex flex-row w-full md:w-1/2 gap-1 mt-1">
+        <input
+          type="text"
+          placeholder="Search here"
+          class="input input-bordered w-1/2 rounded text-lg font-medium bg-white"
           [(ngModel)]="searchTerm"
           (input)="onSearchChange($event.target.value)"/>
-        
+        <button
+          type="button"
+          class="h-[3rem] bg-white text-primary rounded px-4 font-medium hover:bg-[#ffb700] hover:text-black transition duration-300"
+          (click)="clearLogType()">
+          Clear
+        </button>
+        <button
+          type="button"
+          class="h-[3rem] bg-secondary text-black rounded px-4 font-medium"
+          routerLink="/departments">
+          Departments
+        </button>
+        <button
+          type="button"
+          [ngClass]="{
+            'bg-secondary text-black cursor-pointer': anySelected(),
+            'bg-gray-400 text-gray-500 cursor-not-allowed': !anySelected()
+          }"
+          class="h-[3rem] w-auto text-sm rounded px-4 font-medium slide-in-right"
+          [disabled]="!anySelected() || isSending"
+          (click)="sendEmailsToSelectedFaculty()"
+        >
+          <ng-container *ngIf="!isSending">Send book request</ng-container>
+        </button>
+      </div>
+      } @else if (currentLogType === 'student'){
+      <div class="flex flex-row w-full md:w-1/2 gap-1 mt-1">
+        <input
+          type="text"
+          placeholder="Search here"
+          class="input input-bordered w-1/2 rounded text-lg font-medium bg-white"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange($event.target.value)"/>
+
+        <button
+          type="button"
+          class="h-[3rem] bg-white text-primary rounded px-4 font-medium hover:bg-[#ffb700] hover:text-black transition duration-300"
+          (click)="clearLogType()">
+          Clear
+        </button>
+        <button
+          type="button"
+          class="h-[3rem] bg-secondary text-black rounded px-4 font-medium"
+          [routerLink]="['/courses']" 
+          [queryParams]="{ from: 'student' }">
+          Courses
+        </button>
+      </div>
+      }@else {
+        <div class="flex flex-row w-full md:w-1/2 gap-1 mt-1">
+          <input
+            type="text"
+            placeholder="Search here"
+            class="input input-bordered w-full rounded text-lg font-medium bg-white"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange($event.target.value)"/>
+  
           <button
             type="button"
-            class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
-                  hover:bg-[#ffb700] hover:text-black transition duration-300 
-                  slide-in-right"
-                  (click)="clearLogType()">
+            class="h-[3rem] bg-white text-primary rounded px-4 font-medium hover:bg-[#ffb700] hover:text-black transition duration-300"
+            (click)="clearLogType()">
             Clear
           </button>
         </div>
       }
-
+      
       <div class="flex flex-wrap gap-1">
-        <div class="relative mt-1">
-          <select id="role" 
-                  name="role" 
-                  class="block appearance-none w-auto bg-secondary text-gray-700 
-                  font-medium py-3 px-4 rounded leading-tight focus:outline-none 
-                  focus:bg-[#ffb700] cursor-pointer text-lg ml-1"
-                  [(ngModel)]="selectedRole"
-                  (change)="setLogType(selectedRole)"
-                  required>
+        <!-- <div class="relative mt-1">
+          <select
+            id="role"
+            name="role"
+            class="block appearance-none w-auto bg-secondary text-gray-700 font-medium py-3 px-4 rounded leading-tight focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg ml-1"
+            [(ngModel)]="selectedRole"
+            (change)="setLogType(selectedRole)"
+            required>
             <option value="" disabled selected>Select the Role</option>
             <option value="student">Student</option>
             <option value="faculty">Faculty</option>
             <option value="visitor">Visitor</option>
             <option value="pupt-employee">Employees</option>
           </select>
-          <div class="pointer-events-none absolute inset-y-0 right-2 
-                      flex items-center text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
-            viewBox="0 0 24 24" 
-            stroke-width="2" 
-            stroke="currentColor" 
-            class="size-6 mt-0.5">
-              <path stroke-linecap="round" 
-                    stroke-linejoin="round" 
-                    d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          <div
+            class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-700">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="size-6 mt-0.5">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </div>
-        </div>
+        </div> -->
 
-      <div class="flex justify-between items-center gap-5 slide-in-right">
-        <span class="text-lg font-medium ml-3 text-white">
-          Page {{ currentPage }} / {{ totalPages }}
-        </span>
-        <div class="flex gap-2">
-          <button
-            class="btn border-none bg-secondary text-black hover:bg-primary-focus 
-                   hover:bg-white hover:text-[#801e1d]"
-            [disabled]="currentPage === 1"
-            (click)="onPageChange(currentPage - 1)"
-          >
-            Previous
-          </button>
-          <button
-            class="btn border-none bg-secondary text-black hover:bg-primary-focus 
-                   hover:bg-white hover:text-[#801e1d]"
-            [disabled]="currentPage === totalPages"
-            (click)="onPageChange(currentPage + 1)"
-          >
-            Next
-          </button>
+        <button
+        type="button"
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium slide-in-right mt-1"
+        (click)="setLogType('student')"
+        [ngClass]="{
+          'bg-blue-500 text-white': currentLogType === 'student',
+          'bg-secondary text-black': currentLogType !== 'student'
+        }">
+        Student
+      </button>
+      <button
+        type="button"
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium slide-in-right mt-1"
+        (click)="setLogType('faculty')"
+        [ngClass]="{
+          'bg-blue-500 text-white': currentLogType === 'faculty',
+          'bg-secondary text-black': currentLogType !== 'faculty'
+        }">
+        Faculty
+      </button>
+      <button
+        type="button"
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium slide-in-right mt-1"
+        (click)="setLogType('visitor')"
+        [ngClass]="{
+          'bg-blue-500 text-white': currentLogType === 'visitor',
+          'bg-secondary text-black': currentLogType !== 'visitor'
+        }">
+        Visitor
+      </button>
+      <button
+        type="button"
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium slide-in-right mt-1"
+        (click)="setLogType('pupt-employee')"
+        [ngClass]="{
+          'bg-blue-500 text-white': currentLogType === 'pupt-employee',
+          'bg-secondary text-black': currentLogType !== 'pupt-employee'
+        }">
+        Employee
+      </button>
+
+        <div class="flex justify-between items-center gap-5 slide-in-right">
+          <span class="text-lg font-medium ml-3 text-white">
+            Page {{ currentPage }} / {{ totalPages }}
+          </span>
+          <div class="flex gap-2">
+            <button
+              class="btn border-none bg-secondary text-black 
+                     hover:bg-primary-focus hover:bg-white 
+                     hover:text-[#801e1d] rounded"
+              [disabled]="currentPage === 1"
+              (click)="onPageChange(currentPage - 1)"
+            >
+              Previous
+            </button>
+            <button
+              class="btn border-none bg-secondary text-black 
+                     hover:bg-primary-focus hover:bg-white 
+                     hover:text-[#801e1d] rounded"
+              [disabled]="currentPage === totalPages"
+              (click)="onPageChange(currentPage + 1)"
+            >
+              Next
+            </button>
           </div>
-      </div>
-      </div>
-
-      </div>
-    </div>
-  
-  @if (logs.length > 0) {
-    <div class="p-4 bg-white text-black rounded w-full lg:w-[70%] 
-                slide-in-right mb-4">
-      <div class="overflow-x-auto">
-        @if (currentLogType === 'student') {
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">Student Number</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Gender</th>
-                <th class="text-start">Course</th>
-                <th class="text-start">Phone Number</th>
-                <th class="text-start">Email</th>
-                <th class="text-start">Date of Registration</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let record of logs">
-                <td>{{ record.student_number }}</td>
-                <td>{{ capitalize(record.name) }}</td>
-                <td>{{ record.gender }}</td>
-                <td>{{ record.course }}</td>
-                <td>{{ record.phone_number }}</td>
-                <td>{{ record.email.toLowerCase() }}</td>
-                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-start">
-                  <label for="itemsPerPage" 
-                         class="text-black text-base font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        } @else if (currentLogType === 'faculty') {
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">
-                  <input 
-                    type="checkbox" 
-                    class="cursor-pointer"
-                    [(ngModel)]="selectAllChecked" 
-                    (change)="toggleAllSelection($event)" />
-                </th>
-                <th class="text-start">Faculty Code</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Gender</th>
-                <th class="text-start">Department</th>
-                <th class="text-start">Phone Number</th>
-                <th class="text-start">Email</th>
-                <th class="text-start">Date of Registration</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let record of logs">
-                <td>
-                  <input 
-                    type="checkbox" 
-                    class="cursor-pointer"
-                    [(ngModel)]="record.selected" 
-                    (change)="checkIfAllSelected()" />
-                </td>
-                <td>{{ record.emp_number }}</td>
-                <td>{{ capitalize(record.name) }}</td>
-                <td>{{ record.gender }}</td>
-                <td>{{ record.department }}</td>
-                <td>{{ record.phone_number }}</td>
-                <td>{{ record.email.toLowerCase() }}</td>
-                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-start">
-                  <label for="itemsPerPage" 
-                         class="text-black text-base font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        } @else if (currentLogType === 'visitor') {
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">Name</th>
-                <th class="text-start">Gender</th>
-                <th class="text-start">Phone Number</th>
-                <th class="text-start">School</th>
-                <th class="text-start">Date of Registration</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let record of logs">
-                <td>{{ capitalize(record.name) }}</td>
-                <td>{{ record.gender }}</td>
-                <td>{{ record.phone_number }}</td>
-                <td>{{ record.school }}</td>
-                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-start">
-                  <label for="itemsPerPage" 
-                         class="text-black text-base font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        } @else if (currentLogType === 'pupt-employee') {
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">Employee number</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Gender</th>
-                <th class="text-start">Phone Number</th>
-                <th class="text-start">Email</th>
-                <th class="text-start">Date of Registration</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let record of logs">
-                <td>{{ record.emp_num }}</td>
-                <td>{{ capitalize(record.name) }}</td>
-                <td>{{ record.gender }}</td>
-                <td>{{ record.phone_number }}</td>
-                <td>{{ record.email.toLowerCase() }}</td>
-                <td>{{ record.created_at | date:'MMMM d, y' }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-start">
-                  <label for="itemsPerPage" 
-                         class="text-black text-base font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        } @else {
-          <table class="table w-full">
-            <thead class="text-sm" >
-              <tr class="text-primary text-start">
-                <th class="text-start">Student Number</th>
-                <th class="text-start">Name</th>
-                <th class="text-start">Gender</th>
-                <th class="text-start">Course</th>
-                <th class="text-start">Phone Number</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let record of logs">
-                <td>{{ record.student_number }}</td>
-                <td>{{ record.name }}</td>
-                <td>{{ record.gender }}</td>
-                <td>{{ record.course }}</td>
-                <td>{{ record.phone_number }}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="100%" class="text-start">
-                  <label for="itemsPerPage" 
-                         class="text-black text-base font-medium mr-2">
-                    Show items:
-                  </label>
-                  <select 
-                    id="itemsPerPage" 
-                    [(ngModel)]="itemsPerPage" 
-                    (change)="onItemsPerPageChange($event)" 
-                    class="bg-secondary text-black border-none shadow-none btn-sm 
-                           rounded font-medium cursor-pointer">
-                    <option 
-                      *ngFor="let option of itemsPerPageOptions" 
-                      [value]="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        }
-      </div>
-    </div>
-  } @else {
-    <div class="flex justify-center items-center mt-20 slide-in-below">
-      <div class="card bg-primary w-96">
-        <figure class="px-10 pt-10">
-          <img
-            src="../../../assets/no-match1.svg"
-            alt="no-match"
-          />
-        </figure>
-        <div class="card-body items-center text-center">
-          <h2 class="card-title text-white">Nothing match your search!</h2>
-          <p class="text-white">Didn't find what you're looking for?</p>
         </div>
       </div>
     </div>
+  </div>
+
+  @if (logs.length > 0) {
+  <div
+    class="p-4 bg-white text-black rounded w-full lg:w-4/5 slide-in-right mb-4"
+  >
+    <div class="overflow-x-auto">
+      @if (currentLogType === 'student') {
+      <table class="table w-full">
+        <thead class="text-sm">
+          <tr class="text-primary text-start">
+            <th class="text-start">Student Number</th>
+            <th class="text-start">Name</th>
+            <th class="text-start">Gender</th>
+            <th class="text-start">Course</th>
+            <th class="text-start">Phone Number</th>
+            <th class="text-start">Email</th>
+            <th class="text-start">Date of Registration</th>
+          </tr>
+        </thead>
+        <tbody class="text-start">
+          <tr *ngFor="let record of logs">
+            <td>{{ record.student_number }}</td>
+            <td>{{ capitalize(record.name) }}</td>
+            <td>{{ record.gender }}</td>
+            <td>{{ record.course }}</td>
+            <td>{{ record.phone_number }}</td>
+            <td>{{ record.email.toLowerCase() }}</td>
+            <td>{{ record.created_at | date : "MMMM d, y" }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="divider my-0"></div>
+        <div class="w-full flex justify-between"> 
+          <div>
+            <label
+              for="itemsPerPage"
+              class="text-black text-base font-medium mr-2"
+            >
+              Show items:
+            </label>
+            <select
+              id="itemsPerPage"
+              [(ngModel)]="itemsPerPage"
+              (change)="onItemsPerPageChange($event)"
+              class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+            >
+              <option
+                *ngFor="let option of itemsPerPageOptions"
+                [value]="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <span class="text-start text-xl font-normal text-black mb-3">
+              Total Students:
+            </span>
+            <span class="text-primary text-xl font-medium">
+              (sample 123)
+            </span>
+          </div>
+        </div>
+
+      } @else if (currentLogType === 'faculty') {
+      <table class="table w-full">
+        <thead class="text-sm">
+          <tr class="text-primary text-start">
+            <th class="text-start">
+              <input
+                type="checkbox"
+                class="cursor-pointer"
+                [(ngModel)]="selectAllChecked"
+                (change)="toggleAllSelection($event)"
+              />
+            </th>
+            <th class="text-start">Faculty Code</th>
+            <th class="text-start">Name</th>
+            <th class="text-start">Gender</th>
+            <th class="text-start">Department</th>
+            <th class="text-start">Phone Number</th>
+            <th class="text-start">Email</th>
+            <th class="text-start">Date of Registration</th>
+          </tr>
+        </thead>
+        <tbody class="text-start">
+          <tr *ngFor="let record of logs">
+            <td>
+              <input
+                type="checkbox"
+                class="cursor-pointer"
+                [(ngModel)]="record.selected"
+                (change)="checkIfAllSelected()"
+              />
+            </td>
+            <td>{{ record.emp_number }}</td>
+            <td>{{ capitalize(record.name) }}</td>
+            <td>{{ record.gender }}</td>
+            <td>{{ record.department }}</td>
+            <td>{{ record.phone_number }}</td>
+            <td>{{ record.email.toLowerCase() }}</td>
+            <td>{{ record.created_at | date : "MMMM d, y" }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="divider my-0"></div>
+      <div class="w-full flex justify-between"> 
+        <div>
+          <label
+            for="itemsPerPage"
+            class="text-black text-base font-medium mr-2"
+          >
+            Show items:
+          </label>
+          <select
+            id="itemsPerPage"
+            [(ngModel)]="itemsPerPage"
+            (change)="onItemsPerPageChange($event)"
+            class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+          >
+            <option
+              *ngFor="let option of itemsPerPageOptions"
+              [value]="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <span class="text-start text-xl font-normal text-black mb-3">
+            Total Faculty:
+          </span>
+          <span class="text-primary text-xl font-medium">
+            (sample 123)
+          </span>
+        </div>
+      </div>
+      } @else if (currentLogType === 'visitor') {
+      <table class="table w-full">
+        <thead class="text-sm">
+          <tr class="text-primary text-start">
+            <th class="text-start">Name</th>
+            <th class="text-start">Gender</th>
+            <th class="text-start">Phone Number</th>
+            <th class="text-start">School</th>
+            <th class="text-start">Date of Registration</th>
+          </tr>
+        </thead>
+        <tbody class="text-start">
+          <tr *ngFor="let record of logs">
+            <td>{{ capitalize(record.name) }}</td>
+            <td>{{ record.gender }}</td>
+            <td>{{ record.phone_number }}</td>
+            <td>{{ record.school }}</td>
+            <td>{{ record.created_at | date : "MMMM d, y" }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="divider my-0"></div>
+      <div class="w-full flex justify-between"> 
+        <div>
+          <label
+            for="itemsPerPage"
+            class="text-black text-base font-medium mr-2"
+          >
+            Show items:
+          </label>
+          <select
+            id="itemsPerPage"
+            [(ngModel)]="itemsPerPage"
+            (change)="onItemsPerPageChange($event)"
+            class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+          >
+            <option
+              *ngFor="let option of itemsPerPageOptions"
+              [value]="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <span class="text-start text-xl font-normal text-black mb-3">
+            Total Visitors:
+          </span>
+          <span class="text-primary text-xl font-medium">
+            (sample 123)
+          </span>
+        </div>
+      </div>
+      } @else if (currentLogType === 'pupt-employee') {
+      <table class="table w-full">
+        <thead class="text-sm">
+          <tr class="text-primary text-start">
+            <th class="text-start">Employee number</th>
+            <th class="text-start">Name</th>
+            <th class="text-start">Gender</th>
+            <th class="text-start">Phone Number</th>
+            <th class="text-start">Email</th>
+            <th class="text-start">Date of Registration</th>
+          </tr>
+        </thead>
+        <tbody class="text-start">
+          <tr *ngFor="let record of logs">
+            <td>{{ record.emp_num }}</td>
+            <td>{{ capitalize(record.name) }}</td>
+            <td>{{ record.gender }}</td>
+            <td>{{ record.phone_number }}</td>
+            <td>{{ record.email.toLowerCase() }}</td>
+            <td>{{ record.created_at | date : "MMMM d, y" }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="divider my-0"></div>
+      <div class="w-full flex justify-between"> 
+        <div>
+          <label
+            for="itemsPerPage"
+            class="text-black text-base font-medium mr-2"
+          >
+            Show items:
+          </label>
+          <select
+            id="itemsPerPage"
+            [(ngModel)]="itemsPerPage"
+            (change)="onItemsPerPageChange($event)"
+            class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+          >
+            <option
+              *ngFor="let option of itemsPerPageOptions"
+              [value]="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <span class="text-start text-xl font-normal text-black mb-3">
+            Total Employees:
+          </span>
+          <span class="text-primary text-xl font-medium">
+            (sample 123)
+          </span>
+        </div>
+      </div>
+      } @else {
+      <table class="table w-full">
+        <thead class="text-sm">
+          <tr class="text-primary text-start">
+            <th class="text-start">Student Number</th>
+            <th class="text-start">Name</th>
+            <th class="text-start">Gender</th>
+            <th class="text-start">Course</th>
+            <th class="text-start">Phone Number</th>
+          </tr>
+        </thead>
+        <tbody class="text-start">
+          <tr *ngFor="let record of logs">
+            <td>{{ record.student_number }}</td>
+            <td>{{ record.name }}</td>
+            <td>{{ record.gender }}</td>
+            <td>{{ record.course }}</td>
+            <td>{{ record.phone_number }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="100%" class="text-start">
+              <label
+                for="itemsPerPage"
+                class="text-black text-base font-medium mr-2"
+              >
+                Show items:
+              </label>
+              <select
+                id="itemsPerPage"
+                [(ngModel)]="itemsPerPage"
+                (change)="onItemsPerPageChange($event)"
+                class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+              >
+                <option
+                  *ngFor="let option of itemsPerPageOptions"
+                  [value]="option"
+                >
+                  {{ option }}
+                </option>
+              </select>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      }
+    </div>
+  </div>
+  } @else {
+  <div class="flex justify-center items-center mt-20 slide-in-below">
+    <div class="card bg-primary w-96">
+      <figure class="px-10 pt-10">
+        <img src="../../../assets/no-match1.svg" alt="no-match" />
+      </figure>
+      <div class="card-body items-center text-center">
+        <h2 class="card-title text-white">Nothing match your search!</h2>
+        <p class="text-white">Didn't find what you're looking for?</p>
+      </div>
+    </div>
+  </div>
   }
 </div>
 
-<div *ngIf="isSending" 
-     class="fixed inset-0 flex items-center justify-center 
-            bg-black bg-opacity-50 z-50">
+<div
+  *ngIf="isSending"
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+>
   <div class="flex flex-col items-center">
-    <img 
-      src="../../../assets/spinning-dots.svg" 
-      alt="Loading" 
-      class="w-16 h-16 animate-spin" 
+    <img
+      src="../../../assets/spinning-dots.svg"
+      alt="Loading"
+      class="w-16 h-16 animate-spin"
     />
-    <p class="text-white text-lg mt-4">
-      Sending request, please wait...
-    </p>
+    <p class="text-white text-lg mt-4">Sending request, please wait...</p>
   </div>
 </div>
 
-<app-snackbar/>
+<app-snackbar />
