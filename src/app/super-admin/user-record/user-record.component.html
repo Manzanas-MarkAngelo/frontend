@@ -2,6 +2,15 @@
   <ul>
     <li><a routerLink="/analytics">Home</a></li>
     <li><a routerLink="/user-record">Audit Trail</a></li>
+    @if (currentLogType === 'pupt-employee_log') {
+      <li><a routerLink="/user-record">Employee logs</a></li>
+    } @else if (currentLogType === 'faculty_log') {
+      <li><a routerLink="/user-record">Faculty logs</a></li>
+    } @else if (currentLogType === 'visitor_log') {
+      <li><a routerLink="/user-record">Visitor logs</a></li>
+    } @else {
+      <li><a routerLink="/user-record">Student logs</a></li>
+    }
   </ul>
 </div>
 <div class="flex flex-col w-full px-10 bg-primary justify-center items-center">
