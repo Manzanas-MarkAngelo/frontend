@@ -1,5 +1,12 @@
-<div class="flex items-start justify-center pt-40 bg-primary">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full 
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/student">Students</a></li>
+    <li><a routerLink="/add-student">Add a student</a></li>
+  </ul>
+</div>
+<div class="flex items-start justify-center pt-20 bg-primary">
+  <div class="bg-white p-8 rounded shadow-lg w-1/2 mb-20 h-full 
               slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
@@ -16,7 +23,7 @@
             type="text"
             [(ngModel)]="studentNumber"
             placeholder="Enter your PUP ID number here"
-            class="mt-1 block w-full rounded-xl border border-gray-300 px-6 py-2 
+            class="mt-1 block w-full rounded border border-gray-300 px-6 py-2 
                    focus:ring-opacity-50 text-lg"
             [ngClass]="{'border-red-500': 
               (!studentNumber && hasFormErrors) || 
@@ -53,7 +60,7 @@
             name="sex"
             [(ngModel)]="sex"
             class="block appearance-none w-full bg-white text-gray-700 border 
-                   border-gray-300 font-medium py-3 px-6 pr-8 rounded-xl 
+                   border-gray-300 font-medium py-3 px-6 pr-8 rounded 
                    leading-tight focus:outline-none focus:bg-white 
                    cursor-pointer text-lg mt-1"
             [ngClass]="{'border-red-500': !sex && hasFormErrors}"
@@ -115,7 +122,7 @@
             name="fname"
             type="text"
             [(ngModel)]="firstName"
-            class="mt-1 block w-full rounded-xl border border-gray-300 px-3 pl-6 
+            class="mt-1 block w-full rounded border border-gray-300 px-3 pl-6 
                    py-2 focus:ring-opacity-50 text-lg"
             placeholder="First name"
             [ngClass]="{'border-red-500': !firstName && hasFormErrors}"
@@ -146,7 +153,7 @@
             name="lname"
             type="text"
             [(ngModel)]="lastName"
-            class="mt-1 block w-full rounded-xl border border-gray-300 px-3 pl-6 
+            class="mt-1 block w-full rounded border border-gray-300 px-3 pl-6 
                    py-2 focus:ring-opacity-50 text-lg"
             placeholder="Last name"
             [ngClass]="{'border-red-500': !lastName && hasFormErrors}"
@@ -177,7 +184,7 @@
             name="course"
             [(ngModel)]="courseId"
             class="block appearance-none w-auto bg-white border border-gray-300 
-                   text-gray-700 font-medium py-3 px-6 pr-8 rounded-xl 
+                   text-gray-700 font-medium py-3 px-6 pr-8 rounded 
                    leading-tight focus:outline-none focus:bg-white
                    cursor-pointer text-lg mt-1"
             [ngClass]="{'border-red-500': !courseId && hasFormErrors}"
@@ -235,7 +242,7 @@
             name="contact"
             type="text"
             [(ngModel)]="contact"
-            class="mt-1 block w-full rounded-xl border border-gray-300 px-6 py-2 
+            class="mt-1 block w-full rounded border border-gray-300 px-6 py-2 
                    focus:ring-opacity-50 text-lg"
             placeholder="Contact number"
             [ngClass]="{'border-red-500': 
@@ -270,7 +277,7 @@
             name="email"
             type="text"
             [(ngModel)]="email"
-            class="mt-1 block w-full rounded-xl border border-gray-300 px-6 py-2 
+            class="mt-1 block w-full rounded border border-gray-300 px-6 py-2 
                    focus:ring-opacity-50 text-lg"
             placeholder="Email"
             [ngClass]="{'border-red-500': 
@@ -301,7 +308,7 @@
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
           type="button"
-          class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+          class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
                  hover:bg-[#ffb700] hover:text-black transition duration-300"
           (click)="goBack()"
         >
@@ -309,7 +316,7 @@
         </button>
         <button
           type="submit"
-          class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl font-medium 
+          class="flex-1 bg-secondary text-black px-6 py-3 rounded font-medium 
                  hover:bg-[#801e1d] hover:text-white transition duration-300"
         >
           Continue

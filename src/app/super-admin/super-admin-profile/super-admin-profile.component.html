@@ -1,5 +1,10 @@
-<div class="flex flex-col justify-center items-center pt-[99px] w-full 
-            bg-primary">
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+    <ul>
+      <li><a routerLink="/analytics">Home</a></li>
+      <li><a routerLink="/super-admin-profile">Profile</a></li>
+    </ul>
+  </div>
+<div class="flex flex-col justify-center items-center w-full pt-20 bg-primary">
     <div class="flex items-center justify-center">
         <div class="flex flex-col lg:flex-row w-full h-30rem gap-40">
             <div class="flex flex-col items-center justify-center gap-4 
@@ -298,7 +303,7 @@
         </div>
     </div>
 </div>
-  
+
 <div *ngIf="showIncorrectPasswordModal" 
      class="fixed inset-0 flex items-center justify-center bg-gray-800 
             bg-opacity-50">

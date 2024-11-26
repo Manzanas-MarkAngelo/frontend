@@ -27,35 +27,28 @@
       </div>
         
       <div class="flex flex-row w-auto flex-wrap">
-        <div class="flex flex-row gap-2 slide-in-right mt-1">
-          <div class="dropdown dropdown-bottom slide-in-right">
-            <div
-              tabindex="0"
-              role="button"
-              class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black 
-                     text-base hover:bg-[#ffb700] rounded">
-              {{ categoryPlaceholder }}
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
-              viewBox="0 0 24 24" 
-              stroke-width="2" 
-              stroke="currentColor" 
-              class="size-6 mt-0.5">
-                <path stroke-linecap="round" 
-                      stroke-linejoin="round" 
-                      d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-              </svg>
-            </div>
-            <ul
-              tabindex="0"
-              class="dropdown-content menu bg-secondary rounded z-[1] w-52 
-                     p-2 shadow text-base font-medium text-black">
-              <li *ngFor="let category of categories">
-                <a (click)="CategoryPlaceholder(category.mat_type)">
-                  {{ category.mat_type }}
-                </a>
-              </li>
-            </ul>
+        <div class="dropdown dropdown-hover">
+          <div tabindex="0" role="button" class="btn mt-1 text-black 
+          bg-secondary hover:bg-[#ffb700] shadow-none px-4
+          font-medium border-none text-base rounded">{{ categoryPlaceholder }} 
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+          viewBox="0 0 24 24" 
+          stroke-width="2" 
+          stroke="currentColor" 
+          class="size-6 mt-0.5">
+            <path stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          </svg>
           </div>
+          <ul tabindex="0" class="dropdown-content menu bg-secondary rounded 
+          z-[1] w-52 p-2 shadow text-base font-medium text-black">
+          <li *ngFor="let category of categories">
+            <a (click)="CategoryPlaceholder(category.mat_type)">
+              {{ category.mat_type }}
+            </a>
+          </li>
+          </ul>
         </div>
 
         <div class="flex justify-between items-center gap-5 slide-in-right">

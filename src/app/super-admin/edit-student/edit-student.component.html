@@ -1,5 +1,12 @@
-<div class="flex items-start justify-center pt-40 bg-primary">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 mb-20 h-full 
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/student">Students</a></li>
+    <li><a>Edit a student</a></li>
+  </ul>
+</div>
+<div class="flex items-start justify-center pt-20 bg-primary">
+  <div class="bg-white p-8 rounded shadow-lg w-1/2 mb-20 h-full 
               slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-3">
@@ -13,7 +20,7 @@
           name="studentNumber"
           type="text"
           placeholder="Enter student number here"
-          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 
+          class="flex-grow mt-1 block rounded border border-gray-300 px-6 
                  py-2 focus:ring-opacity-50 text-lg"
           [(ngModel)]="student.student_number"
           required
@@ -22,7 +29,7 @@
           <select
             name="gender"
             class="block appearance-none w-full bg-secondary text-gray-700 
-                   font-medium py-3 px-6 pr-8 rounded-xl leading-tight 
+                   font-medium py-3 px-6 pr-8 rounded leading-tight 
                    focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
             [(ngModel)]="student.gender"
             required
@@ -55,7 +62,7 @@
         <input
           name="firstName"
           type="text"
-          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 
+          class="w-2/5 flex mt-1 rounded border border-gray-300 px-3 pl-6 
                  py-2 focus:ring-opacity-50 text-lg"
           placeholder="First name"
           [(ngModel)]="student.first_name"
@@ -64,7 +71,7 @@
         <input
           name="lastName"
           type="text"
-          class="w-2/5 flex mt-1 rounded-xl border border-gray-300 px-3 pl-6 
+          class="w-2/5 flex mt-1 rounded border border-gray-300 px-3 pl-6 
                  py-2 focus:ring-opacity-50 text-lg"
           placeholder="Last name"
           [(ngModel)]="student.surname"
@@ -74,7 +81,7 @@
           <select
             name="course"
             class="block appearance-none w-full bg-secondary text-gray-700 
-                   font-medium py-3 px-6 pr-8 rounded-xl leading-tight 
+                   font-medium py-3 px-6 pr-8 rounded leading-tight 
                    focus:outline-none focus:bg-[#ffb700] cursor-pointer text-lg"
             [(ngModel)]="student.course_id"
           >
@@ -105,7 +112,7 @@
         <input
           name="contact"
           type="number"
-          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 
+          class="flex-grow mt-1 block rounded border border-gray-300 px-6 
                  py-2 focus:ring-opacity-50 text-lg"
           placeholder="Contact number"
           [(ngModel)]="student.phone_number"
@@ -114,7 +121,7 @@
         <input
           name="email"
           type="email"
-          class="flex-grow mt-1 block rounded-xl border border-gray-300 px-6 
+          class="flex-grow mt-1 block rounded border border-gray-300 px-6 
                 py-2 focus:ring-opacity-50 text-lg"
           placeholder="Email"
           [(ngModel)]="student.email"
@@ -124,7 +131,7 @@
       <div class="flex flex-row gap-4 w-full mt-4">
         <button
           type="button"
-          class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium 
+          class="flex-1 bg-red-800 text-white px-6 py-3 rounded font-medium 
                 hover:bg-red-700 transition duration-300"
           (click)="goBack()"
         >
@@ -132,7 +139,7 @@
         </button>
         <button
           type="submit"
-          class="flex-1 bg-green-600 text-white px-6 py-3 rounded-xl 
+          class="flex-1 bg-green-600 text-white px-6 py-3 rounded 
                  font-medium hover:bg-green-500 transition duration-300"
         >
           Save Changes
@@ -145,8 +152,8 @@
 @if(showModal){
   <div class="fixed inset-0 flex items-center justify-center bg-gray-800 
               bg-opacity-50">
-    <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
-      <h2 class="text-center text-2xl font-medium text-primary mb-3">
+    <div class="bg-white p-8 rounded shadow-lg w-1/2 max-w-md">
+      <h2 class="text-center text-xl font-medium text-primary mb-3">
         Do you want to save these changes?
       </h2>
       <div class="flex flex-col items-center justify-between h-full">
@@ -170,14 +177,14 @@
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="closeConfirmModal()"
-            class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+            class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
                    hover:bg-[#ffb700] hover:text-black transition duration-300"
           >
             Back
           </button>
           <button
             (click)="saveChanges()"
-            class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl 
+            class="flex-1 bg-secondary text-black px-6 py-3 rounded 
                    font-medium hover:bg-[#801e1d] hover:text-white transition 
                    duration-300"
           >

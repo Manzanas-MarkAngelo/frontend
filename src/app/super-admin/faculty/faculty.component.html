@@ -1,18 +1,24 @@
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/faculty">Faculty</a></li>
+  </ul>
+</div>
 <div class="flex flex-col w-full bg-primary items-center pt-2">
   <div class="flex flex-row flex-wrap w-11/12 lg:w-2/3 mt-1 justify-between 
               gap-1 mb-3">
-    <div class="flex flex-row w-full md:w-1/2 gap-2">
+    <div class="flex flex-row w-full md:w-1/2 gap-1">
       <input 
         type="text" 
         placeholder="Search faculty" 
-        class="input input-bordered w-full rounded-xl text-lg font-medium 
+        class="input input-bordered w-full rounded text-lg font-medium 
                text-primary slide-in-left bg-white"
         [(ngModel)]="searchTerm"
         (ngModelChange)="onSearchChange($event)" 
       />
       <button
         type="button"
-        class="h-[3rem] bg-white text-primary rounded-xl px-4 font-medium 
+        class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
               hover:bg-[#ffb700] hover:text-black transition duration-300 
               slide-in-right"
         (click)="clearLogType()"
@@ -25,7 +31,7 @@
       <button
         routerLink="/add-faculty"
         type="submit"
-        class="h-[3rem] bg-secondary text-black rounded-xl px-4 font-medium 
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium 
                hover:bg-white hover:text-[#801e1d] transition duration-300 
                slide-in-right"
       >
@@ -34,7 +40,7 @@
       <button
         routerLink="/departments"
         type="submit"
-        class="h-[3rem] bg-secondary text-black rounded-xl px-4 font-medium 
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium 
                hover:bg-white hover:text-[#801e1d] transition duration-300 
                slide-in-right"
       >
@@ -47,7 +53,8 @@
         <div class="flex gap-2">
           <button
             class="btn border-none bg-secondary text-black 
-                   hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                   hover:bg-primary-focus hover:bg-white 
+                   hover:text-[#801e1d] rounded"
             [disabled]="currentPage === 1"
             (click)="onPageChange(currentPage - 1)"
           >
@@ -55,7 +62,8 @@
           </button>
           <button
             class="btn border-none bg-secondary text-black 
-                   hover:bg-primary-focus hover:bg-white hover:text-[#801e1d]"
+                   hover:bg-primary-focus hover:bg-white 
+                   hover:text-[#801e1d] rounded"
             [disabled]="currentPage === totalPages"
             (click)="onPageChange(currentPage + 1)"
           >
@@ -66,7 +74,7 @@
     </div>
   </div>
   @if (logs.length > 0) {
-    <div class="p-4 bg-white text-black rounded-xl w-11/12 lg:w-2/3 
+    <div class="p-4 bg-white text-black rounded w-11/12 lg:w-2/3 
                 slide-in-right mb-5">
       <div class="overflow-x-auto">
         <table class="table w-full">
@@ -92,14 +100,14 @@
               <td class="text-center">
                 <button 
                   class="bg-secondary text-black border-none shadow-none btn-sm 
-                         rounded-xl font-medium mr-1 mb-0.5"
+                         rounded font-medium mr-1 mb-0.5"
                   [routerLink]="['/edit-faculty', record.user_id]"
                 >
                   Edit
                 </button>
                 <button 
                   class="bg-primary text-white border-none shadow-none btn-sm 
-                        rounded-xl font-medium"
+                        rounded font-medium"
                   (click)="openDeleteModal(record.user_id, record.name)"
                 >
                   Delete
@@ -109,9 +117,9 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="100%" class="text-center">
+              <td colspan="100%" class="text-start">
                 <label for="itemsPerPage" 
-                       class="text-primary text-lg font-medium mr-2">
+                       class="text-black text-base font-medium mr-2">
                   Show items:
                 </label>
                 <select 
@@ -119,7 +127,7 @@
                   [(ngModel)]="itemsPerPage" 
                   (change)="onItemsPerPageChange($event)" 
                   class="bg-secondary text-black border-none shadow-none btn-sm 
-                         rounded-xl font-medium cursor-pointer">
+                         rounded font-medium cursor-pointer">
                   <option 
                     *ngFor="let option of itemsPerPageOptions" 
                     [value]="option"
@@ -153,7 +161,7 @@
 @if(showModal) {
   <div class="fixed inset-0 flex items-center justify-center bg-gray-800 
               bg-opacity-50">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
+    <div class="bg-white p-8 rounded shadow-lg w-1/2 max-w-md">
       <h2 class="text-center text-xl font-medium text-primary mb-3">
           Do you really want to delete this faculty? 
           <div class="text-yellow-500 mt-4 italic">
@@ -164,14 +172,14 @@
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="hideModal()"
-            class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium 
+            class="flex-1 bg-red-800 text-white px-6 py-3 rounded font-medium 
                    hover:bg-red-700 transition duration-300"
           >
             Cancel
           </button>
           <button
             (click)="deleteFaculty()"
-            class="flex-1 bg-green-600 text-white px-6 py-3 rounded-xl 
+            class="flex-1 bg-green-600 text-white px-6 py-3 rounded 
                   font-medium hover:bg-green-500 transition duration-300"
           >
             Confirm
