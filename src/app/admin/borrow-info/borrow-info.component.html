@@ -1,6 +1,13 @@
-<div class="flex justify-center items-center w-auto px-2 md:px-10 pt-20 
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/borrow">Borrow</a></li>
+    <li><a>Material details</a></li>
+  </ul>
+</div>
+<div class="flex justify-center items-center w-auto px-2 md:px-10 pt-7 
             bg-primary">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-full md:w-3/4 h-full 
+  <div class="bg-white p-8 rounded shadow-lg w-full md:w-3/4 h-full 
               slide-in-right">
     <div class="flex items-end justify-between">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
@@ -175,7 +182,7 @@
         <button
           routerLink="/borrow"
           type="button"
-          class="w-1/5 bg-primary text-white px-4 py-3 rounded-xl font-medium 
+          class="w-1/5 bg-primary text-white px-4 py-3 rounded font-medium 
                  hover:bg-[#ffb700] hover:text-black transition duration-300 
                  mt-0.5"
         >
@@ -184,7 +191,7 @@
         @if (material.status !== 'Charged') {
           <button
             type="submit"
-            class="w-[29%] bg-secondary text-black px-4 py-3 rounded-xl 
+            class="w-[29%] bg-secondary text-black px-4 py-3 rounded 
                    font-medium hover:bg-[#801e1d] hover:text-white transition 
                    duration-300 mt-0.5"
           >
@@ -231,14 +238,14 @@
         <div class="flex flex-row gap-4 w-full mt-4">
           <button
             (click)="closeConfirmationModal()"
-            class="flex-1 bg-primary text-white px-6 py-3 rounded-xl font-medium 
+            class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
                    hover:bg-[#ffb700] hover:text-black transition duration-300"
           >
             Back
           </button>
           <button
             (click)="confirmBorrowing()"
-            class="flex-1 bg-secondary text-black px-6 py-3 rounded-xl 
+            class="flex-1 bg-secondary text-black px-6 py-3 rounded 
                    font-medium hover:bg-[#801e1d] hover:text-white transition 
                    duration-300"
           >
