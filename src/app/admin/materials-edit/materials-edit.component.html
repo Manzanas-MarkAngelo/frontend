@@ -1,12 +1,13 @@
-<div class="flex flex-col w-full px-16 pt-7 bg-primary justify-center 
-            items-center">
-  <div class="flex flex-col w-full md:w-3/4">
-    <div class="w-full">
-      <div class="bg-primary mb-3 w-3/4 slide-in-right justify-between">
-        <span class="text-white text-3xl ml-3">Edit Book:</span>
-      </div>
-    </div>
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full mb-40 slide-in-right">
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a routerLink="/materials">Materials</a></li>
+    <li><a>Edit material</a></li>
+  </ul>
+</div>
+<div class="flex flex-col w-full px-16 pt-5 bg-primary items-center">
+  <div class="flex flex-col w-full md:w-3/4 justify-center items-center">
+    <div class="bg-white p-8 rounded shadow-lg w-3/4 mb-40 slide-in-right">
       <h1 class="text-2xl text-primary font-semibold ml-2 mb-5">
         Material details
       </h1>
@@ -19,7 +20,7 @@
               id="title"
               name="title"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.title"
@@ -38,30 +39,26 @@
                 <div
                   tabindex="0" role="button"
                   class="btn w-full bg-secondary border-none text-black text-lg 
-                         hover:bg-[#ffb700] rounded-box flex items-center 
+                         hover:bg-[#ffb700] rounded-xl flex items-center 
                          justify-between"
                   (click)="toggleDropdown()">
                   <span>
                     {{ selectedCategory?.mat_type || 'Select Category' }}
                   </span>
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    class="w-4 h-4 ml-2" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                  >
-                    <path 
-                      stroke-linecap="round" 
-                      stroke-linejoin="round" 
-                      stroke-width="2" 
-                      d="M19 9l-7 7-7-7" 
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="2" 
+                  stroke="currentColor" 
+                  class="size-6 mt-0.5">
+                    <path stroke-linecap="round" 
+                          stroke-linejoin="round" 
+                          d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                   </svg>
                 </div>
                 <ul tabindex="0" *ngIf="isDropdownOpen"
-                    class="dropdown-content menu bg-secondary rounded-box z-[1] 
-                           w-full p-2 shadow text-lg font-medium text-black">
+                    class="dropdown-content menu bg-secondary rounded-xl z-[1] 
+                    w-full text-base font-medium text-black max-h-56 
+                    overflow-y-auto overflow-x-hidden block">
                   <li *ngFor="let category of categories">
                     <a (click)="selectCategory(category.cat_id, category.mat_type)" 
                        class="block px-4 py-2 hover:bg-[#ffb700] hover:text-black"
@@ -82,7 +79,7 @@
               id="accnum"
               name="accnum"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.accnum"
@@ -103,14 +100,22 @@
                 <div tabindex="0" 
                      role="button"
                      class="btn w-full bg-secondary border-none text-black 
-                            text-lg hover:bg-[#ffb700] rounded-box flex 
+                            text-lg hover:bg-[#ffb700] rounded-xl flex 
                             items-center justify-between"
                      (click)="toggleSubjectDropdown()"
                      (blur)="headingInput.control.markAsTouched()">
                   <span>
                     {{ selectedSubject?.subject_name || 'Select subject heading' }}
                   </span>
-
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="2" 
+                  stroke="currentColor" 
+                  class="size-6 mt-0.5">
+                    <path stroke-linecap="round" 
+                          stroke-linejoin="round" 
+                          d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
                   <span 
                     *ngIf="headingInput.invalid && headingInput.touched" 
                     class="flex items-center"
@@ -127,7 +132,7 @@
                 </div>
 
                 <div *ngIf="isSubjectDropdownOpen" 
-                     class="dropdown-content menu bg-secondary rounded-box z-[1] 
+                     class="dropdown-content menu bg-secondary rounded-xl z-[1] 
                             w-full text-base font-medium text-black max-h-56 
                             overflow-y-auto overflow-x-hidden block">
                   <input 
@@ -143,8 +148,7 @@
                       <a 
                         (click)="selectSubjectHeading(subject.id, subject.subject_name)" 
                         class="block w-full px-4 py-2 hover:bg-[#801e1d] 
-                               hover:text-white"
-                      >
+                               hover:text-white">
                         {{ subject.subject_name }}
                       </a>
                     </li>
@@ -162,7 +166,7 @@
               id="author"
               name="author"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.author"
@@ -176,7 +180,7 @@
               id="callnum"
               name="callnum"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.callno"
@@ -192,7 +196,7 @@
               id="copyright"
               name="copyright"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.copyright"
@@ -206,7 +210,7 @@
               id="publisher"
               name="publisher"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.publisher"
@@ -222,7 +226,7 @@
               id="edition"
               name="edition"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.edition"
@@ -236,7 +240,7 @@
               id="isbn"
               name="isbn"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.isbn"
@@ -253,7 +257,7 @@
               id="status"
               name="status"
               type="text"
-              class="floating-input w-full mt-1 rounded-xl border 
+              class="floating-input w-full mt-1 rounded border 
                      border-gray-300 px-3 pl-6 py-2 focus:ring-opacity-50 
                      text-lg"
               [(ngModel)]="material.status"
@@ -262,7 +266,7 @@
           </div>
           <button
             type="button"
-            class="w-1/5 bg-primary text-white px-4 py-4 rounded-box 
+            class="w-1/5 bg-primary text-white px-4 py-4 rounded-xl 
                    font-medium hover:bg-[#ffb700] hover:text-black transition 
                    duration-300 mt-0.5"
             (click)="goBack()"
@@ -271,7 +275,7 @@
           </button>
           <button
             type="submit"
-            class="w-[29%] bg-secondary text-black px-4 py-4 rounded-box 
+            class="w-[29%] bg-secondary text-black px-4 py-4 rounded-xl 
                    font-medium hover:bg-[#801e1d] hover:text-white transition 
                    duration-300 mt-0.5"
           >
@@ -286,14 +290,14 @@
 <div *ngIf="showModal" 
      class="fixed inset-0 flex items-center justify-center bg-gray-800 
             bg-opacity-50">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
+  <div class="bg-white p-8 rounded shadow-lg w-1/2 max-w-md">
     <h2 class="text-center text-xl font-medium text-primary mb-6">
       Do you really want to save these changes?
     </h2>
     <div class="flex flex-col items-center">
       <button
         type="button"
-        class="w-full bg-primary text-white px-6 py-3 rounded-box font-medium 
+        class="w-full bg-primary text-white px-6 py-3 rounded-xl font-medium 
                transition duration-300 mb-4"
         (click)="saveChanges()"
       >
@@ -301,7 +305,7 @@
       </button>
       <button
         type="button"
-        class="w-full bg-secondary text-black px-6 py-3 rounded-box font-medium 
+        class="w-full bg-secondary text-black px-6 py-3 rounded-xl font-medium 
                hover:bg-[#ffb700] transition duration-300"
         (click)="closeConfirmModal()"
       >
