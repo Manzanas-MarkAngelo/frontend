@@ -188,7 +188,7 @@ export class ReportsComponent implements OnInit {
 
   generatePdfInventoryReport() {
     this.pdfReportInventoryService.generatePDF(
-      this.categoryPlaceholder === 'Category' ? '' : this.category,
+      this.categoryPlaceholder === 'Material Type' ? '' : this.category,
       'pdf-preview',
       (loading) => this.isLoading = loading,
       (show) => this.showInitialDisplay = show,
@@ -249,7 +249,7 @@ export class ReportsComponent implements OnInit {
   }
 
   handleClearButtonClick() {
-    this.categoryPlaceholder = 'Category';
+    this.categoryPlaceholder = 'Material Type';
     this.programPlaceholder = 'Subject';
     this.selectedRemark = '';
     this.dateFrom = null;
@@ -281,7 +281,7 @@ export class ReportsComponent implements OnInit {
 
   generateExcelInventoryReport() {
     this.excelInventoryReportService.generateExcelReport(
-      this.categoryPlaceholder === 'Category' ? '' : this.category,
+      this.categoryPlaceholder === 'Material Type' ? '' : this.category,
       this.programPlaceholder === 'Subject' ? '' : this.programPlaceholder,
       (loading) => this.isLoading = loading,  
       this.categoryPDFDIsplay
