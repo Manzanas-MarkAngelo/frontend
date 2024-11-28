@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MaterialsService } from '../../../services/materials.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { PageStateService } from '../../../services/page-state.service';
 
 @Component({
   selector: 'app-materials',
@@ -45,10 +46,14 @@ export class MaterialsComponent implements OnInit {
 
   constructor(
     private materialsService: MaterialsService, 
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private pageStateService: PageStateService
   ) {}
 
   ngOnInit() {
+    this.currentPage = this.pageStateService.getMaterialCurrentPage('materials');
+    
     this.loadMaterials(); 
     this.loadCategories(); 
 
@@ -285,6 +290,7 @@ export class MaterialsComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.pageStateService.setMaterialCurrentPage(page, 'materials');
     this.loadMaterials();
   }
 
@@ -324,6 +330,7 @@ export class MaterialsComponent implements OnInit {
     this.searchTerm = '';
     this.category = '';
     this.currentPage = 1;
+    this.pageStateService.setMaterialCurrentPage(this.currentPage, 'materials');
     this.selectedMaterialIds = [];
     this.categoryPlaceholder = 'Choose category';
     this.sortField = 'date_added';

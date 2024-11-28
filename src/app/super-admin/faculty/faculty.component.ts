@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { Subject, debounceTime } from 'rxjs';
+import { PageStateService } from '../../../services/page-state.service';
 
 @Component({
   selector: 'app-faculty',
@@ -27,10 +28,12 @@ export class FacultyComponent implements OnInit {
   constructor(
     private recordsService: RecordsService,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private pageStateService: PageStateService
   ) {}
 
   ngOnInit(): void {
+    this.currentPage = this.pageStateService.getMaterialCurrentPage('faculty');
     this.fetchRecords();
 
     this.searchSubject.pipe(debounceTime(300)).subscribe(term => {
@@ -90,11 +93,14 @@ export class FacultyComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.pageStateService.setMaterialCurrentPage(page, 'faculty');
     this.fetchRecords();
   }
   
   clearLogType() {
     this.searchTerm = '';
+    this.currentPage = 1;
+    this.pageStateService.setMaterialCurrentPage(this.currentPage, 'faculty');
     this.fetchRecords();
   }
 }

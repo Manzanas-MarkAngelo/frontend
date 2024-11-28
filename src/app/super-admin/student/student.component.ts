@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { Subject, debounceTime } from 'rxjs';
+import { PageStateService } from '../../../services/page-state.service';
 
 @Component({
   selector: 'app-student',
@@ -23,9 +24,11 @@ export class StudentComponent implements OnInit {
   searchSubject: Subject<string> = new Subject<string>();
 
   constructor(private recordsService: RecordsService, 
-              private snackbarService: SnackbarService) {}
+              private snackbarService: SnackbarService,
+              private pageStateService: PageStateService,) {}
 
   ngOnInit(): void {
+    this.currentPage = this.pageStateService.getMaterialCurrentPage('students');
     this.fetchRecords();
     this.searchSubject.pipe(
       debounceTime(300)
@@ -52,6 +55,7 @@ export class StudentComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.pageStateService.setMaterialCurrentPage(page, 'students');
     this.fetchRecords();
   }
 
@@ -88,6 +92,8 @@ export class StudentComponent implements OnInit {
 
   clearLogType() {
     this.searchTerm = '';
+    this.currentPage = 1;
+    this.pageStateService.setMaterialCurrentPage(this.currentPage, 'students');
     this.fetchRecords();
   }
 }

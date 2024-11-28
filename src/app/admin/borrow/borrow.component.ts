@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BorrowService } from '../../../services/borrow.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { PageStateService } from '../../../services/page-state.service';
 
 @Component({
   selector: 'app-borrow',
@@ -24,9 +25,12 @@ export class BorrowComponent implements OnInit {
   sortField: string = 'date_added';
   sortOrder: string = 'DESC';
 
-  constructor(private borrowService: BorrowService) {}
+  constructor(
+    private borrowService: BorrowService,
+    private pageStateService: PageStateService) {}
 
   ngOnInit() {
+    this.currentPage = this.pageStateService.getMaterialCurrentPage('borrow');
     this.loadMaterials();
     this.searchTerms.pipe(
       debounceTime(300),
@@ -130,6 +134,7 @@ export class BorrowComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.pageStateService.setMaterialCurrentPage(page, 'borrow');
     this.loadMaterials();
   }
 
@@ -170,6 +175,7 @@ export class BorrowComponent implements OnInit {
     this.searchTerm = '';
     this.category = '';
     this.currentPage = 1;
+    this.pageStateService.setMaterialCurrentPage(this.currentPage, 'borrow');
     this.categoryPlaceholder = 'Choose category';
     this.sortField = 'date_added';
     this.sortOrder = 'DESC';
