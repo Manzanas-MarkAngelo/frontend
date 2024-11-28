@@ -13,6 +13,7 @@ export class PageStateService {
   private facultyPageSource = new BehaviorSubject<number>(1);
   private visitorPageSource = new BehaviorSubject<number>(1);
   private employeePageSource = new BehaviorSubject<number>(1);
+  private searchBookPageSource = new BehaviorSubject<number>(1);
 
   // Observables for external components to subscribe to
   materialPage$ = this.materialPageSource.asObservable();
@@ -22,6 +23,7 @@ export class PageStateService {
   facultyPage$ = this.facultyPageSource.asObservable();
   visitorPage$ = this.visitorPageSource.asObservable();
   employeePage$ = this.employeePageSource.asObservable();
+  searchBookPage$ = this.searchBookPageSource.asObservable();
 
   // Set the current page for a specific table
   setMaterialCurrentPage(page: number, table: string): void {
@@ -46,6 +48,9 @@ export class PageStateService {
         break;
       case 'employee':
         this.employeePageSource.next(page);
+      case 'searchBook':
+        this.searchBookPageSource.next(page);
+        break;
         break;
       default:
         console.error(`Unknown table: ${table}`);
@@ -69,6 +74,8 @@ export class PageStateService {
         return this.visitorPageSource.getValue();
       case 'employee':
         return this.employeePageSource.getValue();
+      case 'searchBook':
+        return this.searchBookPageSource.getValue();
       default:
         return 1; // Default value
     }
