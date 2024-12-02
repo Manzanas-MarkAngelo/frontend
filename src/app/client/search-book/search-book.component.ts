@@ -5,6 +5,7 @@ import { ClientSnackbarComponent } from '../client-snackbar/client-snackbar.comp
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PageStateService } from '../../../services/page-state.service';
 
 @Component({
   selector: 'app-search-book',
@@ -56,10 +57,13 @@ export class SearchBookComponent implements OnInit {
     private bookRequestService: BookRequestService,
     private router: Router,
     private route: ActivatedRoute,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private pageStateService: PageStateService
   ) {}
 
   ngOnInit() {
+    this.currentPage = this.pageStateService
+        .getMaterialCurrentPage('searchBook');
     this.loadMaterials();
     this.loadCategories();
     this.route.queryParams.subscribe(params => {
@@ -169,6 +173,7 @@ export class SearchBookComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.pageStateService.setMaterialCurrentPage(page, 'searchBook');
     this.loadMaterials();
   }
 
@@ -209,6 +214,8 @@ export class SearchBookComponent implements OnInit {
     this.searchTerm = '';
     this.category = '';
     this.currentPage = 1;
+    this.pageStateService
+        .setMaterialCurrentPage(this.currentPage, 'searchBook');
     this.categoryPlaceholder = 'Choose category';
     this.sortField = 'date_added';
     this.sortOrder = 'DESC';

@@ -3,6 +3,7 @@ import { MaterialsService } from '../../../services/materials.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { PageStateService } from '../../../services/page-state.service';
 
 @Component({
   selector: 'app-books',
@@ -42,10 +43,13 @@ export class BooksComponent implements OnInit {
 
   constructor(
     private materialsService: MaterialsService, 
-    private router: Router
+    private router: Router,
+    private pageStateService: PageStateService,
   ) {}
 
   ngOnInit() {
+    this.currentPage = this.pageStateService
+        .getMaterialCurrentPage('materialsSuperAdmin');
     this.loadMaterials(); 
     this.loadCategories(); 
 
@@ -298,6 +302,7 @@ export class BooksComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.pageStateService.setMaterialCurrentPage(page, 'materialsSuperAdmin');
     this.loadMaterials();
   }
 
@@ -382,6 +387,8 @@ export class BooksComponent implements OnInit {
     this.searchTerm = '';
     this.category = '';
     this.currentPage = 1;
+    this.pageStateService
+        .setMaterialCurrentPage(this.currentPage, 'materialsSuperAdmin');
     this.selectedMaterialIds = [];
     this.categoryPlaceholder = 'Choose category';
     this.sortField = 'date_added';

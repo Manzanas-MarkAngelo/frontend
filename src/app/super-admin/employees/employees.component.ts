@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RecordsService } from '../../../services/records.service';
 import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 import { Subject, debounceTime } from 'rxjs';
+import { PageStateService } from '../../../services/page-state.service';
 
 @Component({
   selector: 'app-employees',
@@ -23,9 +24,12 @@ export class EmployeesComponent implements OnInit {
   searchTerm: string = '';
   searchSubject: Subject<string> = new Subject<string>();
 
-  constructor(private recordsService: RecordsService) {}
+  constructor(private recordsService: RecordsService,
+              private pageStateService: PageStateService
+  ) {}
 
   ngOnInit(): void {
+    this.currentPage = this.pageStateService.getMaterialCurrentPage('employee');
     this.fetchRecords();
 
     this.searchSubject.pipe(debounceTime(300)).subscribe(term => {
@@ -85,11 +89,14 @@ export class EmployeesComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.pageStateService.setMaterialCurrentPage(page, 'employee');
     this.fetchRecords();
   }
 
   clearLogType() {
     this.searchTerm = '';
+    this.currentPage = 1;
+    this.pageStateService.setMaterialCurrentPage(this.currentPage, 'employee');
     this.fetchRecords();
   }
 }

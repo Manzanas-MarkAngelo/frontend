@@ -20,6 +20,7 @@ export class MaterialsEditComponent implements OnInit {
   subjectSearchTerm = '';
   filteredSubjects: any[] = [];
   subjects: { id: number, subject_name: string }[] = [];
+  currentPage;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +38,7 @@ export class MaterialsEditComponent implements OnInit {
       }));
 
       const accnum = this.route.snapshot.paramMap.get('accnum');
+       this.currentPage = this.route.snapshot.paramMap.get('currentPage');
       if (accnum) {
         this.materialsService.getMaterialDetails(accnum).subscribe(data => {
           this.material = data;
