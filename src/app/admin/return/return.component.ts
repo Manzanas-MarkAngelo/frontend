@@ -16,6 +16,8 @@ export class ReturnComponent implements OnInit {
 
   items: any[] = [];
   filteredItems: any[] = [];
+  overdueItems: any[] = [];
+  allNotifiedToday = false;
   paginatedItems: any[] = [];
   selectedItem: any;
   itemsPerPage: number = 10;
@@ -59,7 +61,7 @@ export class ReturnComponent implements OnInit {
 
   fetchBorrowingData(): void {
     this.isLoading = true;
-    
+
     this.returnService.getBorrowingData(
       this.dateFrom, 
       this.dateTo, 
@@ -102,16 +104,67 @@ export class ReturnComponent implements OnInit {
   
         return 0;
       });
+      this.overdueItems = this.items.filter(item => 
+        item.remarks !== 'Returned' && item.remarks !== 'Returned Late' && !item.isNotifiedToday
+      );
   
+      this.overdueItems = this.items.filter(item =>
+        item.remarks !== 'Returned' && item.remarks !== 'Returned Late' && !item.isNotifiedToday
+      );
+  
+      this.allNotifiedToday = this.overdueItems.length === 0;
+      
       this.filteredItems = this.items;
       this.totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
       this.paginateItems();
       this.isLoading = false;
+  
     }, error => {
       console.error('Error fetching data', error);
       this.isLoading = false;
     });
   }
+
+  remindAll(): void {
+    if (this.overdueItems.length > 0) {
+      this.isSending = true;
+      let allNotified = true;
+  
+      this.overdueItems.forEach((item, index) => {
+        this.emailService.sendPenaltyNotification(item.user_id, item.material_id).subscribe({
+          next: (response) => {
+            if (response.status === 'success') {
+              item.isNotifiedToday = true;
+            } else {
+              this.snackbar.showMessage(`Failed to send notification for ${item.name}.`);
+              allNotified = false;
+            }
+          },
+          error: (err) => {
+            this.snackbar.showMessage(`Error sending notification for ${item.name}. Please try again.`);
+            allNotified = false;
+          },
+          complete: () => {
+            if (index === this.overdueItems.length - 1) {
+              this.isSending = false;
+  
+              if (allNotified) {
+                this.snackbar.showMessage('Notifications sent to all overdue users.');
+                this.allNotifiedToday = true;
+  
+                this.returnService.updateLastNotifiedDate().subscribe(() => {
+                });
+              } else {
+                this.snackbar.showMessage('Some notifications failed. Please check.');
+              }
+            }
+          }
+        });
+      });
+    } else {
+      this.snackbar.showMessage('No overdue items to remind.');
+    }
+  }  
 
   openConfirmationModal(item: any): void {
     this.selectedItem = item;
