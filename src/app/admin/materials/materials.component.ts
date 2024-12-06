@@ -5,6 +5,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
 import { PageStateService } from '../../../services/page-state.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-materials',
@@ -43,16 +44,19 @@ export class MaterialsComponent implements OnInit {
   paginatedTitles: string[][] = [];
   currentTitlePage: number = 1;
   totalTitlePages: number = 1;
+  analyticsData: any = {}
 
   constructor(
     private materialsService: MaterialsService, 
     private router: Router,
     private route: ActivatedRoute,
-    private pageStateService: PageStateService
+    private pageStateService: PageStateService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit() {
     this.currentPage = this.pageStateService.getMaterialCurrentPage('materials');
+    this.loadAnalytics();
     
     this.loadMaterials(); 
     this.loadCategories(); 
@@ -72,6 +76,17 @@ export class MaterialsComponent implements OnInit {
     this.itemsPerPage = event.target.value;
     this.currentPage = 1;
     this.loadMaterials();
+  }
+
+  loadAnalytics() {
+    this.analyticsService.getAnalyticsData().subscribe(
+      (data) => {
+        this.analyticsData = data;
+      },
+      (error) => {
+        console.error('Error fetching analytics data', error)
+      }
+    );
   }
 
   toggleMaterialSelection(material: any) {

@@ -109,7 +109,7 @@
           <span class="text-start text-2xl font-normal text-black mb-3">
             Total Programs:
           </span>
-          <span class="text-primary text-2xl font-medium"> sample 123 </span>
+          <span class="text-primary text-2xl font-medium"> {{ courseCount }} </span>
           <div class="divider my-0"></div>
           <span class="text-start text-2xl font-medium text-primary mb-3">
             Add new program
@@ -128,6 +128,7 @@
                       id="program"
                       name="program"
                       type="text"
+                      [(ngModel)]="courseData.course_program"
                       class="flex-grow w-full block rounded border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
                       placeholder="Program (e.g. Bachelor of Science in Psychology)"
                     />
@@ -136,7 +137,8 @@
                     <input
                       id="abbrev"
                       name="abbrev"
-                      type="number"
+                      type="text"
+                      [(ngModel)]="courseData.course_abbreviation"
                       class="flex-grow w-full mt-1 block rounded border border-gray-300 px-6 py-2 focus:ring-opacity-50 text-lg"
                       placeholder="Abbreviation (e.g. BSIT)"
                     />
@@ -153,7 +155,7 @@
                   <button
                     type="submit"
                     class="w-1/2 bg-secondary text-black px-4 py-3 rounded font-medium mb-2 lg:mb-0"
-                    routerLink="/add-course"
+                    (click)="addCourse()"
                   >
                     Continue
                   </button>
@@ -212,3 +214,4 @@
 </div>
 
 <app-snackbar-delete />
+<app-snackbar/>
