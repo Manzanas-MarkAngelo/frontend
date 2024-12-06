@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './environments/local-environment';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class ReportsService {
@@ -28,4 +29,16 @@ export class ReportsService {
   getDepartments(): Observable<any> {
     return this.http.get<any>(this.departmentsApiUrl);
   }
+
+// Updated method to fetch subjects with an optional categoryid filter
+getSubjects(categoryid?: number): Observable<any> {
+  let params = new HttpParams();
+  
+  if (categoryid !== undefined && categoryid !== null) {
+    params = params.set('categoryid', categoryid.toString());
+  }
+
+  return this.http.get<any>(this.departmentsApiUrl, { params });
+}
+
 }

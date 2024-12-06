@@ -70,7 +70,7 @@ if (!empty($program)) {
     }
 }
 
-// Step 2: Update the SQL query to include filters
+// Step 2: Update the SQL query to handle multiple categories
 $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno, m.status, m.isbn, m.date_added, c.mat_type, 
                s.subject_name 
         FROM materials m
@@ -78,40 +78,35 @@ $sql = "SELECT m.id, m.accnum, m.title, m.author, m.subj, m.copyright, m.callno,
         LEFT JOIN subjects s ON m.subject_id = s.id 
         WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
 
+$params = [$search, $search, $search, $search, $search, $search, $search];
+$types = str_repeat('s', count($params));
+
 if (!empty($category)) {
-    $sql .= " AND m.accnum LIKE ?";
+    $categoryArray = explode(',', $category);
+    $placeholders = implode(',', array_fill(0, count($categoryArray), '?'));
+    $sql .= " AND c.accession_no IN ($placeholders)";
+    $params = array_merge($params, $categoryArray);
+    $types .= str_repeat('s', count($categoryArray));
 }
 
 if (!empty($subjectId)) {
-    // Step 3: Apply the subject_id filter based on the program
     $sql .= " AND m.subject_id = ?";
+    $params[] = $subjectId;
+    $types .= 'i';
 }
 
-if ($sortField === 'categoryid') {
-    $sql .= " ORDER BY c.mat_type $sortOrder, m.id $sortOrder";
-} else {
-    $sql .= " ORDER BY $sortField $sortOrder";
-}
+$sql .= " ORDER BY $sortField $sortOrder LIMIT ? OFFSET ?";
+$params[] = $limit;
+$params[] = $offset;
+$types .= 'ii';
 
-$sql .= " LIMIT ? OFFSET ?";
-
+// Prepare and bind parameters
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die('Prepare failed: ' . htmlspecialchars($conn->error));
 }
 
-// Step 4: Bind the parameters for the filters
-$params = [$search, $search, $search, $search, $search, $search, $search];
-if (!empty($category)) {
-    $params[] = '%' . $category . '%';
-}
-if (!empty($subjectId)) {
-    $params[] = $subjectId;  // Use the subject ID instead of the program name
-}
-$types = str_repeat('s', count($params));
-$bindParams = array_merge($params, [$limit, $offset]);
-$types .= 'ii';
-$stmt->bind_param($types, ...$bindParams);
+$stmt->bind_param($types, ...$params);
 
 $stmt->execute();
 $result = $stmt->get_result();
@@ -120,26 +115,29 @@ if (!$result) {
     die('Execute failed: ' . htmlspecialchars($stmt->error));
 }
 
-$materials = array();
+$materials = [];
 while ($row = $result->fetch_assoc()) {
-    $materials[] = $row; // Now includes subject_name
+    $materials[] = $row;
 }
 
 // Count total items for pagination
 $total_sql = "SELECT COUNT(*) as count FROM materials m
               LEFT JOIN category c ON m.categoryid = c.cat_id
               WHERE (m.accnum LIKE ? OR m.title LIKE ? OR m.author LIKE ? OR m.subj LIKE ? OR m.copyright LIKE ? OR m.callno LIKE ? OR m.status LIKE ?)";
-              
 $total_params = [$search, $search, $search, $search, $search, $search, $search];
+$total_types = str_repeat('s', count($total_params));
+
 if (!empty($category)) {
-    $total_sql .= " AND m.accnum LIKE ?";
-    $total_params[] = '%' . $category . '%';
+    $total_sql .= " AND c.mat_type IN ($placeholders)";
+    $total_params = array_merge($total_params, $categoryArray);
+    $total_types .= str_repeat('s', count($categoryArray));
 }
+
 if (!empty($subjectId)) {
     $total_sql .= " AND m.subject_id = ?";
-    $total_params[] = $subjectId;  // Use the subject ID
+    $total_params[] = $subjectId;
+    $total_types .= 'i';
 }
-$total_types = str_repeat('s', count($total_params));
 
 $total_stmt = $conn->prepare($total_sql);
 if (!$total_stmt) {
@@ -147,18 +145,17 @@ if (!$total_stmt) {
 }
 
 $total_stmt->bind_param($total_types, ...$total_params);
-
 $total_stmt->execute();
 $total_result = $total_stmt->get_result();
 $total_row = $total_result->fetch_assoc();
 $total_items = $total_row['count'];
 
-$response = array(
+$response = [
     'data' => $materials,
     'totalItems' => $total_items,
     'currentPage' => $page,
     'totalPages' => ceil($total_items / $limit)
-);
+];
 
 echo json_encode($response);
 
