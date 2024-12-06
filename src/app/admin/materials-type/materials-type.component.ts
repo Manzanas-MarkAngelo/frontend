@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { MaterialsService } from '../../../services/materials.service';
 import { Router } from '@angular/router';
+import { AddMaterialService } from '../../../services/add-material.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-materials-type',
@@ -23,10 +25,24 @@ export class MaterialsTypeComponent implements OnInit {
   totalMaterials = 0;
   totalPages: number = 0;
 
-  constructor(private location: Location, private materialsService: MaterialsService, private router: Router) {}
+  classname: string = '';
+  type: boolean = false;
+  accnum: string = '';
+  duration: number = 0;
+  isSubmitting: boolean = false;
+  analyticsData: any = {}
+
+
+  constructor(private location: Location, 
+              private materialsService: MaterialsService, 
+              private router: Router,
+              private addMaterialService: AddMaterialService,
+              private analyticsService: AnalyticsService, 
+  ) {}
 
   ngOnInit(): void {
     this.getCategories();
+    this.loadAnalytics();
   }
 
   getCategories(): void {
@@ -43,6 +59,47 @@ export class MaterialsTypeComponent implements OnInit {
       }
     );
   }
+
+  loadAnalytics() {
+    this.analyticsService.getAnalyticsData().subscribe(
+      (data) => {
+        this.analyticsData = data;
+      },
+      (error) => {
+        console.error('Error fetching analytics data', error)
+      }
+    );
+  }
+
+  addMaterialType(): void {
+    if (this.isSubmitting) {
+      return;
+    }
+  
+    this.isSubmitting = true;
+    const categoryDetails = {
+      mat_type: this.classname,
+      cat_type: this.type ? 'Special case' : 'Normal',
+      accession_no: this.accnum,
+      duration: this.duration || null,
+    };
+  
+    this.addMaterialService.addCategory(categoryDetails).subscribe(
+      response => {
+        this.isSubmitting = false;
+        this.snackBarMessage = 'Material type added successfully!';
+        this.snackBarVisible = true;
+        this.getCategories(); // Refresh the categories list
+      },
+      error => {
+        console.error('Error adding material type', error);
+        this.isSubmitting = false;
+        this.snackBarMessage = 'Failed to add material type. Please try again.';
+        this.snackBarVisible = true;
+      }
+    );
+  }
+  
 
   calculateTotalCount(): void {
     this.totalCount = this.categories.reduce((total, material) => {

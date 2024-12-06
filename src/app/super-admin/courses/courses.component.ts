@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CourseService } from '../../../services/course.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-courses',
@@ -10,10 +11,13 @@ import { Location } from '@angular/common';
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
   courses: any[] = [];
   showModal: boolean = false;
   selectedCourse: any;
   private previousPage: string | null = null;
+  courseData: any = { course_program: '', course_abbreviation: '' };
+  courseCount: number = 0;
 
   constructor(
     private courseService: CourseService,
@@ -35,9 +39,21 @@ export class CoursesComponent implements OnInit {
     this.location.back();
   }
 
+  addCourse(): void {
+    this.courseService.addCourse(this.courseData).subscribe(response => {
+      if (response.success) {
+        this.snackbar.showMessage('Program added successfully');
+        this.loadCourses();
+      } else {
+        this.snackbar.showMessage('Failed to add Program');
+      }
+    });
+  }
+
   loadCourses(): void {
     this.courseService.getCourses().subscribe(data => {
       this.courses = data;
+      this.courseCount = this.courses.length;
     });
   }
 

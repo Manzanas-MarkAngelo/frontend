@@ -3,6 +3,7 @@ import { RecordsService } from '../../../services/records.service';
 import { EmailService } from '../../../services/email.service';
 import { Subject, debounceTime } from 'rxjs';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-records',
@@ -21,15 +22,21 @@ export class RecordsComponent implements OnInit {
   searchTerm: string = '';
   searchSubject: Subject<string> = new Subject<string>();
   isSending = false;
+  analyticsData: any = {}
+  totalEmployee: any;
 
   selectAllChecked: boolean = false;
 
   @ViewChild(SnackbarComponent) snackbar: SnackbarComponent;
 
-  constructor(private recordsService: RecordsService, private emailService: EmailService) { }
+  constructor(private recordsService: RecordsService, 
+              private emailService: EmailService,
+              private analyticsService: AnalyticsService          
+  ) { }
 
   ngOnInit(): void {
     this.setLogType('student');
+    this.loadAnalytics();
     
     this.searchSubject.pipe(
       debounceTime(300)
@@ -37,6 +44,21 @@ export class RecordsComponent implements OnInit {
       this.searchTerm = term;
       this.fetchCurrentTypeData();
     });
+  }
+
+  loadAnalytics() {
+    this.analyticsService.getAnalyticsData().subscribe(
+      (data) => {
+        this.analyticsData = data;
+        console.log(data);
+        this.totalEmployee = data.user_type_counts['pupt-employee'];
+        console.log('emp:' + this.totalEmployee)
+
+      },
+      (error) => {
+        console.error('Error fetching analytics data', error)
+      }
+    );
   }
 
   onItemsPerPageChange(event: any) {

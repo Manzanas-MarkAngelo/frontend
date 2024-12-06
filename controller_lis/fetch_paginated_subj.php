@@ -16,7 +16,7 @@ ini_set('display_errors', 1);
 
 // Fetch parameters from the query
 $page = isset($_GET['page']) ? intval($_GET['page']) : null;
-$limit = 7;  // Set the number of items per page for pagination
+$limit = 5;  // Set the number of items per page for pagination
 
 // If page parameter is set, apply pagination
 if ($page !== null) {

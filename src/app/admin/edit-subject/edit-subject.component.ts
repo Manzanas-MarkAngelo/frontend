@@ -50,7 +50,7 @@ export class EditSubjectComponent implements OnInit, AfterViewInit {
         if (response.success) {
           this.snackbar?.showMessage('Subject updated successfully');
           setTimeout(() => {
-            this.router.navigate(['/materials-add']);
+            this.router.navigate(['/subjects-add']);
           }, 1000);
         } else {
           this.snackbar?.showMessage('Failed to update Subject');

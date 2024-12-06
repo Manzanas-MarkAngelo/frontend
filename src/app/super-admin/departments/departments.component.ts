@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DepartmentService } from '../../../services/department.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { Location } from '@angular/common';
+import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-departments',
@@ -9,9 +10,15 @@ import { Location } from '@angular/common';
   styleUrls: ['./departments.component.css']
 })
 export class DepartmentsComponent implements OnInit {
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+
   departments: any[] = [];
   showModal: boolean = false;
   selectedDepartment: any;
+  departmentData = { dept_program: '', dept_abbreviation: '' };
+  snackBarVisible: boolean = true;
+  snackBarMessage: string = '';
+  departmentCount: number = 0;
 
   constructor(
     private departmentService: DepartmentService,
@@ -30,8 +37,10 @@ export class DepartmentsComponent implements OnInit {
   loadDepartments(): void {
     this.departmentService.getDepartments().subscribe(data => {
       this.departments = data;
+      this.departmentCount = this.departments.length;
     });
   }
+  
 
   openConfirmModal(department: any): void {
     this.selectedDepartment = department;
@@ -40,6 +49,19 @@ export class DepartmentsComponent implements OnInit {
 
   closeConfirmModal(): void {
     this.showModal = false;
+  }
+
+  // Function to handle the form submission
+  addDepartment(): void {
+    this.departmentService.addDepartment(this.departmentData).subscribe(response => {
+      if (response.success) {
+        this.snackbar.showMessage('Department added successfully');
+        this.loadDepartments(); // Reload departments after adding
+        this.departmentData = { dept_program: '', dept_abbreviation: '' }; // Reset form
+      } else {
+        this.snackbar.showMessage('Failed to add Department');
+      }
+    });
   }
 
   deleteDepartment(): void {
