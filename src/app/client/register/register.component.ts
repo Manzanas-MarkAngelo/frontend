@@ -109,7 +109,7 @@ export class RegisterComponent implements OnInit {
   }
 
   validateStudentNumber(): boolean {
-    const studentNumberPattern = /^\d{4}-\d{5}-TG-0$/;
+    const studentNumberPattern = /^\d{4}-\d{5}-TG-[01]$/;
     if (!this.studentNumber.match(studentNumberPattern)) {
       this.isStudentNumberValid = false;
       this.studentNumberError = 'Invalid student number format.';
@@ -118,7 +118,7 @@ export class RegisterComponent implements OnInit {
     this.isStudentNumberValid = true;
     this.studentNumberError = '';
     return true;
-  }
+  }  
 
   validateEmpNumber(): boolean {
     const empNumberPattern = /^FA\d{4}TG\d{4}$/;
