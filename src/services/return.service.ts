@@ -10,6 +10,7 @@ export class ReturnService {
   private borrowingDataUrl = `${environment.apiUrl}/fetch_borrowing_data.php`;
   private returnBookUrl = `${environment.apiUrl}/return_book.php`;
   private generatePenaltyUrl = `${environment.apiUrl}/generate_penalty.php`;
+  private updateLastNotifiedUrl = `${environment.apiUrl}/return_book.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -35,6 +36,9 @@ export class ReturnService {
     return this.http.get<any>(this.borrowingDataUrl, { params });
   }
   
+  updateLastNotifiedDate(): Observable<any> {
+    return this.http.post<any>(this.updateLastNotifiedUrl, { updateLastNotifiedDate: true });
+  }
 
   searchBorrowingData(term: string, page: number, limit: number, dateFrom?: string | null, dateTo?: string | null): Observable<any> {
     let params = new HttpParams()
