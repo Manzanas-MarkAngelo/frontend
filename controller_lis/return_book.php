@@ -12,6 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
+
+if (isset($data['updateLastNotifiedDate']) && $data['updateLastNotifiedDate'] === true) {
+    $today = date('Y-m-d');
+    $sql = "UPDATE borrowing SET last_notified_at = ? WHERE last_notified_at != ? AND (remark != 'Returned' AND remark != 'Returned Late')";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ss', $today, $today);
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success', 'message' => 'Last notified date updated.']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update last notified date.']);
+    }
+    $stmt->close();
+    $conn->close();
+    exit;
+}
+
 $material_id = $data['material_id'] ?? null;
 
 if ($material_id) {

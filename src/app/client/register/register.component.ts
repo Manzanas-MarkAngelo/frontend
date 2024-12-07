@@ -29,6 +29,10 @@ export class RegisterComponent implements OnInit {
   courses: any[] = [];
   departments: any[] = [];
 
+  isFirstNameValid: boolean = true;
+  isLastNameValid: boolean = true;
+  firstNameError: string = '';
+  lastNameError: string = '';
   isStudentNumberValid: boolean = true;
   studentNumberError: string = '';
   isEmpNumberValid: boolean = true;
@@ -80,8 +84,32 @@ export class RegisterComponent implements OnInit {
       .join(' ');
   }
 
+  validateFirstName(): boolean {
+    const firstNamePattern = /^[A-Za-z]+([-']?[A-Za-z]+)*$/;
+    if (!this.firstName.match(firstNamePattern)) {
+      this.isFirstNameValid = false;
+      this.firstNameError = 'First name is invalid.';
+      return false;
+    }
+    this.isFirstNameValid = true;
+    this.firstNameError = '';
+    return true;
+  }
+  
+  validateLastName(): boolean {
+    const lastNamePattern = /^[A-Za-z]+([-']?[A-Za-z]+)*$/;
+    if (!this.lastName.match(lastNamePattern)) {
+      this.isLastNameValid = false;
+      this.lastNameError = 'Last name is invalid.';
+      return false;
+    }
+    this.isLastNameValid = true;
+    this.lastNameError = '';
+    return true;
+  }
+
   validateStudentNumber(): boolean {
-    const studentNumberPattern = /^\d{4}-\d{5}-TG-0$/;
+    const studentNumberPattern = /^\d{4}-\d{5}-TG-[01]$/;
     if (!this.studentNumber.match(studentNumberPattern)) {
       this.isStudentNumberValid = false;
       this.studentNumberError = 'Invalid student number format.';
@@ -90,7 +118,7 @@ export class RegisterComponent implements OnInit {
     this.isStudentNumberValid = true;
     this.studentNumberError = '';
     return true;
-  }
+  }  
 
   validateEmpNumber(): boolean {
     const empNumberPattern = /^FA\d{4}TG\d{4}$/;
@@ -178,7 +206,11 @@ export class RegisterComponent implements OnInit {
   onFieldInput(field: string) {
     this.fieldErrors[field] = false;
   
-    if (field === 'studentNumber') {
+    if (field === 'firstName') {
+      this.isFirstNameValid = true;
+    } else if (field === 'lastName') {
+      this.isLastNameValid = true;
+    } else if (field === 'studentNumber') {
       this.isStudentNumberValid = true;
       this.isUserExists = false;
     } else if (field === 'empNumber') {
@@ -241,6 +273,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isFirstNameValid = true;
+    this.isLastNameValid = true;
     this.isStudentNumberValid = true;
     this.isEmpNumberValid = true;
     this.isEmpNumValid = true;
@@ -255,6 +289,14 @@ export class RegisterComponent implements OnInit {
     if (!this.validateRequiredFields()) {
       this.hasFormErrors = true;
       return;
+    }
+
+    if (!this.validateFirstName()) {
+      formIsValid = false;
+    }
+
+    if (!this.validateLastName()) {
+      formIsValid = false;
     }
 
     if (this.selectedRole === 'student') {
@@ -335,6 +377,8 @@ export class RegisterComponent implements OnInit {
         if (
           this.isUserExists || 
           this.isContactExists || 
+          !this.isFirstNameValid ||
+          !this.isLastNameValid ||
           (!this.isStudentNumberValid && this.selectedRole === 'student') || 
           (!this.isEmpNumberValid && this.selectedRole === 'faculty') || 
           (!this.isEmpNumValid && this.selectedRole === 'pupt-employee') ||

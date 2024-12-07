@@ -30,55 +30,18 @@
       <div class="flex flex-row flex-wrap">
         <div class="flex flex-row gap-1 slide-in-right mt-1">
           <button
-          type="button"
-          class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
-                hover:bg-[#ffb700] hover:text-black transition duration-300 
-                slide-in-right">
-          Remind all
-        </button>
-
-          <!-- <div class="dropdown dropdown-bottom slide-in-right">
-            <div
-              tabindex="0"
-              role="button"
-              class="btn w-auto mb-1 mx-2 bg-secondary border-none text-black 
-                     text-base hover:bg-[#ffb700] rounded">
-              {{this.selectedRemark || 'Remarks'}}
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
-              viewBox="0 0 24 24" 
-              stroke-width="2" 
-              stroke="currentColor" 
-              class="size-6 mt-0.5">
-                <path stroke-linecap="round" 
-                      stroke-linejoin="round" 
-                      d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-              </svg>
-            </div>
-            <ul
-              tabindex="0"
-              class="dropdown-content menu bg-secondary rounded z-[1] w-52 
-                     p-2 shadow text-base font-medium text-black">
-              <li>
-                <a (click)="onRemarkSelected('In Progress')">In Progress</a>
-              </li>
-              <li>
-                <a (click)="onRemarkSelected('Returned')">Returned</a>
-              </li>
-              <li>
-                <a (click)="onRemarkSelected('Returned Late')">Returned Late</a>
-              </li>
-              <li>
-                <a (click)="onRemarkSelected('Processing')">Processing</a>
-              </li>
-              <li>
-                <a (click)="onRemarkSelected('Overdue')">Overdue</a>
-              </li>
-              <li>
-                <a (click)="onRemarkSelected('')">Show All</a>
-              </li>
-            </ul>
-          </div> -->
-
+            type="button"
+            class="h-[3rem] text-primary rounded px-4 font-medium 
+                  transition duration-300 slide-in-right"
+            (click)="remindAll()"
+            [disabled]="allNotifiedToday || isSending"
+            [ngClass]="{
+              'bg-gray-400 cursor-not-allowed': allNotifiedToday || isSending,
+              'bg-white hover:bg-[#ffb700] hover:text-black': !(allNotifiedToday || isSending)
+            }"
+          >
+            Remind all
+          </button>
           <div class="dropdown dropdown-hover">
             <div tabindex="0" role="button" class="btn text-black 
             bg-secondary hover:bg-[#ffb700] shadow-none px-4
@@ -243,50 +206,6 @@
                       >
                         Penalty
                       </button>
-                
-                      <div class="relative group">
-                        <button 
-                          class="ml-1" 
-                          [ngClass]="{
-                            'text-red-600 cursor-pointer': !item.isNotifiedToday,
-                            'text-gray-400 cursor-default': item.isNotifiedToday
-                          }"
-                          [disabled]="item.isNotifiedToday"
-                          (click)="!item.isNotifiedToday && sendNotification(item)">
-                          <svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            fill="none" 
-                            viewBox="0 0 24 24" 
-                            stroke-width="1.5"
-                            stroke="currentColor" 
-                            class="w-6 h-6"
-                          >
-                            <path 
-                              stroke-linecap="round" 
-                              stroke-linejoin="round"
-                              d="M14.857 17.082a23.848 23.848 0 0 0 
-                                 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 
-                                 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 
-                                 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 
-                                 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 
-                                 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 
-                                 8.969 0 0 1 2.168 4.5" 
-                            />
-                          </svg>
-                        </button>
-                
-                        <div 
-                          class="absolute bottom-full left-0 transform 
-                                 translate-x-[-70%] mb-2 w-max px-2 py-1 
-                                 rounded-md bg-gray-700 text-white text-xs 
-                                 opacity-0 group-hover:opacity-100 
-                                 transition-opacity duration-300">
-                          {{ item.isNotifiedToday 
-                            ? 'Borrower Notified' 
-                            : 'Notify Borrower' 
-                          }}
-                        </div>
-                      </div>
                     </div>
                   } @else if (item.remarks === 'Processing') {
                     <button 
