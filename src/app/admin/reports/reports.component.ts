@@ -23,11 +23,12 @@ export class ReportsComponent implements OnInit {
   inventoryPlaceholder: string = 'Inventory';
   categoryPlaceholder: string = 'Material type';
   programPlaceholder: string = 'Subject';
+  categoryIdSubjFilter;
   selectedRemark: string = '';
   category: string = '';
   programs: string[] = [];
   isLoading: boolean = false;
-  categories: { mat_type: string, accession_no: string }[] = [];
+  categories: { mat_type: string, accession_no: string, cat_id }[] = [];
   showInitialDisplay: boolean = true;
   totalItems: number = 0;
   dateFrom: string | null = null;
@@ -66,7 +67,8 @@ export class ReportsComponent implements OnInit {
       data => {
         this.categories = data.map((category: any) => ({
           mat_type: category.mat_type,
-          accession_no: category.accession_no
+          accession_no: category.accession_no,
+          cat_id: category.cat_id
         }));
       },
       error => {
@@ -76,7 +78,7 @@ export class ReportsComponent implements OnInit {
   }
 
   fetchPrograms() {
-    this.reportsService.getDepartments().subscribe(
+    this.reportsService.getSubjects(this.categoryIdSubjFilter).subscribe(
       data => {
         this.programs = data.map((program: any) => program.subject_name);
         this.filteredPrograms = [...this.programs];
@@ -86,6 +88,7 @@ export class ReportsComponent implements OnInit {
       }
     );
   }
+  
 
     toggleProgramDropdown() {
       this.isProgramDropdownOpen = !this.isProgramDropdownOpen;
@@ -93,6 +96,7 @@ export class ReportsComponent implements OnInit {
   
     selectProgram(program: string) {
       this.programPlaceholder = program;
+      console.log(this.programPlaceholder);
       this.isProgramDropdownOpen = false;
       this.programValue = program;
       
@@ -109,9 +113,15 @@ export class ReportsComponent implements OnInit {
   }
 
   CategoryPlaceholder(value: string) {
+    this.programPlaceholder = 'Subject';
     this.categoryPlaceholder = value;
+    this.categoryIdSubjFilter = this.mapCategoryToCategoryId(value);
+    this.fetchPrograms();
     this.categoryPDFDIsplay = this.categoryPlaceholder;
     this.category = this.mapCategoryToAccessionNumber(value);
+    console.log(`ID: ${this.categoryIdSubjFilter}`);
+    console.log(`Name: ${this.categoryPlaceholder}`);
+     console.log(`ACCNUM: ${this.category}`);
   }
 
   mapCategoryToAccessionNumber(selectedType: string): string {
@@ -120,6 +130,14 @@ export class ReportsComponent implements OnInit {
     }
     const matchedCategory = this.categories.find(cat => cat.mat_type === selectedType);
     return matchedCategory ? matchedCategory.accession_no : '';
+  }
+
+  mapCategoryToCategoryId(selectedType: string): string {
+    if (selectedType === 'All') {
+      return '';
+    }
+    const matchedCategory = this.categories.find(cat => cat.mat_type === selectedType);
+    return matchedCategory ? matchedCategory.cat_id : '';
   }
 
   ProgramPlaceholder(value: string) {
