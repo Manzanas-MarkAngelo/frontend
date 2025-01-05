@@ -187,16 +187,6 @@ try {
         throw new Exception('Error fetching total time outs.');
     }
 
-    // SQL query to count the total number of borrowers (rows in borrowing table)
-    $sql_total_borrowers = "SELECT COUNT(*) as total_borrowers FROM borrowing";
-    $result_total_borrowers = $conn->query($sql_total_borrowers);
-      
-    if ($result_total_borrowers) {
-        $response['total_borrowers'] = $result_total_borrowers->fetch_assoc()['total_borrowers'];
-    } else {
-        throw new Exception('Error fetching total borrowers.');
-    }
-
     // Send the final combined response
     echo json_encode($response);
 

@@ -14,9 +14,9 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   currentPage: number = 1;
   totalPages: number = 1;
   analyticsData: any = {}
+  totalEmployee: any;
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
   public scrollDirection: 'right' | 'left' = 'right';
-
 
   constructor(private bookRequestService: BookRequestService, 
               private analyticsService: AnalyticsService) {}
@@ -62,6 +62,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     this.analyticsService.getAnalyticsData().subscribe(
       (data) => {
         this.analyticsData = data;
+        this.totalEmployee = data.user_type_counts['pupt-employee'];
       },
       (error) => {
         console.error('Error fetching analytics data', error)
