@@ -62,7 +62,7 @@
         </div>
         <div class="tooltip tooltip-bottom" data-tip="Records">
           <a
-            routerLink="/records"
+            [routerLink]="['/records', 'student']"
             routerLinkActive="active-link"
             class="btn btn-ghost rounded-none">
             <a class="text-lg text-white">Records</a>
@@ -169,7 +169,7 @@
               Reports</a>
           </li>
           <li class="block lg:hidden">
-            <a class="font-bold" routerLink="/records">
+            <a class="font-bold" [routerLink]="['/records', 'student']">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
               viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
               class="size-5">

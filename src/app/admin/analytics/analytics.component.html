@@ -29,17 +29,18 @@
     </div>
     <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
                 cursor-pointer"
-         routerLink="/records">
+        [routerLink]="['/records', 'student']">
       <div class="card-body">
-        <h2 class="card-title text-black">Students:</h2>
+        <h2 class="card-title text-black">Student:</h2>
         <p class="font-bold text-4xl text-gray-950">
           {{ analyticsData.user_type_counts.student || 0 }}
         </p>
       </div>
     </div>
+
     <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
                 cursor-pointer"
-         routerLink="/records">
+         [routerLink]="['/records', 'faculty']">
       <div class="card-body">
         <h2 class="card-title text-black">Faculty:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -50,7 +51,7 @@
 
     <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
                 cursor-pointer"
-         routerLink="/records">
+         [routerLink]="['/records', 'pupt-employee']">
       <div class="card-body">
         <h2 class="card-title text-black">Employee:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -61,7 +62,7 @@
     
     <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
                 cursor-pointer"
-         routerLink="/records">
+         [routerLink]="['/records', 'visitor']">
       <div class="card-body">
         <h2 class="card-title text-black">Visitors:</h2>
         <p class="font-bold text-4xl text-gray-950">

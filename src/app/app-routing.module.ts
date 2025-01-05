@@ -146,6 +146,7 @@ const routes: Routes = [
   { path: 'add-type-warning', component: AddTypeWarningComponent, canActivate: [AuthGuardService] },
   { path: 'add-type-success', component: AddTypeSuccessComponent, canActivate: [AuthGuardService] },
   { path: 'records', component: RecordsComponent, canActivate: [AuthGuardService] },
+  { path: 'records/:role', component: RecordsComponent, canActivate: [AuthGuardService] },
   { path: 'reports', component: ReportsComponent, canActivate: [AuthGuardService] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'super-admin-profile', component: SuperAdminProfileComponent, canActivate: [AuthGuardService] },

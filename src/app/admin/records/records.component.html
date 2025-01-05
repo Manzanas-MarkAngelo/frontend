@@ -1,15 +1,15 @@
 <div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5 pb-0">
   <ul>
     <li><a routerLink="/analytics">Home</a></li>
-    <li><a routerLink="/records">Records</a></li>
+    <li><a [routerLink]="['/records', 'student']">Records</a></li>
     @if (currentLogType === 'pupt-employee') {
-      <li><a routerLink="/records">Employees</a></li>
+      <li><a [routerLink]="['/records', 'pupt-employee']">Employees</a></li>
     } @else if (currentLogType === 'faculty') {
-      <li><a routerLink="/records">Faculty</a></li>
+      <li><a [routerLink]="['/records', 'faculty']">Faculty</a></li>
     } @else if (currentLogType === 'visitor') {
-      <li><a routerLink="/records">Visitors</a></li>
+      <li><a [routerLink]="['/records', 'visitor']">Visitors</a></li>
     } @else {
-      <li><a routerLink="/records">Students</a></li>
+      <li><a [routerLink]="['/records', 'student']">Students</a></li>
     }
   </ul>
 </div>
@@ -26,14 +26,17 @@
           (input)="onSearchChange($event.target.value)"/>
         <button
           type="button"
-          class="h-[3rem] bg-white text-primary rounded px-4 font-medium hover:bg-[#ffb700] hover:text-black transition duration-300"
-          (click)="clearLogType()">
+          class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300"
+          (click)="clearLogType()"
+        >
           Clear
         </button>
         <button
           type="button"
           class="h-[3rem] bg-secondary text-black rounded px-4 font-medium"
-          routerLink="/departments">
+          routerLink="/departments"
+        >
           Departments
         </button>
         <button
@@ -60,15 +63,18 @@
 
         <button
           type="button"
-          class="h-[3rem] bg-white text-primary rounded px-4 font-medium hover:bg-[#ffb700] hover:text-black transition duration-300"
-          (click)="clearLogType()">
+          class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300"
+          (click)="clearLogType()"
+        >
           Clear
         </button>
         <button
           type="button"
           class="h-[3rem] bg-secondary text-black rounded px-4 font-medium"
           [routerLink]="['/courses']" 
-          [queryParams]="{ from: 'student' }">
+          [queryParams]="{ from: 'student' }"
+        >
           Programs
         </button>
       </div>
@@ -83,8 +89,10 @@
   
           <button
             type="button"
-            class="h-[3rem] bg-white text-primary rounded px-4 font-medium hover:bg-[#ffb700] hover:text-black transition duration-300"
-            (click)="clearLogType()">
+            class="h-[3rem] bg-white text-primary rounded px-4 font-medium 
+                   hover:bg-[#ffb700] hover:text-black transition duration-300"
+            (click)="clearLogType()"
+          >
             Clear
           </button>
         </div>
@@ -130,37 +138,44 @@
         [ngClass]="{
           'bg-blue-500 text-white': currentLogType === 'student',
           'bg-secondary text-black': currentLogType !== 'student'
-        }">
+        }"
+        [routerLink]="['/records', 'student']">
         Student
       </button>
       <button
         type="button"
-        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium slide-in-right mt-1"
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium 
+               slide-in-right mt-1"
         (click)="setLogType('faculty')"
         [ngClass]="{
           'bg-blue-500 text-white': currentLogType === 'faculty',
           'bg-secondary text-black': currentLogType !== 'faculty'
-        }">
+        }"
+        [routerLink]="['/records', 'faculty']">
         Faculty
       </button>
       <button
         type="button"
-        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium slide-in-right mt-1"
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium 
+               slide-in-right mt-1"
         (click)="setLogType('visitor')"
         [ngClass]="{
           'bg-blue-500 text-white': currentLogType === 'visitor',
           'bg-secondary text-black': currentLogType !== 'visitor'
-        }">
+        }"
+        [routerLink]="['/records', 'visitor']">
         Visitor
       </button>
       <button
         type="button"
-        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium slide-in-right mt-1"
+        class="h-[3rem] bg-secondary text-black rounded px-4 font-medium 
+               slide-in-right mt-1"
         (click)="setLogType('pupt-employee')"
         [ngClass]="{
           'bg-blue-500 text-white': currentLogType === 'pupt-employee',
           'bg-secondary text-black': currentLogType !== 'pupt-employee'
-        }">
+        }"
+        [routerLink]="['/records', 'pupt-employee']">
         Employee
       </button>
 
@@ -236,7 +251,8 @@
               id="itemsPerPage"
               [(ngModel)]="itemsPerPage"
               (change)="onItemsPerPageChange($event)"
-              class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+              class="bg-secondary text-black border-none shadow-none btn-sm 
+                     rounded font-medium cursor-pointer"
             >
               <option
                 *ngFor="let option of itemsPerPageOptions"
@@ -310,7 +326,8 @@
             id="itemsPerPage"
             [(ngModel)]="itemsPerPage"
             (change)="onItemsPerPageChange($event)"
-            class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+            class="bg-secondary text-black border-none shadow-none btn-sm 
+                   rounded font-medium cursor-pointer"
           >
             <option
               *ngFor="let option of itemsPerPageOptions"
@@ -363,7 +380,8 @@
             id="itemsPerPage"
             [(ngModel)]="itemsPerPage"
             (change)="onItemsPerPageChange($event)"
-            class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+            class="bg-secondary text-black border-none shadow-none btn-sm 
+                   rounded font-medium cursor-pointer"
           >
             <option
               *ngFor="let option of itemsPerPageOptions"
@@ -418,7 +436,8 @@
             id="itemsPerPage"
             [(ngModel)]="itemsPerPage"
             (change)="onItemsPerPageChange($event)"
-            class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+            class="bg-secondary text-black border-none shadow-none btn-sm 
+                   rounded font-medium cursor-pointer"
           >
             <option
               *ngFor="let option of itemsPerPageOptions"
@@ -470,7 +489,8 @@
                 id="itemsPerPage"
                 [(ngModel)]="itemsPerPage"
                 (change)="onItemsPerPageChange($event)"
-                class="bg-secondary text-black border-none shadow-none btn-sm rounded font-medium cursor-pointer"
+                class="bg-secondary text-black border-none shadow-none btn-sm 
+                       rounded font-medium cursor-pointer"
               >
                 <option
                   *ngFor="let option of itemsPerPageOptions"
