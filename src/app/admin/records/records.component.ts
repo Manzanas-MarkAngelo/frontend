@@ -84,11 +84,16 @@ export class RecordsComponent implements OnInit {
 
   setLogType(logType: string) {
     if (logType === 'default') {
-      this.selectedRole = 'student';
+        this.selectedRole = 'student';
     }
 
     this.currentLogType = logType;
     this.currentPage = 1;
+
+    this.logs = [];
+    this.totalPages = 0;
+    this.searchTerm = '';
+
     this.updateSearchPlaceholder(logType);
   }
 
