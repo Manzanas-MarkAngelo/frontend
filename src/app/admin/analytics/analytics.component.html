@@ -126,7 +126,8 @@
         'slide-in-top': isInitialLoad,
         'flip-animation': isCardUpdated('total_departments')
       }"
-      routerLink="/departments">
+      [routerLink]="['/departments']" 
+      [queryParams]="{ from: 'faculty' }">
       <div class="card-body">
         <h2 class="card-title text-black">Departments:</h2>
         <p class="font-bold text-4xl text-gray-950">
