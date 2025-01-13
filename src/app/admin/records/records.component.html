@@ -35,7 +35,8 @@
         <button
           type="button"
           class="h-[3rem] bg-secondary text-black rounded px-4 font-medium"
-          routerLink="/departments"
+          [routerLink]="['/departments']" 
+          [queryParams]="{ from: 'faculty' }"
         >
           Departments
         </button>
