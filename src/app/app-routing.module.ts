@@ -132,6 +132,7 @@ const routes: Routes = [
   { path: 'borrow-success', component: BorrowSuccessComponent, canActivate: [AuthGuardService] },
   { path: 'borrow-info', component: BorrowInfoComponent, canActivate: [AuthGuardService] },
   { path: 'return', component: ReturnComponent, canActivate: [AuthGuardService] },
+  { path: 'return/:type', component: ReturnComponent, canActivate: [AuthGuardService] },
   { path: 'return-success', component: ReturnSuccessComponent, canActivate: [AuthGuardService] },
   { path: 'return-warning/:material_id', component: ReturnWarningComponent, canActivate: [AuthGuardService] },
   { path: 'materials', component: MaterialsComponent, canActivate: [AuthGuardService] },
