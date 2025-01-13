@@ -22,7 +22,11 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   totalEmployee: any;
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
   public scrollDirection: 'right' | 'left' = 'right';
-  constructor(private bookRequestService: BookRequestService, private analyticsService: AnalyticsService) {}
+
+  constructor(
+    private bookRequestService: BookRequestService, 
+    private analyticsService: AnalyticsService
+  ) {}
 
   ngOnInit(): void {
     this.loadRequests();

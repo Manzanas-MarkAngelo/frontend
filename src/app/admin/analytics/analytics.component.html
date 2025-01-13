@@ -163,13 +163,11 @@
 
     <!-- Daily Time-ins Card -->
     <div 
-      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5"
       [ngClass]="{
         'slide-in-top': isInitialLoad,
         'flip-animation': isCardUpdated('total_time_ins')
-      }"
-      routerLink="/user-record">
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top">
+      }">
       <div class="card-body">
         <h2 class="card-title text-black">Daily Time-ins:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -180,12 +178,11 @@
 
     <!-- Daily Time-outs Card -->
     <div 
-      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5"
       [ngClass]="{
         'slide-in-top': isInitialLoad,
         'flip-animation': isCardUpdated('total_time_outs')
-      }"
-      routerLink="/user-record">
+      }">
       <div class="card-body">
         <h2 class="card-title text-black">Daily Time-outs:</h2>
         <p class="font-bold text-4xl text-gray-950">
