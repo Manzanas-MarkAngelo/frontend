@@ -148,6 +148,7 @@ import { EditSubjectComponent } from './admin/edit-subject/edit-subject.componen
 import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/super-admin-profile.component';
 import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.component';
 import { LibraryClosedComponent } from './client/library-closed/library-closed.component';
+import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-admin-home.component';
 
 
 @NgModule({
@@ -259,6 +260,7 @@ import { LibraryClosedComponent } from './client/library-closed/library-closed.c
     SuperAdminProfileComponent,
     SubjectsAddComponent,
     LibraryClosedComponent,
+    SuperAdminHomeComponent,
 
   ],
   imports: [

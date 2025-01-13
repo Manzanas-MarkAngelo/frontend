@@ -98,6 +98,7 @@ import { EditSubjectComponent } from './admin/edit-subject/edit-subject.componen
 import path from 'path';
 import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.component';
 import { LibraryClosedComponent } from './client/library-closed/library-closed.component';
+import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-admin-home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -125,6 +126,8 @@ const routes: Routes = [
   { path: 'timein-already', component: TimeinAlreadyComponent },
   { path: 'subjects-add', component: SubjectsAddComponent },
   { path: 'library-closed', component: LibraryClosedComponent },
+  { path: 'super-admin-home', component: SuperAdminHomeComponent },
+  
 
 
    //*Admin

@@ -90,7 +90,7 @@ export class AdministratorComponent {
 
         if (response.role === 'admin') {
           this.adminService.setRole('admin');
-          this.router.navigate(['/analytics']);  
+          this.router.navigate(['/super-admin-home']);  
         } else if (response.role === 'librarian') {
           this.adminService.setRole('librarian');
           this.router.navigate(['/analytics']);

@@ -1,15 +1,22 @@
 <div class="w-full flex flex-wrap flex-row">
+  <!-- Left Section -->
   <div class="w-full md:w-1/2 bg-primary">
     <div class="flex flex-col">
-      <app-time/>
-      <app-top-ten-user-timein/>
+      <app-time></app-time>
+      <app-top-ten-user-timein></app-top-ten-user-timein>
     </div>
   </div>
 
+  <!-- Right Section: Analytics Cards -->
   <div class="flex flex-row w-full md:w-1/2 justify-center flex-wrap bg-primary">
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-         routerLink="/materials">
+    <!-- Materials Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('total_materials')
+      }"
+      routerLink="/materials">
       <div class="card-body">
         <h2 class="card-title text-black">Materials:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -17,19 +24,31 @@
         </p>
       </div>
     </div>
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-         routerLink="/materials-type">
+
+    <!-- Material Type Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('total_categories')
+      }"
+      routerLink="/materials-type">
       <div class="card-body">
         <h2 class="card-title text-black">Material Type:</h2>
         <p class="font-bold text-4xl text-gray-950">
-            {{ analyticsData.total_categories || 0 }}
+          {{ analyticsData.total_categories || 0 }}
         </p>
       </div>
     </div>
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-        [routerLink]="['/records', 'student']">
+
+    <!-- Students Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('user_type_counts.student')
+      }"
+     [routerLink]="['/records', 'student']">
       <div class="card-body">
         <h2 class="card-title text-black">Student:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -38,9 +57,15 @@
       </div>
     </div>
 
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-         [routerLink]="['/records', 'faculty']">
+
+    <!-- Faculty Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('user_type_counts.faculty')
+      }"
+      [routerLink]="['/records', 'faculty']">
       <div class="card-body">
         <h2 class="card-title text-black">Faculty:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -60,9 +85,15 @@
       </div>
     </div>
     
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-         [routerLink]="['/records', 'visitor']">
+
+    <!-- Visitors Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('user_type_counts.visitor')
+      }"
+      [routerLink]="['/records', 'visitor']">
       <div class="card-body">
         <h2 class="card-title text-black">Visitors:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -70,10 +101,16 @@
         </p>
       </div>
     </div>
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-         [routerLink]="['/courses']" 
-         [queryParams]="{ from: 'student' }">
+
+    <!-- Programs Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('total_programs')
+      }"
+      [routerLink]="['/courses']" 
+      [queryParams]="{ from: 'student' }">
       <div class="card-body">
         <h2 class="card-title text-black">Programs:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -81,9 +118,15 @@
         </p>
       </div>
     </div>
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-         routerLink="/departments">
+
+    <!-- Departments Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('total_departments')
+      }"
+      routerLink="/departments">
       <div class="card-body">
         <h2 class="card-title text-black">Departments:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -97,20 +140,35 @@
       <div class="card-body">
         <h2 class="card-title text-black">Charged Materials:</h2>
         <p class="font-bold text-4xl text-gray-950">
-          {{ analyticsData.total_charged }}
+          {{ analyticsData.total_charged || 0 }}
         </p>
       </div>
     </div>
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top 
-                cursor-pointer"
-         [routerLink]="['/return', 'overdue materials']">
+
+    <!-- Overdue Materials Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('total_overdue')
+      }"
+      [routerLink]="['/return', 'overdue materials']">
       <div class="card-body">
         <h2 class="card-title text-black">Overdue Materials:</h2>
         <p class="font-bold text-4xl text-gray-950">
-          {{ analyticsData.total_overdue }}
+          {{ analyticsData.total_overdue || 0 }}
         </p>
       </div>
     </div>
+
+    <!-- Daily Time-ins Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('total_time_ins')
+      }"
+      routerLink="/user-record">
     <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top">
       <div class="card-body">
         <h2 class="card-title text-black">Daily Time-ins:</h2>
@@ -119,7 +177,15 @@
         </p>
       </div>
     </div>
-    <div class="card rounded bg-white w-60 h-36 shadow-xl m-5 slide-in-top">
+
+    <!-- Daily Time-outs Card -->
+    <div 
+      class="card rounded bg-white w-60 h-36 shadow-xl m-5 cursor-pointer"
+      [ngClass]="{
+        'slide-in-top': isInitialLoad,
+        'flip-animation': isCardUpdated('total_time_outs')
+      }"
+      routerLink="/user-record">
       <div class="card-body">
         <h2 class="card-title text-black">Daily Time-outs:</h2>
         <p class="font-bold text-4xl text-gray-950">
@@ -129,6 +195,8 @@
     </div>
   </div>
 </div>
+
+
 
 <div class="grid grid-cols-2 gap-1 bg-primary pb-[13px]">
   <app-monthly-category-donut></app-monthly-category-donut>
