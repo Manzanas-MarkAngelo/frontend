@@ -155,7 +155,7 @@ try {
     }
 
     // SQL query to count rows in the BORROWING table with remark = "Overdue"
-    $sql_total_charged = "SELECT COUNT(*) as total_overdue FROM borrowing WHERE remark = 'Overdue'";
+    $sql_total_charged = "SELECT COUNT(*) as total_overdue FROM borrowing WHERE remark = 'Overdue' OR remark = 'Processing'";
     $result_total_charged = $conn->query($sql_total_charged);
  
     if ($result_total_charged) {
