@@ -136,8 +136,11 @@ export class ReturnComponent implements OnInit {
         return 0;
       });
       this.overdueItems = this.items.filter(item =>
-        item.remarks !== 'Returned' && item.remarks !== 'Returned Late' && !item.isNotifiedToday
-      );
+        item.remarks !== 'Returned' &&
+        item.remarks !== 'Returned Late' &&
+        item.remarks !== 'In Progress' &&
+        !item.isNotifiedToday
+      );      
   
       this.allNotifiedToday = this.overdueItems.length === 0;
 
