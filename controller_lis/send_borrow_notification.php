@@ -25,7 +25,11 @@ $attempt = 0;
 $borrowing = null;
 
 while ($attempt < $maxAttempts) {
-    $borrowingQuery = "SELECT claim_date, due_date FROM borrowing WHERE user_id = '$userId' AND material_id = '$materialId'";
+    $borrowingQuery = "SELECT claim_date, due_date 
+                       FROM borrowing 
+                       WHERE user_id = '$userId' AND material_id = '$materialId'
+                       ORDER BY claim_date DESC
+                       LIMIT 1";
     $borrowingResult = mysqli_query($conn, $borrowingQuery);
 
     if ($borrowingResult && mysqli_num_rows($borrowingResult) > 0) {
