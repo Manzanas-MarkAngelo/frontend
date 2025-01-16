@@ -21,7 +21,8 @@ $currentTime = date('H:i:s');
 
 $autoTimeoutQueryPrevDays = "
     UPDATE time_log 
-    SET time_out = CONCAT(DATE(time_in), ' 20:00:00') 
+    SET time_out = CONCAT(DATE(time_in), ' 20:00:00'), 
+        remark = 'System Generated Timeout'
     WHERE time_out IS NULL 
     AND DATE(time_in) < ?";
 
@@ -43,7 +44,8 @@ $stmtTimeoutPrevDays->close();
 if ($currentTime >= '20:00:00') {
     $autoTimeoutQueryToday = "
         UPDATE time_log 
-        SET time_out = CONCAT(DATE(time_in), ' 20:00:00') 
+        SET time_out = CONCAT(DATE(time_in), ' 20:00:00'),
+            remark = 'System Generated Timeout'
         WHERE time_out IS NULL 
         AND DATE(time_in) = ?";
 
