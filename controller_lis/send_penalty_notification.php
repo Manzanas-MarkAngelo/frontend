@@ -12,7 +12,6 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-// Validate input
 if (!isset($data['user_id']) || !isset($data['material_id'])) {
     error_log("Invalid request: missing user_id or material_id");
     echo json_encode(['status' => 'error', 'message' => 'Invalid request: missing user_id or material_id']);
@@ -22,7 +21,6 @@ if (!isset($data['user_id']) || !isset($data['material_id'])) {
 $userId = mysqli_real_escape_string($conn, $data['user_id']);
 $materialId = mysqli_real_escape_string($conn, $data['material_id']);
 
-// Fetch borrowing record
 $borrowingQuery = "
     SELECT claim_date, due_date, return_date 
     FROM borrowing 
@@ -42,7 +40,6 @@ if (!$borrowingResult || mysqli_num_rows($borrowingResult) === 0) {
 
 $borrowing = mysqli_fetch_assoc($borrowingResult);
 
-// Fetch material details
 $materialQuery = "SELECT title, author FROM materials WHERE id = '$materialId'";
 $materialResult = mysqli_query($conn, $materialQuery);
 
@@ -54,7 +51,6 @@ if (!$materialResult || mysqli_num_rows($materialResult) === 0) {
 
 $material = mysqli_fetch_assoc($materialResult);
 
-// Fetch borrower details
 $borrower = null;
 $studentQuery = "SELECT email, first_name, surname FROM students WHERE user_id = '$userId'";
 $facultyQuery = "SELECT email, first_name, surname FROM faculty WHERE user_id = '$userId'";
@@ -81,11 +77,27 @@ if (!$borrower) {
     exit;
 }
 
-// Calculate penalty
+$excludedDatesSql = "SELECT date FROM excluded_days";
+$excludedDatesResult = mysqli_query($conn, $excludedDatesSql);
+$excludedDates = [];
+while ($excludedRow = mysqli_fetch_assoc($excludedDatesResult)) {
+    $excludedDates[] = $excludedRow['date'];
+}
+
 $dueDate = new DateTime($borrowing['due_date']);
 $today = new DateTime();
-$daysLate = max($dueDate->diff($today)->days, 0);
-$penaltyAmount = $daysLate * 10; // P10 per day late
+$daysLate = 0;
+$currentDate = clone $dueDate;
+
+while ($currentDate <= $today) {
+    $formattedDate = $currentDate->format('Y-m-d');
+    if ($currentDate->format('N') != 7 && !in_array($formattedDate, $excludedDates)) {
+        $daysLate++;
+    }
+    $currentDate->modify('+1 day');
+}
+
+$penaltyAmount = $daysLate * 10;
 
 $mail = new PHPMailer(true);
 
