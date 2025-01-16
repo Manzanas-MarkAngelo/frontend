@@ -51,7 +51,6 @@ export class RecordsService {
     return this.http.post<any>(this.logsUrl, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
-      tap(response => console.log('RECORDS SERVICE RESPONSE', response)), // Log the response
       catchError(this.handleError)
     );
   }
