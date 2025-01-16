@@ -28,7 +28,7 @@ if ($user_id === null) {
 
 $time_out = date('Y-m-d H:i:s');
 
-$query = "UPDATE time_log SET time_out = ? WHERE user_id = ? AND time_out IS NULL";
+$query = "UPDATE time_log SET time_out = ?, remark = 'On Time' WHERE user_id = ? AND time_out IS NULL";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     echo json_encode(['success' => false, 'error' => $conn->error]);

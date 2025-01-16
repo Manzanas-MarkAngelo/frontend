@@ -60,7 +60,8 @@ switch ($logType) {
                          CONCAT(s.surname, ', ', s.first_name) as name, 
                          t.time_in, 
                          t.time_out, 
-                         c.course_abbreviation AS course 
+                         c.course_abbreviation AS course,
+                         t.remark
                   FROM students s 
                   JOIN time_log t ON s.user_id = t.user_id 
                   LEFT JOIN courses c ON s.course_id = c.id
@@ -78,7 +79,8 @@ switch ($logType) {
                          CONCAT(f.surname, ', ', f.first_name) as name, 
                          t.time_in, 
                          t.time_out, 
-                         d.dept_abbreviation AS department
+                         d.dept_abbreviation AS department,
+                         t.remark
                   FROM faculty f 
                   JOIN time_log t ON f.user_id = t.user_id 
                   LEFT JOIN departments d ON f.dept_id = d.id
@@ -95,7 +97,8 @@ switch ($logType) {
         $query = "SELECT CONCAT(v.surname, ', ', v.first_name) as name, 
                          v.school, 
                          t.time_in, 
-                         t.time_out 
+                         t.time_out,
+                         t.remark 
                   FROM visitor v 
                   JOIN time_log t ON v.user_id = t.user_id 
                   WHERE 1=1 $whereClause $searchCondition
@@ -110,7 +113,8 @@ switch ($logType) {
         $query = "SELECT e.emp_num AS employee_number, 
                          CONCAT(e.surname, ', ', e.first_name) as name, 
                          t.time_in, 
-                         t.time_out 
+                         t.time_out,
+                         t.remark 
                   FROM pupt_employees e 
                   JOIN time_log t ON e.user_id = t.user_id 
                   WHERE 1=1 $whereClause $searchCondition
@@ -142,6 +146,7 @@ if ($result->num_rows > 0) {
         if ($row['time_out']) {
             $row['time_out'] = date('F j, Y, g:i A', strtotime($row['time_out']));
         }
+        $row['remarks'] = $row['remarks'] ?? 'N/A';
         $logs[] = $row;
     }
 }
