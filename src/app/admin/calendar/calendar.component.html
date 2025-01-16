@@ -1,0 +1,165 @@
+<div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
+  <ul>
+    <li><a routerLink="/analytics">Home</a></li>
+    <li><a [routerLink]="['/return']">Return</a></li>
+    <li><a [routerLink]="['/calendar']">Calendar</a></li>
+  </ul>
+</div>
+<div class="flex flex-col w-full px-2 sm:px-7 md:px-16 bg-primary mx-auto 
+            justify-center items-center pt-8">
+  <div class="p-4 bg-white text-black rounded w-9/12 sm:w-8/12 md:w-7/12 
+              overflow-x-auto slide-in-right mb-1">
+    <div class="bg-blue-100 p-4 rounded-lg mb-6 w-full">
+      <h3 class="text-lg font-semibold">Manage Excluded Days</h3>
+      <p class="text-base text-gray-900">
+        Use this calendar to mark specific dates (e.g., holidays, non-class days) 
+        to be excluded from penalties. Simply select the days you want to exclude 
+        and click the "Exclude Selected Days" button.
+      </p>
+      <p class="text-base text-gray-900 mt-2">
+        <strong>Note:</strong> 
+        If you want to remove an excluded date, click the "✘" button next to 
+        the excluded date to confirm its removal from the exclusion list.
+      </p>
+    </div>
+  
+    <div class="flex justify-between items-center mb-4 relative w-full">
+      <button class="text-base font-bold" (click)="navigateMonth('prev')">
+        🡸
+      </button>
+      <div class="flex items-center">
+        <h2 class="text-2xl font-bold mr-2">
+          {{ currentMonth }} {{ selectedYear }}
+        </h2>
+        <select
+          [(ngModel)]="selectedYear"
+          (change)="onYearChange()"
+          class="p-0.5 bg-white rounded-md border"
+        >
+          <option *ngFor="let year of availableYears" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+      <button class="text-base font-bold" (click)="navigateMonth('next')">
+        🡺
+      </button>
+    </div>
+    
+    <div class="grid grid-cols-7 gap-2 mb-4 w-full">
+      <div class="font-bold text-center text-gray-700">SUN</div>
+      <div class="font-bold text-center text-gray-700">MON</div>
+      <div class="font-bold text-center text-gray-700">TUE</div>
+      <div class="font-bold text-center text-gray-700">WED</div>
+      <div class="font-bold text-center text-gray-700">THU</div>
+      <div class="font-bold text-center text-gray-700">FRI</div>
+      <div class="font-bold text-center text-gray-700">SAT</div>
+    
+      <ng-container *ngFor="let day of calendarDates">
+        <button
+          *ngIf="day.date"
+          class="p-2 border rounded relative"
+          [ngClass]="{
+            'bg-red-500 text-white': day.isSunday,
+            'bg-green-500 text-white': selectedDates.has(day.date),
+            'bg-gray-100': !selectedDates.has(day.date) && !day.isSunday,
+            'hover:bg-gray-200': !day.isSunday && !selectedDates.has(day.date) && !isExcluded(day.date),
+            'bg-gray-400': isExcluded(day.date)
+          }"
+          (click)="toggleDateSelection(day.date)"
+          [disabled]="day.isSunday || isExcluded(day.date)"
+        >
+          {{ day.day }}
+          <button 
+            *ngIf="isExcluded(day.date)"
+            class="absolute top-0 right-0 text-red-600 font-bold text-base p-1"
+            (click)="openRemoveDateModal(day.date)"
+            title="Remove date from exclusion"
+          >
+            ✘
+          </button>
+        </button>
+        <div *ngIf="!day.date" class="p-2"></div>
+      </ng-container>       
+    </div>
+
+    <div class="mt-4 text-center">
+      <button
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        (click)="confirmExclusion()"
+      >
+        Exclude Selected Days
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showConfirmationModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 
+            bg-opacity-50 z-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Confirm Exclusion
+    </h2>
+    <div class="text-center mb-4">
+      <p class="text-lg">Are you sure you want to exclude the selected dates?</p>
+      <div *ngIf="formattedDatesToExclude.length > 0" class="mt-3">
+        <ul class="text-lg">
+          <li *ngFor="let date of formattedDatesToExclude">{{ date }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex flex-row gap-4 w-full mt-4">
+      <button
+        (click)="onCancelExclusion()"
+        class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
+               hover:bg-[#ffb700] hover:text-black transition duration-300"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="onConfirmExclusion()"
+        class="flex-1 bg-secondary text-black px-6 py-3 rounded font-medium 
+               hover:bg-[#801e1d] hover:text-white transition duration-300"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</div>
+  
+<div *ngIf="showRemoveConfirmationModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 
+            bg-opacity-50 z-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Confirm Removal
+    </h2>
+    <div class="text-center mb-4">
+      <p class="text-lg">
+        Are you sure you want to remove this date from exclusion?
+      </p>
+      <div *ngIf="dateToRemove" class="mt-3">
+        <p class="text-lg">{{ dateToRemove | date:'MMMM d, yyyy' }}</p>
+      </div>
+    </div>
+    <div class="flex flex-row gap-4 w-full mt-4">
+      <button
+        (click)="onCancelRemoveDate()"
+        class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
+               hover:bg-[#ffb700] hover:text-black transition duration-300"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="onConfirmRemoveDate()"
+        class="flex-1 bg-secondary text-black px-6 py-3 rounded font-medium 
+               hover:bg-[#801e1d] hover:text-white transition duration-300"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-snackbar></app-snackbar>

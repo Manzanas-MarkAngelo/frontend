@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { RecordsService } from '../../../services/records.service';
 import { EmailService } from '../../../services/email.service';
 import { Subject, debounceTime } from 'rxjs';
@@ -29,13 +30,22 @@ export class RecordsComponent implements OnInit {
 
   @ViewChild(SnackbarComponent) snackbar: SnackbarComponent;
 
-  constructor(private recordsService: RecordsService, 
-              private emailService: EmailService,
-              private analyticsService: AnalyticsService          
+  constructor(
+    private recordsService: RecordsService,
+    private emailService: EmailService,
+    private analyticsService: AnalyticsService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.setLogType('student');
+    this.route.paramMap.subscribe(params => {
+      const role = params.get('role');
+      if (role) {
+        this.setLogType(role);
+      } else {
+        this.setLogType('student');
+      }
+    });
     this.loadAnalytics();
     
     this.searchSubject.pipe(
@@ -50,13 +60,10 @@ export class RecordsComponent implements OnInit {
     this.analyticsService.getAnalyticsData().subscribe(
       (data) => {
         this.analyticsData = data;
-        console.log(data);
         this.totalEmployee = data.user_type_counts['pupt-employee'];
-        console.log('emp:' + this.totalEmployee)
-
       },
       (error) => {
-        console.error('Error fetching analytics data', error)
+        console.error('Error fetching analytics data', error);
       }
     );
   }
@@ -77,11 +84,16 @@ export class RecordsComponent implements OnInit {
 
   setLogType(logType: string) {
     if (logType === 'default') {
-      this.selectedRole = 'student';
+        this.selectedRole = 'student';
     }
 
     this.currentLogType = logType;
     this.currentPage = 1;
+
+    this.logs = [];
+    this.totalPages = 0;
+    this.searchTerm = '';
+
     this.updateSearchPlaceholder(logType);
   }
 

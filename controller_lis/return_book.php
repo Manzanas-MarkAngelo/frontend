@@ -15,7 +15,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data['updateLastNotifiedDate']) && $data['updateLastNotifiedDate'] === true) {
     $today = date('Y-m-d');
-    $sql = "UPDATE borrowing SET last_notified_at = ? WHERE last_notified_at != ? AND (remark != 'Returned' AND remark != 'Returned Late')";
+    $sql = "UPDATE borrowing SET last_notified_at = ? WHERE last_notified_at != ? AND (remark = 'Overdue' OR remark = 'Processing')";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ss', $today, $today);
     if ($stmt->execute()) {

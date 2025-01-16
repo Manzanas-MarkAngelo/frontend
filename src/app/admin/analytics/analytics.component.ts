@@ -19,10 +19,14 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   previousAnalyticsData: any = {};
   updatedCards: Set<string> = new Set();
 
+  totalEmployee: any;
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
   public scrollDirection: 'right' | 'left' = 'right';
 
-  constructor(private bookRequestService: BookRequestService, private analyticsService: AnalyticsService) {}
+  constructor(
+    private bookRequestService: BookRequestService, 
+    private analyticsService: AnalyticsService
+  ) {}
 
   ngOnInit(): void {
     this.loadRequests();
@@ -73,6 +77,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
         this.checkUpdatedCards(data, this.analyticsData);
         this.previousAnalyticsData = { ...this.analyticsData };
         this.analyticsData = data;
+        this.totalEmployee = data.user_type_counts['pupt-employee'];
       },
       (error) => {
         console.error('Error fetching analytics data', error);

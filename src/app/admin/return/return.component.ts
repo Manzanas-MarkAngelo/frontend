@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { EmailService } from '../../../services/email.service';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-return',
@@ -34,15 +35,45 @@ export class ReturnComponent implements OnInit {
   selectedRemark: string = '';
   isSending: boolean = false;
   showConfirmationModal: boolean = false;
+  remarksFilter: string[] = [];
 
   constructor(
     private returnService: ReturnService,
     private pdfPenaltyReceiptService: PdfPenaltyReceiptService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.fetchBorrowingData();
+    this.activatedRoute.paramMap.subscribe(params => {
+      const type = params.get('type');
+      
+      if (type === 'overdue materials') {
+        this.remarksFilter = ['Overdue', 'Processing'];
+      } else if (type === 'charged materials') {
+        this.remarksFilter = ['In Progress', 'Overdue', 'Processing'];
+      } else {
+        this.remarksFilter = [];
+      }
+
+      this.fetchBorrowingData();
+
+      if (type) {
+        this.router.navigate([], {
+          queryParams: {},
+          replaceUrl: true
+        });
+      }
+    });
+
+    this.activatedRoute.queryParamMap.subscribe(queryParams => {
+      const remarkFilter = queryParams.get('remark');
+      if (remarkFilter) {
+        this.remarksFilter = [remarkFilter];
+        this.fetchBorrowingData();
+      }
+    });
 
     this.searchTerms.pipe(
       debounceTime(300),
@@ -104,17 +135,19 @@ export class ReturnComponent implements OnInit {
   
         return 0;
       });
-      this.overdueItems = this.items.filter(item => 
-        item.remarks !== 'Returned' && item.remarks !== 'Returned Late' && !item.isNotifiedToday
-      );
-  
       this.overdueItems = this.items.filter(item =>
-        item.remarks !== 'Returned' && item.remarks !== 'Returned Late' && !item.isNotifiedToday
-      );
+        item.remarks !== 'Returned' &&
+        item.remarks !== 'Returned Late' &&
+        item.remarks !== 'In Progress' &&
+        !item.isNotifiedToday
+      );      
   
       this.allNotifiedToday = this.overdueItems.length === 0;
+
+      this.filteredItems = this.items.filter(item => 
+        this.remarksFilter.length === 0 || this.remarksFilter.includes(item.remarks)
+      );
       
-      this.filteredItems = this.items;
       this.totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
       this.paginateItems();
       this.isLoading = false;
@@ -192,6 +225,26 @@ export class ReturnComponent implements OnInit {
 
   onRemarkSelected(remark: string): void {
     this.selectedRemark = remark;
+    
+    if (remark === 'In Progress') {
+      this.remarksFilter = ['In Progress'];
+    } else if (remark === 'Returned') {
+      this.remarksFilter = ['Returned'];
+    } else if (remark === 'Returned Late') {
+      this.remarksFilter = ['Returned Late'];
+    } else if (remark === 'Processing') {
+      this.remarksFilter = ['Processing'];
+    } else if (remark === 'Overdue') {
+      this.remarksFilter = ['Overdue'];
+    } else {
+      this.remarksFilter = [];
+    }
+  
+    this.router.navigate([`/return`], {
+      queryParams: { remark: remark },
+      replaceUrl: true
+    });
+  
     this.fetchBorrowingData();
   }
 
@@ -239,7 +292,13 @@ export class ReturnComponent implements OnInit {
   clearSearch(): void {
     this.searchTerm = '';
     this.selectedRemark = '';
-    this.filterItems();
+    this.remarksFilter = [];
+  
+    this.router.navigate(['/return'], {
+      queryParams: {},
+      replaceUrl: true
+    });
+  
     this.fetchBorrowingData();
   }
 

@@ -44,8 +44,30 @@ if ($material_id) {
 
         $due_date = new DateTime($row['due_date']);
         $return_date = new DateTime($row['return_date'] ?? 'now');
-        $days_late = max($due_date->diff($return_date)->days, 0);
 
+        // Fetch excluded dates (e.g., holidays or manually excluded dates)
+        $excluded_dates_sql = "SELECT date FROM excluded_days";
+        $excluded_dates_result = $conn->query($excluded_dates_sql);
+        $excluded_dates = [];
+        while ($excluded_row = $excluded_dates_result->fetch_assoc()) {
+            $excluded_dates[] = $excluded_row['date'];
+        }
+
+        // Compute days late, excluding Sundays and other excluded dates
+        $days_late = 0;
+        $current_date = clone $due_date;
+
+        // Loop through dates between due_date and return_date, excluding Sundays and excluded dates
+        while ($current_date <= $return_date) {
+            $formatted_date = $current_date->format('Y-m-d');
+            // Skip Sundays and excluded dates
+            if ($current_date->format('N') != 7 && !in_array($formatted_date, $excluded_dates)) {
+                $days_late++;
+            }
+            $current_date->modify('+1 day');
+        }
+
+        // Calculate the penalty amount
         $amount_due = $days_late * 10;
 
         if ($days_late === 0) {

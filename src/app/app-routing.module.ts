@@ -99,6 +99,7 @@ import path from 'path';
 import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.component';
 import { LibraryClosedComponent } from './client/library-closed/library-closed.component';
 import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-admin-home.component';
+import { CalendarComponent } from './admin/calendar/calendar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
@@ -135,8 +136,10 @@ const routes: Routes = [
   { path: 'borrow-success', component: BorrowSuccessComponent, canActivate: [AuthGuardService] },
   { path: 'borrow-info', component: BorrowInfoComponent, canActivate: [AuthGuardService] },
   { path: 'return', component: ReturnComponent, canActivate: [AuthGuardService] },
+  { path: 'return/:type', component: ReturnComponent, canActivate: [AuthGuardService] },
   { path: 'return-success', component: ReturnSuccessComponent, canActivate: [AuthGuardService] },
   { path: 'return-warning/:material_id', component: ReturnWarningComponent, canActivate: [AuthGuardService] },
+  { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuardService] },
   { path: 'materials', component: MaterialsComponent, canActivate: [AuthGuardService] },
   { path: 'materials-edit/:accnum', component: MaterialsEditComponent, canActivate: [AuthGuardService] },
   { path: 'materials-warning', component: MaterialsWarningComponent, canActivate: [AuthGuardService] },
@@ -149,6 +152,7 @@ const routes: Routes = [
   { path: 'add-type-warning', component: AddTypeWarningComponent, canActivate: [AuthGuardService] },
   { path: 'add-type-success', component: AddTypeSuccessComponent, canActivate: [AuthGuardService] },
   { path: 'records', component: RecordsComponent, canActivate: [AuthGuardService] },
+  { path: 'records/:role', component: RecordsComponent, canActivate: [AuthGuardService] },
   { path: 'reports', component: ReportsComponent, canActivate: [AuthGuardService] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'super-admin-profile', component: SuperAdminProfileComponent, canActivate: [AuthGuardService] },

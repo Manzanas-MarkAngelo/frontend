@@ -149,6 +149,8 @@ import { SuperAdminProfileComponent } from './super-admin/super-admin-profile/su
 import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.component';
 import { LibraryClosedComponent } from './client/library-closed/library-closed.component';
 import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-admin-home.component';
+import { CalendarComponent } from './admin/calendar/calendar.component';
+import { ExcludeDaysService } from '../services/exclude-days.service';
 
 
 @NgModule({
@@ -261,6 +263,7 @@ import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-ad
     SubjectsAddComponent,
     LibraryClosedComponent,
     SuperAdminHomeComponent,
+    CalendarComponent,
 
   ],
   imports: [
@@ -306,6 +309,7 @@ import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-ad
     PdfReportEmployeesService,
     ExcelReportEmployeesService,
     SuperAdminService,
+    ExcludeDaysService,
   ],
   bootstrap: [AppComponent]
 })

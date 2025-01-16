@@ -1,8 +1,8 @@
 <div class="breadcrumbs text-lg text-white bg-primary px-36 pt-5">
   <ul>
     <li><a routerLink="/analytics">Home</a></li>
-    <li><a routerLink="/records">Records</a></li>
-    <li><a routerLink="/records">Students</a></li>
+    <li><a [routerLink]="['/records', 'student']">Records</a></li>
+    <li><a [routerLink]="['/records', 'student']">Students</a></li>
     <li><a [routerLink]="['/courses']" [queryParams]="{ from: 'student' }">
       Programs</a></li>
   </ul>

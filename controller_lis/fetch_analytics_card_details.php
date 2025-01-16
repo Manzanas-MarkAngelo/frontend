@@ -21,7 +21,8 @@ $currentTime = date('H:i:s');
 
 $autoTimeoutQueryPrevDays = "
     UPDATE time_log 
-    SET time_out = CONCAT(DATE(time_in), ' 20:00:00') 
+    SET time_out = CONCAT(DATE(time_in), ' 20:00:00'), 
+        remark = 'System Generated Timeout'
     WHERE time_out IS NULL 
     AND DATE(time_in) < ?";
 
@@ -43,7 +44,8 @@ $stmtTimeoutPrevDays->close();
 if ($currentTime >= '20:00:00') {
     $autoTimeoutQueryToday = "
         UPDATE time_log 
-        SET time_out = CONCAT(DATE(time_in), ' 20:00:00') 
+        SET time_out = CONCAT(DATE(time_in), ' 20:00:00'),
+            remark = 'System Generated Timeout'
         WHERE time_out IS NULL 
         AND DATE(time_in) = ?";
 
@@ -155,7 +157,7 @@ try {
     }
 
     // SQL query to count rows in the BORROWING table with remark = "Overdue"
-    $sql_total_charged = "SELECT COUNT(*) as total_overdue FROM borrowing WHERE remark = 'Overdue'";
+    $sql_total_charged = "SELECT COUNT(*) as total_overdue FROM borrowing WHERE remark = 'Overdue' OR remark = 'Processing'";
     $result_total_charged = $conn->query($sql_total_charged);
  
     if ($result_total_charged) {
@@ -185,16 +187,6 @@ try {
         $response['total_time_outs'] = $result_total_time_outs->fetch_assoc()['total_time_outs'];
     } else {
         throw new Exception('Error fetching total time outs.');
-    }
-
-    // SQL query to count the total number of borrowers (rows in borrowing table)
-    $sql_total_borrowers = "SELECT COUNT(*) as total_borrowers FROM borrowing";
-    $result_total_borrowers = $conn->query($sql_total_borrowers);
-      
-    if ($result_total_borrowers) {
-        $response['total_borrowers'] = $result_total_borrowers->fetch_assoc()['total_borrowers'];
-    } else {
-        throw new Exception('Error fetching total borrowers.');
     }
 
     // Send the final combined response
