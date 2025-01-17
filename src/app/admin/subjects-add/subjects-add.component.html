@@ -102,14 +102,48 @@
             </button>
             <button
               type="button"
-              (click)="addSubject()"
+              (click)="openConfirmModalAddSubject()"
               class="w-1/2 bg-secondary text-black px-4 py-3 rounded 
-                     font-medium mb-2 lg:mb-0">
+                     font-medium mb-2 lg:mb-0"
+              [ngClass]="{
+                'bg-secondary text-black hover:bg-[#801e1d] hover:text-white': isFormValid(),
+                'bg-gray-300 text-gray-500 cursor-not-allowed': !isFormValid()
+              }"
+              [disabled]="!isFormValid()"
+            >
               Continue
             </button>
           </div>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showModalAddSubject" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-3xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-2xl font-medium text-primary mb-3">
+      Are you sure you want to add this subject?
+    </h2>
+    <div class="flex flex-col items-center justify-between mt-10">
+      <div class="flex flex-col space-y-2 text-black">
+        <div><strong>Subject Name:</strong> {{ newSubjectName }}</div>
+      </div>
+      <div class="flex flex-row gap-4 w-full mt-4">
+        <button
+          (click)="closeConfirmModalAddSubject()"
+          class="flex-1 bg-primary text-white px-6 py-3 rounded font-medium 
+                 hover:bg-[#ffb700] hover:text-black transition duration-300">
+          Cancel
+        </button>
+        <button
+          (click)="addSubject()"
+          class="flex-1 bg-secondary text-black px-6 py-3 rounded font-medium 
+                 hover:bg-[#801e1d] hover:text-white transition duration-300">
+          Add Subject
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -145,4 +179,5 @@
     </div>
   </div>
 </div>
+
 <app-snackbar/>

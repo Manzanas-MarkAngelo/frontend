@@ -58,6 +58,7 @@ export class SubjectsAddComponent {
   isSubmitting: boolean = false;
   subjectSearchSubject: Subject<string> = new Subject();
   subjectToDelete: any = null; 
+  showModalAddSubject: boolean = false;
 
   constructor(
     private addMaterialService: AddMaterialService, 
@@ -68,7 +69,6 @@ export class SubjectsAddComponent {
   ) {}
 
   ngOnInit(): void {
-    this.loadCategories();
     this.fetchSubjects();
     this.fetchSubjectsPaginated();
 
@@ -85,29 +85,17 @@ export class SubjectsAddComponent {
   }
 
   cancelAddSubject(): void {
-    this.goBack(); // Navigates back to the previous page
-    // Optionally, clear the form or reset relevant fields
+    this.goBack();
     this.newSubjectName = '';
     this.selectedSubject = null;
   }
   
-
   onSubjectSearch(term: string): void {
     this.fetchSubjects(term);
   }
 
   editSubject(subjectId: number): void {
     this.router.navigate(['/edit-subject', subjectId]);
-  }
-
-  loadCategories(): void {
-    this.materialsService.getCategories().subscribe(data => {
-      this.categories = data.map((category: any) => ({
-        cat_id: category.cat_id,
-        mat_type: category.mat_type
-      }));
-      this.selectedCategory = { cat_id: 0, mat_type: 'Select Category' };
-    });
   }
 
   fetchSubjects(searchTerm: string = ''): void {
@@ -143,20 +131,24 @@ export class SubjectsAddComponent {
   }
 
   addSubject(): void {
-    if (!this.newSubjectName.trim()) {
-      return;
+    if (this.isFormValid()) {
+      this.librarianService.addSubject(this.newSubjectName).subscribe({
+        next: (response) => {
+          this.snackbar.showMessage(response.success ? 'Subject added successfully' : 'Failed to add Subject');
+          if (response.success) {
+            this.fetchSubjectsPaginated();
+          }
+          this.newSubjectName = '';
+          this.closeConfirmModalAddSubject();
+        },
+        error: () => {
+          this.snackbar.showMessage('Failed to add Subject');
+          this.closeConfirmModalAddSubject();
+        }
+      });
     }
-    this.librarianService.addSubject(this.newSubjectName).subscribe({
-      next: (response) => {
-        this.snackbar.showMessage(response.success ? 'Subject added successfully' : 'Failed to add Subject');
-        if (response.success) this.fetchSubjectsPaginated();
-        this.newSubjectName = '';
-      },
-      error: () => this.snackbar.showMessage('Failed to add Subject')
-    });
   }
 
- 
   deleteSubject(subjectId: number): void {
   
     this.addMaterialService.getSubjectById(subjectId).subscribe({
@@ -180,6 +172,20 @@ export class SubjectsAddComponent {
     this.subjectToDelete = null;  
   }
 
+  isFormValid(): boolean {
+    return this.newSubjectName.trim().length > 0;
+  }
+
+  openConfirmModalAddSubject(): void {
+    if (this.isFormValid()) {
+      this.showModalAddSubject = true;
+    }
+  }
+
+  closeConfirmModalAddSubject(): void {
+    this.showModalAddSubject = false;
+  }
+
   confirmDeleteSubject(): void {
     if (this.subjectToDelete && this.subjectToDelete.id) {
       this.addMaterialService.deleteSubject(this.subjectToDelete.id).subscribe({
@@ -196,57 +202,6 @@ export class SubjectsAddComponent {
         }
       });
     }
-  }
-
-  openConfirmModal(): void {
-    this.continueButtonClicked = true;
-    ['title', 'category', 'author', 'heading', 'copyright', 'callnum', 'edition', 'publisher', 'isbn']
-      .forEach(controlName => this.bookForm.controls[controlName]?.markAsTouched());
-
-    if (this.bookForm.valid && !this.bookForm.controls['category'].invalid) {
-      this.showModal = true;
-      this.continueButtonClicked = false;
-    }
-  }
-
-  saveBook(): void {
-    if (this.isSubmitting) return;
-    this.isSubmitting = true;
-    this.addMaterialService.addBook(this.bookDetails).subscribe({
-      next: () => {
-        this.closeConfirmModal();
-        this.router.navigate(['/add-success']);
-      },
-      error: () => {
-        console.error('Error adding material');
-        this.isSubmitting = false;
-      },
-      complete: () => this.isSubmitting = false
-    });
-  }
-
-  toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
-  selectCategory(cat_id: number, mat_type: string): void {
-    this.bookDetails.category = cat_id.toString();
-    this.selectedCategory = { cat_id, mat_type };
-    this.isDropdownOpen = false;
-    this.addMaterialService.getAccessionNumber(cat_id).subscribe(response => {
-      this.bookDetails.accnum = response.response;
-    });
-  }
-
-  toggleSubjectDropdown(): void {
-    this.isSubjectDropdownOpen = !this.isSubjectDropdownOpen;
-  }
-
-  selectSubjectHeading(id: number, subject_name: string): void {
-    this.subject_id = id;
-    this.bookDetails.heading = id;
-    this.selectedSubject = { id, subject_name };
-    this.isSubjectDropdownOpen = false;
   }
 
   goBack(): void {
