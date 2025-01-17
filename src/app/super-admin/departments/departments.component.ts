@@ -19,6 +19,9 @@ export class DepartmentsComponent implements OnInit {
   snackBarVisible: boolean = true;
   snackBarMessage: string = '';
   departmentCount: number = 0;
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 1;
   showModal = false;
 
   constructor(
@@ -36,10 +39,18 @@ export class DepartmentsComponent implements OnInit {
   }
 
   loadDepartments(): void {
-    this.departmentService.getDepartments().subscribe(data => {
-      this.departments = data;
-      this.departmentCount = this.departments.length;
+    this.departmentService.getPaginatedDepartments(this.currentPage, this.pageSize).subscribe(data => {
+      this.departments = data.departments;
+      this.totalPages = data.totalPages;
+      this.departmentCount = data.totalDepartments;
     });
+  }
+
+  onPageChange(page: number): void {
+    if (page > 0 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadDepartments();
+    }
   }
   
 

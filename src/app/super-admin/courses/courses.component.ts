@@ -33,8 +33,13 @@ export class CoursesComponent implements OnInit {
       this.previousPage = params['from'] || null;
     });
 
-    this.loadCourses();
+    this.loadCourses(); // Load the first page of courses
   }
+
+  // Pagination properties
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 0;
 
   goBack(): void {
     this.location.back();
@@ -66,10 +71,18 @@ export class CoursesComponent implements OnInit {
   }
 
   loadCourses(): void {
-    this.courseService.getCourses().subscribe(data => {
-      this.courses = data;
-      this.courseCount = this.courses.length;
+    this.courseService.getPaginatedCourses(this.currentPage, this.pageSize).subscribe(response => {
+      this.courses = response.courses;
+      this.totalPages = response.totalPages;
+      this.courseCount = response.totalCourses;
     });
+    console.log(this.courses);
+  }
+
+  onPageChange(page: number): void {
+    if (page < 1 || page > this.totalPages) return; // Prevent invalid page numbers
+    this.currentPage = page;
+    this.loadCourses(); // Fetch new data based on the current page
   }
 
   openDeleteModal(course: any): void {
@@ -86,7 +99,7 @@ export class CoursesComponent implements OnInit {
       this.courseService.deleteCourse(this.selectedCourse.id).subscribe(response => {
         if (response.success) {
           this.snackbarService.showSnackbar(`${this.selectedCourse.course_program} has been deleted.`);
-          this.loadCourses();
+          this.loadCourses(); // Reload courses after deletion
         } else {
           console.error('Error deleting course:', response.message);
         }

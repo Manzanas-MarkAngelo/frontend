@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../services/environments/local-environment';
+import { AdminHomeService } from '../../../services/admin-home.service';
 
 @Component({
   selector: 'app-super-admin-home',
@@ -8,9 +11,15 @@ import { Component } from '@angular/core';
 export class SuperAdminHomeComponent {
   studentFileName: string | null = null; // Store the student file name
   facultyFileName: string | null = null; // Store the faculty file name
+
+  constructor(private http: HttpClient,
+              private adminHomeService: AdminHomeService) {}
   
-  openingTime: string = '08:00'; // Default opening time
-  closingTime: string = '17:00'; // Default closing time
+  ngOnInit(): void {
+    this.loadLibraryHours();
+  }             
+  openingTime: string = '';
+  closingTime: string = ''; 
   isLibraryOpen: boolean = true;
 
     // Method to handle file selection for students
@@ -20,9 +29,18 @@ export class SuperAdminHomeComponent {
         const file = input.files[0];
         if (file.type === 'text/csv') {
           this.studentFileName = file.name;
+  
+          this.adminHomeService.uploadStudentCsv(file).subscribe(
+            response => {
+              alert('File processed successfully!');
+            },
+            error => {
+              alert('An error occurred while processing the file.');
+            }
+          );
         } else {
           this.studentFileName = null;
-          alert('Please upload a valid CSV file for students.');
+          alert('Please upload a valid CSV file.');
         }
       }
     }
@@ -40,22 +58,37 @@ export class SuperAdminHomeComponent {
       }
     }
   }
-  
-    // Save the library hours
-    saveLibraryHours(): void {
-      const now = new Date();
-      const currentTime = now.getHours() * 60 + now.getMinutes();
-      const openingMinutes = this.getMinutesFromTime(this.openingTime);
-      const closingMinutes = this.getMinutesFromTime(this.closingTime);
-  
-      if (currentTime >= openingMinutes && currentTime <= closingMinutes) {
-        this.isLibraryOpen = true;
-      } else {
-        this.isLibraryOpen = false;
+
+  // Load library hours from the backend
+  loadLibraryHours(): void {
+    this.adminHomeService.getLibraryHours().subscribe(
+      (data: any) => {
+        this.openingTime = data.opening_time;
+        this.closingTime = data.closing_time;
+      },
+      error => {
+        alert('Error loading library hours!');
       }
-      alert(`Library hours updated:\nOpen: ${this.openingTime}\nClose: ${this.closingTime}`);
-    }
-  
+    );
+  }
+
+  // Save library hours to the backend
+  saveLibraryHours(): void {
+    const updatedHours = {
+      openingTime: this.openingTime,
+      closingTime: this.closingTime,
+    };
+
+    this.adminHomeService.updateLibraryHours(updatedHours).subscribe(
+      () => {
+        alert(`Library hours updated:\nOpen: ${this.openingTime}\nClose: ${this.closingTime}`);
+      },
+      error => {
+        alert('Error updating library hours!');
+      }
+    );
+  }
+
     // Convert time string (HH:MM) to total minutes
     private getMinutesFromTime(time: string): number {
       const [hours, minutes] = time.split(':').map(Number);
