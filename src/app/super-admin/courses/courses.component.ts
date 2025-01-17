@@ -13,11 +13,12 @@ import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 export class CoursesComponent implements OnInit {
   @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
   courses: any[] = [];
-  showModal: boolean = false;
+  showDeleteModal: boolean = false;
   selectedCourse: any;
   private previousPage: string | null = null;
   courseData: any = { course_program: '', course_abbreviation: '' };
   courseCount: number = 0;
+  showModal = false;
 
   constructor(
     private courseService: CourseService,
@@ -39,15 +40,29 @@ export class CoursesComponent implements OnInit {
     this.location.back();
   }
 
+  openConfirmModal(): void {
+    this.showModal = true;
+  }
+
+  closeConfirmModal(): void {
+    this.showModal = false;
+  }
+
   addCourse(): void {
     this.courseService.addCourse(this.courseData).subscribe(response => {
       if (response.success) {
+        this.showModal = false;
         this.snackbar.showMessage('Program added successfully');
         this.loadCourses();
+        this.courseData = { course_program: '', course_abbreviation: '' };
       } else {
         this.snackbar.showMessage('Failed to add Program');
       }
     });
+  }
+
+  isFormValid(): boolean {
+    return this.courseData.course_program.trim() !== '' && this.courseData.course_abbreviation.trim() !== '';
   }
 
   loadCourses(): void {
@@ -59,11 +74,11 @@ export class CoursesComponent implements OnInit {
 
   openDeleteModal(course: any): void {
     this.selectedCourse = course;
-    this.showModal = true;
+    this.showDeleteModal = true;
   }
 
   closeDeleteModal(): void {
-    this.showModal = false;
+    this.showDeleteModal = false;
   }
 
   deleteCourse(): void {
