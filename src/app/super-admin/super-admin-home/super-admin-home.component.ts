@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../services/environments/local-environment';
 
 @Component({
   selector: 'app-super-admin-home',
@@ -8,6 +10,7 @@ import { Component } from '@angular/core';
 export class SuperAdminHomeComponent {
   studentFileName: string | null = null; // Store the student file name
   facultyFileName: string | null = null; // Store the faculty file name
+  constructor(private http: HttpClient) {}
   
   openingTime: string = '08:00'; // Default opening time
   closingTime: string = '17:00'; // Default closing time
@@ -20,9 +23,20 @@ export class SuperAdminHomeComponent {
         const file = input.files[0];
         if (file.type === 'text/csv') {
           this.studentFileName = file.name;
+  
+          // Read and upload the file
+          const formData = new FormData();
+          formData.append('file', file);
+  
+          this.http.post(`${environment.apiUrl}/upload_student_csv.php`, formData)
+            .subscribe(response => {
+              alert('File processed successfully!');
+            }, error => {
+              alert('An error occurred while processing the file.');
+            });
         } else {
           this.studentFileName = null;
-          alert('Please upload a valid CSV file for students.');
+          alert('Please upload a valid CSV file.');
         }
       }
     }
