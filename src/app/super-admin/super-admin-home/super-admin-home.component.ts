@@ -45,19 +45,29 @@ export class SuperAdminHomeComponent {
       }
     }
 
-      // Method to handle file selection for faculty
+  // Method to handle file selection for faculty
   onFacultyFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       if (file.type === 'text/csv') {
         this.facultyFileName = file.name;
+  
+        this.adminHomeService.uploadFacultyCsv(file).subscribe(
+          response => {
+            alert('Faculty file processed successfully!');
+          },
+          error => {
+            alert('An error occurred while processing the faculty file.');
+          }
+        );
       } else {
         this.facultyFileName = null;
         alert('Please upload a valid CSV file for faculty.');
       }
     }
   }
+
 
   // Load library hours from the backend
   loadLibraryHours(): void {

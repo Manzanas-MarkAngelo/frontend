@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './environments/local-environment';
-
+import { tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +20,18 @@ export class AdminHomeService {
 
     return this.http.post(this.apiUrl, formData);
   }
+
+  uploadFacultyCsv(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${environment.apiUrl}/upload_faculty.php`, formData).pipe(
+      tap(response => {
+        console.log('Upload Faculty CSV Response:', response);
+      })
+    );
+  }
+  
 
   // Get library hours from the database
   getLibraryHours(): Observable<any> {

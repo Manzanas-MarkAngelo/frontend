@@ -50,12 +50,12 @@
               <li><strong>Last Name</strong></li>
               <li><strong>Email</strong></li>
             </ul>
-            <label for="file-upload" class="btn bg-secondary border-none hover:bg-white hover:text-[#801e1d]">
+            <label for="student-file-upload" class="btn bg-secondary border-none hover:bg-white hover:text-[#801e1d]">
                 Browse File
               </label>
             <input
               type="file"
-              id="file-upload"
+              id="student-file-upload"
               class="hidden"
               accept=".csv"
               (change)="onStudentFileSelected($event)"
@@ -79,12 +79,12 @@
               <li><strong>Last Name</strong></li>
               <li><strong>Email</strong></li>
             </ul>
-            <label for="file-upload" class="btn bg-secondary border-none hover:bg-white hover:text-[#801e1d]">
+            <label for="faculty-file-upload" class="btn bg-secondary border-none hover:bg-white hover:text-[#801e1d]">
                 Browse File
               </label>
             <input
               type="file"
-              id="file-upload"
+              id="faculty-file-upload"
               class="hidden"
               accept=".csv"
               (change)="onFacultyFileSelected($event)"
