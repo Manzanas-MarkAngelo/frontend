@@ -94,7 +94,7 @@ try {
     }
 
     // SQL query to fetch the total number of materials (sum of the counter column)
-    $sql_total_materials = "SELECT SUM(counter) as total_materials FROM category";
+    $sql_total_materials = "SELECT SUM(counter) + 1 as total_materials FROM category";
     $result_total_materials = $conn->query($sql_total_materials);
 
     if ($result_total_materials) {
