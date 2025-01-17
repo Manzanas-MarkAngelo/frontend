@@ -15,7 +15,7 @@ export class MaterialsTypeComponent implements OnInit {
   totalCount: number = 0;
   snackBarVisible: boolean = false;
   snackBarMessage: string = '';
-  showModal: boolean = false;
+  showDeleteModal: boolean = false;
   selectedCategoryId: string = '';
   selectedMaterialTitle: string = '';
 
@@ -31,13 +31,14 @@ export class MaterialsTypeComponent implements OnInit {
   duration: number = 0;
   isSubmitting: boolean = false;
   analyticsData: any = {}
+  showModal: boolean = false;
 
-
-  constructor(private location: Location, 
-              private materialsService: MaterialsService, 
-              private router: Router,
-              private addMaterialService: AddMaterialService,
-              private analyticsService: AnalyticsService, 
+  constructor(
+    private location: Location, 
+    private materialsService: MaterialsService, 
+    private router: Router,
+    private addMaterialService: AddMaterialService,
+    private analyticsService: AnalyticsService, 
   ) {}
 
   ngOnInit(): void {
@@ -89,17 +90,61 @@ export class MaterialsTypeComponent implements OnInit {
         this.isSubmitting = false;
         this.snackBarMessage = 'Material type added successfully!';
         this.snackBarVisible = true;
-        this.getCategories(); // Refresh the categories list
+
+        setTimeout(() => {
+          this.closeSnackBar();
+        }, 3000);
+
+        this.classname = '';
+        this.type = false;
+        this.accnum = '';
+        this.duration = 0;
+
+        this.getCategories();
+        this.closeConfirmModal();
       },
       error => {
         console.error('Error adding material type', error);
         this.isSubmitting = false;
         this.snackBarMessage = 'Failed to add material type. Please try again.';
         this.snackBarVisible = true;
+
+        setTimeout(() => {
+          this.closeSnackBar();
+        }, 3000);
       }
     );
   }
+
+  openConfirmModal() {
+    this.showModal = true;
+  }
+
+  closeConfirmModal() {
+    this.showModal = false;
+  }
+
+  isFormValid(): boolean {
+    if (!this.classname || !this.accnum) {
+      return false;
+    }
   
+    if (this.duration !== null && this.duration < 0) {
+      return false;
+    }
+  
+    if (this.type === null || this.type === undefined) {
+      return false;
+    }
+  
+    return true;
+  }  
+  
+  showConfirmModal(cat_id: string, mat_type: string): void {
+    this.selectedCategoryId = cat_id;
+    this.selectedMaterialTitle = mat_type;
+    this.showDeleteModal = true;
+  }  
 
   calculateTotalCount(): void {
     this.totalCount = this.categories.reduce((total, material) => {
@@ -116,14 +161,8 @@ export class MaterialsTypeComponent implements OnInit {
     this.router.navigate(['/edit-type', cat_id]);
   }
 
-  showConfirmModal(cat_id: string, mat_type: string): void {
-    this.selectedCategoryId = cat_id;
-    this.selectedMaterialTitle = mat_type;
-    this.showModal = true;
-  }
-
-  closeConfirmModal(): void {
-    this.showModal = false;
+  closeConfirmDeleteModal(): void {
+    this.showDeleteModal = false;
   }
 
   deleteCategory(): void {
@@ -135,15 +174,25 @@ export class MaterialsTypeComponent implements OnInit {
         } else {
           this.snackBarMessage = response.success;
           this.snackBarVisible = true;
+          
+          setTimeout(() => {
+            this.closeSnackBar();
+          }, 3000);
+
           this.getCategories();
         }
-        this.closeConfirmModal();
+        this.closeConfirmDeleteModal();
       },
       error => {
         console.error('Error deleting category', error);
         this.snackBarMessage = 'Cannot delete, there are materials using this category';
         this.snackBarVisible = true;
-        this.closeConfirmModal();
+
+        setTimeout(() => {
+          this.closeSnackBar();
+        }, 3000);
+
+        this.closeConfirmDeleteModal();
       }
     );
   }

@@ -13,7 +13,7 @@ export class DepartmentsComponent implements OnInit {
   @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
 
   departments: any[] = [];
-  showModal: boolean = false;
+  showDeleteModal: boolean = false;
   selectedDepartment: any;
   departmentData = { dept_program: '', dept_abbreviation: '' };
   snackBarVisible: boolean = true;
@@ -22,6 +22,7 @@ export class DepartmentsComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
+  showModal = false;
 
   constructor(
     private departmentService: DepartmentService,
@@ -53,22 +54,34 @@ export class DepartmentsComponent implements OnInit {
   }
   
 
-  openConfirmModal(department: any): void {
+  openConfirmDeleteModal(department: any): void {
     this.selectedDepartment = department;
+    this.showDeleteModal = true;
+  }
+
+  closeConfirmDeleteModal(): void {
+    this.showDeleteModal = false;
+  }
+
+  openConfirmModal() {
     this.showModal = true;
   }
 
-  closeConfirmModal(): void {
+  closeConfirmModal() {
     this.showModal = false;
   }
 
-  // Function to handle the form submission
+  isFormValid(): boolean {
+    return this.departmentData.dept_program !== '' && this.departmentData.dept_abbreviation !== '';
+  }
+
   addDepartment(): void {
     this.departmentService.addDepartment(this.departmentData).subscribe(response => {
       if (response.success) {
+        this.showModal = false;
         this.snackbar.showMessage('Department added successfully');
-        this.loadDepartments(); // Reload departments after adding
-        this.departmentData = { dept_program: '', dept_abbreviation: '' }; // Reset form
+        this.loadDepartments();
+        this.departmentData = { dept_program: '', dept_abbreviation: '' };
       } else {
         this.snackbar.showMessage('Failed to add Department');
       }
@@ -83,7 +96,7 @@ export class DepartmentsComponent implements OnInit {
       } else {
         console.error('Error deleting department:', response.message);
       }
-      this.closeConfirmModal();
+      this.closeConfirmDeleteModal();
     });
   }
 }

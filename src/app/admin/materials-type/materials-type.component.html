@@ -143,16 +143,24 @@
               type="button"
               class="w-1/2 bg-primary text-white px-4 py-3 rounded
                      font-medium mb-2 lg:mb-0"
-              (click)="goBack()">
+              (click)="goBack()"
+            >
               Back
             </button>
             <button
-            type="button"
-            class="w-1/2 bg-secondary text-black px-4 py-3 rounded
-                   font-medium mb-2 lg:mb-0"
-            (click)="addMaterialType()">
-            Continue
-          </button>
+              type="button"
+              class="w-1/2 bg-secondary text-black px-4 py-3 rounded
+                    font-medium mb-2 lg:mb-0"
+              [ngClass]="{
+                'bg-secondary text-black hover:bg-[#801e1d] hover:text-white': 
+                isFormValid(),
+                'bg-gray-300 text-gray-500 cursor-not-allowed': !isFormValid()
+              }"
+              [disabled]="!isFormValid()"
+              (click)="openConfirmModal()"
+            >
+              Continue
+            </button>
           </div>
         </div>
       </form>
@@ -161,6 +169,46 @@
 </div>
 
 <div *ngIf="showModal" 
+     class="fixed inset-0 flex items-center justify-center bg-gray-800 
+            bg-opacity-50">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/2 max-w-md">
+    <h2 class="text-center text-xl font-medium text-primary mb-3">
+      Would you like to confirm adding this material type?
+    </h2>
+    <div class="text-gray-600 mt-4">
+      <p><span class="font-semibold">Material Type Name:</span> {{ classname }}</p>
+      <p><span class="font-semibold">Accession No. Template:</span> {{ accnum }}</p>
+      <p>
+        <span class="font-semibold">Type:</span> 
+        {{ type ? 'Special case' : 'Normal' }}
+      </p>
+      <p>
+        <span class="font-semibold">Borrow Duration:</span> 
+        {{ duration ? duration + ' days' : 'Not specified' }}
+      </p>
+    </div>
+    <div class="flex flex-col items-center justify-between h-full mt-6">
+      <div class="flex flex-row gap-4 w-full">
+        <button
+          (click)="closeConfirmModal()"
+          class="flex-1 bg-red-800 text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-red-700 transition duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          (click)="addMaterialType()"
+          class="flex-1 bg-green-600 text-white px-6 py-3 rounded-xl font-medium 
+                 hover:bg-green-500 transition duration-300"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showDeleteModal" 
      class="fixed inset-0 flex items-center justify-center bg-gray-800 
             bg-opacity-50 p-4">
   <div class="bg-white p-6 lg:p-8 rounded shadow-lg w-full lg:w-4/5 max-w-md">
@@ -178,8 +226,8 @@
       />
       <div class="flex flex-col lg:flex-row gap-4 w-full">
         <button
-          (click)="closeConfirmModal()"
-          class="flex-1bg-primary text-white px-4 lg:px-6 py-2 lg:py-3 
+          (click)="closeConfirmDeleteModal()"
+          class="flex-1 bg-primary text-white px-4 lg:px-6 py-2 lg:py-3 
                  rounded font-medium hover:bg-[#ffb700] hover:text-black 
                  transition duration-300"
         >
