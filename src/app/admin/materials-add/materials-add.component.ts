@@ -32,6 +32,29 @@ export class MaterialsAddComponent implements OnInit {
     status: 'Available'
   };
 
+  resetForm(): void {
+    this.bookDetails = {
+      title: '',
+      heading: 0,
+      accnum: '',
+      category: '',
+      author: '',
+      callnum: '',
+      copyright: '',
+      publisher: '',
+      edition: '',
+      isbn: '',
+      status: 'Available'
+    };
+  
+    this.selectedCategory = { cat_id: 0, mat_type: 'Select Category' };
+    this.selectedSubject = { id: 0, subject_name: 'Select Subject Heading' };
+  
+    if (this.bookForm) {
+      this.bookForm.resetForm();
+    }
+  }  
+
   material: any = {};
   showModal = false;
   showModalDelete = false;
@@ -194,12 +217,16 @@ export class MaterialsAddComponent implements OnInit {
     this.continueButtonClicked = true;
     ['title', 'category', 'author', 'heading', 'copyright', 'callnum', 'edition', 'publisher', 'isbn']
       .forEach(controlName => this.bookForm.controls[controlName]?.markAsTouched());
-
+  
+    if (this.bookDetails.heading === 0) {
+      this.bookForm.controls['heading'].setErrors({ required: true });
+    }
+  
     if (this.bookForm.valid && !this.bookForm.controls['category'].invalid) {
       this.showModal = true;
       this.continueButtonClicked = false;
     }
-  }
+  }  
 
   saveBook(): void {
     if (this.isSubmitting) return;
@@ -207,10 +234,11 @@ export class MaterialsAddComponent implements OnInit {
     this.addMaterialService.addBook(this.bookDetails).subscribe({
       next: () => {
         this.closeConfirmModal();
-        this.router.navigate(['/add-success']);
+        this.snackbar.showMessage('Material added successfully');
+        this.resetForm();
       },
       error: () => {
-        console.error('Error adding material');
+        this.snackbar.showMessage('Error adding material');
         this.isSubmitting = false;
       },
       complete: () => this.isSubmitting = false
