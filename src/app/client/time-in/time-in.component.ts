@@ -26,7 +26,7 @@ export class TimeInComponent {
       // Check if current time is within library hours using the service method
       this.adminHomeService.isLibraryOpen().subscribe(isOpen => {
         if (!isOpen) {
-          this.router.navigate(['/not-open']);
+          this.router.navigate(['/library-closed']);
           console.log("Library is closed");
         }
       });

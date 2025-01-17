@@ -28,4 +28,7 @@ export class DepartmentService {
   deleteDepartment(id: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/delete_department.php`, { id });
   }
+  getPaginatedDepartments(page: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/fetch_paginated_departments.php?page=${page}&pageSize=${pageSize}`);
+  }
 }

@@ -32,13 +32,7 @@ export class AppComponent implements OnInit {
       }
     });   
 
-    // Check if current time is within library hours using the service method
-    this.adminHomeService.isLibraryOpen().subscribe(isOpen => {
-      if (!isOpen) {
-        this.router.navigate(['/not-open']);
-        console.log("Library is closed");
-      }
-    });
+
   }
 
   clearRole() {
