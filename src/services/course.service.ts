@@ -28,4 +28,7 @@ export class CourseService {
   deleteCourse(courseId: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/delete_course.php`, { courseId });
   }
+  getPaginatedCourses(page: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/fetch_paginated_courses.php?page=${page}&pageSize=${pageSize}`);
+  }
 }

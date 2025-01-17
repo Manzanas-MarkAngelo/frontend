@@ -48,37 +48,62 @@
   </tbody>
 </table>
 </div> -->
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <thead>
-              <tr class="text-primary text-center">
-                <th class="text-start">Program</th>
-                <th>Abbreviation</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody class="text-start">
-              <tr *ngFor="let course of courses">
-                <td>{{ course.course_program }}</td>
-                <td class="text-center">{{ course.course_abbreviation }}</td>
-                <td>
-                  <button
-                    routerLink="/edit-course/{{ course.id }}"
-                    class="bg-secondary text-black border-none 
-                    shadow-none btn-sm rounded font-medium mr-1">
-                    Edit
-                  </button>
-                  <button
-                    (click)="openDeleteModal(course)"
-                    class="bg-primary text-white border-none 
-                    shadow-none btn-sm rounded font-medium">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<div class="overflow-x-auto">
+  <table class="table w-full">
+    <thead>
+      <tr class="text-primary text-center">
+        <th class="text-start">Program</th>
+        <th>Abbreviation</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody class="text-start">
+      <tr *ngFor="let course of courses">
+        <td>{{ course.course_program }}</td>
+        <td class="text-center">{{ course.course_abbreviation }}</td>
+        <td>
+          <button
+            routerLink="/edit-course/{{ course.id }}"
+            class="bg-secondary text-black border-none 
+            shadow-none btn-sm rounded font-medium mr-1">
+            Edit
+          </button>
+          <button
+            (click)="openDeleteModal(course)"
+            class="bg-primary text-white border-none 
+            shadow-none btn-sm rounded font-medium">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="divider my-0"></div>
+  <div class="flex justify-end items-center gap-5 slide-in-right">
+    <span class="text-base font-medium ml-3 text-black">
+      Page {{ currentPage }} / {{ totalPages }}
+    </span>
+    <div class="flex gap-2">
+      <button
+        class="btn border-none bg-secondary text-black 
+               hover:bg-primary-focus rounded"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        Previous
+      </button>
+      <button
+        class="btn border-none bg-secondary text-black 
+               hover:bg-primary-focus rounded"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+
         <!-- <div class="flex items-center w-full flex-col md:flex-row 
           md:justify-between gap-2">
 <button
