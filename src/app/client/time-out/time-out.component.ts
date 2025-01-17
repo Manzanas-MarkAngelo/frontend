@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TimeLogService } from '../../../services/time-log.service';
 import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
 import { fail } from 'assert';
+import { AdminHomeService } from '../../../services/admin-home.service';
 
 @Component({
   selector: 'app-time-out',
@@ -15,7 +16,19 @@ export class TimeOutComponent {
   identifier: string = '';
   isProcessing: boolean = false;
 
-  constructor(private timeLogService: TimeLogService, private router: Router) {}
+  constructor(private timeLogService: TimeLogService, private router: Router,
+        private adminHomeService: AdminHomeService) {}
+
+  ngOnInit() {
+  
+    // Check if current time is within library hours using the service method
+    this.adminHomeService.isLibraryOpen().subscribe(isOpen => {
+      if (!isOpen) {
+        this.router.navigate(['/not-open']);
+        console.log("Library is closed");
+      }
+    });
+  }
 
   onSubmit() {
     this.timeLogService.checkTimeIn(this.identifier).subscribe(response => {

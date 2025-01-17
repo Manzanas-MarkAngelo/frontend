@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TimeLogService } from '../../../services/time-log.service';
 import { SnackbarComponent } from '../../admin/snackbar/snackbar.component';
+import { AdminHomeService } from '../../../services/admin-home.service';
 
 @Component({
   selector: 'app-time-in',
@@ -17,7 +18,19 @@ export class TimeInComponent {
   isSubmitting: boolean = false;
   isProcessing: boolean = false;
 
-  constructor(private timeLogService: TimeLogService, private router: Router) { }
+  constructor(private timeLogService: TimeLogService, private router: Router,
+    private adminHomeService: AdminHomeService) {}
+
+   ngOnInit() {
+  
+      // Check if current time is within library hours using the service method
+      this.adminHomeService.isLibraryOpen().subscribe(isOpen => {
+        if (!isOpen) {
+          this.router.navigate(['/not-open']);
+          console.log("Library is closed");
+        }
+      });
+    }
 
   updatePlaceholder() {
     if (this.selectedRole === 'Faculty') {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../services/admin.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { AdminHomeService } from '../services/admin-home.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,9 @@ export class AppComponent implements OnInit {
                               '/password-recovery', 
                               '/library-closed']; 
 
-  constructor(private adminService: AdminService, private router: Router) {}
+  constructor(private adminService: AdminService, 
+              private router: Router,
+              private adminHomeService: AdminHomeService) {}
 
   ngOnInit() {
     this.adminService.currentRole.subscribe(role => {
@@ -27,7 +30,15 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.showNavbar = !this.excludedRoutes.some(route => event.urlAfterRedirects.startsWith(route));
       }
-    });    
+    });   
+
+    // Check if current time is within library hours using the service method
+    this.adminHomeService.isLibraryOpen().subscribe(isOpen => {
+      if (!isOpen) {
+        this.router.navigate(['/not-open']);
+        console.log("Library is closed");
+      }
+    });
   }
 
   clearRole() {

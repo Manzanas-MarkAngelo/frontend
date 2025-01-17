@@ -100,9 +100,11 @@ import { SubjectsAddComponent } from './admin/subjects-add/subjects-add.componen
 import { LibraryClosedComponent } from './client/library-closed/library-closed.component';
 import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-admin-home.component';
 import { CalendarComponent } from './admin/calendar/calendar.component';
+import { NotOpenComponent } from './client/not-open/not-open.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/time-in', pathMatch: 'full' },
+  { path: 'not-open', component: NotOpenComponent },  // Page for when the library is closed
   { path: 'login-lispupt', component: LoginLispuptComponent },
 
     //*Client

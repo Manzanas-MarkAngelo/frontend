@@ -151,6 +151,7 @@ import { LibraryClosedComponent } from './client/library-closed/library-closed.c
 import { SuperAdminHomeComponent } from './super-admin/super-admin-home/super-admin-home.component';
 import { CalendarComponent } from './admin/calendar/calendar.component';
 import { ExcludeDaysService } from '../services/exclude-days.service';
+import { NotOpenComponent } from './client/not-open/not-open.component';
 
 
 @NgModule({
@@ -264,6 +265,7 @@ import { ExcludeDaysService } from '../services/exclude-days.service';
     LibraryClosedComponent,
     SuperAdminHomeComponent,
     CalendarComponent,
+    NotOpenComponent,
 
   ],
   imports: [
