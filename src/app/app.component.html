@@ -1,21 +1,48 @@
-<div class="w-full flex flex-col h-screen">
-  @if (showNavbar) {
-    @if (!userRole) {
-      <app-navbar-client></app-navbar-client>
-    } @else if (userRole === 'librarian') {
-      <app-navbar-admin></app-navbar-admin>
-    } @else if (userRole === 'admin') {
-      <app-navbar-super-admin></app-navbar-super-admin>
-    } @else {
-      <span>Unknown state</span>
-    }
-    <div class="flex-grow bg-primary w-full h-full">
-      <router-outlet></router-outlet>
-    </div>
+<div class="flex flex-col items-center justify-center p-10 w-full">
+  <div class="w-full">
+    <input
+      type="text"
+      placeholder="Enter your message"
+      [(ngModel)]="userMessage"
+      class="input input-bordered w-full max-w-xs"
+    />
+    <button class="btn btn-primary ml-1" (click)="encryptMessage()">
+      Encrypt
+    </button>
+  </div>
 
-  } @else {
-    <div class="w-full h-full">
-      <router-outlet></router-outlet>
+  <!-- Encrypted Message -->
+  <div *ngIf="encryptedMessage" class="card w-96 bg-base-200 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">Encrypted Message</h2>
+      <p class="w-full overflow-x-auto">{{ encryptedMessage }}</p>
+      <button class="btn btn-accent" (click)="showModal()">Decrypt</button>
     </div>
-  }
+  </div>
+
+  <!-- Decryption Modal -->
+  <dialog id="decryptModal" class="modal">
+    <form method="dialog" class="modal-box">
+      <button type="button" class="btn btn-sm btn-ghost absolute top-2 right-2" (click)="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+      </button>
+      <h3 class="font-bold text-lg">Enter Decryption Key</h3>
+      <input
+        type="password"
+        placeholder="Decryption Key"
+        [(ngModel)]="decryptionKey"
+        class="input input-bordered w-full"
+      />
+      <!-- Display decrypted message -->
+      <p *ngIf="decryptedMessage" class="mt-4 text-black font-bold">
+        Decrypted Message: <span class="text-black italic font-normal">"{{ decryptedMessage }}"</span>
+      </p>
+      <div class="modal-action">
+        <button type="button" class="btn btn-error text-white" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn btn-success text-white" (click)="decryptMessage()">Submit</button>
+      </div>
+      <p *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</p>
+    </form>
+  </dialog>
 </div>
