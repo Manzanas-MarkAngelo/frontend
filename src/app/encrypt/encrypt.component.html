@@ -1,0 +1,41 @@
+
+<div class="flex flex-col justify-center items-center p-10 pt-10">
+    <div class="mb-5">
+      <input
+        type="text"
+        placeholder="Enter your message"
+        [(ngModel)]="userMessage"
+        class="input input-bordered w-full max-w-xs"
+      />
+      <button class="btn btn-primary ml-3" (click)="encryptMessage()">
+        Encrypt
+      </button>
+    </div>
+  
+    <!-- Encrypted Message -->
+    <div *ngIf="encryptedMessage" class="card w-1/2 bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Encrypted Message</h2>
+        <p>{{ encryptedMessage }}</p>
+        <button class="btn btn-accent" (click)="showModal()">Decrypt</button>
+      </div>
+    </div>
+  
+    <!-- Decryption Modal -->
+    <dialog id="decryptModal" class="modal">
+      <form method="dialog" class="modal-box">
+        <h3 class="font-bold text-lg">Enter Decryption Key</h3>
+        <input
+          type="password"
+          placeholder="Decryption Key"
+          [(ngModel)]="decryptionKey"
+          class="input input-bordered w-full"
+        />
+        <div class="modal-action">
+          <button class="btn" (click)="decryptMessage()">Submit</button>
+          <button class="btn btn-error" (click)="closeModal()">Cancel</button>
+        </div>
+        <p *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</p>
+      </form>
+    </dialog>
+  </div>
