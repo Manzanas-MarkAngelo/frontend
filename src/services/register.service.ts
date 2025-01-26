@@ -7,6 +7,7 @@ import { environment } from './environments/local-environment';
 export class RegisterService {
   private apiUrl = `${environment.apiUrl}/register.php`;
   private checkUserUrl = `${environment.apiUrl}/check_registration.php`;
+  private validateStudentUrl = `${environment.apiUrl}/validate_student.php`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,5 +18,10 @@ export class RegisterService {
   checkUserExists(role: string, identifier: string, contact: string): Observable<any> {
     const data = { role, identifier, contact };
     return this.http.post<any>(this.checkUserUrl, data);
+  }
+
+  validateStudent(studentLname: string, studentNo: string): Observable<any> {
+    const data = { studentLname, studentNo };
+    return this.http.post<any>(this.validateStudentUrl, data);
   }
 }

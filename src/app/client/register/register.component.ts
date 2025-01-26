@@ -34,6 +34,7 @@ export class RegisterComponent implements OnInit {
   firstNameError: string = '';
   lastNameError: string = '';
   isStudentNumberValid: boolean = true;
+  isStudentValid: boolean = true;
   studentNumberError: string = '';
   isEmpNumberValid: boolean = true;
   empNumberError: string = '';
@@ -48,7 +49,7 @@ export class RegisterComponent implements OnInit {
   isEmailValid: boolean = true;
   emailError: string = '';
   hasFormErrors: boolean = false;
-
+  studentNotFoundError: string = '';
   fieldErrors: { [key: string]: boolean } = {};
 
   constructor(
@@ -302,6 +303,26 @@ export class RegisterComponent implements OnInit {
     if (this.selectedRole === 'student') {
       if (!this.validateStudentNumber()) {
         formIsValid = false;
+      } else {
+        // Validate student number and last name using the backend
+        this.registerService.validateStudent(this.lastName, this.studentNumber).subscribe(
+          (response) => {
+            if (!response.success) {
+              this.isStudentNumberValid = false;
+              this.isStudentValid = false;
+              formIsValid = false;
+              // Show error message if student is not found
+              this.studentNotFoundError = response.message;
+            }
+          },
+          (error) => {
+            console.error('Error validating student:', error);
+            this.isStudentNumberValid = false;
+            formIsValid = false;
+            this.studentNotFoundError = 'Error validating student. Please try again later.';
+            this.isStudentValid = false;
+          }
+        );
       }
     } else if (this.selectedRole === 'faculty') {
       if (!this.validateEmpNumber()) {
@@ -338,6 +359,15 @@ export class RegisterComponent implements OnInit {
         : this.identifier, 
       this.contact
     );
+  }
+
+  // Ensure that validateStudent method is called before proceeding with registration
+  validateStudent(): boolean {
+    if (!this.lastName || !this.studentNumber) {
+      this.isStudentNumberValid = false;
+      return false;
+    }
+    return true;
   }
 
   checkIfUserExistsAndContact(role: string, identifier: string, contact: string) {
