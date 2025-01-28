@@ -1,48 +1,35 @@
-<div class="flex flex-col items-center justify-center p-10 w-full">
-  <div class="w-full">
-    <input
-      type="text"
-      placeholder="Enter your message"
-      [(ngModel)]="userMessage"
-      class="input input-bordered w-full max-w-xs"
-    />
-    <button class="btn btn-primary ml-1" (click)="encryptMessage()">
-      Encrypt
-    </button>
-  </div>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <h1 class="text-2xl font-bold text-center mb-4">Encryption & Decryption</h1>
 
-  <!-- Encrypted Message -->
-  <div *ngIf="encryptedMessage" class="card w-96 bg-base-200 shadow-xl">
-    <div class="card-body">
-      <h2 class="card-title">Encrypted Message</h2>
-      <p class="w-full overflow-x-auto">{{ encryptedMessage }}</p>
-      <button class="btn btn-accent" (click)="showModal()">Decrypt</button>
+    <div class="mb-4">
+      <label for="message" class="block text-sm font-medium text-gray-700">Enter your message</label>
+      <input id="message" type="text" [(ngModel)]="message" class="mt-2 p-2 w-full border rounded-md" placeholder="Type your message" />
+    </div>
+
+    <div class="mb-4">
+      <button (click)="encryptMessage()" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Encrypt Message</button>
+    </div>
+
+    <div *ngIf="encryptedMessage" class="mb-4">
+      <label for="encrypted" class="block text-sm font-medium text-gray-700">Encrypted Message</label>
+      <input id="encrypted" type="text" [(ngModel)]="encryptedMessage" readonly class="mt-2 p-2 w-full border rounded-md bg-gray-200" />
+    </div>
+
+    <div *ngIf="encryptedMessage">
+      <label for="key" class="block text-sm font-medium text-gray-700">Enter decryption key</label>
+      <input id="key" type="text" [(ngModel)]="userKey" class="mt-2 p-2 w-full border rounded-md" placeholder="Enter the key" />
+
+      <button (click)="decryptMessage()" class="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 mt-2">Decrypt Message</button>
+
+      <div *ngIf="validationMessage" class="mt-2 text-red-500 text-sm text-center">
+        {{ validationMessage }}
+      </div>
+
+      <div *ngIf="decryptedMessage" class="mt-4">
+        <label for="decrypted" class="block text-sm font-medium text-gray-700">Decrypted Message</label>
+        <input id="decrypted" type="text" [(ngModel)]="decryptedMessage" readonly class="mt-2 p-2 w-full border rounded-md bg-gray-200" />
+      </div>
     </div>
   </div>
-
-  <!-- Decryption Modal -->
-  <dialog id="decryptModal" class="modal">
-    <form method="dialog" class="modal-box">
-      <button type="button" class="btn btn-sm btn-ghost absolute top-2 right-2" (click)="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-      </svg>
-      </button>
-      <h3 class="font-bold text-lg">Enter Decryption Key</h3>
-      <input
-        type="password"
-        placeholder="Decryption Key"
-        [(ngModel)]="decryptionKey"
-        class="input input-bordered w-full"
-      />
-      <!-- Display decrypted message -->
-      <p *ngIf="decryptedMessage" class="mt-4 text-black font-bold">
-        Decrypted Message: <span class="text-black italic font-normal">"{{ decryptedMessage }}"</span>
-      </p>
-      <div class="modal-action">
-        <button type="button" class="btn btn-error text-white" (click)="closeModal()">Cancel</button>
-        <button type="button" class="btn btn-success text-white" (click)="decryptMessage()">Submit</button>
-      </div>
-      <p *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</p>
-    </form>
-  </dialog>
 </div>
