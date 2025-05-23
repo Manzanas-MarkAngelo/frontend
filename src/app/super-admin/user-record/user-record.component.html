@@ -134,7 +134,7 @@
             <tbody class="text-start">
               <tr *ngFor="let log of logs">
                 <td>{{ log.student_number }}</td>
-                <td>{{ log.name }}</td>
+                <td>{{ capitalize(log.name) }}</td>
                 <td>{{ log.course || 'N/A' }}</td>
                 <td>{{ log.time_in }}</td>
                 <td>{{ log.time_out || 'await' }}</td>

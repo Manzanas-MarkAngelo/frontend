@@ -92,7 +92,7 @@
           <tbody>
             <tr *ngFor="let record of logs">
               <td>{{ record.emp_number }}</td>
-              <td>{{ record.name }}</td>
+              <td>{{ capitalize(record.name) }}</td>
               <td>{{ record.gender }}</td>
               <td>{{ record.department }}</td>
               <td>{{ record.phone_number }}</td>

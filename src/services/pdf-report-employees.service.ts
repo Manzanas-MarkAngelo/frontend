@@ -69,7 +69,7 @@ export class PdfReportEmployeesService {
             // Once all pages are fetched, generate the PDF
             const tableData = allFacultyData.map((employee: any) => [
               employee.employee_number,
-              employee.name,
+              this.toTitleCase(employee.name),
               employee.time_in,
               employee.time_out ? employee.time_out : 'await'
             ]);
@@ -130,5 +130,13 @@ export class PdfReportEmployeesService {
 
     // Start fetching the records
     fetchAllPages();
+  }
+
+    private toTitleCase(str: string): string {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 }
