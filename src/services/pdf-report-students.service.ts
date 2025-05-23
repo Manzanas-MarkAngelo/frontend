@@ -81,7 +81,7 @@ export class PdfReportStudentsService {
                 const generatePDFWithAllData = (studentData: any[]) => {
                   const tableData = studentData.map((student: any) => [
                     student.student_number,
-                    student.name,
+                    this.toTitleCase(student.name),
                     student.course,
                     student.time_in,
                     student.time_out ? student.time_out : 'await'
@@ -145,6 +145,14 @@ export class PdfReportStudentsService {
               
                 // Start fetching data
                 fetchAllStudentData();
+              }
+
+              private toTitleCase(str: string): string {
+                return str
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ');
               }
               
 }

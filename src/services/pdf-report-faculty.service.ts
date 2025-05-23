@@ -69,7 +69,7 @@ export class PdfReportFacultyService {
             // Once all pages are fetched, generate the PDF
             const tableData = allFacultyData.map((faculty: any) => [
               faculty.faculty_code,
-              faculty.name,
+              this.toTitleCase(faculty.name),
               faculty.department,
               faculty.time_in,
               faculty.time_out ? faculty.time_out : 'await'
@@ -132,5 +132,13 @@ export class PdfReportFacultyService {
 
     // Start fetching the records
     fetchAllPages();
+  }
+
+  private toTitleCase(str: string): string {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 }
