@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit {
   }
 
   validateFirstName(): boolean {
-    const firstNamePattern = /^[A-Za-z]+([-']?[A-Za-z]+)*$/;
+    const firstNamePattern = /^[A-Za-z]+([-' ]?[A-Za-z]+)*$/;
     if (!this.firstName.match(firstNamePattern)) {
       this.isFirstNameValid = false;
       this.firstNameError = 'First name is invalid.';
@@ -97,7 +97,7 @@ export class RegisterComponent implements OnInit {
   }
   
   validateLastName(): boolean {
-    const lastNamePattern = /^[A-Za-z]+([-']?[A-Za-z]+)*$/;
+    const lastNamePattern = /^[A-Za-z]+([-' ]?[A-Za-z]+)*$/;
     if (!this.lastName.match(lastNamePattern)) {
       this.isLastNameValid = false;
       this.lastNameError = 'Last name is invalid.';
